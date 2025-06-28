@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func ConfigCmd(sdkCoreConfig sdk.CoreClient, root *cobra.Command) {
+func ConfigCmd(parent *cobra.Command, sdkCoreConfig *sdk.CoreClient) {
 	cmd := &cobra.Command{
 		Use:     "config",
 		Short:   "Configuração do CLI",
@@ -18,5 +18,5 @@ func ConfigCmd(sdkCoreConfig sdk.CoreClient, root *cobra.Command) {
 	cmd.AddCommand(Get())
 	cmd.AddCommand(Set())
 
-	root.AddCommand(cmd)
+	parent.AddCommand(cmd)
 }

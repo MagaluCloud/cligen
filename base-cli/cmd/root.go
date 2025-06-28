@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+
+	"mgccli/cmd/gen"
 	"mgccli/cmd/static"
 	"runtime"
 
@@ -10,7 +12,7 @@ import (
 )
 
 func RootCmd() *cobra.Command {
-	sdkCoreConfig := *sdk.NewMgcClient("API_KEY_EXAMPLE",
+	sdkCoreConfig := sdk.NewMgcClient("API_KEY_EXAMPLE",
 		sdk.WithUserAgent(fmt.Sprintf("MgcCLI2/%s (%s; %s)", "0.5.0", runtime.GOOS, runtime.GOARCH)),
 	)
 
@@ -41,6 +43,8 @@ func RootCmd() *cobra.Command {
 	addNoConfirmationFlag(rootCmd)
 	addRawOutputFlag(rootCmd)
 
-	static.RootStatic(sdkCoreConfig, rootCmd)
+	static.RootStatic(rootCmd, sdkCoreConfig)
+	gen.RootGen(rootCmd, sdkCoreConfig)
+
 	return rootCmd
 }

@@ -22,6 +22,7 @@ func GenCLICmd() *cobra.Command {
 func genCliBase() {
 	// Copiar o código de base-cli/* para o diretório tmp-cli/
 	srcDir := "base-cli"
+	srcGenDir := "base-cli-gen"
 	dstDir := "tmp-cli"
 
 	// Remover diretório de destino se existir
@@ -34,6 +35,12 @@ func genCliBase() {
 		os.MkdirAll(dstDir, 0755)
 	}
 
+	runCopyDir(srcDir, dstDir)
+	runCopyDir(srcGenDir, dstDir)
+
+}
+
+func runCopyDir(srcDir string, dstDir string) {
 	// Copiar arquivos do diretório de origem para o diretório de destino
 	files, err := os.ReadDir(srcDir)
 	if err != nil {

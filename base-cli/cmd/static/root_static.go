@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func RootStatic(sdkCoreConfig sdk.CoreClient, root *cobra.Command) {
+func RootStatic(parent *cobra.Command, sdkCoreConfig *sdk.CoreClient) {
 
-	config.ConfigCmd(sdkCoreConfig, root)
+	config.ConfigCmd(parent, sdkCoreConfig)
 
 }
