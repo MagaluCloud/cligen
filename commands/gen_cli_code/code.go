@@ -1,6 +1,7 @@
 package gen_cli_code
 
 import (
+	"fmt"
 	"log"
 
 	"cligen/commands/sdk_structure"
@@ -18,5 +19,7 @@ func GenCliCode() {
 }
 
 func genPackageCode(pkg *sdk_structure.Package) {
-
+	for _, service := range pkg.Services {
+		fmt.Println(service.Name)
+	}
 }

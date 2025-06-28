@@ -21,6 +21,7 @@ baseado no SDK do MagaluCloud.`,
 	rootCmd.AddCommand(commands.CloneSDKCmd())
 	rootCmd.AddCommand(commands.GenCLICmd())
 	rootCmd.AddCommand(commands.GenCLISDKStructureCmd())
+	rootCmd.AddCommand(commands.GenCLICodeCmd())
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

@@ -68,9 +68,6 @@ func GenCliSDKStructure() (SDKStructure, error) {
 		sdkStructure.Packages[menu.SDKPackage] = pkg
 	}
 
-	// Exibir a estrutura encontrada
-	printSDKStructure(sdkStructure)
-
 	return *sdkStructure, nil
 }
 
@@ -483,7 +480,7 @@ func generateReturnName(returnType string, index int) string {
 }
 
 // printSDKStructure exibe a estrutura do SDK encontrada
-func printSDKStructure(sdk *SDKStructure) {
+func PrintSDKStructure(sdk *SDKStructure) {
 	fmt.Println("=== Estrutura do SDK Encontrada ===")
 	for pkgName, pkg := range sdk.Packages {
 		fmt.Printf("\n📦 Pacote: %s\n", pkgName)
