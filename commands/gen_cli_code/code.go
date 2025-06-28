@@ -21,10 +21,10 @@ type Service struct {
 
 // Method representa um método de um serviço
 type Method struct {
-	Name       string   `json:"name"`
-	Parameters []string `json:"parameters"`
-	Returns    []string `json:"returns"`
-	Comments   string   `json:"comments"`
+	Name       string            `json:"name"`
+	Parameters map[string]string `json:"parameters"` // nome -> tipo
+	Returns    map[string]string `json:"returns"`    // nome -> tipo
+	Comments   string            `json:"comments"`
 }
 
 // Package representa um pacote do SDK com seus serviços
@@ -261,20 +261,38 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									}
 
 									// Extrair parâmetros
-									var params []string
+									params := make(map[string]string)
 									if funcType.Params != nil {
-										for _, param := range funcType.Params.List {
+										for i, param := range funcType.Params.List {
 											paramType := getTypeString(param.Type)
-											params = append(params, paramType)
+											// Se o parâmetro tem nome, usar o nome, senão gerar um nome baseado no tipo
+											if len(param.Names) > 0 {
+												for _, name := range param.Names {
+													params[name.Name] = paramType
+												}
+											} else {
+												// Parâmetro sem nome - gerar nome baseado no tipo
+												paramName := generateParamName(paramType, i)
+												params[paramName] = paramType
+											}
 										}
 									}
 
 									// Extrair retornos
-									var returns []string
+									returns := make(map[string]string)
 									if funcType.Results != nil {
-										for _, result := range funcType.Results.List {
+										for i, result := range funcType.Results.List {
 											returnType := getTypeString(result.Type)
-											returns = append(returns, returnType)
+											// Se o retorno tem nome, usar o nome, senão gerar um nome baseado no tipo
+											if len(result.Names) > 0 {
+												for _, name := range result.Names {
+													returns[name.Name] = returnType
+												}
+											} else {
+												// Retorno sem nome - gerar nome baseado no tipo
+												returnName := generateReturnName(returnType, i)
+												returns[returnName] = returnType
+											}
 										}
 									}
 
@@ -318,6 +336,60 @@ func getTypeString(expr ast.Expr) string {
 	}
 }
 
+// generateParamName gera um nome para um parâmetro baseado no tipo
+func generateParamName(paramType string, index int) string {
+	// Converter o tipo para um nome de variável em camelCase
+	switch paramType {
+	case "context.Context":
+		return "ctx"
+	case "string":
+		return "str"
+	case "int":
+		return "num"
+	case "bool":
+		return "flag"
+	case "error":
+		return "err"
+	case "interface{}":
+		return "data"
+	default:
+		// Para tipos complexos, tentar extrair o nome base
+		if strings.Contains(paramType, ".") {
+			parts := strings.Split(paramType, ".")
+			return strings.ToLower(parts[len(parts)-1])
+		}
+		// Remover ponteiros e arrays para gerar nome base
+		baseType := strings.TrimPrefix(paramType, "*")
+		baseType = strings.TrimPrefix(baseType, "[]")
+		return strings.ToLower(baseType)
+	}
+}
+
+// generateReturnName gera um nome para um retorno baseado no tipo
+func generateReturnName(returnType string, index int) string {
+	// Para retornos, usar nomes mais descritivos
+	switch returnType {
+	case "error":
+		return "err"
+	case "bool":
+		return "success"
+	case "string":
+		return "result"
+	case "int":
+		return "count"
+	default:
+		// Para tipos complexos, tentar extrair o nome base
+		if strings.Contains(returnType, ".") {
+			parts := strings.Split(returnType, ".")
+			return strings.ToLower(parts[len(parts)-1])
+		}
+		// Remover ponteiros e arrays para gerar nome base
+		baseType := strings.TrimPrefix(returnType, "*")
+		baseType = strings.TrimPrefix(baseType, "[]")
+		return strings.ToLower(baseType)
+	}
+}
+
 // printSDKStructure exibe a estrutura do SDK encontrada
 func printSDKStructure(sdk *SDKStructure) {
 	fmt.Println("=== Estrutura do SDK Encontrada ===")
@@ -331,21 +403,28 @@ func printSDKStructure(sdk *SDKStructure) {
 
 			for _, method := range service.Methods {
 				fmt.Printf("      - %s(", method.Name)
-				for i, param := range method.Parameters {
-					if i > 0 {
+
+				// Exibir parâmetros
+				paramCount := 0
+				for paramName, paramType := range method.Parameters {
+					if paramCount > 0 {
 						fmt.Print(", ")
 					}
-					fmt.Print(param)
+					fmt.Printf("%s %s", paramName, paramType)
+					paramCount++
 				}
 				fmt.Print(")")
 
+				// Exibir retornos
 				if len(method.Returns) > 0 {
 					fmt.Print(" -> ")
-					for i, ret := range method.Returns {
-						if i > 0 {
+					returnCount := 0
+					for retName, retType := range method.Returns {
+						if returnCount > 0 {
 							fmt.Print(", ")
 						}
-						fmt.Print(ret)
+						fmt.Printf("%s %s", retName, retType)
+						returnCount++
 					}
 				}
 				fmt.Println()
