@@ -1,4 +1,4 @@
-package genclicode
+package sdk_structure
 
 import (
 	"cligen/config"
@@ -52,7 +52,7 @@ type ClientMethod struct {
 	ServiceName string
 }
 
-func GenCliCode() {
+func GenCliSDKStructure() (SDKStructure, error) {
 	config, err := config.LoadConfig()
 	if err != nil {
 		log.Fatalf("Erro ao carregar configuração: %v", err)
@@ -69,6 +69,8 @@ func GenCliCode() {
 
 	// Exibir a estrutura encontrada
 	printSDKStructure(sdkStructure)
+
+	return *sdkStructure, nil
 }
 
 // Agora iremos utilizar go/ast e go/parser para analisar o código fonte do SDK e gerar o código da CLI

@@ -11,7 +11,7 @@ import (
 
 func main() {
 	var rootCmd = &cobra.Command{
-		Use:   "nova-cli",
+		Use:   "cligen",
 		Short: "Gerador de código para CLI baseado no SDK",
 		Long: `Gerador de código que cria automaticamente o código fonte da CLI
 baseado no SDK do MagaluCloud.`,
@@ -20,7 +20,7 @@ baseado no SDK do MagaluCloud.`,
 	// Adicionar comandos
 	rootCmd.AddCommand(commands.CloneSDKCmd())
 	rootCmd.AddCommand(commands.GenCLICmd())
-	rootCmd.AddCommand(commands.GenCLICodeCmd())
+	rootCmd.AddCommand(commands.GenCLISDKStructureCmd())
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
