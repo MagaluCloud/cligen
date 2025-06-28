@@ -15,8 +15,9 @@ import (
 
 // Service representa um serviço individual com seus métodos
 type Service struct {
-	Name    string   `json:"name"`
-	Methods []Method `json:"methods"`
+	Name        string             `json:"name"`
+	Methods     []Method           `json:"methods"`
+	SubServices map[string]Service `json:"sub_services,omitempty"` // Para subserviços aninhados
 }
 
 // Method representa um método de um serviço
@@ -155,8 +156,9 @@ func genCliCodeFromClient(sdkDir, filePath string) []Service {
 // analyzeService analisa um serviço específico para extrair seus métodos
 func analyzeService(sdkDir, clientFilePath, serviceName string) Service {
 	service := Service{
-		Name:    serviceName,
-		Methods: []Method{},
+		Name:        serviceName,
+		Methods:     []Method{},
+		SubServices: make(map[string]Service),
 	}
 
 	// Aqui vamos mapear os arquivos que existem no pacote, e entao buscaremos pela interface do serviço
@@ -306,6 +308,24 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									}
 									service.Methods = append(service.Methods, method)
 									fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
+
+									// Verificar se este método retorna um subserviço
+									if len(returns) == 1 {
+										for _, returnType := range returns {
+											if isSubServiceType(returnType) {
+												fmt.Printf("   🔍 Detectado possível subserviço: %s -> %s\n", methodName, returnType)
+												subServiceName := extractSubServiceName(returnType, methodName)
+												if subServiceName != "" {
+													// Analisar o subserviço recursivamente
+													subService := analyzeService(filepath.Dir(filePath), filePath, subServiceName)
+													if len(subService.Methods) > 0 {
+														service.SubServices[subServiceName] = subService
+														fmt.Printf("   ✅ Subserviço adicionado: %s (%d métodos)\n", subServiceName, len(subService.Methods))
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -336,6 +356,76 @@ func getTypeString(expr ast.Expr) string {
 	default:
 		return fmt.Sprintf("%T", expr)
 	}
+}
+
+// isSubServiceType verifica se um tipo de retorno representa um subserviço
+func isSubServiceType(returnType string) bool {
+	// Remover ponteiros e arrays para análise
+	baseType := strings.TrimPrefix(returnType, "*")
+	baseType = strings.TrimPrefix(baseType, "[]")
+
+	// Verificar se o tipo termina com sufixos comuns de serviço
+	serviceSuffixes := []string{"Service", "API", "Client"}
+	for _, suffix := range serviceSuffixes {
+		if strings.HasSuffix(baseType, suffix) {
+			return true
+		}
+	}
+
+	// Verificar se contém palavras-chave de serviço
+	serviceKeywords := []string{"service", "api", "client"}
+	lowerType := strings.ToLower(baseType)
+	for _, keyword := range serviceKeywords {
+		if strings.Contains(lowerType, keyword) {
+			return true
+		}
+	}
+
+	// Verificar padrões específicos como "networkBackendTargetService"
+	if strings.Contains(lowerType, "service") && len(baseType) > 10 {
+		return true
+	}
+
+	return false
+}
+
+// extractSubServiceName extrai o nome do subserviço a partir do tipo de retorno
+func extractSubServiceName(returnType string, methodName string) string {
+	// Remover ponteiros e arrays
+	baseType := strings.TrimPrefix(returnType, "*")
+	baseType = strings.TrimPrefix(baseType, "[]")
+
+	// Se o tipo contém um ponto (pacote.tipo), extrair apenas o nome do tipo
+	if strings.Contains(baseType, ".") {
+		parts := strings.Split(baseType, ".")
+		baseType = parts[len(parts)-1]
+	}
+
+	// Remover sufixos comuns de serviço para obter o nome base
+	suffixes := []string{"Service", "API", "Client"}
+	for _, suffix := range suffixes {
+		if strings.HasSuffix(baseType, suffix) {
+			baseType = strings.TrimSuffix(baseType, suffix)
+			break
+		}
+	}
+
+	// Se o nome base estiver vazio, usar o nome do método
+	if baseType == "" {
+		baseType = methodName
+	}
+
+	// Converter para PascalCase se necessário
+	if len(baseType) > 0 {
+		// Se já está em PascalCase, manter como está
+		if baseType[0] >= 'A' && baseType[0] <= 'Z' {
+			return baseType
+		}
+		// Converter para PascalCase
+		baseType = strings.ToUpper(baseType[:1]) + baseType[1:]
+	}
+
+	return baseType
 }
 
 // generateParamName gera um nome para um parâmetro baseado no tipo
@@ -400,37 +490,51 @@ func printSDKStructure(sdk *SDKStructure) {
 		fmt.Printf("   Serviços encontrados: %d\n", len(pkg.Services))
 
 		for _, service := range pkg.Services {
-			fmt.Printf("   🔧 Serviço: %s\n", service.Name)
-			fmt.Printf("      Métodos: %d\n", len(service.Methods))
+			printService(service, "   ")
+		}
+	}
+}
 
-			for _, method := range service.Methods {
-				fmt.Printf("      - %s(", method.Name)
+// printService exibe um serviço e seus subserviços de forma recursiva
+func printService(service Service, indent string) {
+	fmt.Printf("%s🔧 Serviço: %s\n", indent, service.Name)
+	fmt.Printf("%s   Métodos: %d\n", indent, len(service.Methods))
 
-				// Exibir parâmetros
-				paramCount := 0
-				for paramName, paramType := range method.Parameters {
-					if paramCount > 0 {
-						fmt.Print(", ")
-					}
-					fmt.Printf("%s %s", paramName, paramType)
-					paramCount++
-				}
-				fmt.Print(")")
+	for _, method := range service.Methods {
+		fmt.Printf("%s   - %s(", indent, method.Name)
 
-				// Exibir retornos
-				if len(method.Returns) > 0 {
-					fmt.Print(" -> ")
-					returnCount := 0
-					for retName, retType := range method.Returns {
-						if returnCount > 0 {
-							fmt.Print(", ")
-						}
-						fmt.Printf("%s %s", retName, retType)
-						returnCount++
-					}
-				}
-				fmt.Println()
+		// Exibir parâmetros
+		paramCount := 0
+		for paramName, paramType := range method.Parameters {
+			if paramCount > 0 {
+				fmt.Print(", ")
 			}
+			fmt.Printf("%s %s", paramName, paramType)
+			paramCount++
+		}
+		fmt.Print(")")
+
+		// Exibir retornos
+		if len(method.Returns) > 0 {
+			fmt.Print(" -> ")
+			returnCount := 0
+			for retName, retType := range method.Returns {
+				if returnCount > 0 {
+					fmt.Print(", ")
+				}
+				fmt.Printf("%s %s", retName, retType)
+				returnCount++
+			}
+		}
+		fmt.Println()
+	}
+
+	// Exibir subserviços
+	if len(service.SubServices) > 0 {
+		fmt.Printf("%s   Subserviços: %d\n", indent, len(service.SubServices))
+		for subServiceName, subService := range service.SubServices {
+			fmt.Printf("%s   📋 Subserviço: %s\n", indent, subServiceName)
+			printService(subService, indent+"      ")
 		}
 	}
 }
