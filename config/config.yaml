@@ -1,0 +1,15 @@
+menus:
+  - name: "virtual-machine"
+    alias: "vm,virtual-machines,vms,compute"
+    sdk_package: "compute"
+    description: "Comandos relacionados a máquinas virtuais"
+
+  - name: "kubernetes"
+    alias: "k8s"
+    sdk_package: "kubernetes"
+    description: "Comandos relacionados a Kubernetes"
+
+  - name: "lbaas"
+    alias: "load-balancer"
+    sdk_package: "lbaas"
+    description: "Comandos relacionados a Load Balancer"
