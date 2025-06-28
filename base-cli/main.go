@@ -47,7 +47,7 @@ func getVCSInfo(version string) string {
 func main() {
 	defer panicRecover()
 
-	err := cmd.Execute(Version)
+	err := cmd.RootCmd().Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %s\n", err)
 		os.Exit(1)

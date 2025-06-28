@@ -9,7 +9,7 @@ import (
 func GenCLISDKStructureCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "sdk-structure",
-		Short: "Gerar a estrutura do SDK da CLI",
+		Short: "Printa a estrutura do SDK da CLI",
 		Run: func(cmd *cobra.Command, args []string) {
 			sdk_structure.GenCliSDKStructure()
 		},
