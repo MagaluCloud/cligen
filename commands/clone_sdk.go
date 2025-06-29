@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -43,6 +44,10 @@ func cloneSDK() error {
 	if err := cloneCmd.Run(); err != nil {
 		return fmt.Errorf("erro ao clonar SDK: %v", err)
 	}
+
+	// remove .github inside sdkDir
+	os.RemoveAll(filepath.Join(sdkDir, ".github")) // evitar cazzo
+	os.RemoveAll(filepath.Join(sdkDir, ".git"))    // evitar cazzo
 
 	fmt.Printf("SDK clonado com sucesso em %s\n", sdkDir)
 	return nil
