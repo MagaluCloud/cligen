@@ -2,3 +2,4 @@ tmp-*
 .vscode
 cligen
 base-cli/mgccli
+base-cli-gen/*

@@ -34,25 +34,25 @@ func cleanDir(dir string) {
 }
 
 func genPackageCode(pkg *sdk_structure.Package) {
-	data := NewPackageGroupData()
-	data.SetPackageName(pkg.Name)
-	data.SetFunctionName(pkg.Name)
-	data.SetUseName(pkg.Name)
-	data.SetDescriptions("todo", "todo2")
-	data.SetGroupID("products")
-	data.SetServiceParam("sdkCoreConfig *sdk.CoreClient")
+	packageData := NewPackageGroupData()
+	packageData.SetPackageName(pkg.Name)
+	packageData.SetFunctionName(pkg.Name)
+	packageData.SetUseName(pkg.Name)
+	packageData.SetDescriptions("todo", "todo2")
+	packageData.SetGroupID("products")
+	packageData.SetServiceParam("sdkCoreConfig *sdk.CoreClient")
 
 	for _, service := range pkg.Services {
-		data.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name))
-		data.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
-		data.AddImport("\"github.com/spf13/cobra\"")
-		data.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
-		data.SetServiceInit(fmt.Sprintf("%sService := %s.New(sdkCoreConfig)", pkg.Name, pkg.Name))
-		data.AddSubCommand(service.Name, service.Name, fmt.Sprintf("%sService.%s()", pkg.Name, service.Name))
+		packageData.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name))
+		packageData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
+		packageData.AddImport("\"github.com/spf13/cobra\"")
+		packageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
+		packageData.SetServiceInit(fmt.Sprintf("%sService := %s.New(sdkCoreConfig)", pkg.Name, pkg.Name))
+		packageData.AddSubCommand(service.Name, service.Name, fmt.Sprintf("%sService.%s()", pkg.Name, service.Name))
 
-		generateServiceCode(*pkg, &service, *data)
+		generateServiceCode(*pkg, &service, *packageData)
 	}
-	err := data.WriteGroupToFile(filepath.Join(genDir, strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name)))
+	err := packageData.WriteGroupToFile(filepath.Join(genDir, strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name)))
 	if err != nil {
 		log.Fatalf("Erro ao escrever o arquivo %s: %v", pkg.Name, err)
 	}
@@ -77,6 +77,8 @@ func generateServiceCode(parentPkg sdk_structure.Package, service *sdk_structure
 		productData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
 		productData.AddImport("\"github.com/spf13/cobra\"")
 		productData.AddImport("\"context\"")
+
+		serviceData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
 
 		productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
 
