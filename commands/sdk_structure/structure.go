@@ -16,6 +16,7 @@ import (
 // Service representa um serviço individual com seus métodos
 type Service struct {
 	Name        string             `json:"name"`
+	Interface   string             `json:"interface"`
 	Methods     []Method           `json:"methods"`
 	SubServices map[string]Service `json:"sub_services,omitempty"` // Para subserviços aninhados
 }
@@ -38,12 +39,6 @@ type Package struct {
 // SDKStructure representa a estrutura completa do SDK
 type SDKStructure struct {
 	Packages map[string]Package `json:"packages"`
-}
-
-// ServiceInterface representa uma interface de serviço encontrada no código
-type ServiceInterface struct {
-	Name    string
-	Methods []Method
 }
 
 // ClientMethod representa um método do cliente que retorna um serviço
@@ -156,6 +151,7 @@ func analyzeService(sdkDir, clientFilePath, serviceName string) Service {
 		Name:        serviceName,
 		Methods:     []Method{},
 		SubServices: make(map[string]Service),
+		Interface:   serviceName,
 	}
 
 	// Aqui vamos mapear os arquivos que existem no pacote, e entao buscaremos pela interface do serviço
@@ -303,6 +299,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 										Returns:    returns,
 										Comments:   comments,
 									}
+									service.Interface = interfaceName
 									service.Methods = append(service.Methods, method)
 									fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
 
