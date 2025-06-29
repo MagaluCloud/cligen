@@ -36,7 +36,7 @@ func cleanDir(dir string) {
 func genPackageCode(pkg *sdk_structure.Package) {
 	packageData := NewPackageGroupData()
 	packageData.SetPackageName(pkg.Name)
-	packageData.SetFunctionName(pkg.Name)
+	packageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
 	packageData.SetUseName(pkg.Name)
 	packageData.SetDescriptions("todo", "todo2")
 	packageData.SetGroupID("products")
@@ -66,17 +66,20 @@ func generateServiceCode(parentPkg sdk_structure.Package, service *sdk_structure
 	serviceData.SetPackageName(service.Name)
 	serviceData.SetFunctionName(service.Name)
 	serviceData.SetUseName(service.Name)
+	serviceData.Imports = []string{}
+	serviceData.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name))
+	serviceData.AddImport("\"github.com/spf13/cobra\"")
 	serviceData.SetDescriptions("todo", "todo2")
-	serviceData.SetGroupID("products")
+	serviceData.SetGroupID("")
 	serviceData.SetServiceParam(fmt.Sprintf("%s %s.%s", strutils.FirstLower(service.Interface), parentPkg.Name, service.Interface))
 
 	for _, method := range service.Methods {
 		productData := serviceData.Copy()
 
 		productData.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name))
-		productData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
+		// productData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
 		productData.AddImport("\"github.com/spf13/cobra\"")
-		productData.AddImport("\"context\"")
+		// productData.AddImport("\"context\"")
 
 		serviceData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
 
@@ -84,8 +87,8 @@ func generateServiceCode(parentPkg sdk_structure.Package, service *sdk_structure
 
 		productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))
 
-		productData.FunctionName = method.Name
-		productData.UseName = method.Name
+		productData.SetFunctionName(method.Name)
+		productData.SetUseName(method.Name)
 
 		for key, param := range method.Parameters {
 			if key == "ctx" {

@@ -10,6 +10,7 @@ import (
 	{{range .Imports}}
 	{{.}}
 	{{end}}
+	"fmt"
 )
 
 func {{.FunctionName}}(parent *cobra.Command, {{.ServiceParam}}) {
@@ -18,7 +19,7 @@ func {{.FunctionName}}(parent *cobra.Command, {{.ServiceParam}}) {
 		Short:   "{{.ShortDescription}}",
 		Long:    `{{.LongDescription}}`,
 		Run: func(cmd *cobra.Command, args []string) {
-			{{.ServiceCall}}({{range .Params}}{{.}},{{end}})
+			fmt.Println("{{.FunctionName}}")
 		},
 	}
 	parent.AddCommand(cmd)

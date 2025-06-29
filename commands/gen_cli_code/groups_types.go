@@ -133,7 +133,7 @@ func (pgd *PackageGroupData) SetPackageName(packageName string) {
 
 // SetUseName define o nome de uso do comando
 func (pgd *PackageGroupData) SetUseName(useName string) {
-	pgd.UseName = useName
+	pgd.UseName = strings.ToLower(useName)
 }
 
 // SetServiceInit define o código para inicializar o serviço

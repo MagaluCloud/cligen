@@ -240,7 +240,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 			if interfaceType, ok := typeDecl.Type.(*ast.InterfaceType); ok {
 				// Verificar se é uma das interfaces que estamos procurando
 				for _, interfaceName := range possibleInterfaceNames {
-					if typeDecl.Name.Name == interfaceName {
+					if typeDecl.Name.Name == interfaceName || strings.EqualFold(typeDecl.Name.Name, interfaceName) {
 						fmt.Printf("✅ Interface encontrada: %s\n", interfaceName)
 						found = true
 
@@ -299,7 +299,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 										Returns:    returns,
 										Comments:   comments,
 									}
-									service.Interface = interfaceName
+									service.Interface = typeDecl.Name.Name
 									service.Methods = append(service.Methods, method)
 									fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
 
