@@ -5,7 +5,6 @@ import (
 	_ "embed"
 	"os"
 	"path/filepath"
-	"slices"
 	"strings"
 	"text/template"
 )
@@ -21,6 +20,34 @@ var productTemplate string
 
 //go:embed rootgen.template
 var rootGenTemplate string
+
+// Templates pré-compilados para melhor performance
+var (
+	packageGroupTmpl *template.Template
+	serviceGroupTmpl *template.Template
+	productTmpl      *template.Template
+	rootGenTmpl      *template.Template
+)
+
+func init() {
+	var err error
+	packageGroupTmpl, err = template.New("package_group").Parse(packageGroupTemplate)
+	if err != nil {
+		panic(err)
+	}
+	serviceGroupTmpl, err = template.New("service_group").Parse(serviceGroupTemplate)
+	if err != nil {
+		panic(err)
+	}
+	productTmpl, err = template.New("product").Parse(productTemplate)
+	if err != nil {
+		panic(err)
+	}
+	rootGenTmpl, err = template.New("rootgen").Parse(rootGenTemplate)
+	if err != nil {
+		panic(err)
+	}
+}
 
 // PackageGroupData representa os dados necessários para gerar um arquivo de grupo de comandos
 type PackageGroupData struct {
@@ -75,37 +102,49 @@ type TemplateData struct {
 // NewPackageGroupData cria uma nova instância de PackageGroupData com valores padrão
 func NewPackageGroupData() *PackageGroupData {
 	return &PackageGroupData{
-		Imports:     []string{},
-		SubCommands: []SubCommandData{},
-		GroupID:     "", // Opcional
+		Imports:     make([]string, 0, 10),
+		SubCommands: make([]SubCommandData, 0, 5),
+		Commands:    make([]CommandData, 0, 5),
+		Params:      make([]string, 0, 5),
+		GroupID:     "",
 	}
 }
 
-// AddImport adiciona um import à lista de imports
+// AddImport adiciona um import à lista de imports (evita duplicatas)
 func (pgd *PackageGroupData) AddImport(importPath string) {
-	if slices.Contains(pgd.Imports, importPath) {
-		return
+	for _, imp := range pgd.Imports {
+		if imp == importPath {
+			return
+		}
 	}
 	pgd.Imports = append(pgd.Imports, importPath)
 }
 
-// AddCommand adiciona um comando ao grupo
+// AddCommand adiciona um comando ao grupo (evita duplicatas)
 func (pgd *PackageGroupData) AddCommand(functionName, serviceCall string) {
-	cmd := CommandData{
+	for _, cmd := range pgd.Commands {
+		if cmd.FunctionName == functionName && cmd.ServiceCall == serviceCall {
+			return
+		}
+	}
+	pgd.Commands = append(pgd.Commands, CommandData{
 		FunctionName: functionName,
 		ServiceCall:  serviceCall,
-	}
-	pgd.Commands = append(pgd.Commands, cmd)
+	})
 }
 
-// AddSubCommand adiciona um subcomando ao grupo
+// AddSubCommand adiciona um subcomando ao grupo (evita duplicatas)
 func (pgd *PackageGroupData) AddSubCommand(packageName, functionName, serviceCall string) {
-	subCmd := SubCommandData{
+	for _, subCmd := range pgd.SubCommands {
+		if subCmd.PackageName == strings.ToLower(packageName) && subCmd.FunctionName == functionName && subCmd.ServiceCall == serviceCall {
+			return
+		}
+	}
+	pgd.SubCommands = append(pgd.SubCommands, SubCommandData{
 		PackageName:  strings.ToLower(packageName),
 		FunctionName: functionName,
 		ServiceCall:  serviceCall,
-	}
-	pgd.SubCommands = append(pgd.SubCommands, subCmd)
+	})
 }
 
 // SetGroupID define o ID do grupo (usado para agrupamento na CLI)
@@ -150,13 +189,8 @@ func (pgd *PackageGroupData) WriteGroupToFile(filePath string) error {
 		return nil
 	}
 
-	tmpl, err := template.New("package_group").Parse(packageGroupTemplate)
-	if err != nil {
-		return err
-	}
-
 	buf := bytes.NewBuffer(nil)
-	err = tmpl.Execute(buf, pgd)
+	err := packageGroupTmpl.Execute(buf, pgd)
 	if err != nil {
 		return err
 	}
@@ -164,7 +198,6 @@ func (pgd *PackageGroupData) WriteGroupToFile(filePath string) error {
 	os.MkdirAll(filepath.Dir(filePath), 0755)
 	pgd.GenerateGroup = true
 	return os.WriteFile(filePath, buf.Bytes(), 0644)
-
 }
 
 // WriteToFile escreve os dados no arquivo
@@ -173,13 +206,8 @@ func (pgd *PackageGroupData) WriteServiceToFile(filePath string) error {
 		return nil
 	}
 
-	tmpl, err := template.New("package_group").Parse(serviceGroupTemplate)
-	if err != nil {
-		return err
-	}
-
 	buf := bytes.NewBuffer(nil)
-	err = tmpl.Execute(buf, pgd)
+	err := serviceGroupTmpl.Execute(buf, pgd)
 	if err != nil {
 		return err
 	}
@@ -187,7 +215,6 @@ func (pgd *PackageGroupData) WriteServiceToFile(filePath string) error {
 	os.MkdirAll(filepath.Dir(filePath), 0755)
 	pgd.GenerateGroup = true
 	return os.WriteFile(filePath, buf.Bytes(), 0644)
-
 }
 
 // WriteToFile escreve os dados no arquivo
@@ -196,13 +223,8 @@ func (pgd *PackageGroupData) WriteProductToFile(filePath string) error {
 		return nil
 	}
 
-	tmpl, err := template.New("package_group").Parse(productTemplate)
-	if err != nil {
-		return err
-	}
-
 	buf := bytes.NewBuffer(nil)
-	err = tmpl.Execute(buf, pgd)
+	err := productTmpl.Execute(buf, pgd)
 	if err != nil {
 		return err
 	}
@@ -210,10 +232,34 @@ func (pgd *PackageGroupData) WriteProductToFile(filePath string) error {
 	os.MkdirAll(filepath.Dir(filePath), 0755)
 	pgd.GenerateGroup = true
 	return os.WriteFile(filePath, buf.Bytes(), 0644)
-
 }
+
 func (pgd *PackageGroupData) Copy() PackageGroupData {
-	return *pgd
+	// Cria uma cópia profunda para evitar problemas de referência
+	copied := *pgd
+
+	// Copia os slices de forma eficiente
+	if len(pgd.Imports) > 0 {
+		copied.Imports = make([]string, len(pgd.Imports))
+		copy(copied.Imports, pgd.Imports)
+	}
+
+	if len(pgd.SubCommands) > 0 {
+		copied.SubCommands = make([]SubCommandData, len(pgd.SubCommands))
+		copy(copied.SubCommands, pgd.SubCommands)
+	}
+
+	if len(pgd.Commands) > 0 {
+		copied.Commands = make([]CommandData, len(pgd.Commands))
+		copy(copied.Commands, pgd.Commands)
+	}
+
+	if len(pgd.Params) > 0 {
+		copied.Params = make([]string, len(pgd.Params))
+		copy(copied.Params, pgd.Params)
+	}
+
+	return copied
 }
 
 func (pdg *PackageGroupData) AddParam(param string) {
@@ -242,15 +288,17 @@ type RootSubCommandData struct {
 // NewRootGenData cria uma nova instância de RootGenData com valores padrão
 func NewRootGenData() *RootGenData {
 	return &RootGenData{
-		Imports:     []string{},
-		SubCommands: []RootSubCommandData{},
+		Imports:     make([]string, 0, 10),
+		SubCommands: make([]RootSubCommandData, 0, 10),
 	}
 }
 
-// AddImport adiciona um import à lista de imports
+// AddImport adiciona um import à lista de imports (evita duplicatas)
 func (rgd *RootGenData) AddImport(importPath string) {
-	if slices.Contains(rgd.Imports, importPath) {
-		return
+	for _, imp := range rgd.Imports {
+		if imp == importPath {
+			return
+		}
 	}
 	rgd.Imports = append(rgd.Imports, importPath)
 }
@@ -266,13 +314,8 @@ func (rgd *RootGenData) AddSubCommand(packageName, commandName string) {
 
 // WriteRootGenToFile escreve os dados do root_gen.go no arquivo
 func (rgd *RootGenData) WriteRootGenToFile(filePath string) error {
-	tmpl, err := template.New("root_gen").Parse(rootGenTemplate)
-	if err != nil {
-		return err
-	}
-
 	buf := bytes.NewBuffer(nil)
-	err = tmpl.Execute(buf, rgd)
+	err := rootGenTmpl.Execute(buf, rgd)
 	if err != nil {
 		return err
 	}
