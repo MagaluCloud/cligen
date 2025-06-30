@@ -12,7 +12,9 @@ import (
 )
 
 const (
-	genDir = "base-cli-gen/cmd/gen"
+	genDir           = "base-cli-gen/cmd/gen"
+	defaultShortDesc = "todo"
+	defaultLongDesc  = "todo2"
 )
 
 func GenCliCode() {
@@ -45,7 +47,7 @@ func genPackageCode(pkg *sdk_structure.Package, rootGenData *RootGenData) {
 	packageData.SetPackageName(pkg.Name)
 	packageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
 	packageData.SetUseName(pkg.Name)
-	packageData.SetDescriptions("todo", "todo2")
+	packageData.SetDescriptions(defaultShortDesc, defaultLongDesc)
 	packageData.SetGroupID("products")
 	packageData.SetServiceParam("sdkCoreConfig *sdk.CoreClient")
 
@@ -54,7 +56,6 @@ func genPackageCode(pkg *sdk_structure.Package, rootGenData *RootGenData) {
 
 	for _, service := range pkg.Services {
 		packageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
-		packageData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
 		packageData.AddImport("\"github.com/spf13/cobra\"")
 		packageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
 		packageData.SetServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", pkg.Name, pkg.Name))
@@ -62,6 +63,7 @@ func genPackageCode(pkg *sdk_structure.Package, rootGenData *RootGenData) {
 
 		generateServiceCode(*pkg, &service, *packageData)
 	}
+	packageData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
 	err := packageData.WriteGroupToFile(filepath.Join(genDir, strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name)))
 	if err != nil {
 		log.Fatalf("Erro ao escrever o arquivo %s: %v", pkg.Name, err)
@@ -76,10 +78,17 @@ func generateServiceCode(parentPkg sdk_structure.Package, service *sdk_structure
 	serviceData.SetPackageName(service.Name)
 	serviceData.SetFunctionName(service.Name)
 	serviceData.SetUseName(service.Name)
-	serviceData.Imports = []string{}
+	filteredImports := make([]string, 0, len(serviceData.Imports))
+	serviceDir := fmt.Sprintf("mgccli/cmd/gen/%s/%s", strings.ToLower(parentPkg.Name), strings.ToLower(service.Name))
+	for _, imp := range serviceData.Imports {
+		if !strings.Contains(imp, serviceDir) && !strings.Contains(imp, fmt.Sprintf("mgccli/cmd/gen/%s/", strings.ToLower(parentPkg.Name))) {
+			filteredImports = append(filteredImports, imp)
+		}
+	}
+	serviceData.Imports = filteredImports
 	serviceData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name, parentPkg.Name))
 	serviceData.AddImport("\"github.com/spf13/cobra\"")
-	serviceData.SetDescriptions("todo", "todo2")
+	serviceData.SetDescriptions(defaultShortDesc, defaultLongDesc)
 	serviceData.SetGroupID("")
 	serviceData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), parentPkg.Name, service.Interface))
 
@@ -92,6 +101,7 @@ func generateServiceCode(parentPkg sdk_structure.Package, service *sdk_structure
 		productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))
 		productData.SetFunctionName(method.Name)
 		productData.SetUseName(method.Name)
+		productData.SetDescriptions(defaultShortDesc, defaultLongDesc)
 
 		for key, param := range method.Parameters {
 			if key == "ctx" {
