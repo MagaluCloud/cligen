@@ -85,18 +85,11 @@ func generateServiceCode(parentPkg sdk_structure.Package, service *sdk_structure
 
 	for _, method := range service.Methods {
 		productData := serviceData.Copy()
-
 		productData.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name))
-		// productData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
 		productData.AddImport("\"github.com/spf13/cobra\"")
-		// productData.AddImport("\"context\"")
-
 		serviceData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
-
 		productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
-
 		productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))
-
 		productData.SetFunctionName(method.Name)
 		productData.SetUseName(method.Name)
 
