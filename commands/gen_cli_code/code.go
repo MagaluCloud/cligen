@@ -21,9 +21,16 @@ func GenCliCode() {
 		log.Fatalf("Erro ao gerar a estrutura do SDK: %v", err)
 	}
 	cleanDir(genDir)
+
+	rootGenData := NewRootGenData()
+	rootGenData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
+	rootGenData.AddImport("\"github.com/spf13/cobra\"")
+
 	for _, pkg := range sdkStructure.Packages {
-		genPackageCode(&pkg)
+		genPackageCode(&pkg, rootGenData)
 	}
+
+	rootGenData.WriteRootGenToFile(filepath.Join(genDir, "root_gen.go"))
 }
 
 func cleanDir(dir string) {
@@ -33,7 +40,7 @@ func cleanDir(dir string) {
 	}
 }
 
-func genPackageCode(pkg *sdk_structure.Package) {
+func genPackageCode(pkg *sdk_structure.Package, rootGenData *RootGenData) {
 	packageData := NewPackageGroupData()
 	packageData.SetPackageName(pkg.Name)
 	packageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
@@ -41,6 +48,9 @@ func genPackageCode(pkg *sdk_structure.Package) {
 	packageData.SetDescriptions("todo", "todo2")
 	packageData.SetGroupID("products")
 	packageData.SetServiceParam("sdkCoreConfig *sdk.CoreClient")
+
+	rootGenData.AddSubCommand(pkg.Name, strutils.FirstUpper(pkg.Name)+"Cmd")
+	rootGenData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s\"", strings.ToLower(pkg.Name)))
 
 	for _, service := range pkg.Services {
 		packageData.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name))

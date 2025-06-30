@@ -19,6 +19,9 @@ var serviceGroupTemplate string
 //go:embed product.template
 var productTemplate string
 
+//go:embed rootgen.template
+var rootGenTemplate string
+
 // PackageGroupData representa os dados necessários para gerar um arquivo de grupo de comandos
 type PackageGroupData struct {
 	// Informações básicas do pacote
@@ -219,4 +222,61 @@ func (pdg *PackageGroupData) AddParam(param string) {
 
 func (pdg *PackageGroupData) SetServiceCall(serviceCall string) {
 	pdg.ServiceCall = serviceCall
+}
+
+// RootGenData representa os dados necessários para gerar o arquivo root_gen.go
+type RootGenData struct {
+	// Imports necessários para o arquivo
+	Imports []string `json:"imports"`
+
+	// Subcomandos que serão adicionados ao root
+	SubCommands []RootSubCommandData `json:"sub_commands"`
+}
+
+// RootSubCommandData representa um subcomando que será adicionado ao root
+type RootSubCommandData struct {
+	Package string `json:"package"`
+	Command string `json:"command"`
+}
+
+// NewRootGenData cria uma nova instância de RootGenData com valores padrão
+func NewRootGenData() *RootGenData {
+	return &RootGenData{
+		Imports:     []string{},
+		SubCommands: []RootSubCommandData{},
+	}
+}
+
+// AddImport adiciona um import à lista de imports
+func (rgd *RootGenData) AddImport(importPath string) {
+	if slices.Contains(rgd.Imports, importPath) {
+		return
+	}
+	rgd.Imports = append(rgd.Imports, importPath)
+}
+
+// AddSubCommand adiciona um subcomando ao root
+func (rgd *RootGenData) AddSubCommand(packageName, commandName string) {
+	subCmd := RootSubCommandData{
+		Package: strings.ToLower(packageName),
+		Command: commandName,
+	}
+	rgd.SubCommands = append(rgd.SubCommands, subCmd)
+}
+
+// WriteRootGenToFile escreve os dados do root_gen.go no arquivo
+func (rgd *RootGenData) WriteRootGenToFile(filePath string) error {
+	tmpl, err := template.New("root_gen").Parse(rootGenTemplate)
+	if err != nil {
+		return err
+	}
+
+	buf := bytes.NewBuffer(nil)
+	err = tmpl.Execute(buf, rgd)
+	if err != nil {
+		return err
+	}
+
+	os.MkdirAll(filepath.Dir(filePath), 0755)
+	return os.WriteFile(filePath, buf.Bytes(), 0644)
 }

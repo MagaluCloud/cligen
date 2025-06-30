@@ -1,0 +1,13 @@
+package gen
+
+import (
+{{range .Imports}}
+	{{.}}
+{{end}}
+)
+
+func RootGen(parent *cobra.Command, sdkCoreConfig *sdk.CoreClient) {
+{{range .SubCommands}}
+	{{.Package}}.{{.Command}}(parent, sdkCoreConfig)
+{{end}}
+}
