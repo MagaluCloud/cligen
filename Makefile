@@ -10,8 +10,7 @@ run:
 	@./cligen gen-cli-base
 
 run-cli:
-	@cd tmp-cli
-	@rm mgccli
-	@go mod tidy
-	@go build -o mgccli
-	@./mgccli
+	@@cd tmp-cli && rm mgccli
+	@@cd tmp-cli && go mod tidy
+	@@cd tmp-cli && go build -o mgccli
+	@@cd tmp-cli && ./mgccli
