@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+
+	strutils "cligen/str_utils"
 )
 
 // Service representa um serviço individual com seus métodos
@@ -169,7 +171,8 @@ func analyzeService(sdkDir, clientFilePath, serviceName string) Service {
 		serviceName + "Service", // Ex: InstancesService
 		serviceName + "API",     // Ex: InstancesAPI
 		serviceName + "Client",  // Ex: InstancesClient
-		serviceName,             // Ex: Instances (sem sufixo)
+		"Service",
+		serviceName, // Ex: Instances (sem sufixo)
 	}
 
 	// Adicionar variações para serviços que podem usar singular
@@ -183,22 +186,38 @@ func analyzeService(sdkDir, clientFilePath, serviceName string) Service {
 		)
 	}
 
-	// Primeiro, tentar encontrar o arquivo específico do serviço
-	fileName := fmt.Sprintf("%s.go", strings.ToLower(serviceName))
-	serviceFilePath := filepath.Join(sdkDir, fileName)
+	// Adicionar variações para serviços que podem usar singular
+	singularNamePascal := strutils.RemovePlural(serviceName)
+	possibleInterfaceNames = append(possibleInterfaceNames,
+		singularNamePascal+"Service", // Ex: InstanceService
+		singularNamePascal+"API",     // Ex: InstanceAPI
+		singularNamePascal+"Client",  // Ex: InstanceClient
+		singularNamePascal,           // Ex: Instance (sem sufixo)
+	)
 
-	fmt.Printf("📄 Arquivo esperado: %s\n", fileName)
+	fileNamesToTry := []string{fmt.Sprintf("%s.go", strings.ToLower(serviceName))}
 
-	// Verificar se o arquivo específico existe
-	if _, err := os.Stat(serviceFilePath); err == nil {
-		fmt.Printf("✅ Arquivo encontrado: %s\n", serviceFilePath)
-		if found := analyzeFileForService(serviceFilePath, possibleInterfaceNames, &service); found {
-			return service
-		}
-	} else {
-		fmt.Printf("❌ Arquivo não encontrado: %s\n", serviceFilePath)
+	fileName := fmt.Sprintf("%s.go", strutils.ToSnakeCase(serviceName))
+	if !slices.Contains(fileNamesToTry, fileName) {
+		fileNamesToTry = append(fileNamesToTry, fileName)
 	}
 
+	// Primeiro, tentar encontrar o arquivo específico do serviço
+	for _, fileName := range fileNamesToTry {
+		serviceFilePath := filepath.Join(sdkDir, fileName)
+
+		fmt.Printf("📄 Arquivo esperado: %s\n", fileName)
+
+		// Verificar se o arquivo específico existe
+		if _, err := os.Stat(serviceFilePath); err == nil {
+			fmt.Printf("✅ Arquivo encontrado: %s\n", serviceFilePath)
+			if found := analyzeFileForService(serviceFilePath, possibleInterfaceNames, &service); found {
+				return service
+			}
+		} else {
+			fmt.Printf("❌ Arquivo não encontrado: %s\n", serviceFilePath)
+		}
+	}
 	// Se não encontrou no arquivo específico, procurar em todos os arquivos do pacote
 	fmt.Printf("🔍 Procurando interface em outros arquivos do pacote...\n")
 
@@ -243,6 +262,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 					if typeDecl.Name.Name == interfaceName || strings.EqualFold(typeDecl.Name.Name, interfaceName) {
 						fmt.Printf("✅ Interface encontrada: %s\n", interfaceName)
 						found = true
+						service.Interface = typeDecl.Name.Name
 
 						// Extrair métodos da interface
 						if interfaceType.Methods != nil {
@@ -299,7 +319,6 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 										Returns:    returns,
 										Comments:   comments,
 									}
-									service.Interface = typeDecl.Name.Name
 									service.Methods = append(service.Methods, method)
 									fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
 

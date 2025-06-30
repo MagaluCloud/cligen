@@ -53,11 +53,11 @@ func genPackageCode(pkg *sdk_structure.Package, rootGenData *RootGenData) {
 	rootGenData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s\"", strings.ToLower(pkg.Name)))
 
 	for _, service := range pkg.Services {
-		packageData.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name))
+		packageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
 		packageData.AddImport("sdk \"github.com/MagaluCloud/mgc-sdk-go/client\"")
 		packageData.AddImport("\"github.com/spf13/cobra\"")
 		packageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
-		packageData.SetServiceInit(fmt.Sprintf("%sService := %s.New(sdkCoreConfig)", pkg.Name, pkg.Name))
+		packageData.SetServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", pkg.Name, pkg.Name))
 		packageData.AddSubCommand(service.Name, service.Name, fmt.Sprintf("%sService.%s()", pkg.Name, service.Name))
 
 		generateServiceCode(*pkg, &service, *packageData)
@@ -77,15 +77,15 @@ func generateServiceCode(parentPkg sdk_structure.Package, service *sdk_structure
 	serviceData.SetFunctionName(service.Name)
 	serviceData.SetUseName(service.Name)
 	serviceData.Imports = []string{}
-	serviceData.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name))
+	serviceData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name, parentPkg.Name))
 	serviceData.AddImport("\"github.com/spf13/cobra\"")
 	serviceData.SetDescriptions("todo", "todo2")
 	serviceData.SetGroupID("")
-	serviceData.SetServiceParam(fmt.Sprintf("%s %s.%s", strutils.FirstLower(service.Interface), parentPkg.Name, service.Interface))
+	serviceData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), parentPkg.Name, service.Interface))
 
 	for _, method := range service.Methods {
 		productData := serviceData.Copy()
-		productData.AddImport(fmt.Sprintf("\"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name))
+		productData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name, parentPkg.Name))
 		productData.AddImport("\"github.com/spf13/cobra\"")
 		serviceData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
 		productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
