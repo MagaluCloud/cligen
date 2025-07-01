@@ -61,28 +61,140 @@ func GenCliSDKStructure() (SDKStructure, error) {
 		Packages: make(map[string]Package),
 	}
 
+	// Processar menus principais e seus submenus
 	for _, menu := range config.Menus {
-		pkg := genCliCodeFromSDK(menu.SDKPackage)
-		pkg.MenuName = menu.Name
-		sdkStructure.Packages[menu.SDKPackage] = pkg
+		processMenu(menu, sdkStructure)
 	}
 
 	return *sdkStructure, nil
 }
 
+// processMenu processa um menu e seus submenus recursivamente
+func processMenu(menu config.Menu, sdkStructure *SDKStructure) {
+	processMenuRecursive(menu, "", sdkStructure)
+}
+
+// processMenuRecursive processa um menu e seus submenus recursivamente com suporte a hierarquia
+func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDKStructure) {
+	fmt.Printf("🔄 Processando menu: %s (caminho pai: %s)\n", menu.Name, parentPath)
+
+	// Se o menu tem submenus, criar um pacote de agrupamento
+	if len(menu.Menus) > 0 {
+		fmt.Printf("📁 Menu '%s' é um agrupador com %d submenus\n", menu.Name, len(menu.Menus))
+
+		// Criar um pacote vazio para o menu de agrupamento
+		groupPkg := Package{
+			MenuName: menu.Name,
+			Name:     menu.Name,
+			Services: []Service{},
+			SubPkgs:  make(map[string]Package),
+		}
+
+		// Construir o caminho atual para este menu
+		currentPath := menu.Name
+		if parentPath != "" {
+			currentPath = filepath.Join(parentPath, menu.Name)
+		}
+
+		fmt.Printf("📍 Caminho atual para menu '%s': %s\n", menu.Name, currentPath)
+
+		// Adicionar subpacotes para cada submenu
+		for _, submenu := range menu.Menus {
+			fmt.Printf("  🔍 Processando submenu: %s\n", submenu.Name)
+
+			if submenu.SDKPackage != "" {
+				fmt.Printf("  📦 Submenu '%s' tem SDK Package: %s\n", submenu.Name, submenu.SDKPackage)
+				// Para menus filhos, o diretório será dentro do diretório pai
+				subPkg := genCliCodeFromSDK(currentPath, submenu.SDKPackage)
+				subPkg.MenuName = submenu.Name
+				groupPkg.SubPkgs[submenu.SDKPackage] = subPkg
+			} else if len(submenu.Menus) > 0 {
+				fmt.Printf("  📁 Submenu '%s' é um agrupador com %d sub-submenus\n", submenu.Name, len(submenu.Menus))
+				// Se o submenu também tem submenus, processar recursivamente
+				// Criar um subpacote de agrupamento
+				subGroupPkg := Package{
+					MenuName: submenu.Name,
+					Name:     submenu.Name,
+					Services: []Service{},
+					SubPkgs:  make(map[string]Package),
+				}
+
+				// Processar submenus do submenu
+				for _, subSubmenu := range submenu.Menus {
+					fmt.Printf("    🔍 Processando sub-submenu: %s\n", subSubmenu.Name)
+
+					if subSubmenu.SDKPackage != "" {
+						fmt.Printf("    📦 Sub-submenu '%s' tem SDK Package: %s\n", subSubmenu.Name, subSubmenu.SDKPackage)
+						// Para sub-submenus, o diretório será dentro do diretório do submenu pai
+						subSubPkg := genCliCodeFromSDK(filepath.Join(currentPath, submenu.Name), subSubmenu.SDKPackage)
+						subSubPkg.MenuName = subSubmenu.Name
+						subGroupPkg.SubPkgs[subSubmenu.SDKPackage] = subSubPkg
+					} else if len(subSubmenu.Menus) > 0 {
+						fmt.Printf("    📁 Sub-submenu '%s' é um agrupador com %d sub-sub-submenus\n", subSubmenu.Name, len(subSubmenu.Menus))
+						// Recursão para níveis mais profundos
+						processMenuRecursive(subSubmenu, filepath.Join(currentPath, submenu.Name), sdkStructure)
+					}
+				}
+
+				groupPkg.SubPkgs[submenu.Name] = subGroupPkg
+			}
+		}
+
+		// Adicionar o pacote ao nível apropriado
+		if parentPath == "" {
+			// Menu principal - adicionar diretamente ao SDKStructure
+			fmt.Printf("✅ Adicionando menu principal '%s' ao SDKStructure\n", menu.Name)
+			sdkStructure.Packages[menu.Name] = groupPkg
+		} else {
+			// Submenu - adicionar ao pacote pai
+			// Nota: Aqui precisamos adicionar ao pacote pai correto
+			// Por enquanto, vamos adicionar diretamente ao SDKStructure com um nome único
+			packageKey := filepath.Join(parentPath, menu.Name)
+			fmt.Printf("✅ Adicionando submenu '%s' ao SDKStructure com chave: %s\n", menu.Name, packageKey)
+			sdkStructure.Packages[packageKey] = groupPkg
+		}
+	} else if menu.SDKPackage != "" {
+		fmt.Printf("📦 Menu '%s' tem SDK Package: %s\n", menu.Name, menu.SDKPackage)
+		// Se o menu não tem submenus mas tem SDKPackage, processá-lo como um pacote normal
+		pkg := genCliCodeFromSDK(parentPath, menu.SDKPackage)
+		pkg.MenuName = menu.Name
+
+		// Adicionar ao nível apropriado
+		if parentPath == "" {
+			// Menu principal
+			fmt.Printf("✅ Adicionando menu principal com SDK '%s' ao SDKStructure\n", menu.SDKPackage)
+			sdkStructure.Packages[menu.SDKPackage] = pkg
+		} else {
+			// Submenu - adicionar com nome único
+			packageKey := filepath.Join(parentPath, menu.SDKPackage)
+			fmt.Printf("✅ Adicionando submenu com SDK '%s' ao SDKStructure com chave: %s\n", menu.SDKPackage, packageKey)
+			sdkStructure.Packages[packageKey] = pkg
+		}
+	} else {
+		fmt.Printf("⚠️  Menu '%s' não tem submenus nem SDK Package (menu vazio)\n", menu.Name)
+	}
+}
+
 // Agora iremos utilizar go/ast e go/parser para analisar o código fonte do SDK e gerar o código da CLI
 // O SDK foi antereiormente clonado no diretório tmp-sdk/
-func genCliCodeFromSDK(packageName string) Package {
+// parentDir é o diretório pai (pode ser vazio para menus principais)
+// packageName é o nome do pacote SDK
+func genCliCodeFromSDK(parentDir, packageName string) Package {
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("Erro ao obter diretório atual: %v", err)
 	}
 
-	sdkDir := filepath.Join(dir, "tmp-sdk", packageName)
-
-	files, err := os.ReadDir(sdkDir)
-	if err != nil {
-		log.Fatalf("Erro ao ler diretório do SDK: %v", err)
+	// Construir o caminho do SDK baseado na hierarquia
+	var sdkDir string
+	if parentDir != "" {
+		// Se tem diretório pai, o pacote está dentro dele
+		sdkDir = filepath.Join(dir, "tmp-sdk", parentDir, packageName)
+		fmt.Printf("🔍 Procurando SDK em diretório hierárquico: %s\n", sdkDir)
+	} else {
+		// Se não tem diretório pai, é um menu principal
+		sdkDir = filepath.Join(dir, "tmp-sdk", packageName)
+		fmt.Printf("🔍 Procurando SDK em diretório principal: %s\n", sdkDir)
 	}
 
 	pkg := Package{
@@ -92,10 +204,28 @@ func genCliCodeFromSDK(packageName string) Package {
 		SubPkgs:  make(map[string]Package),
 	}
 
+	// Verificar se o diretório do SDK existe
+	if _, err := os.Stat(sdkDir); os.IsNotExist(err) {
+		// Se o diretório não existe, retornar um pacote vazio (para menus de agrupamento)
+		fmt.Printf("⚠️  Diretório do SDK não encontrado: %s (menu de agrupamento)\n", sdkDir)
+		return pkg
+	}
+
+	fmt.Printf("✅ Diretório do SDK encontrado: %s\n", sdkDir)
+
+	files, err := os.ReadDir(sdkDir)
+	if err != nil {
+		log.Fatalf("Erro ao ler diretório do SDK: %v", err)
+	}
+
+	fmt.Printf("📄 Total de arquivos no diretório: %d\n", len(files))
+
 	for _, file := range files {
 		if file.Name() == "client.go" {
+			fmt.Printf("🔧 Processando arquivo client.go em: %s\n", sdkDir)
 			services := genCliCodeFromClient(sdkDir, filepath.Join(sdkDir, file.Name()))
 			pkg.Services = services
+			fmt.Printf("✅ Processados %d serviços do pacote %s\n", len(services), packageName)
 		}
 	}
 
@@ -503,10 +633,42 @@ func PrintSDKStructure(sdk *SDKStructure) {
 	fmt.Println("=== Estrutura do SDK Encontrada ===")
 	for pkgName, pkg := range sdk.Packages {
 		fmt.Printf("\n📦 Pacote: %s\n", pkgName)
+		fmt.Printf("   Menu Name: %s\n", pkg.MenuName)
 		fmt.Printf("   Serviços encontrados: %d\n", len(pkg.Services))
+		fmt.Printf("   Subpacotes encontrados: %d\n", len(pkg.SubPkgs))
 
+		// Exibir serviços
 		for _, service := range pkg.Services {
 			printService(service, "   ")
+		}
+
+		// Exibir subpacotes
+		if len(pkg.SubPkgs) > 0 {
+			fmt.Printf("   📁 Subpacotes:\n")
+			for subPkgName, subPkg := range pkg.SubPkgs {
+				printPackage(subPkg, "      ", subPkgName)
+			}
+		}
+	}
+}
+
+// printPackage exibe um pacote e seus subpacotes de forma recursiva
+func printPackage(pkg Package, indent string, pkgName string) {
+	fmt.Printf("%s📦 Subpacote: %s\n", indent, pkgName)
+	fmt.Printf("%s   Menu Name: %s\n", indent, pkg.MenuName)
+	fmt.Printf("%s   Serviços encontrados: %d\n", indent, len(pkg.Services))
+	fmt.Printf("%s   Subpacotes encontrados: %d\n", indent, len(pkg.SubPkgs))
+
+	// Exibir serviços
+	for _, service := range pkg.Services {
+		printService(service, indent+"   ")
+	}
+
+	// Exibir subpacotes recursivamente
+	if len(pkg.SubPkgs) > 0 {
+		fmt.Printf("%s   📁 Subpacotes:\n", indent)
+		for subPkgName, subPkg := range pkg.SubPkgs {
+			printPackage(subPkg, indent+"      ", subPkgName)
 		}
 	}
 }

@@ -58,9 +58,9 @@ type PackageGroupData struct {
 	Imports []string `json:"imports"`
 
 	// Informações da função principal
-	FunctionName string `json:"function_name"`
-	ServiceParam string `json:"service_param"`
-	ServiceInit  string `json:"service_init"`
+	FunctionName string   `json:"function_name"`
+	ServiceParam string   `json:"service_param"`
+	ServiceInit  []string `json:"service_init"`
 
 	// Parâmetros da função
 	Params []string `json:"params"`
@@ -179,8 +179,8 @@ func (pgd *PackageGroupData) SetUseName(useName string) {
 }
 
 // SetServiceInit define o código para inicializar o serviço
-func (pgd *PackageGroupData) SetServiceInit(serviceInit string) {
-	pgd.ServiceInit = serviceInit
+func (pgd *PackageGroupData) AddServiceInit(serviceInit string) {
+	pgd.ServiceInit = append(pgd.ServiceInit, serviceInit)
 }
 
 // WriteToFile escreve os dados no arquivo

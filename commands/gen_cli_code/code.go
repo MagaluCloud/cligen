@@ -102,17 +102,44 @@ func genPackageCodeParallel(pkg *sdk_structure.Package, rootGenData *RootGenData
 	rootGenData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s\"", strings.ToLower(pkg.Name)))
 	mu.Unlock()
 
-	for _, service := range pkg.Services {
-		packageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
-		packageData.AddImport(importCobra)
-		packageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
-		packageData.SetServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", pkg.Name, pkg.Name))
-		packageData.AddSubCommand(service.Name, service.Name, fmt.Sprintf("%sService.%s()", pkg.Name, service.Name))
+	// Se o pacote tem subpacotes (menu de agrupamento), processar os subpacotes
+	if len(pkg.SubPkgs) > 0 {
+		for subPkgName, subPkg := range pkg.SubPkgs {
+			packageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", subPkgName, subPkgName))
+			packageData.AddImport(importCobra)
+			packageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(subPkgName)))
+			packageData.AddServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", subPkgName, subPkgName))
+			packageData.AddSubCommand(subPkgName, strutils.ToPascalCase(subPkg.MenuName), fmt.Sprintf("%sService", subPkgName))
 
-		if err := generateServiceCodeParallel(*pkg, &service, *packageData); err != nil {
-			return fmt.Errorf("erro ao gerar código do serviço %s: %v", service.Name, err)
+			// Gerar código para o subpacote
+			if err := generateSubPackageCodeParallel(pkg.Name, &subPkg, *packageData); err != nil {
+				return fmt.Errorf("erro ao gerar código do subpacote %s: %v", subPkgName, err)
+			}
+		}
+	} else if len(pkg.Services) == 0 {
+		// Se o pacote não tem serviços nem subpacotes, criar apenas o comando de agrupamento
+		packageData.AddImport(importSDK)
+		packageData.AddImport(importCobra)
+		err := packageData.WriteGroupToFile(filepath.Join(genDir, strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name)))
+		if err != nil {
+			return fmt.Errorf("erro ao escrever o arquivo %s.go para o pacote %s: %v", pkg.Name, pkg.Name, err)
+		}
+		return nil
+	} else {
+		// Processar serviços normalmente
+		for _, service := range pkg.Services {
+			packageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
+			packageData.AddImport(importCobra)
+			packageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
+			packageData.AddServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", pkg.Name, pkg.Name))
+			packageData.AddSubCommand(service.Name, service.Name, fmt.Sprintf("%sService.%s()", pkg.Name, service.Name))
+
+			if err := generateServiceCodeParallel(*pkg, &service, *packageData); err != nil {
+				return fmt.Errorf("erro ao gerar código do serviço %s: %v", service.Name, err)
+			}
 		}
 	}
+
 	packageData.AddImport(importSDK)
 	err := packageData.WriteGroupToFile(filepath.Join(genDir, strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name)))
 	if err != nil {
@@ -180,5 +207,38 @@ func generateServiceCodeParallel(parentPkg sdk_structure.Package, service *sdk_s
 			return fmt.Errorf("erro ao gerar código do subserviço %s: %v", subService.Name, err)
 		}
 	}
+	return nil
+}
+
+// generateSubPackageCodeParallel gera código para um subpacote dentro de um menu de agrupamento
+func generateSubPackageCodeParallel(parentPkgName string, subPkg *sdk_structure.Package, data PackageGroupData) error {
+	dir := filepath.Join(genDir, strings.ToLower(parentPkgName), strings.ToLower(subPkg.Name))
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return fmt.Errorf("erro ao criar diretório %s: %v", dir, err)
+	}
+
+	subPackageData := NewPackageGroupData()
+	subPackageData.SetPackageName(subPkg.Name)
+	subPackageData.SetFunctionName(strutils.ToPascalCase(subPkg.MenuName))
+	subPackageData.SetUseName(subPkg.MenuName)
+	subPackageData.SetDescriptions(defaultShortDesc, defaultLongDesc)
+	subPackageData.SetGroupID("")
+	subPackageData.SetServiceParam(fmt.Sprintf("%sService *%sSdk.Client", strutils.FirstLower(subPkg.Name), subPkg.Name))
+
+	subPackageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", subPkg.Name, subPkg.Name))
+	subPackageData.AddImport(importCobra)
+
+	for _, service := range subPkg.Services {
+		// Gerar código para o serviço diretamente no diretório do subpacote
+		if err := generateServiceCodeParallel(*subPkg, &service, *subPackageData); err != nil {
+			return fmt.Errorf("erro ao gerar código do serviço %s do subpacote %s: %v", service.Name, subPkg.Name, err)
+		}
+	}
+
+	err := subPackageData.WriteGroupToFile(filepath.Join(dir, fmt.Sprintf("%s.go", strings.ToLower(subPkg.Name))))
+	if err != nil {
+		return fmt.Errorf("erro ao escrever o arquivo %s.go para o subpacote %s: %v", subPkg.Name, subPkg.Name, err)
+	}
+
 	return nil
 }

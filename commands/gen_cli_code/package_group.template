@@ -20,8 +20,8 @@ func {{.FunctionName}}Cmd(parent *cobra.Command, {{.ServiceParam}}) {
 		{{if .GroupID}}GroupID: "{{.GroupID}}",{{end}}
 	}
 
-    {{if .ServiceInit}}
-    {{.ServiceInit}}
+    {{range .ServiceInit}}
+    {{.}}
     {{end}}
 
 	{{range .SubCommands}}
