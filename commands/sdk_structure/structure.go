@@ -186,16 +186,8 @@ func genCliCodeFromSDK(parentDir, packageName string) Package {
 	}
 
 	// Construir o caminho do SDK baseado na hierarquia
-	var sdkDir string
-	if parentDir != "" {
-		// Se tem diretório pai, o pacote está dentro dele
-		sdkDir = filepath.Join(dir, "tmp-sdk", parentDir, packageName)
-		fmt.Printf("🔍 Procurando SDK em diretório hierárquico: %s\n", sdkDir)
-	} else {
-		// Se não tem diretório pai, é um menu principal
-		sdkDir = filepath.Join(dir, "tmp-sdk", packageName)
-		fmt.Printf("🔍 Procurando SDK em diretório principal: %s\n", sdkDir)
-	}
+	sdkDir := filepath.Join(dir, "tmp-sdk", packageName)
+	fmt.Printf("🔍 Procurando SDK em diretório principal: %s\n", sdkDir)
 
 	pkg := Package{
 		MenuName: packageName,

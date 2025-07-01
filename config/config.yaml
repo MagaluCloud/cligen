@@ -13,13 +13,13 @@ menus:
           - "ssh"
         sdk_package: "sshkeys"
 
-  # - name: "virtual-machine"
-  #   alias:
-  #     - "vm"
-  #     - "virtual-machines"
-  #     - "vms"
-  #     - "compute"
-  #   sdk_package: "compute"
+  - name: "virtual-machine"
+    alias:
+      - "vm"
+      - "virtual-machines"
+      - "vms"
+      - "compute"
+    sdk_package: "compute"
 
   # - name: "kubernetes"
   #   alias:
