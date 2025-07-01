@@ -90,7 +90,7 @@ func genPackageCodeParallel(pkg *sdk_structure.Package, rootGenData *RootGenData
 	packageData := NewPackageGroupData()
 	packageData.SetPackageName(pkg.Name)
 	packageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
-	packageData.SetUseName(pkg.Name)
+	packageData.SetUseName(pkg.MenuName)
 	packageData.SetDescriptions(defaultShortDesc, defaultLongDesc)
 	packageData.SetGroupID(groupProducts)
 	packageData.SetServiceParam(serviceParamPattern)

@@ -33,6 +33,7 @@ type Method struct {
 
 // Package representa um pacote do SDK com seus serviços
 type Package struct {
+	MenuName string             `json:"menu_name"`
 	Name     string             `json:"name"`
 	Services []Service          `json:"services"`
 	SubPkgs  map[string]Package `json:"sub_packages,omitempty"` // Para suporte recursivo
@@ -62,6 +63,7 @@ func GenCliSDKStructure() (SDKStructure, error) {
 
 	for _, menu := range config.Menus {
 		pkg := genCliCodeFromSDK(menu.SDKPackage)
+		pkg.MenuName = menu.Name
 		sdkStructure.Packages[menu.SDKPackage] = pkg
 	}
 
@@ -84,6 +86,7 @@ func genCliCodeFromSDK(packageName string) Package {
 	}
 
 	pkg := Package{
+		MenuName: packageName,
 		Name:     packageName,
 		Services: []Service{},
 		SubPkgs:  make(map[string]Package),

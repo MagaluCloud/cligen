@@ -3,10 +3,18 @@ package strutils
 import "strings"
 
 func FirstLower(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
 	return strings.ToLower(s[:1]) + s[1:]
 }
 
 func FirstUpper(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
 	return strings.ToUpper(s[:1]) + s[1:]
 }
 
@@ -81,4 +89,24 @@ func singularize(word string) string {
 	}
 
 	return word
+}
+
+// ToPascalCase converte uma string com hífens para PascalCase
+// Ex: "availability-zones" -> "AvailabilityZones"
+func ToPascalCase(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
+	// Dividir por hífens
+	parts := strings.Split(s, "-")
+	var result strings.Builder
+
+	for _, part := range parts {
+		if len(part) > 0 {
+			result.WriteString(FirstUpper(part))
+		}
+	}
+
+	return result.String()
 }

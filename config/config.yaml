@@ -1,50 +1,43 @@
 menus:
+  - name: "profile"
+    submenus:
+      - name: "availability-zones"
+        alias: "azs"
+        sdk_package: "availabilityzones"
+        
+      - name: "ssh-keys"
+        alias: "ssh-keys"
+        sdk_package: "sshkeys"
+
   - name: "virtual-machine"
     alias: "vm,virtual-machines,vms,compute"
     sdk_package: "compute"
-    description: "Comandos relacionados a máquinas virtuais"
 
   - name: "kubernetes"
     alias: "k8s"
     sdk_package: "kubernetes"
-    description: "Comandos relacionados a Kubernetes"
 
   - name: "lbaas"
     alias: "load-balancer"
     sdk_package: "lbaas"
-    description: "Comandos relacionados a Load Balancer"
 
   - name: "audit"
     alias: "audits"
     sdk_package: "audit"
-    description: "Comandos relacionados a Auditoria"
 
-  - name: "availabilityzones"
-    alias: "azs"
-    sdk_package: "availabilityzones"
-    description: "Comandos relacionados a Availability Zones"
-
-  - name: "blockstorage"
+  - name: "block-storage"
     alias: "block-storage"
     sdk_package: "blockstorage"
-    description: "Comandos relacionados a Block Storage"
 
-  - name: "containerregistry"
+  - name: "container-registry"
     alias: "container-registry"
     sdk_package: "containerregistry"
-    description: "Comandos relacionados a Container Registry"
 
   - name: "dbaas"
     alias: "database"
     sdk_package: "dbaas"
-    description: "Comandos relacionados a Database as a Service"
 
   - name: "network"
     alias: "networks"
     sdk_package: "network"
-    description: "Comandos relacionados a Network"
 
-  - name: "sshkeys"
-    alias: "ssh-keys"
-    sdk_package: "sshkeys"
-    description: "Comandos relacionados a SSH Keys"

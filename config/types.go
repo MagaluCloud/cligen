@@ -7,11 +7,11 @@ type Config struct {
 
 // Menu representa um menu principal
 type Menu struct {
-	Name        string    `yaml:"name"`
-	Alias       string    `yaml:"alias"`
-	SDKPackage  string    `yaml:"sdk_package"`
-	Description string    `yaml:"description"`
-	Submenus    []Submenu `yaml:"submenus"`
+	Name         string    `yaml:"name"`
+	Alias        string    `yaml:"alias"`
+	MenuPosition string    `yaml:"menu_position"`
+	SDKPackage   string    `yaml:"sdk_package"`
+	Submenus     []Submenu `yaml:"submenus"`
 }
 
 // Submenu representa um submenu que pode ser recursivo
