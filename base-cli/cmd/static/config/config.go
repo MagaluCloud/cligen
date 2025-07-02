@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func ConfigCmd(parent *cobra.Command, sdkCoreConfig *sdk.CoreClient) {
+func ConfigCmd(parent *cobra.Command, sdkCoreConfig sdk.CoreClient) {
 	cmd := &cobra.Command{
 		Use:     "config",
 		Short:   "Configuração do CLI",

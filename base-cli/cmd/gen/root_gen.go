@@ -7,6 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func RootGen(ctx context.Context, parent *cobra.Command, sdkCoreConfig *sdk.CoreClient) {
+func RootGen(ctx context.Context, parent *cobra.Command, sdkCoreConfig sdk.CoreClient) {
 	// JUST KEEP THIS FILE AS IT IS
 }

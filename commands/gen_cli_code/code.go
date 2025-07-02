@@ -28,7 +28,7 @@ const (
 	importSDK   = "sdk \"github.com/MagaluCloud/mgc-sdk-go/client\""
 
 	// Padrões de parâmetros de serviço
-	serviceParamPattern = "sdkCoreConfig *sdk.CoreClient"
+	serviceParamPattern = "sdkCoreConfig sdk.CoreClient"
 )
 
 func GenCliCode() {
@@ -72,7 +72,7 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 	mainPackageData.AddImport(importSDK)
 	mainPackageData.SetGroupID(groupProducts)
 	if len(pkg.Services) > 0 {
-		mainPackageData.AddServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", pkg.Name, pkg.Name))
+		mainPackageData.AddServiceInit(fmt.Sprintf("%sService := %sSdk.New(&sdkCoreConfig)", pkg.Name, pkg.Name))
 		for _, service := range pkg.Services {
 			mainPackageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
 			mainPackageData.AddImport(importCobra)

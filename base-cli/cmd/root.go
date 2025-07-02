@@ -3,6 +3,8 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
 
 	"mgccli/cmd/gen"
 	"mgccli/cmd/static"
@@ -13,7 +15,11 @@ import (
 )
 
 func RootCmd() *cobra.Command {
-	sdkCoreConfig := sdk.NewMgcClient("API_KEY_EXAMPLE",
+	apiKey := os.Getenv("MGC_API_KEY")
+	if apiKey == "" {
+		log.Fatal("Env MGC_API_KEY is required!")
+	}
+	sdkCoreConfig := sdk.NewMgcClient(apiKey,
 		sdk.WithUserAgent(fmt.Sprintf("MgcCLI2/%s (%s; %s)", "0.5.0", runtime.GOOS, runtime.GOARCH)),
 	)
 
@@ -46,8 +52,8 @@ func RootCmd() *cobra.Command {
 
 	ctx := context.Background()
 
-	static.RootStatic(rootCmd, sdkCoreConfig)
-	gen.RootGen(ctx, rootCmd, sdkCoreConfig)
+	static.RootStatic(rootCmd, *sdkCoreConfig)
+	gen.RootGen(ctx, rootCmd, *sdkCoreConfig)
 
 	return rootCmd
 }

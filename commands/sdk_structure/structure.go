@@ -24,12 +24,12 @@ type Service struct {
 }
 
 type Parameter struct {
-	Position    int         `json:"position"`
-	Name        string      `json:"name"`
-	Type        string      `json:"type"`
-	Description string      `json:"description"`
-	IsPrimitive bool        `json:"is_primitive"`
-	Struct      []Parameter `json:"struct"`
+	Position    int                  `json:"position"`
+	Name        string               `json:"name"`
+	Type        string               `json:"type"`
+	Description string               `json:"description"`
+	IsPrimitive bool                 `json:"is_primitive"`
+	Struct      map[string]Parameter `json:"struct,omitempty"`
 }
 
 // Method representa um método de um serviço
@@ -418,7 +418,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									params := make([]Parameter, 0)
 									if funcType.Params != nil {
 										for i, param := range funcType.Params.List {
-											paramType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
+											paramType, isPrimitive, structFields := analyzeParameterType(param.Type, packageName, filepath.Dir(filePath))
 											// Se o parâmetro tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(param.Names) > 0 {
 												for _, name := range param.Names {
@@ -428,6 +428,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 														Type:        paramType,
 														IsPrimitive: isPrimitive,
 														Description: param.Comment.Text(),
+														Struct:      structFields,
 													})
 												}
 											} else {
@@ -439,6 +440,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 													Type:        paramType,
 													IsPrimitive: isPrimitive,
 													Description: param.Comment.Text(),
+													Struct:      structFields,
 												})
 											}
 										}
@@ -448,7 +450,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									returns := make([]Parameter, 0)
 									if funcType.Results != nil {
 										for i, result := range funcType.Results.List {
-											returnType, isPrimitive := getTypeStringWithPackage(result.Type, packageName)
+											returnType, isPrimitive, structFields := analyzeParameterType(result.Type, packageName, filepath.Dir(filePath))
 											// Se o retorno tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(result.Names) > 0 {
 												for _, name := range result.Names {
@@ -458,6 +460,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 														Type:        returnType,
 														IsPrimitive: isPrimitive,
 														Description: result.Comment.Text(),
+														Struct:      structFields,
 													})
 												}
 											} else {
@@ -469,6 +472,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 													Type:        returnType,
 													IsPrimitive: isPrimitive,
 													Description: result.Comment.Text(),
+													Struct:      structFields,
 												})
 											}
 										}
@@ -561,6 +565,31 @@ func getTypeStringWithPackage(expr ast.Expr, packageName string) (string, bool) 
 		}
 		// Caso contrário, adicionar o packageName
 		return "[]" + packageName + "." + elementType, isPrimitive
+	case *ast.MapType:
+		// Para maps, analisar chave e valor
+		keyType, keyPrimitive := getTypeStringWithPackage(t.Key, packageName)
+		valueType, valuePrimitive := getTypeStringWithPackage(t.Value, packageName)
+		// Map é considerado primitivo se ambos chave e valor são primitivos
+		isPrimitive := keyPrimitive && valuePrimitive
+		return fmt.Sprintf("map[%s]%s", keyType, valueType), isPrimitive
+	case *ast.ChanType:
+		// Para channels, analisar o tipo do elemento
+		elementType, elementPrimitive := getTypeStringWithPackage(t.Value, packageName)
+		// Channel é considerado primitivo se o elemento é primitivo
+		var chanType string
+		switch t.Dir {
+		case ast.SEND:
+			chanType = "chan<-"
+		case ast.RECV:
+			chanType = "<-chan"
+		default:
+			chanType = "chan"
+		}
+		return chanType + " " + elementType, elementPrimitive
+	case *ast.FuncType:
+		// Para function types, gerar uma representação simplificada
+		// Function types são considerados não primitivos
+		return "func()", false
 	case *ast.SelectorExpr:
 		// SelectorExpr já tem o pacote qualificado (ex: context.Context)
 		elementType, isPrimitive := getTypeString(t.X)
@@ -764,11 +793,11 @@ func printService(service Service, indent string) {
 
 		// Exibir parâmetros
 		paramCount := 0
-		for paramName, paramType := range method.Parameters {
+		for _, param := range method.Parameters {
 			if paramCount > 0 {
 				fmt.Print(", ")
 			}
-			fmt.Printf("%s %s", paramName, paramType)
+			fmt.Printf("%s %s", param.Name, param.Type)
 			paramCount++
 		}
 		fmt.Print(")")
@@ -777,15 +806,31 @@ func printService(service Service, indent string) {
 		if len(method.Returns) > 0 {
 			fmt.Print(" -> ")
 			returnCount := 0
-			for retName, retType := range method.Returns {
+			for _, ret := range method.Returns {
 				if returnCount > 0 {
 					fmt.Print(", ")
 				}
-				fmt.Printf("%s %s", retName, retType)
+				fmt.Printf("%s %s", ret.Name, ret.Type)
 				returnCount++
 			}
 		}
 		fmt.Println()
+
+		// Exibir detalhes dos parâmetros com structs
+		if len(method.Parameters) > 0 {
+			fmt.Printf("%s     📋 Parâmetros detalhados:\n", indent)
+			for _, param := range method.Parameters {
+				printParameterDetails(param, indent+"       ")
+			}
+		}
+
+		// Exibir detalhes dos retornos com structs
+		if len(method.Returns) > 0 {
+			fmt.Printf("%s     📤 Retornos detalhados:\n", indent)
+			for _, ret := range method.Returns {
+				printParameterDetails(ret, indent+"       ")
+			}
+		}
 	}
 
 	// Exibir subserviços
@@ -796,4 +841,271 @@ func printService(service Service, indent string) {
 			printService(subService, indent+"      ")
 		}
 	}
+}
+
+// printParameterDetails exibe detalhes de um parâmetro, incluindo campos de struct
+func printParameterDetails(param Parameter, indent string) {
+	fmt.Printf("%s- %s (%s)", indent, param.Name, param.Type)
+	if param.Description != "" {
+		fmt.Printf(" - %s", param.Description)
+	}
+	fmt.Println()
+
+	// Se tem campos de struct, exibir recursivamente
+	if param.Struct != nil && len(param.Struct) > 0 {
+		fmt.Printf("%s  📋 Campos da struct:\n", indent)
+		for fieldName, field := range param.Struct {
+			fmt.Printf("%s    - %s (%s)", indent, fieldName, field.Type)
+			if field.Description != "" {
+				fmt.Printf(" - %s", field.Description)
+			}
+			fmt.Println()
+
+			// Recursão para campos aninhados
+			if field.Struct != nil && len(field.Struct) > 0 {
+				printStructFields(field.Struct, indent+"      ")
+			}
+		}
+	}
+}
+
+// printStructFields exibe campos de uma struct de forma recursiva
+func printStructFields(fields map[string]Parameter, indent string) {
+	for fieldName, field := range fields {
+		fmt.Printf("%s- %s (%s)", indent, fieldName, field.Type)
+		if field.Description != "" {
+			fmt.Printf(" - %s", field.Description)
+		}
+		fmt.Println()
+
+		// Recursão para campos aninhados
+		if field.Struct != nil && len(field.Struct) > 0 {
+			printStructFields(field.Struct, indent+"  ")
+		}
+	}
+}
+
+// analyzeParameterType analisa um tipo de parâmetro e retorna informações detalhadas incluindo campos de struct
+func analyzeParameterType(expr ast.Expr, packageName string, sdkDir string) (string, bool, map[string]Parameter) {
+	// Verificar se é uma struct inline (anônima)
+	if structType, ok := expr.(*ast.StructType); ok {
+		fmt.Printf("   🔍 Struct inline detectada\n")
+		structFields := extractStructFields(structType, packageName, sdkDir)
+		return "struct{}", false, structFields
+	}
+
+	// Verificar se é uma interface inline (anônima)
+	if _, ok := expr.(*ast.InterfaceType); ok {
+		fmt.Printf("   🔍 Interface inline detectada\n")
+		// Para interfaces, podemos extrair métodos se necessário
+		// Por enquanto, retornamos como interface{}
+		return "interface{}", true, nil
+	}
+
+	paramType, isPrimitive := getTypeStringWithPackage(expr, packageName)
+
+	// Se é primitivo, não precisa analisar struct
+	if isPrimitive {
+		return paramType, isPrimitive, nil
+	}
+
+	// Verificar se é um tipo próprio que pode ser uma struct
+	structFields := analyzeStructType(expr, packageName, sdkDir)
+
+	return paramType, isPrimitive, structFields
+}
+
+// analyzeStructType analisa um tipo para verificar se é uma struct e extrai seus campos
+func analyzeStructType(expr ast.Expr, packageName string, sdkDir string) map[string]Parameter {
+	// Extrair o nome do tipo base
+	typeName := extractTypeName(expr, packageName)
+	if typeName == "" {
+		return nil
+	}
+
+	// Procurar pela definição da struct no diretório do SDK
+	structFields := findStructDefinition(typeName, sdkDir, packageName)
+	if structFields != nil {
+		fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
+	}
+
+	return structFields
+}
+
+// extractTypeName extrai o nome do tipo de um ast.Expr
+func extractTypeName(expr ast.Expr, packageName string) string {
+	switch t := expr.(type) {
+	case *ast.Ident:
+		return t.Name
+	case *ast.StarExpr:
+		return extractTypeName(t.X, packageName)
+	case *ast.ArrayType:
+		return extractTypeName(t.Elt, packageName)
+	case *ast.SelectorExpr:
+		// Para tipos de outros pacotes, retornar apenas o nome do tipo
+		return t.Sel.Name
+	default:
+		return ""
+	}
+}
+
+// findStructDefinition procura pela definição de uma struct no diretório do SDK
+func findStructDefinition(typeName string, sdkDir string, packageName string) map[string]Parameter {
+	// Remover o prefixo do pacote se presente
+	cleanTypeName := typeName
+	if strings.Contains(typeName, ".") {
+		parts := strings.Split(typeName, ".")
+		cleanTypeName = parts[len(parts)-1]
+	}
+
+	// Procurar em todos os arquivos .go do diretório
+	files, err := os.ReadDir(sdkDir)
+	if err != nil {
+		return nil
+	}
+
+	for _, file := range files {
+		if file.IsDir() || !strings.HasSuffix(file.Name(), ".go") {
+			continue
+		}
+
+		filePath := filepath.Join(sdkDir, file.Name())
+		structFields := analyzeFileForStruct(filePath, cleanTypeName, packageName)
+		if structFields != nil {
+			return structFields
+		}
+	}
+
+	return nil
+}
+
+// analyzeFileForStruct analisa um arquivo procurando por uma definição de struct específica
+func analyzeFileForStruct(filePath string, typeName string, packageName string) map[string]Parameter {
+	fset := token.NewFileSet()
+	file, err := parser.ParseFile(fset, filePath, nil, parser.ParseComments)
+	if err != nil {
+		return nil
+	}
+
+	var structFields map[string]Parameter
+
+	ast.Inspect(file, func(n ast.Node) bool {
+		if typeDecl, ok := n.(*ast.TypeSpec); ok {
+			if structType, ok := typeDecl.Type.(*ast.StructType); ok {
+				// Verificar se é a struct que estamos procurando
+				if typeDecl.Name.Name == typeName {
+					fmt.Printf("   ✅ Struct encontrada: %s\n", typeName)
+					structFields = extractStructFields(structType, packageName, filepath.Dir(filePath))
+					return false // Parar a busca
+				}
+			}
+		}
+		return true
+	})
+
+	return structFields
+}
+
+// extractStructFields extrai os campos de uma struct
+func extractStructFields(structType *ast.StructType, packageName string, sdkDir string) map[string]Parameter {
+	fields := make(map[string]Parameter)
+
+	if structType.Fields == nil {
+		return fields
+	}
+
+	for i, field := range structType.Fields.List {
+		// Extrair comentários do campo
+		var description string
+		if field.Doc != nil {
+			description = field.Doc.Text()
+		} else if field.Comment != nil {
+			description = field.Comment.Text()
+		}
+
+		// Extrair tipo do campo
+		fieldType, isPrimitive, structFields := analyzeParameterType(field.Type, packageName, sdkDir)
+
+		// Se o campo tem nome, usar o nome, senão gerar um nome baseado no tipo
+		if len(field.Names) > 0 {
+			for _, name := range field.Names {
+				// Verificar se há tags JSON
+				var jsonName string
+				if field.Tag != nil {
+					jsonName = extractJSONTag(field.Tag.Value)
+				}
+				if jsonName == "" {
+					jsonName = name.Name
+				}
+
+				fields[jsonName] = Parameter{
+					Position:    i,
+					Name:        name.Name,
+					Type:        fieldType,
+					Description: description,
+					IsPrimitive: isPrimitive,
+					Struct:      structFields,
+				}
+			}
+		} else {
+			// Campo anônimo (embedded struct)
+			fieldName := generateFieldName(fieldType, i)
+			fields[fieldName] = Parameter{
+				Position:    i,
+				Name:        fieldName,
+				Type:        fieldType,
+				Description: description,
+				IsPrimitive: isPrimitive,
+				Struct:      structFields,
+			}
+		}
+	}
+
+	return fields
+}
+
+// extractJSONTag extrai o nome do campo da tag JSON
+func extractJSONTag(tagValue string) string {
+	// Remover aspas
+	tagValue = strings.Trim(tagValue, "`\"")
+
+	// Procurar pela tag json
+	if strings.Contains(tagValue, "json:") {
+		parts := strings.Split(tagValue, " ")
+		for _, part := range parts {
+			if strings.HasPrefix(part, "json:") {
+				jsonValue := strings.TrimPrefix(part, "json:")
+				jsonValue = strings.Trim(jsonValue, "\"")
+
+				// Se há vírgula, pegar apenas a primeira parte (nome do campo)
+				if strings.Contains(jsonValue, ",") {
+					jsonValue = strings.Split(jsonValue, ",")[0]
+				}
+
+				// Se o valor é "-", ignorar o campo
+				if jsonValue == "-" {
+					return ""
+				}
+
+				return jsonValue
+			}
+		}
+	}
+
+	return ""
+}
+
+// generateFieldName gera um nome para um campo anônimo baseado no tipo
+func generateFieldName(fieldType string, index int) string {
+	// Remover ponteiros e arrays para gerar nome base
+	baseType := strings.TrimPrefix(fieldType, "*")
+	baseType = strings.TrimPrefix(baseType, "[]")
+
+	// Se contém ponto (pacote.tipo), extrair apenas o nome do tipo
+	if strings.Contains(baseType, ".") {
+		parts := strings.Split(baseType, ".")
+		baseType = parts[len(parts)-1]
+	}
+
+	return strings.ToLower(baseType)
 }

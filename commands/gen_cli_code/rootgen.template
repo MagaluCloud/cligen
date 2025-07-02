@@ -13,7 +13,7 @@ import (
 {{end}}
 )
 
-func RootGen(ctx context.Context, parent *cobra.Command, sdkCoreConfig *sdk.CoreClient) {
+func RootGen(ctx context.Context, parent *cobra.Command, sdkCoreConfig sdk.CoreClient) {
 {{range .SubCommands}}
 	{{.Package}}.{{.Command}}(ctx, parent, sdkCoreConfig)
 {{end}}
