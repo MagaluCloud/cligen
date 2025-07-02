@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	strutils "cligen/str_utils"
 )
 
 //go:embed package_group.template
@@ -58,9 +60,9 @@ type PackageGroupData struct {
 	Imports []string `json:"imports"`
 
 	// Informações da função principal
-	FunctionName string `json:"function_name"`
-	ServiceParam string `json:"service_param"`
-	ServiceInit  string `json:"service_init"`
+	FunctionName string   `json:"function_name"`
+	ServiceParam string   `json:"service_param"`
+	ServiceInit  []string `json:"service_init"`
 
 	// Parâmetros da função
 	Params []string `json:"params"`
@@ -175,12 +177,12 @@ func (pgd *PackageGroupData) SetPackageName(packageName string) {
 
 // SetUseName define o nome de uso do comando
 func (pgd *PackageGroupData) SetUseName(useName string) {
-	pgd.UseName = strings.ToLower(useName)
+	pgd.UseName = strings.ToLower(strutils.ToSnakeCase(useName, "-"))
 }
 
 // SetServiceInit define o código para inicializar o serviço
-func (pgd *PackageGroupData) SetServiceInit(serviceInit string) {
-	pgd.ServiceInit = serviceInit
+func (pgd *PackageGroupData) AddServiceInit(serviceInit string) {
+	pgd.ServiceInit = append(pgd.ServiceInit, serviceInit)
 }
 
 // WriteToFile escreve os dados no arquivo
@@ -202,10 +204,6 @@ func (pgd *PackageGroupData) WriteGroupToFile(filePath string) error {
 
 // WriteToFile escreve os dados no arquivo
 func (pgd *PackageGroupData) WriteServiceToFile(filePath string) error {
-	if pgd.GenerateGroup {
-		return nil
-	}
-
 	buf := bytes.NewBuffer(nil)
 	err := serviceGroupTmpl.Execute(buf, pgd)
 	if err != nil {
@@ -213,16 +211,11 @@ func (pgd *PackageGroupData) WriteServiceToFile(filePath string) error {
 	}
 
 	os.MkdirAll(filepath.Dir(filePath), 0755)
-	pgd.GenerateGroup = true
 	return os.WriteFile(filePath, buf.Bytes(), 0644)
 }
 
 // WriteToFile escreve os dados no arquivo
 func (pgd *PackageGroupData) WriteProductToFile(filePath string) error {
-	if pgd.GenerateGroup {
-		return nil
-	}
-
 	buf := bytes.NewBuffer(nil)
 	err := productTmpl.Execute(buf, pgd)
 	if err != nil {
@@ -230,7 +223,6 @@ func (pgd *PackageGroupData) WriteProductToFile(filePath string) error {
 	}
 
 	os.MkdirAll(filepath.Dir(filePath), 0755)
-	pgd.GenerateGroup = true
 	return os.WriteFile(filePath, buf.Bytes(), 0644)
 }
 

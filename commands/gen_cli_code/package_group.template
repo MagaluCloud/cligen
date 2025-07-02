@@ -7,12 +7,14 @@
 package {{.PackageName}}
 
 import (
+	"context"
+
 	{{range .Imports}}
 	{{.}}
 	{{end}}
 )
 
-func {{.FunctionName}}Cmd(parent *cobra.Command, {{.ServiceParam}}) {
+func {{.FunctionName}}Cmd(ctx context.Context, parent *cobra.Command, {{.ServiceParam}}) {
 	cmd := &cobra.Command{
 		Use:     "{{.UseName}}",
 		Short:   "{{.ShortDescription}}",
@@ -20,12 +22,12 @@ func {{.FunctionName}}Cmd(parent *cobra.Command, {{.ServiceParam}}) {
 		{{if .GroupID}}GroupID: "{{.GroupID}}",{{end}}
 	}
 
-    {{if .ServiceInit}}
-    {{.ServiceInit}}
+    {{range .ServiceInit}}
+    {{.}}
     {{end}}
 
 	{{range .SubCommands}}
-	{{.PackageName}}.{{.FunctionName}}Cmd(cmd, {{.ServiceCall}})
+	{{.PackageName}}.{{.FunctionName}}Cmd(ctx, cmd, {{.ServiceCall}})
 	{{end}}
 
 	parent.AddCommand(cmd)

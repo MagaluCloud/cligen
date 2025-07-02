@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 
 	"mgccli/cmd/gen"
@@ -43,8 +44,10 @@ func RootCmd() *cobra.Command {
 	addNoConfirmationFlag(rootCmd)
 	addRawOutputFlag(rootCmd)
 
+	ctx := context.Background()
+
 	static.RootStatic(rootCmd, sdkCoreConfig)
-	gen.RootGen(rootCmd, sdkCoreConfig)
+	gen.RootGen(ctx, rootCmd, sdkCoreConfig)
 
 	return rootCmd
 }

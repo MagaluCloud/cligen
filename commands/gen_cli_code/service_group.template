@@ -7,12 +7,14 @@
 package {{.PackageName}}
 
 import (
+	"context"
+
 	{{range .Imports}}
 	{{.}}
 	{{end}}
 )
 
-func {{.FunctionName}}Cmd(parent *cobra.Command, {{.ServiceParam}}) {
+func {{.FunctionName}}Cmd(ctx context.Context, parent *cobra.Command, {{.ServiceParam}}) {
 	cmd := &cobra.Command{
 		Use:     "{{.UseName}}",
 		Short:   "{{.ShortDescription}}",
@@ -21,7 +23,7 @@ func {{.FunctionName}}Cmd(parent *cobra.Command, {{.ServiceParam}}) {
 	}
 
 	{{range .Commands}}
-	{{.FunctionName}}(cmd, {{.ServiceCall}})
+	{{.FunctionName}}(ctx, cmd, {{.ServiceCall}})
 	{{end}}
 
 	parent.AddCommand(cmd)

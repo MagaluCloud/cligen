@@ -1,50 +1,59 @@
 menus:
+  - name: "profile"
+    menus:
+      - name: "availability-zones"
+        alias:
+          - "azs"
+          - "az"
+        sdk_package: "availabilityzones"
+        
+      - name: "ssh-keys"
+        alias:
+          - "ssh-keys"
+          - "ssh"
+        sdk_package: "sshkeys"
+
   - name: "virtual-machine"
-    alias: "vm,virtual-machines,vms,compute"
+    alias:
+      - "vm"
+      - "virtual-machines"
+      - "vms"
+      - "compute"
     sdk_package: "compute"
-    description: "Comandos relacionados a máquinas virtuais"
 
-  - name: "kubernetes"
-    alias: "k8s"
-    sdk_package: "kubernetes"
-    description: "Comandos relacionados a Kubernetes"
+  # - name: "kubernetes"
+  #   alias:
+  #     - "k8s"
+  #   sdk_package: "kubernetes"
 
-  - name: "lbaas"
-    alias: "load-balancer"
-    sdk_package: "lbaas"
-    description: "Comandos relacionados a Load Balancer"
+  # - name: "lbaas"
+  #   alias:
+  #     - "load-balancer"
+  #   sdk_package: "lbaas"
 
-  - name: "audit"
-    alias: "audits"
-    sdk_package: "audit"
-    description: "Comandos relacionados a Auditoria"
+  # - name: "audit"
+  #   sdk_package: "audit"
 
-  - name: "availabilityzones"
-    alias: "azs"
-    sdk_package: "availabilityzones"
-    description: "Comandos relacionados a Availability Zones"
+  # - name: "block-storage"
+  #   alias:
+  #     - "bs"
+  #   sdk_package: "blockstorage"
 
-  - name: "blockstorage"
-    alias: "block-storage"
-    sdk_package: "blockstorage"
-    description: "Comandos relacionados a Block Storage"
+  # - name: "container-registry"
+  #   alias:
+  #     - "cr"
+  #   sdk_package: "containerregistry"
 
-  - name: "containerregistry"
-    alias: "container-registry"
-    sdk_package: "containerregistry"
-    description: "Comandos relacionados a Container Registry"
+  # - name: "dbaas"
+  #   alias:
+  #     - "db"
+  #     - "database"
+  #   sdk_package: "dbaas"
 
-  - name: "dbaas"
-    alias: "database"
-    sdk_package: "dbaas"
-    description: "Comandos relacionados a Database as a Service"
+  # - name: "network"
+  #   alias:
+  #     - "networks"
+  #     - "net"
+  #     - "vpc"
+  #   sdk_package: "network"
 
-  - name: "network"
-    alias: "networks"
-    sdk_package: "network"
-    description: "Comandos relacionados a Network"
-
-  - name: "sshkeys"
-    alias: "ssh-keys"
-    sdk_package: "sshkeys"
-    description: "Comandos relacionados a SSH Keys"

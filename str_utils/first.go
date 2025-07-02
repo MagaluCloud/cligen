@@ -3,16 +3,24 @@ package strutils
 import "strings"
 
 func FirstLower(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
 	return strings.ToLower(s[:1]) + s[1:]
 }
 
 func FirstUpper(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
 	return strings.ToUpper(s[:1]) + s[1:]
 }
 
 // input: "VirtualMachine"
 // output: "virtual_machine"
-func ToSnakeCase(s string) string {
+func ToSnakeCase(s string, char string) string {
 	if len(s) == 0 {
 		return s
 	}
@@ -22,7 +30,11 @@ func ToSnakeCase(s string) string {
 
 	for i := 1; i < len(s); i++ {
 		if s[i] >= 'A' && s[i] <= 'Z' {
-			result.WriteByte('_')
+			if char != "" {
+				result.WriteByte(char[0])
+			} else {
+				result.WriteByte('_')
+			}
 		}
 		result.WriteByte(s[i])
 	}
@@ -38,7 +50,7 @@ func RemovePlural(s string) string {
 	}
 
 	// Converter para snake_case para separar as palavras
-	snake := ToSnakeCase(s)
+	snake := ToSnakeCase(s, "")
 	words := strings.Split(snake, "_")
 
 	// Processar cada palavra para remover plurais
@@ -81,4 +93,24 @@ func singularize(word string) string {
 	}
 
 	return word
+}
+
+// ToPascalCase converte uma string com hífens para PascalCase
+// Ex: "availability-zones" -> "AvailabilityZones"
+func ToPascalCase(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
+	// Dividir por hífens
+	parts := strings.Split(s, "-")
+	var result strings.Builder
+
+	for _, part := range parts {
+		if len(part) > 0 {
+			result.WriteString(FirstUpper(part))
+		}
+	}
+
+	return result.String()
 }
