@@ -31,9 +31,12 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 				productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))
 
 				var params []string
-				for key, param := range method.Parameters {
-					productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", key, param))
-					params = append(params, key)
+				for i, param := range method.Parameters {
+					if i != param.Position {
+						fmt.Printf("   ❌ Parâmetro %s não está na posição %d\n", param.Name, param.Position)
+					}
+					productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, param.Type))
+					params = append(params, param.Name)
 				}
 				productData.SetServiceSDKParam(strings.Join(params, ", "))
 

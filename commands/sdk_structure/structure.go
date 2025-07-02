@@ -23,12 +23,19 @@ type Service struct {
 	SubServices map[string]Service `json:"sub_services,omitempty"` // Para subserviços aninhados
 }
 
+type Parameter struct {
+	Position    int    `json:"position"`
+	Name        string `json:"name"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
+}
+
 // Method representa um método de um serviço
 type Method struct {
-	Name       string            `json:"name"`
-	Parameters map[string]string `json:"parameters"` // nome -> tipo
-	Returns    map[string]string `json:"returns"`    // nome -> tipo
-	Comments   string            `json:"comments"`
+	Name       string      `json:"name"`
+	Parameters []Parameter `json:"parameters"` // nome -> tipo
+	Returns    []Parameter `json:"returns"`    // nome -> tipo
+	Comments   string      `json:"comments"`
 }
 
 // Package representa um pacote do SDK com seus serviços
@@ -406,37 +413,57 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									}
 
 									// Extrair parâmetros
-									params := make(map[string]string)
+									params := make([]Parameter, 0)
 									if funcType.Params != nil {
 										for i, param := range funcType.Params.List {
 											paramType := getTypeStringWithPackage(param.Type, packageName)
 											// Se o parâmetro tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(param.Names) > 0 {
 												for _, name := range param.Names {
-													params[name.Name] = paramType
+													params = append(params, Parameter{
+														Position:    i,
+														Name:        name.Name,
+														Type:        paramType,
+														Description: param.Comment.Text(),
+													})
 												}
 											} else {
 												// Parâmetro sem nome - gerar nome baseado no tipo
 												paramName := generateParamName(paramType, i)
-												params[paramName] = paramType
+												params = append(params, Parameter{
+													Position:    i,
+													Name:        paramName,
+													Type:        paramType,
+													Description: param.Comment.Text(),
+												})
 											}
 										}
 									}
 
 									// Extrair retornos
-									returns := make(map[string]string)
+									returns := make([]Parameter, 0)
 									if funcType.Results != nil {
 										for i, result := range funcType.Results.List {
 											returnType := getTypeStringWithPackage(result.Type, packageName)
 											// Se o retorno tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(result.Names) > 0 {
 												for _, name := range result.Names {
-													returns[name.Name] = returnType
+													returns = append(returns, Parameter{
+														Position:    i,
+														Name:        name.Name,
+														Type:        returnType,
+														Description: result.Comment.Text(),
+													})
 												}
 											} else {
 												// Retorno sem nome - gerar nome baseado no tipo
 												returnName := generateReturnName(returnType, i)
-												returns[returnName] = returnType
+												returns = append(returns, Parameter{
+													Position:    i,
+													Name:        returnName,
+													Type:        returnType,
+													Description: result.Comment.Text(),
+												})
 											}
 										}
 									}
@@ -453,9 +480,9 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									// Verificar se este método retorna um subserviço
 									if len(returns) == 1 {
 										for _, returnType := range returns {
-											if isSubServiceType(returnType) {
-												fmt.Printf("   🔍 Detectado possível subserviço: %s -> %s\n", methodName, returnType)
-												subServiceName := extractSubServiceName(returnType, methodName)
+											if isSubServiceType(returnType.Type) {
+												fmt.Printf("   🔍 Detectado possível subserviço: %s -> %s\n", methodName, returnType.Type)
+												subServiceName := extractSubServiceName(returnType.Type, methodName)
 												if subServiceName != "" {
 													// Analisar o subserviço recursivamente
 													subService := analyzeService(filepath.Dir(filePath), filePath, subServiceName)

@@ -70,11 +70,8 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 	mainPackageData.SetDescriptions(defaultShortDesc, defaultLongDesc)
 	mainPackageData.SetServiceParam(serviceParamPattern)
 	mainPackageData.AddImport(importSDK)
-
+	mainPackageData.SetGroupID(groupProducts)
 	if len(pkg.Services) > 0 {
-		if parentPkg == nil {
-			mainPackageData.SetGroupID(groupProducts)
-		}
 		mainPackageData.AddServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", pkg.Name, pkg.Name))
 		for _, service := range pkg.Services {
 			mainPackageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
