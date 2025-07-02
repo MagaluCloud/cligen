@@ -42,6 +42,7 @@ func GenCliCode() {
 
 	generateRootCode(&sdkStructure)
 	genPackageCode(&sdkStructure)
+	genServiceCode(&sdkStructure)
 }
 
 func cleanDir(dir string) {
@@ -109,38 +110,70 @@ func genPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	}
 	dir := genDir
 	if parentPkg != nil {
-		dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name))
+		dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name))
 	} else {
-		dir = filepath.Join(dir, strings.ToLower(pkg.Name))
+		dir = filepath.Join(dir, strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name))
 	}
-	err := packageData.WriteGroupToFile(filepath.Join(dir, fmt.Sprintf("%s.go", pkg.Name)))
+	err := packageData.WriteGroupToFile(dir)
 	if err != nil {
 		return fmt.Errorf("erro ao escrever o arquivo %s.go para o pacote %s: %v", pkg.Name, pkg.Name, err)
 	}
 	return nil
 }
 
-func genServiceCode(service *sdk_structure.Service, parentPkg *sdk_structure.Package) error {
-	serviceData := NewPackageGroupData()
-	serviceData.SetPackageName(service.Name)
-	serviceData.SetFunctionName(service.Name)
-	serviceData.SetUseName(service.Name)
-	serviceData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", parentPkg.Name, parentPkg.Name))
-	serviceData.AddImport(importCobra)
-	serviceData.SetDescriptions(defaultShortDesc, defaultLongDesc)
-	serviceData.SetGroupID("")
-	serviceData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), parentPkg.Name, service.Interface))
+func genServiceCode(sdkStructure *sdk_structure.SDKStructure) error {
+	for _, pkg := range sdkStructure.Packages {
+		genServiceCodeRecursive(&pkg, nil)
+	}
+	return nil
+}
 
-	for _, method := range service.Methods {
-		serviceData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
-		serviceData.AddParam("context.Background()")
-		for key, param := range method.Parameters {
-			if key == "ctx" {
-				serviceData.AddParam("context.Background()")
-			} else {
-				serviceData.AddParam(fmt.Sprintf("%s.%s{}", parentPkg.Name, param))
-			}
-		}
+// func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
+// 	serviceData := NewPackageGroupData()
+// 	serviceData.SetPackageName(service.Name)
+// 	serviceData.SetFunctionName(service.Name)
+// 	serviceData.SetUseName(service.Name)
+// 	serviceData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
+// 	serviceData.AddImport(importCobra)
+// 	serviceData.SetDescriptions(defaultShortDesc, defaultLongDesc)
+// 	serviceData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
+
+// }
+
+func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
+	if len(pkg.Services) == 0 {
+		return nil
+	}
+	if len(pkg.SubPkgs) > 0 {
+		return nil
+	}
+	serviceData := NewPackageGroupData()
+	serviceData.SetPackageName(pkg.Name)
+	serviceData.SetFunctionName(pkg.Name)
+	serviceData.SetUseName(pkg.Name)
+	serviceData.AddImport(importCobra)
+	serviceData.AddImport(importSDK)
+	serviceData.SetDescriptions(defaultShortDesc, defaultLongDesc)
+	serviceData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
+	serviceData.SetServiceParam("sdkCoreConfig *sdk.CoreClient")
+
+	serviceData.AddServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", pkg.Name, pkg.Name))
+
+	for _, service := range pkg.Services {
+
+		serviceData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
+		serviceData.AddSubCommand(service.Name, service.Name, fmt.Sprintf("%sService.%s()", pkg.Name, service.Name))
+	}
+	dir := genDir
+	if parentPkg != nil {
+		dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name))
+	} else {
+		dir = filepath.Join(dir, strings.ToLower(pkg.Name), fmt.Sprintf("%s.go", pkg.Name))
+	}
+
+	err := serviceData.WriteGroupToFile(dir)
+	if err != nil {
+		return fmt.Errorf("erro ao escrever o arquivo %s.go para o serviço %s do pacote %s: %v", pkg.Name, pkg.Name, pkg.Name, err)
 	}
 
 	return nil

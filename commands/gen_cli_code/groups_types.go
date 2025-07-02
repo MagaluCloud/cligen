@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	strutils "cligen/str_utils"
 )
 
 //go:embed package_group.template
@@ -175,7 +177,7 @@ func (pgd *PackageGroupData) SetPackageName(packageName string) {
 
 // SetUseName define o nome de uso do comando
 func (pgd *PackageGroupData) SetUseName(useName string) {
-	pgd.UseName = strings.ToLower(useName)
+	pgd.UseName = strings.ToLower(strutils.ToSnakeCase(useName, "-"))
 }
 
 // SetServiceInit define o código para inicializar o serviço

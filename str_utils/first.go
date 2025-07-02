@@ -20,7 +20,7 @@ func FirstUpper(s string) string {
 
 // input: "VirtualMachine"
 // output: "virtual_machine"
-func ToSnakeCase(s string) string {
+func ToSnakeCase(s string, char string) string {
 	if len(s) == 0 {
 		return s
 	}
@@ -30,7 +30,11 @@ func ToSnakeCase(s string) string {
 
 	for i := 1; i < len(s); i++ {
 		if s[i] >= 'A' && s[i] <= 'Z' {
-			result.WriteByte('_')
+			if char != "" {
+				result.WriteByte(char[0])
+			} else {
+				result.WriteByte('_')
+			}
 		}
 		result.WriteByte(s[i])
 	}
@@ -46,7 +50,7 @@ func RemovePlural(s string) string {
 	}
 
 	// Converter para snake_case para separar as palavras
-	snake := ToSnakeCase(s)
+	snake := ToSnakeCase(s, "")
 	words := strings.Split(snake, "_")
 
 	// Processar cada palavra para remover plurais

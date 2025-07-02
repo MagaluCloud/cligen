@@ -322,7 +322,7 @@ func analyzeService(sdkDir, clientFilePath, serviceName string) Service {
 
 	fileNamesToTry := []string{fmt.Sprintf("%s.go", strings.ToLower(serviceName))}
 
-	fileName := fmt.Sprintf("%s.go", strutils.ToSnakeCase(serviceName))
+	fileName := fmt.Sprintf("%s.go", strutils.ToSnakeCase(serviceName, ""))
 	if !slices.Contains(fileNamesToTry, fileName) {
 		fileNamesToTry = append(fileNamesToTry, fileName)
 	}
