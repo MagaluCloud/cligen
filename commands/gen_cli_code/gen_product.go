@@ -30,15 +30,8 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 				productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
 				productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))
 
-				var params []string
-				for i, param := range method.Parameters {
-					if i != param.Position {
-						fmt.Printf("   ❌ Parâmetro %s não está na posição %d\n", param.Name, param.Position)
-					}
-					productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, param.Type))
-					params = append(params, param.Name)
-				}
-				productData.SetServiceSDKParam(strings.Join(params, ", "))
+				serviceCallParams := genProductParameters(productData, method.Parameters)
+				productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
 
 				dir := genDir
 				if parentPkg != nil {
@@ -59,4 +52,20 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 		}
 	}
 	return nil
+}
+
+func genProductParameters(productData *PackageGroupData, params []sdk_structure.Parameter) []string {
+	var serviceCallParams []string
+	for i, param := range params {
+		if i != param.Position {
+			fmt.Printf("   ❌ Parâmetro %s não está na posição %d\n", param.Name, param.Position)
+		}
+		if param.Type == "context.Context" {
+			serviceCallParams = append(serviceCallParams, param.Name)
+			continue
+		}
+		productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, param.Type))
+		serviceCallParams = append(serviceCallParams, param.Name)
+	}
+	return serviceCallParams
 }
