@@ -25,8 +25,6 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 		Long:    `{{.LongDescription}}`,
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("{{.FunctionName}}")
-
-
 			{{.ServiceCall}}({{.ServiceSDKParam}})
 		},
 	}

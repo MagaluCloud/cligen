@@ -24,10 +24,12 @@ type Service struct {
 }
 
 type Parameter struct {
-	Position    int    `json:"position"`
-	Name        string `json:"name"`
-	Type        string `json:"type"`
-	Description string `json:"description"`
+	Position    int         `json:"position"`
+	Name        string      `json:"name"`
+	Type        string      `json:"type"`
+	Description string      `json:"description"`
+	IsPrimitive bool        `json:"is_primitive"`
+	Struct      []Parameter `json:"struct"`
 }
 
 // Method representa um método de um serviço
@@ -416,7 +418,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									params := make([]Parameter, 0)
 									if funcType.Params != nil {
 										for i, param := range funcType.Params.List {
-											paramType := getTypeStringWithPackage(param.Type, packageName)
+											paramType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
 											// Se o parâmetro tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(param.Names) > 0 {
 												for _, name := range param.Names {
@@ -424,6 +426,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 														Position:    i,
 														Name:        name.Name,
 														Type:        paramType,
+														IsPrimitive: isPrimitive,
 														Description: param.Comment.Text(),
 													})
 												}
@@ -434,6 +437,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 													Position:    i,
 													Name:        paramName,
 													Type:        paramType,
+													IsPrimitive: isPrimitive,
 													Description: param.Comment.Text(),
 												})
 											}
@@ -444,7 +448,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									returns := make([]Parameter, 0)
 									if funcType.Results != nil {
 										for i, result := range funcType.Results.List {
-											returnType := getTypeStringWithPackage(result.Type, packageName)
+											returnType, isPrimitive := getTypeStringWithPackage(result.Type, packageName)
 											// Se o retorno tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(result.Names) > 0 {
 												for _, name := range result.Names {
@@ -452,6 +456,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 														Position:    i,
 														Name:        name.Name,
 														Type:        returnType,
+														IsPrimitive: isPrimitive,
 														Description: result.Comment.Text(),
 													})
 												}
@@ -462,6 +467,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 													Position:    i,
 													Name:        returnName,
 													Type:        returnType,
+													IsPrimitive: isPrimitive,
 													Description: result.Comment.Text(),
 												})
 											}
@@ -509,55 +515,60 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 }
 
 // getTypeString converte um ast.Expr para string representando o tipo
-func getTypeString(expr ast.Expr) string {
+func getTypeString(expr ast.Expr) (string, bool) {
 	switch t := expr.(type) {
 	case *ast.Ident:
-		return t.Name
+		return t.Name, false
 	case *ast.StarExpr:
-		return "*" + getTypeString(t.X)
+		subType, isPrimitive := getTypeString(t.X)
+		return "*" + subType, isPrimitive
 	case *ast.ArrayType:
-		return "[]" + getTypeString(t.Elt)
+		subType, isPrimitive := getTypeString(t.Elt)
+		return "[]" + subType, isPrimitive
 	case *ast.SelectorExpr:
-		return getTypeString(t.X) + "." + t.Sel.Name
+		subType, isPrimitive := getTypeString(t.X)
+		return subType + "." + t.Sel.Name, isPrimitive
 	case *ast.InterfaceType:
-		return "interface{}"
+		return "interface{}", true
 	default:
-		return fmt.Sprintf("%T", expr)
+		return fmt.Sprintf("%T", expr), false
 	}
 }
 
 // getTypeStringWithPackage converte um ast.Expr para string representando o tipo, incluindo o pacote quando necessário
-func getTypeStringWithPackage(expr ast.Expr, packageName string) string {
+func getTypeStringWithPackage(expr ast.Expr, packageName string) (string, bool) {
 	switch t := expr.(type) {
 	case *ast.Ident:
 		// Verificar se é um tipo primitivo
 		if isPrimitiveType(t.Name) {
-			return t.Name
+			return t.Name, true
 		}
 		// Se não for primitivo, adicionar o pacote
-		return packageName + "." + t.Name
+		return packageName + "." + t.Name, false
 	case *ast.StarExpr:
-		return "*" + getTypeStringWithPackage(t.X, packageName)
+		subType, isPrimitive := getTypeStringWithPackage(t.X, packageName)
+		return "*" + subType, isPrimitive
 	case *ast.ArrayType:
 		// Para arrays, verificar se o tipo do elemento é primitivo
-		elementType := getTypeStringWithPackage(t.Elt, packageName)
+		elementType, isPrimitive := getTypeStringWithPackage(t.Elt, packageName)
 		// Se o elemento é um tipo primitivo, não adicionar o packageName
-		if isPrimitiveType(elementType) {
-			return "[]" + elementType
+		if isPrimitive {
+			return "[]" + elementType, isPrimitive
 		}
 		// Se o elemento já tem o packageName, usar como está
 		if strings.Contains(elementType, ".") {
-			return "[]" + elementType
+			return "[]" + elementType, isPrimitive
 		}
 		// Caso contrário, adicionar o packageName
-		return "[]" + packageName + "." + elementType
+		return "[]" + packageName + "." + elementType, isPrimitive
 	case *ast.SelectorExpr:
 		// SelectorExpr já tem o pacote qualificado (ex: context.Context)
-		return getTypeString(t.X) + "." + t.Sel.Name
+		elementType, isPrimitive := getTypeString(t.X)
+		return elementType + "." + t.Sel.Name, isPrimitive
 	case *ast.InterfaceType:
-		return "interface{}"
+		return "interface{}", true
 	default:
-		return fmt.Sprintf("%T", expr)
+		return fmt.Sprintf("%T", expr), false
 	}
 }
 

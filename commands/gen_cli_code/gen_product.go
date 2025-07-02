@@ -64,6 +64,9 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			serviceCallParams = append(serviceCallParams, param.Name)
 			continue
 		}
+		if !param.IsPrimitive {
+			fmt.Printf("   ✅ Parâmetro %s é primitivo\n", param.Name)
+		}
 		productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, param.Type))
 		serviceCallParams = append(serviceCallParams, param.Name)
 	}
