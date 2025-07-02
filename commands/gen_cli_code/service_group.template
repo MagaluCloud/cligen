@@ -23,7 +23,7 @@ func {{.FunctionName}}Cmd(ctx context.Context, parent *cobra.Command, {{.Service
 	}
 
 	{{range .Commands}}
-	{{.FunctionName}}(ctx,cmd, {{.ServiceCall}})
+	{{.FunctionName}}(ctx, cmd, {{.ServiceCall}})
 	{{end}}
 
 	parent.AddCommand(cmd)
