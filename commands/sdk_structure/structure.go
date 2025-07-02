@@ -378,6 +378,9 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 		return false
 	}
 
+	// Extrair o nome do pacote do arquivo
+	packageName := file.Name.Name + "Sdk"
+
 	found := false
 	ast.Inspect(file, func(n ast.Node) bool {
 		if typeDecl, ok := n.(*ast.TypeSpec); ok {
@@ -406,7 +409,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									params := make(map[string]string)
 									if funcType.Params != nil {
 										for i, param := range funcType.Params.List {
-											paramType := getTypeString(param.Type)
+											paramType := getTypeStringWithPackage(param.Type, packageName)
 											// Se o parâmetro tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(param.Names) > 0 {
 												for _, name := range param.Names {
@@ -424,7 +427,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 									returns := make(map[string]string)
 									if funcType.Results != nil {
 										for i, result := range funcType.Results.List {
-											returnType := getTypeString(result.Type)
+											returnType := getTypeStringWithPackage(result.Type, packageName)
 											// Se o retorno tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(result.Names) > 0 {
 												for _, name := range result.Names {
@@ -494,6 +497,54 @@ func getTypeString(expr ast.Expr) string {
 	default:
 		return fmt.Sprintf("%T", expr)
 	}
+}
+
+// getTypeStringWithPackage converte um ast.Expr para string representando o tipo, incluindo o pacote quando necessário
+func getTypeStringWithPackage(expr ast.Expr, packageName string) string {
+	switch t := expr.(type) {
+	case *ast.Ident:
+		// Verificar se é um tipo primitivo
+		if isPrimitiveType(t.Name) {
+			return t.Name
+		}
+		// Se não for primitivo, adicionar o pacote
+		return packageName + "." + t.Name
+	case *ast.StarExpr:
+		return "*" + getTypeStringWithPackage(t.X, packageName)
+	case *ast.ArrayType:
+		// Para arrays, verificar se o tipo do elemento é primitivo
+		elementType := getTypeStringWithPackage(t.Elt, packageName)
+		// Se o elemento é um tipo primitivo, não adicionar o packageName
+		if isPrimitiveType(elementType) {
+			return "[]" + elementType
+		}
+		// Se o elemento já tem o packageName, usar como está
+		if strings.Contains(elementType, ".") {
+			return "[]" + elementType
+		}
+		// Caso contrário, adicionar o packageName
+		return "[]" + packageName + "." + elementType
+	case *ast.SelectorExpr:
+		// SelectorExpr já tem o pacote qualificado (ex: context.Context)
+		return getTypeString(t.X) + "." + t.Sel.Name
+	case *ast.InterfaceType:
+		return "interface{}"
+	default:
+		return fmt.Sprintf("%T", expr)
+	}
+}
+
+// isPrimitiveType verifica se um tipo é primitivo do Go
+func isPrimitiveType(typeName string) bool {
+	if strings.Contains(typeName, ".") {
+		typeName = strings.Split(typeName, ".")[len(strings.Split(typeName, "."))-1]
+	}
+	primitiveTypes := []string{
+		"bool", "byte", "complex64", "complex128", "error", "float32", "float64",
+		"int", "int8", "int16", "int32", "int64", "rune", "string", "uint",
+		"uint8", "uint16", "uint32", "uint64", "uintptr", "string",
+	}
+	return slices.Contains(primitiveTypes, typeName)
 }
 
 // isSubServiceType verifica se um tipo de retorno representa um subserviço

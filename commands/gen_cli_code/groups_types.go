@@ -78,6 +78,11 @@ type PackageGroupData struct {
 	// Código da função
 	ServiceCall string `json:"service_call"`
 
+	// Parâmetros do serviço
+	ServiceSDKParam       string   `json:"service_sdk_param"`
+	ServiceSDKParamType   []string `json:"service_sdk_param_type"`
+	ServiceSDKParamCreate []string `json:"service_sdk_param_create"`
+
 	// Informações do comando
 	UseName          string `json:"use_name"`
 	ShortDescription string `json:"short_description"`
@@ -312,6 +317,18 @@ func (rgd *RootGenData) AddImport(importPath string) {
 		}
 	}
 	rgd.Imports = append(rgd.Imports, importPath)
+}
+
+func (pgd *PackageGroupData) SetServiceSDKParam(param string) {
+	pgd.ServiceSDKParam = param
+}
+
+func (pgd *PackageGroupData) AddServiceSDKParamType(paramType string) {
+	pgd.ServiceSDKParamType = append(pgd.ServiceSDKParamType, paramType)
+}
+
+func (pgd *PackageGroupData) AddServiceSDKParamCreate(paramCreate string) {
+	pgd.ServiceSDKParamCreate = append(pgd.ServiceSDKParamCreate, paramCreate)
 }
 
 // AddSubCommand adiciona um subcomando ao root

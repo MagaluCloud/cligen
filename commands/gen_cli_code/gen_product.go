@@ -28,6 +28,14 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 				productData.SetDescriptions(defaultShortDesc, defaultLongDesc)
 				productData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
 				productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
+				productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))
+
+				var params []string
+				for key, param := range method.Parameters {
+					productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", key, param))
+					params = append(params, key)
+				}
+				productData.SetServiceSDKParam(strings.Join(params, ", "))
 
 				dir := genDir
 				if parentPkg != nil {
