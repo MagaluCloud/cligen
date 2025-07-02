@@ -216,10 +216,6 @@ func (pgd *PackageGroupData) WriteServiceToFile(filePath string) error {
 
 // WriteToFile escreve os dados no arquivo
 func (pgd *PackageGroupData) WriteProductToFile(filePath string) error {
-	if pgd.GenerateGroup {
-		return nil
-	}
-
 	buf := bytes.NewBuffer(nil)
 	err := productTmpl.Execute(buf, pgd)
 	if err != nil {
@@ -227,7 +223,6 @@ func (pgd *PackageGroupData) WriteProductToFile(filePath string) error {
 	}
 
 	os.MkdirAll(filepath.Dir(filePath), 0755)
-	pgd.GenerateGroup = true
 	return os.WriteFile(filePath, buf.Bytes(), 0644)
 }
 

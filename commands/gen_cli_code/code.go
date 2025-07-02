@@ -44,6 +44,7 @@ func GenCliCode() {
 	genMainPackageCode(&sdkStructure)
 	genPackageCode(&sdkStructure)
 	genServiceCode(&sdkStructure)
+	genProductCode(&sdkStructure)
 }
 
 func cleanDir(dir string) {
@@ -82,11 +83,11 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 	mainPackageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
 	mainPackageData.SetUseName(pkg.MenuName)
 	mainPackageData.SetDescriptions(defaultShortDesc, defaultLongDesc)
-	mainPackageData.SetGroupID(groupProducts)
 	mainPackageData.SetServiceParam(serviceParamPattern)
 	mainPackageData.AddImport(importSDK)
 
 	if len(pkg.Services) > 0 {
+		mainPackageData.SetGroupID(groupProducts)
 		mainPackageData.AddServiceInit(fmt.Sprintf("%sService := %sSdk.New(sdkCoreConfig)", pkg.Name, pkg.Name))
 		for _, service := range pkg.Services {
 			mainPackageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
@@ -102,10 +103,9 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 
 	if len(pkg.SubPkgs) > 0 {
 		for _, subPkg := range pkg.SubPkgs {
-			mainPackageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", subPkg.Name, subPkg.Name))
 			mainPackageData.AddImport(importCobra)
 			mainPackageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(subPkg.Name)))
-			mainPackageData.AddSubCommand(subPkg.Name, strutils.FirstUpper(subPkg.Name)+"Cmd", "sdkCoreConfig")
+			mainPackageData.AddSubCommand(subPkg.Name, strutils.FirstUpper(subPkg.Name), "sdkCoreConfig")
 			genMainPackageCodeRecursive(&subPkg, pkg)
 		}
 	}
@@ -138,7 +138,7 @@ func genPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	}
 	packageData := NewPackageGroupData()
 	packageData.SetPackageName(pkg.Name)
-	packageData.SetFunctionName(pkg.Name)
+	packageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
 	packageData.SetUseName(pkg.Name)
 	packageData.AddImport(importCobra)
 	packageData.AddImport(importSDK)
@@ -176,8 +176,8 @@ func genServiceCode(sdkStructure *sdk_structure.SDKStructure) error {
 
 func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
 	if len(pkg.Services) > 0 {
-		serviceData := NewPackageGroupData()
 		for _, service := range pkg.Services {
+			serviceData := NewPackageGroupData()
 			serviceData.SetPackageName(service.Name)
 			serviceData.SetFunctionName(service.Name)
 			serviceData.SetUseName(strutils.FirstLower(service.Name))
@@ -190,9 +190,9 @@ func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 			}
 			dir := genDir
 			if parentPkg != nil {
-				dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", service.Name))
+				dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(service.Name)))
 			} else {
-				dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", service.Name))
+				dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(service.Name)))
 			}
 			err := serviceData.WriteServiceToFile(dir)
 			if err != nil {
@@ -203,6 +203,48 @@ func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	if len(pkg.SubPkgs) > 0 {
 		for _, subPkg := range pkg.SubPkgs {
 			genServiceCodeRecursive(&subPkg, pkg)
+		}
+	}
+	return nil
+}
+
+func genProductCode(sdkStructure *sdk_structure.SDKStructure) error {
+	for _, pkg := range sdkStructure.Packages {
+		genProductCodeRecursive(&pkg, nil)
+	}
+	return nil
+}
+
+func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
+	if len(pkg.Services) > 0 {
+		for _, service := range pkg.Services {
+			for _, method := range service.Methods {
+				productData := NewPackageGroupData()
+				productData.SetPackageName(service.Name)
+				productData.AddImport(importCobra)
+				productData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
+				productData.SetFunctionName(method.Name)
+				productData.SetUseName(strutils.FirstLower(method.Name))
+				productData.SetDescriptions(defaultShortDesc, defaultLongDesc)
+				productData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
+				productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
+
+				dir := genDir
+				if parentPkg != nil {
+					dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
+				} else {
+					dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
+				}
+				err := productData.WriteProductToFile(dir)
+				if err != nil {
+					return fmt.Errorf("erro ao escrever o arquivo %s.go para o serviço %s do pacote %s: %v", pkg.Name, pkg.Name, pkg.Name, err)
+				}
+			}
+		}
+	}
+	if len(pkg.SubPkgs) > 0 {
+		for _, subPkg := range pkg.SubPkgs {
+			genProductCodeRecursive(&subPkg, pkg)
 		}
 	}
 	return nil
