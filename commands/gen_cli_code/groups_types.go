@@ -23,12 +23,16 @@ var productTemplate string
 //go:embed rootgen.template
 var rootGenTemplate string
 
+//go:embed sub_package_group.template
+var subPackageGroupTemplate string
+
 // Templates pré-compilados para melhor performance
 var (
-	packageGroupTmpl *template.Template
-	serviceGroupTmpl *template.Template
-	productTmpl      *template.Template
-	rootGenTmpl      *template.Template
+	packageGroupTmpl    *template.Template
+	serviceGroupTmpl    *template.Template
+	productTmpl         *template.Template
+	rootGenTmpl         *template.Template
+	subPackageGroupTmpl *template.Template
 )
 
 func init() {
@@ -46,6 +50,10 @@ func init() {
 		panic(err)
 	}
 	rootGenTmpl, err = template.New("rootgen").Parse(rootGenTemplate)
+	if err != nil {
+		panic(err)
+	}
+	subPackageGroupTmpl, err = template.New("sub_package_group").Parse(subPackageGroupTemplate)
 	if err != nil {
 		panic(err)
 	}
@@ -206,6 +214,17 @@ func (pgd *PackageGroupData) WriteGroupToFile(filePath string) error {
 func (pgd *PackageGroupData) WriteServiceToFile(filePath string) error {
 	buf := bytes.NewBuffer(nil)
 	err := serviceGroupTmpl.Execute(buf, pgd)
+	if err != nil {
+		return err
+	}
+
+	os.MkdirAll(filepath.Dir(filePath), 0755)
+	return os.WriteFile(filePath, buf.Bytes(), 0644)
+}
+
+func (pgd *PackageGroupData) WriteSubPackageToFile(filePath string) error {
+	buf := bytes.NewBuffer(nil)
+	err := subPackageGroupTmpl.Execute(buf, pgd)
 	if err != nil {
 		return err
 	}
