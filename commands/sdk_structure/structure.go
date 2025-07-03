@@ -29,6 +29,8 @@ type Parameter struct {
 	Type        string               `json:"type"`
 	Description string               `json:"description"`
 	IsPrimitive bool                 `json:"is_primitive"`
+	IsPointer   bool                 `json:"is_pointer"`
+	IsArray     bool                 `json:"is_array"`
 	Struct      map[string]Parameter `json:"struct,omitempty"`
 }
 
@@ -422,6 +424,14 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 											// Se o parâmetro tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(param.Names) > 0 {
 												for _, name := range param.Names {
+													isPointer := false
+													if strings.HasPrefix(paramType, "*") {
+														isPointer = true
+													}
+													isArray := false
+													if strings.HasPrefix(paramType, "[]") {
+														isArray = true
+													}
 													params = append(params, Parameter{
 														Position:    i,
 														Name:        name.Name,
@@ -429,11 +439,21 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 														IsPrimitive: isPrimitive,
 														Description: param.Comment.Text(),
 														Struct:      structFields,
+														IsPointer:   isPointer,
+														IsArray:     isArray,
 													})
 												}
 											} else {
 												// Parâmetro sem nome - gerar nome baseado no tipo
 												paramName := generateParamName(paramType, i)
+												isPointer := false
+												if strings.HasPrefix(paramType, "*") {
+													isPointer = true
+												}
+												isArray := false
+												if strings.HasPrefix(paramType, "[]") {
+													isArray = true
+												}
 												params = append(params, Parameter{
 													Position:    i,
 													Name:        paramName,
@@ -441,6 +461,8 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 													IsPrimitive: isPrimitive,
 													Description: param.Comment.Text(),
 													Struct:      structFields,
+													IsPointer:   isPointer,
+													IsArray:     isArray,
 												})
 											}
 										}
@@ -454,6 +476,14 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 											// Se o retorno tem nome, usar o nome, senão gerar um nome baseado no tipo
 											if len(result.Names) > 0 {
 												for _, name := range result.Names {
+													isPointer := false
+													if strings.HasPrefix(returnType, "*") {
+														isPointer = true
+													}
+													isArray := false
+													if strings.HasPrefix(returnType, "[]") {
+														isArray = true
+													}
 													returns = append(returns, Parameter{
 														Position:    i,
 														Name:        name.Name,
@@ -461,11 +491,21 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 														IsPrimitive: isPrimitive,
 														Description: result.Comment.Text(),
 														Struct:      structFields,
+														IsPointer:   isPointer,
+														IsArray:     isArray,
 													})
 												}
 											} else {
 												// Retorno sem nome - gerar nome baseado no tipo
 												returnName := generateReturnName(returnType, i)
+												isPointer := false
+												if strings.HasPrefix(returnType, "*") {
+													isPointer = true
+												}
+												isArray := false
+												if strings.HasPrefix(returnType, "[]") {
+													isArray = true
+												}
 												returns = append(returns, Parameter{
 													Position:    i,
 													Name:        returnName,
@@ -473,6 +513,8 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 													IsPrimitive: isPrimitive,
 													Description: result.Comment.Text(),
 													Struct:      structFields,
+													IsPointer:   isPointer,
+													IsArray:     isArray,
 												})
 											}
 										}
@@ -1026,6 +1068,16 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 		// Extrair tipo do campo
 		fieldType, isPrimitive, structFields := analyzeParameterType(field.Type, packageName, sdkDir)
 
+		isPointer := false
+		if strings.HasPrefix(fieldType, "*") {
+			isPointer = true
+		}
+
+		isArray := false
+		if strings.HasPrefix(fieldType, "[]") {
+			isArray = true
+		}
+
 		// Se o campo tem nome, usar o nome, senão gerar um nome baseado no tipo
 		if len(field.Names) > 0 {
 			for _, name := range field.Names {
@@ -1045,6 +1097,8 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 					Description: description,
 					IsPrimitive: isPrimitive,
 					Struct:      structFields,
+					IsPointer:   isPointer,
+					IsArray:     isArray,
 				}
 			}
 		} else {

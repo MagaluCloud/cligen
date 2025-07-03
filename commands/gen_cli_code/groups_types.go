@@ -95,6 +95,12 @@ type PackageGroupData struct {
 
 	// Controle de geração
 	GenerateGroup bool `json:"generate_group"`
+
+	// Cobra flags definition
+	CobraFlagsDefinition []string `json:"cobra_flags_definition"`
+	CobraFlagsCreation   []string `json:"cobra_flags_creation"`
+	CobraFlagsAssign     []string `json:"cobra_flags_assign"`
+	CobraFlagsRequired   []string `json:"cobra_flags_required"`
 }
 
 // SubCommandData representa um subcomando que será adicionado ao grupo
@@ -329,6 +335,22 @@ func (pgd *PackageGroupData) AddServiceSDKParamType(paramType string) {
 
 func (pgd *PackageGroupData) AddServiceSDKParamCreate(paramCreate string) {
 	pgd.ServiceSDKParamCreate = append(pgd.ServiceSDKParamCreate, paramCreate)
+}
+
+func (pgd *PackageGroupData) AddCobraFlagsDefinition(cobraFlagsDefinition string) {
+	pgd.CobraFlagsDefinition = append(pgd.CobraFlagsDefinition, cobraFlagsDefinition)
+}
+
+func (pgd *PackageGroupData) AddCobraFlagsCreation(cobraFlagsCreation string) {
+	pgd.CobraFlagsCreation = append(pgd.CobraFlagsCreation, cobraFlagsCreation)
+}
+
+func (pgd *PackageGroupData) AddCobraFlagsAssign(cobraFlagsAssign string) {
+	pgd.CobraFlagsAssign = append(pgd.CobraFlagsAssign, cobraFlagsAssign)
+}
+
+func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {
+	pgd.CobraFlagsRequired = append(pgd.CobraFlagsRequired, cobraFlagsRequired)
 }
 
 // AddSubCommand adiciona um subcomando ao root

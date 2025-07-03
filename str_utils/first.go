@@ -114,3 +114,31 @@ func ToPascalCase(s string) string {
 
 	return result.String()
 }
+
+func FirstChar(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+	return strings.ToLower(s[:1])
+}
+
+func FirstUnusedChar(s string, usedChars *[]string) string {
+	firstChar := FirstChar(s)
+	for _, usedChar := range *usedChars {
+		if firstChar == usedChar {
+			return FirstUnusedChar(s[1:], usedChars)
+		}
+	}
+	*usedChars = append(*usedChars, firstChar)
+	return firstChar
+}
+
+func RemoveNewLine(s string) string {
+	return strings.ReplaceAll(s, "\n", "")
+}
+
+// Input: "xpto "some" xpto"
+// Output: "xpto \"some\" xpto"
+func EscapeQuotes(s string) string {
+	return strings.ReplaceAll(s, "\"", "\\\"")
+}
