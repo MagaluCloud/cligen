@@ -97,10 +97,14 @@ type PackageGroupData struct {
 	GenerateGroup bool `json:"generate_group"`
 
 	// Cobra flags definition
-	CobraFlagsDefinition []string `json:"cobra_flags_definition"`
-	CobraFlagsCreation   []string `json:"cobra_flags_creation"`
-	CobraFlagsAssign     []string `json:"cobra_flags_assign"`
-	CobraFlagsRequired   []string `json:"cobra_flags_required"`
+	CobraFlagsDefinition  []string `json:"cobra_flags_definition"`
+	CobraFlagsCreation    []string `json:"cobra_flags_creation"`
+	CobraFlagsAssign      []string `json:"cobra_flags_assign"`
+	CobraFlagsRequired    []string `json:"cobra_flags_required"`
+	CobraStructInitialize []string `json:"cobra_struct_initialize"`
+
+	// Used chars
+	UsedChars []string `json:"used_chars"`
 }
 
 // SubCommandData representa um subcomando que será adicionado ao grupo
@@ -123,11 +127,12 @@ type TemplateData struct {
 // NewPackageGroupData cria uma nova instância de PackageGroupData com valores padrão
 func NewPackageGroupData() *PackageGroupData {
 	return &PackageGroupData{
-		Imports:     make([]string, 0, 10),
-		SubCommands: make([]SubCommandData, 0, 5),
-		Commands:    make([]CommandData, 0, 5),
-		Params:      make([]string, 0, 5),
+		Imports:     []string{},
+		SubCommands: []SubCommandData{},
+		Commands:    []CommandData{},
+		Params:      []string{},
 		GroupID:     "",
+		UsedChars:   []string{},
 	}
 }
 
@@ -351,6 +356,15 @@ func (pgd *PackageGroupData) AddCobraFlagsAssign(cobraFlagsAssign string) {
 
 func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {
 	pgd.CobraFlagsRequired = append(pgd.CobraFlagsRequired, cobraFlagsRequired)
+}
+
+func (pgd *PackageGroupData) AddCobraStructInitialize(cobraStructInitialize string) {
+	for _, c := range pgd.CobraStructInitialize {
+		if c == cobraStructInitialize {
+			return
+		}
+	}
+	pgd.CobraStructInitialize = append(pgd.CobraStructInitialize, cobraStructInitialize)
 }
 
 // AddSubCommand adiciona um subcomando ao root

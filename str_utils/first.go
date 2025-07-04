@@ -123,6 +123,11 @@ func FirstChar(s string) string {
 }
 
 func FirstUnusedChar(s string, usedChars *[]string) string {
+	// Se a string estiver vazia, buscar no alfabeto
+	if len(s) == 0 {
+		return findNextAvailableAlphabetChar(usedChars)
+	}
+
 	firstChar := FirstChar(s)
 	for _, usedChar := range *usedChars {
 		if firstChar == usedChar {
@@ -131,6 +136,28 @@ func FirstUnusedChar(s string, usedChars *[]string) string {
 	}
 	*usedChars = append(*usedChars, firstChar)
 	return firstChar
+}
+
+// findNextAvailableAlphabetChar busca a próxima letra disponível do alfabeto
+func findNextAvailableAlphabetChar(usedChars *[]string) string {
+	// Criar um mapa para verificação rápida de caracteres usados
+	usedMap := make(map[string]bool)
+	for _, char := range *usedChars {
+		usedMap[char] = true
+	}
+
+	// Buscar a próxima letra disponível do alfabeto (a-z)
+	for char := 'a'; char <= 'z'; char++ {
+		charStr := string(char)
+		if !usedMap[charStr] {
+			*usedChars = append(*usedChars, charStr)
+			return charStr
+		}
+	}
+
+	// Se todas as letras do alfabeto estiverem usadas, retornar uma string vazia
+	// ou lançar um erro, dependendo do comportamento desejado
+	return ""
 }
 
 func RemoveNewLine(s string) string {

@@ -19,6 +19,8 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 	{{range .CobraFlagsDefinition}}
 	{{.}}
 	{{end}}
+	
+
 	cmd := &cobra.Command{
 		Use:     "{{.UseName}}",
 		Short:   "{{.ShortDescription}}",
@@ -26,6 +28,10 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 		Run: func(cmd *cobra.Command, args []string) {
 			// Service SDK params
 			{{range .ServiceSDKParamCreate}}
+			{{.}}
+			{{end}}
+			
+			{{range .CobraStructInitialize}}
 			{{.}}
 			{{end}}
 
@@ -38,9 +44,12 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 			{{.ServiceCall}}({{.ServiceSDKParam}})
 		},
 	}
+	
 	{{range .CobraFlagsCreation}}
 	{{.}}
 	{{end}}
+
+
 	{{range .CobraFlagsRequired}}
 	{{.}}
 	{{end}}

@@ -60,8 +60,6 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 		productData.AddImport("flags \"mgccli/cobra_utils/flags\"")
 	}
 
-	var initialChars = make([]string, 0)
-
 	for i, param := range params {
 		if i != param.Position {
 			fmt.Printf("   ❌ Parâmetro %s não está na posição %d\n", param.Name, param.Position)
@@ -74,7 +72,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 		if param.IsPrimitive {
 			productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, param.Type))
 			productData.AddCobraFlagsDefinition(fmt.Sprintf("var %sFlag *flags.%s", param.Name, translateTypeToCobraFlag(param.Type)))
-			initialChar := strutils.FirstUnusedChar(param.Name, &initialChars)
+			initialChar := strutils.FirstUnusedChar(param.Name, &productData.UsedChars)
 			productData.AddCobraFlagsCreation(
 				fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\", %s, \"%s\")",
 					param.Name,
@@ -96,7 +94,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			for _, field := range param.Struct {
 				if field.Struct == nil {
 					productData.AddCobraFlagsDefinition(fmt.Sprintf("var %s_%sFlag *flags.%s", param.Name, field.Name, translateTypeToCobraFlag(field.Type)))
-					initialChar := strutils.FirstUnusedChar(field.Name, &initialChars)
+					initialChar := strutils.FirstUnusedChar(field.Name, &productData.UsedChars)
 					productData.AddCobraFlagsCreation(
 						fmt.Sprintf("%s_%sFlag = flags.New%s(cmd, \"%s\", \"%s\", %s, \"%s\")",
 							param.Name,
@@ -113,12 +111,72 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 						productData.AddCobraFlagsRequired(fmt.Sprintf("cmd.MarkFlagRequired(\"%s\")", strutils.ToSnakeCase(field.Name, "-")))
 					}
 				}
+				// Here is a struct, we need some recursive call to generate the code for the struct
+				if field.Struct != nil {
+					genProductParametersRecursive(productData, field, param.Name)
+				}
 			}
 		}
 
 		serviceCallParams = append(serviceCallParams, param.Name)
 	}
 	return serviceCallParams
+}
+
+func prepareCommandFlag(str string) string {
+	strSplit := strings.Split(str, "_")[1:]
+	for i, s := range strSplit {
+		if len(s) > 2 {
+			strSplit[i] = strutils.ToSnakeCase(s, "-")
+		}
+	}
+	result := strings.Join(strSplit, ".")
+	result = strings.ToLower(result)
+	return result
+}
+
+func genProductParametersRecursive(productData *PackageGroupData, parentField sdk_structure.Parameter, parentStructName string) {
+	for _, field := range parentField.Struct {
+		if field.Struct == nil {
+			currentPath := ""
+			// if !strings.HasSuffix(parentStructName, parentField.Name) {
+			currentPath = parentStructName + "." + parentField.Name + "." + field.Name
+			// }
+			varFlagName := strings.ReplaceAll(currentPath, ".", "_")
+			varCommandName := prepareCommandFlag(varFlagName)
+
+			productData.AddCobraFlagsDefinition(fmt.Sprintf("var %sFlag *flags.%s", varFlagName, translateTypeToCobraFlag(field.Type)))
+			initialChar := strutils.FirstUnusedChar(field.Name, &productData.UsedChars)
+			productData.AddCobraFlagsCreation(
+				fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\", %s, \"%s\")",
+					varFlagName,
+					translateTypeToCobraFlagCreate(field.Type, true),
+					varCommandName,
+					initialChar,
+					defaultByType(field.Type),
+					strutils.RemoveNewLine(strutils.EscapeQuotes(field.Description)),
+				),
+			)
+			productData.AddCobraFlagsAssign(createPrimitiveFlagToAssignStruct(varFlagName, field.IsPointer, currentPath))
+			if !field.IsPointer {
+				productData.AddCobraFlagsRequired(fmt.Sprintf("cmd.MarkFlagRequired(\"%s\")", strutils.ToSnakeCase(field.Name, "-")))
+			}
+		}
+
+		if field.Struct != nil {
+			if parentField.IsPointer {
+				productData.AddCobraStructInitialize(fmt.Sprintf("%s = new(%s)", parentStructName+"."+parentField.Name, strings.Replace(parentField.Type, "*", "", 1)))
+			}
+			genProductParametersRecursive(productData, field, parentStructName+"."+parentField.Name)
+		}
+	}
+}
+
+func createPrimitiveFlagToAssignStruct(flagName string, isPointer bool, parentStructName string) string {
+	if isPointer {
+		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
+	}
+	return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = *%sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
 }
 
 func createPrimitiveFlagToAssign(flagName string, isPointer bool) string {
