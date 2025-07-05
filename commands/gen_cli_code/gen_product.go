@@ -139,9 +139,7 @@ func genProductParametersRecursive(productData *PackageGroupData, parentField sd
 	for _, field := range parentField.Struct {
 		if field.Struct == nil {
 			currentPath := ""
-			// if !strings.HasSuffix(parentStructName, parentField.Name) {
 			currentPath = parentStructName + "." + parentField.Name + "." + field.Name
-			// }
 			varFlagName := strings.ReplaceAll(currentPath, ".", "_")
 			varCommandName := prepareCommandFlag(varFlagName)
 
@@ -210,9 +208,7 @@ func defaultByType(paramType string) string {
 }
 
 func translateTypeToCobraFlag(paramType string) string {
-	// StrFlag
-	// Int64Flag
-	// BoolFlag
+
 	paramType = strings.TrimPrefix(paramType, "*")
 	switch paramType {
 	case "string":
