@@ -102,6 +102,7 @@ type PackageGroupData struct {
 	CobraFlagsAssign      []string `json:"cobra_flags_assign"`
 	CobraFlagsRequired    []string `json:"cobra_flags_required"`
 	CobraStructInitialize []string `json:"cobra_struct_initialize"`
+	CobraArrayParse       []string `json:"cobra_array_parse"`
 
 	// Used chars
 	UsedChars []string `json:"used_chars"`
@@ -356,6 +357,10 @@ func (pgd *PackageGroupData) AddCobraFlagsAssign(cobraFlagsAssign string) {
 
 func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {
 	pgd.CobraFlagsRequired = append(pgd.CobraFlagsRequired, cobraFlagsRequired)
+}
+
+func (pgd *PackageGroupData) AddCobraArrayParse(cobraArrayParse string) {
+	pgd.CobraArrayParse = append(pgd.CobraArrayParse, cobraArrayParse)
 }
 
 func (pgd *PackageGroupData) AddCobraStructInitialize(cobraStructInitialize string) {
