@@ -1,6 +1,9 @@
 package strutils
 
-import "strings"
+import (
+	"slices"
+	"strings"
+)
 
 func FirstLower(s string) string {
 	if len(s) == 0 {
@@ -122,6 +125,11 @@ func FirstChar(s string) string {
 	return strings.ToLower(s[:1])
 }
 
+func ForbiddenChars(str string) bool {
+	// Flags globais que não podem ser usadas como nomes de flags
+	return slices.Contains([]string{"k", "d", "o", "n", "r", "h"}, str)
+}
+
 func FirstUnusedChar(s string, usedChars *[]string) string {
 	// Se a string estiver vazia, buscar no alfabeto
 	if len(s) == 0 {
@@ -130,7 +138,7 @@ func FirstUnusedChar(s string, usedChars *[]string) string {
 
 	firstChar := FirstChar(s)
 	for _, usedChar := range *usedChars {
-		if firstChar == usedChar {
+		if firstChar == usedChar || ForbiddenChars(firstChar) {
 			return FirstUnusedChar(s[1:], usedChars)
 		}
 	}
@@ -149,7 +157,7 @@ func findNextAvailableAlphabetChar(usedChars *[]string) string {
 	// Buscar a próxima letra disponível do alfabeto (a-z)
 	for char := 'a'; char <= 'z'; char++ {
 		charStr := string(char)
-		if !usedMap[charStr] {
+		if !usedMap[charStr] && !ForbiddenChars(charStr) {
 			*usedChars = append(*usedChars, charStr)
 			return charStr
 		}

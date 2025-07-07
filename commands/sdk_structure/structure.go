@@ -429,7 +429,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 														isPointer = true
 													}
 													isArray := false
-													if strings.HasPrefix(paramType, "[]") {
+													if strings.HasPrefix(paramType, "[]") || strings.HasPrefix(paramType, "*[]") {
 														isArray = true
 													}
 													params = append(params, Parameter{
@@ -451,7 +451,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 													isPointer = true
 												}
 												isArray := false
-												if strings.HasPrefix(paramType, "[]") {
+												if strings.HasPrefix(paramType, "[]") || strings.HasPrefix(paramType, "*[]") {
 													isArray = true
 												}
 												params = append(params, Parameter{
@@ -481,7 +481,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 														isPointer = true
 													}
 													isArray := false
-													if strings.HasPrefix(returnType, "[]") {
+													if strings.HasPrefix(returnType, "[]") || strings.HasPrefix(returnType, "*[]") {
 														isArray = true
 													}
 													returns = append(returns, Parameter{
@@ -503,7 +503,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 													isPointer = true
 												}
 												isArray := false
-												if strings.HasPrefix(returnType, "[]") {
+												if strings.HasPrefix(returnType, "[]") || strings.HasPrefix(returnType, "*[]") {
 													isArray = true
 												}
 												returns = append(returns, Parameter{
@@ -1074,7 +1074,7 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 		}
 
 		isArray := false
-		if strings.HasPrefix(fieldType, "[]") {
+		if strings.HasPrefix(fieldType, "[]") || strings.HasPrefix(fieldType, "*[]") {
 			isArray = true
 		}
 

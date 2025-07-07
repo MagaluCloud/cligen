@@ -45,7 +45,8 @@ func getVCSInfo(version string) string {
 }
 
 func main() {
-	defer panicRecover()
+	// TODO: Implementar flag para desabilitar o panicRecover
+	// defer panicRecover()
 
 	err := cmd.RootCmd().Execute()
 	if err != nil {

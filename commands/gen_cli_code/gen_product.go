@@ -145,19 +145,45 @@ func genProductParametersRecursive(productData *PackageGroupData, parentField sd
 			varFlagName := strings.ReplaceAll(currentPath, ".", "_")
 			varCommandName := prepareCommandFlag(varFlagName)
 
-			productData.AddCobraFlagsDefinition(fmt.Sprintf("var %sFlag *flags.%s", varFlagName, translateTypeToCobraFlag(field.Type)))
+			productData.AddCobraFlagsDefinition(fmt.Sprintf("var %sFlag *flags.%s", varFlagName, translateTypeToCobraFlagStruct(field, parentField))) // translateTypeToCobraFlag(field.Type)))
 			initialChar := strutils.FirstUnusedChar(field.Name, &productData.UsedChars)
-			productData.AddCobraFlagsCreation(
-				fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\", %s, \"%s\")",
-					varFlagName,
-					translateTypeToCobraFlagCreate(field.Type, true),
-					varCommandName,
-					initialChar,
-					defaultByType(field.Type),
-					strutils.RemoveNewLine(strutils.EscapeQuotes(field.Description)),
-				),
-			)
-			productData.AddCobraFlagsAssign(createPrimitiveFlagToAssignStruct(varFlagName, field.IsPointer, currentPath, parentField))
+
+			if canUseSliceFlag(field, parentField) {
+				productData.AddCobraFlagsCreation(
+					fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\", \"%s\",)",
+						varFlagName,
+						translateTypeToCobraFlagCreateStruct(field, parentField),
+						varCommandName,
+						initialChar,
+						strutils.RemoveNewLine(strutils.EscapeQuotes(field.Description)),
+					),
+				)
+			}
+
+			if canUseStrAsJson(field, parentField) {
+				productData.AddCobraFlagsCreation(
+					fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\", \"%s\",)",
+						varFlagName,
+						translateTypeToCobraFlagCreateStruct(field, parentField),
+						varCommandName,
+						initialChar,
+						strutils.RemoveNewLine(strutils.EscapeQuotes(field.Description)),
+					),
+				)
+			}
+			if !canUseSliceFlag(field, parentField) && !canUseStrAsJson(field, parentField) {
+				productData.AddCobraFlagsCreation(
+					fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\", %s, \"%s\")",
+						varFlagName,
+						translateTypeToCobraFlagCreate(field.Type, true),
+						varCommandName,
+						initialChar,
+						defaultByType(field.Type),
+						strutils.RemoveNewLine(strutils.EscapeQuotes(field.Description)),
+					),
+				)
+			}
+			productData.AddCobraFlagsAssign(createPrimitiveFlagToAssignStruct(varFlagName, currentPath, field, parentField))
 
 		}
 
@@ -181,7 +207,7 @@ func canUseSliceFlag(field, parentField sdk_structure.Parameter) bool {
 	if !parentField.IsArray {
 		return false
 	}
-	if len(field.Struct) == 1 {
+	if len(parentField.Struct) == 1 {
 		return true
 	}
 	return false
@@ -191,17 +217,21 @@ func canUseStrAsJson(field, parentField sdk_structure.Parameter) bool {
 	if !parentField.IsArray {
 		return false
 	}
-	if len(field.Struct) > 1 {
+	if len(parentField.Struct) > 1 {
 		return true
 	}
 	return false
 }
 
-func createPrimitiveFlagToAssignStruct(flagName string, isPointer bool, parentStructName string, parentField sdk_structure.Parameter) string {
-	if parentField.IsArray {
-
+func createPrimitiveFlagToAssignStruct(flagName string, parentStructName string, field, parentField sdk_structure.Parameter) string {
+	if canUseSliceFlag(field, parentField) {
+		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
 	}
-	if isPointer {
+	if canUseStrAsJson(field, parentField) {
+		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
+	}
+
+	if field.IsPointer {
 		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
 	}
 	return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = *%sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
@@ -237,6 +267,18 @@ func defaultByType(paramType string) string {
 	}
 }
 
+func translateTypeToCobraFlagStruct(field, parentField sdk_structure.Parameter) string {
+	typeName := strings.TrimPrefix(parentField.Type, "*")
+	typeName = strings.TrimPrefix(typeName, "[]")
+	if canUseSliceFlag(field, parentField) {
+		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
+	}
+	if canUseStrAsJson(field, parentField) {
+		return fmt.Sprintf("JSONValue[%s]", typeName)
+	}
+	return translateTypeToCobraFlag(field.Type)
+}
+
 func translateTypeToCobraFlag(paramType string) string {
 
 	paramType = strings.TrimPrefix(paramType, "*")
@@ -254,6 +296,18 @@ func translateTypeToCobraFlag(paramType string) string {
 	default:
 		return "StrFlag"
 	}
+}
+
+func translateTypeToCobraFlagCreateStruct(field, parentField sdk_structure.Parameter) string {
+	typeName := strings.TrimPrefix(parentField.Type, "*")
+	typeName = strings.TrimPrefix(typeName, "[]")
+	if canUseSliceFlag(field, parentField) {
+		return fmt.Sprintf("JSONArrayValueP[%s]", typeName)
+	}
+	if canUseStrAsJson(field, parentField) {
+		return fmt.Sprintf("JSONValueP[%s]", typeName)
+	}
+	return translateTypeToCobraFlag(field.Type)
 }
 
 func translateTypeToCobraFlagCreate(paramType string, withChar bool) string {
