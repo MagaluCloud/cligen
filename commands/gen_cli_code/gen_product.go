@@ -56,9 +56,6 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 
 func genProductParameters(productData *PackageGroupData, params []sdk_structure.Parameter) []string {
 	var serviceCallParams []string
-	if len(params) > 0 {
-		productData.AddImport("flags \"mgccli/cobra_utils/flags\"")
-	}
 
 	for i, param := range params {
 		if i != param.Position {
@@ -67,6 +64,9 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 		if param.Type == "context.Context" {
 			serviceCallParams = append(serviceCallParams, param.Name)
 			continue
+		}
+		if len(params) > 0 {
+			productData.AddImport("flags \"mgccli/cobra_utils/flags\"")
 		}
 
 		if param.IsPrimitive {
@@ -114,8 +114,32 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 					}
 				}
 				// Here is a struct, we need some recursive call to generate the code for the struct
-				if !field.IsPrimitive {
+				if !field.IsPrimitive && !field.IsArray {
 					genProductParametersRecursive(productData, field, param.Name)
+				}
+				if !field.IsPrimitive && field.IsArray {
+					// if canUseStrAsJson(field, param) {
+					currentPath := param.Name + "." + field.Name
+					varFlagName := strings.ReplaceAll(currentPath, ".", "_")
+					varCommandName := prepareCommandFlag(varFlagName)
+
+					productData.AddCobraFlagsDefinition(fmt.Sprintf("var %sFlag *flags.%s", varFlagName, translateTypeToCobraFlagComplex(field))) // translateTypeToCobraFlag(field.Type)))
+					initialChar := strutils.FirstUnusedChar(field.Name, &productData.UsedChars)
+
+					productData.AddCobraFlagsCreation(
+						fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\", \"%s\",)",
+							varFlagName,
+							translateTypeToCobraFlagCreateComplex(field),
+							varCommandName,
+							initialChar,
+							strutils.RemoveNewLine(strutils.EscapeQuotes(field.Description)),
+						),
+					)
+
+					productData.AddCobraFlagsAssign(createPrimitiveFlagToAssignStruct(varFlagName, currentPath, field, param))
+
+					// }
+
 				}
 			}
 		}
@@ -267,6 +291,17 @@ func defaultByType(paramType string) string {
 	}
 }
 
+func translateTypeToCobraFlagComplex(field sdk_structure.Parameter) string {
+	typeName := strings.TrimPrefix(field.Type, "*")
+	typeName = strings.TrimPrefix(typeName, "[]")
+	if field.IsArray {
+		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
+	}
+
+	return fmt.Sprintf("JSONValue[%s]", typeName)
+
+}
+
 func translateTypeToCobraFlagStruct(field, parentField sdk_structure.Parameter) string {
 	typeName := strings.TrimPrefix(parentField.Type, "*")
 	typeName = strings.TrimPrefix(typeName, "[]")
@@ -296,6 +331,16 @@ func translateTypeToCobraFlag(paramType string) string {
 	default:
 		return "StrFlag"
 	}
+}
+
+func translateTypeToCobraFlagCreateComplex(field sdk_structure.Parameter) string {
+	typeName := strings.TrimPrefix(field.Type, "*")
+	typeName = strings.TrimPrefix(typeName, "[]")
+	if field.IsArray {
+		return fmt.Sprintf("JSONArrayValueP[%s]", typeName)
+	}
+
+	return fmt.Sprintf("JSONValueP[%s]", typeName)
 }
 
 func translateTypeToCobraFlagCreateStruct(field, parentField sdk_structure.Parameter) string {
