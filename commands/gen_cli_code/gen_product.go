@@ -225,10 +225,10 @@ func canUseStrAsJson(field, parentField sdk_structure.Parameter) bool {
 
 func createPrimitiveFlagToAssignStruct(flagName string, parentStructName string, field, parentField sdk_structure.Parameter) string {
 	if canUseSliceFlag(field, parentField) {
-		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
+		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, strings.TrimSuffix(parentStructName, "."+field.Name), flagName)
 	}
 	if canUseStrAsJson(field, parentField) {
-		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
+		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, strings.TrimSuffix(parentStructName, "."+field.Name), flagName)
 	}
 
 	if field.IsPointer {
