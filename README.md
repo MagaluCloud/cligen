@@ -6,6 +6,12 @@
 > 
 > Este NÃO é um projeto oficial da Magalu Cloud. Esta é uma ferramenta desenvolvida pela comunidade que gera código de CLI baseado no SDK da Magalu Cloud.
 
+> 🚫 **PRODUCTION USE WARNING / AVISO DE USO EM PRODUÇÃO** 🚫
+> 
+> This project is intended for development and learning purposes only. Production use is NOT recommended yet.
+> 
+> Este projeto é destinado apenas para fins de desenvolvimento e aprendizado. O uso em produção ainda NÃO é recomendado.
+
 Um gerador de código que cria automaticamente o código fonte da CLI baseado no SDK do MagaluCloud.
 
 ## 📋 Descrição
