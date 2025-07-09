@@ -39,7 +39,7 @@ func GenCliCode() {
 
 	log.Printf("🔧 Iniciando geração do CLI com %d pacotes", len(sdkStructure.Packages))
 	cleanDir(genDir)
-
+	genGoModFile()
 	generateRootCode(&sdkStructure)
 	genMainPackageCode(&sdkStructure)
 	genPackageCode(&sdkStructure)

@@ -2,7 +2,8 @@ package config
 
 // Config representa a estrutura principal do arquivo config.yaml
 type Config struct {
-	Menus []Menu `yaml:"menus"`
+	Version string `yaml:"version"`
+	Menus   []Menu `yaml:"menus"`
 }
 
 // Menu representa um menu principal

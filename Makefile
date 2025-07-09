@@ -19,4 +19,6 @@ clean:
 	@rm -rf tmp-sdk
 	@rm -rf base-cli-gen
 	@rm cligen
-	
+
+build:
+	@go build -o cligen

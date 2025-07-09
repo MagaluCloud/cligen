@@ -965,13 +965,33 @@ func analyzeStructType(expr ast.Expr, packageName string, sdkDir string) map[str
 		return nil
 	}
 
+	structFields := extractTypeFieldsFromIdent(expr, packageName)
+	if structFields != nil {
+		fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
+		return structFields
+	}
+
 	// Procurar pela definição da struct no diretório do SDK
-	structFields := findStructDefinition(typeName, sdkDir, packageName)
+	structFields = findStructDefinition(typeName, sdkDir, packageName)
 	if structFields != nil {
 		fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
 	}
 
 	return structFields
+}
+
+func extractTypeFieldsFromIdent(expr ast.Expr, packageName string) map[string]Parameter {
+	if ident, ok := expr.(*ast.Ident); ok {
+		if ident.Obj != nil {
+			if typeDecl, ok := ident.Obj.Decl.(*ast.TypeSpec); ok {
+				if structType, ok := typeDecl.Type.(*ast.StructType); ok {
+					return extractStructFields(structType, packageName, "")
+				}
+			}
+		}
+	}
+
+	return nil
 }
 
 // extractTypeName extrai o nome do tipo de um ast.Expr
