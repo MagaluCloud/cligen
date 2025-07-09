@@ -22,3 +22,6 @@ clean:
 
 build:
 	@go build -o cligen
+
+copy-cli:
+	@cp -r tmp-cli/* ../cli

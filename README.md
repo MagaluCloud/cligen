@@ -18,6 +18,8 @@ Um gerador de código que cria automaticamente o código fonte da CLI baseado no
 
 O **cligen** é uma ferramenta de linha de comando desenvolvida em Go que automatiza a criação de CLIs (Command Line Interfaces) baseadas no SDK do MagaluCloud. Ele gera código estruturado e funcional a partir de configurações YAML, facilitando o desenvolvimento de interfaces de linha de comando para serviços cloud.
 
+## Veja detalhes no [Wiki](https://deepwiki.com/geffersonFerraz/cligen)
+
 ## 🚀 Funcionalidades
 
 - **Clone do SDK**: Baixa automaticamente a versão mais recente do SDK do MagaluCloud
