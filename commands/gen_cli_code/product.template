@@ -40,8 +40,8 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 			{{.}}// CobraFlagsAssign
 			{{end}}
 
-			fmt.Println("{{.FunctionName}}")
-			{{.ServiceCall}}({{.ServiceSDKParam}})
+			{{.AssignResult}} := {{.ServiceCall}}({{.ServiceSDKParam}})
+			{{.PrintResult}}
 		},
 	}
 	

@@ -32,7 +32,7 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 
 				serviceCallParams := genProductParameters(productData, method.Parameters)
 				productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
-
+				printResult(productData, method)
 				dir := genDir
 				if parentPkg != nil {
 					dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
@@ -52,6 +52,23 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 		}
 	}
 	return nil
+}
+
+func printResult(productData *PackageGroupData, method sdk_structure.Method) {
+	// first check responses and create a AssignResult
+	assignResult := []string{}
+	printResult := []string{}
+	for _, response := range method.Returns {
+		assignResult = append(assignResult, response.Name)
+		if response.Type == "error" {
+			printResult = append(printResult, "\t\t\tif err != nil {\n\t\t\t\tfmt.Println(err.Error())\n\t\t\t}")
+			continue
+		}
+		printResult = append(printResult, fmt.Sprintf("sdkResult, err := json.MarshalIndent(%s, \"\", \"  \")\n\t\t\tif err != nil {\n\t\t\t\tfmt.Println(err.Error())\n\t\t\t}\n\t\t\tfmt.Println(string(sdkResult))", response.Name))
+		productData.AddImport("\"encoding/json\"")
+	}
+	productData.AddAssignResult(strings.Join(assignResult, ", "))
+	productData.AddPrintResult(strings.Join(printResult, "\n"))
 }
 
 func genProductParameters(productData *PackageGroupData, params []sdk_structure.Parameter) []string {
@@ -409,3 +426,5 @@ func translateTypeToCobraFlagCreate(paramType string, withChar bool) string {
 		return "Str"
 	}
 }
+
+// PrintResult

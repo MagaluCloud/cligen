@@ -106,6 +106,10 @@ type PackageGroupData struct {
 
 	// Used chars
 	UsedChars []string `json:"used_chars"`
+
+	// PrintResult
+	AssignResult string `json:"assign_result"`
+	PrintResult  string `json:"print_result"`
 }
 
 // SubCommandData representa um subcomando que será adicionado ao grupo
@@ -361,6 +365,14 @@ func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {
 
 func (pgd *PackageGroupData) AddCobraArrayParse(cobraArrayParse string) {
 	pgd.CobraArrayParse = append(pgd.CobraArrayParse, cobraArrayParse)
+}
+
+func (pgd *PackageGroupData) AddAssignResult(assignResult string) {
+	pgd.AssignResult = assignResult
+}
+
+func (pgd *PackageGroupData) AddPrintResult(printResult string) {
+	pgd.PrintResult = printResult
 }
 
 func (pgd *PackageGroupData) AddCobraStructInitialize(cobraStructInitialize string) {
