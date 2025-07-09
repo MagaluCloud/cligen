@@ -86,7 +86,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			)
 			productData.AddCobraFlagsAssign(createPrimitiveFlagToAssign(param.Name, param.IsPointer))
 			if !param.IsPointer {
-				productData.AddCobraFlagsRequired(fmt.Sprintf("cmd.MarkFlagRequired(\"%s\")", cobraFlagName))
+				addRequiredFlag(productData, param, param.Name)
 			}
 		}
 
@@ -110,7 +110,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 					)
 					productData.AddCobraFlagsAssign(createStructFlagToAssign(param.Name, field.Name, field.IsPointer))
 					if !field.IsPointer {
-						productData.AddCobraFlagsRequired(fmt.Sprintf("cmd.MarkFlagRequired(\"%s\")", cobraFlagName))
+						addRequiredFlag(productData, field, cobraFlagName)
 					}
 				}
 				// Here is a struct, we need some recursive call to generate the code for the struct
@@ -147,6 +147,12 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 		serviceCallParams = append(serviceCallParams, param.Name)
 	}
 	return serviceCallParams
+}
+
+func addRequiredFlag(productData *PackageGroupData, param sdk_structure.Parameter, flagName string) {
+	if !param.IsPointer && !param.IsArray {
+		productData.AddCobraFlagsRequired(fmt.Sprintf("cmd.MarkFlagRequired(\"%s\")", flagName))
+	}
 }
 
 func prepareCommandFlag(str string) string {
@@ -286,6 +292,8 @@ func defaultByType(paramType string) string {
 		return "false"
 	case "[]string":
 		return "[]string{}"
+	case "map[string]string":
+		return "map[string]string{}"
 	default:
 		return "\"\""
 	}
@@ -328,6 +336,8 @@ func translateTypeToCobraFlag(paramType string) string {
 		return "IntFlag"
 	case "[]string":
 		return "StrSliceFlag"
+	case "map[string]string":
+		return "StrMapFlag"
 	default:
 		return "StrFlag"
 	}
@@ -387,6 +397,11 @@ func translateTypeToCobraFlagCreate(paramType string, withChar bool) string {
 			return "StrSliceP"
 		}
 		return "StrSlice"
+	case "map[string]string":
+		if withChar {
+			return "StrMapP"
+		}
+		return "StrMap"
 	default:
 		if withChar {
 			return "StrP"

@@ -32,6 +32,11 @@ type StrSliceFlag struct {
 	Value *[]string
 }
 
+type StrMapFlag struct {
+	baseFlag
+	Value *map[string]string
+}
+
 func (f *baseFlag) IsChanged() bool {
 	return f.cmd.Flags().Changed(f.name)
 }
@@ -94,4 +99,16 @@ func NewStrSliceP(cmd *cobra.Command, name string, shorthand string, defaultValu
 	var value *[]string = new([]string)
 	cmd.Flags().StringSliceVarP(value, name, shorthand, defaultValue, usage)
 	return &StrSliceFlag{baseFlag: baseFlag{cmd, name}, Value: value}
+}
+
+func NewStrMap(cmd *cobra.Command, name string, defaultValue map[string]string, usage string) *StrMapFlag {
+	var value *map[string]string = new(map[string]string)
+	cmd.Flags().StringToStringVar(value, name, defaultValue, usage)
+	return &StrMapFlag{baseFlag: baseFlag{cmd, name}, Value: value}
+}
+
+func NewStrMapP(cmd *cobra.Command, name string, shorthand string, defaultValue map[string]string, usage string) *StrMapFlag {
+	var value *map[string]string = new(map[string]string)
+	cmd.Flags().StringToStringVarP(value, name, shorthand, defaultValue, usage)
+	return &StrMapFlag{baseFlag: baseFlag{cmd, name}, Value: value}
 }
