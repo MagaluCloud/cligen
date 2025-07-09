@@ -1,4 +1,4 @@
-# Nova CLI Generator (cligen)
+# CLI Generator (cligen)
 
 > ⚠️ **WARNING / AVISO** ⚠️
 > 
