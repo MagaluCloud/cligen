@@ -54,21 +54,34 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	return nil
 }
 
+func addPrintError() string {
+	return "\n\t\t\tif err != nil {\n\t\t\tmsg, detail := cmdutils.ParseSDKError(err)\n\t\t\t\t\tfmt.Println(msg)\n\t\t\t\t\tfmt.Println(detail)\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t"
+}
+
 func printResult(productData *PackageGroupData, method sdk_structure.Method) {
 	// first check responses and create a AssignResult
 	assignResult := []string{}
-	printResult := []string{}
+	printRst := []string{}
 	for _, response := range method.Returns {
 		assignResult = append(assignResult, response.Name)
 		if response.Type == "error" {
-			printResult = append(printResult, "\t\t\tif err != nil {\n\t\t\t\tfmt.Println(err.Error())\n\t\t\t}")
+			printRst = append(printRst, addPrintError())
 			continue
 		}
-		printResult = append(printResult, fmt.Sprintf("sdkResult, err := json.MarshalIndent(%s, \"\", \"  \")\n\t\t\tif err != nil {\n\t\t\t\tfmt.Println(err.Error())\n\t\t\t}\n\t\t\tfmt.Println(string(sdkResult))", response.Name))
+
+	}
+	for _, response := range method.Returns {
+		if response.Type == "error" {
+			continue
+		}
+		printRst = append(printRst, fmt.Sprintf("\t\t\tsdkResult, err := json.MarshalIndent(%s, \"\", \"  \")", response.Name))
+		printRst = append(printRst, addPrintError())
+		printRst = append(printRst, "\t\t\tfmt.Println(string(sdkResult))")
 		productData.AddImport("\"encoding/json\"")
 	}
+	productData.AddImport("\"mgccli/cmd_utils\"")
 	productData.AddAssignResult(strings.Join(assignResult, ", "))
-	productData.AddPrintResult(strings.Join(printResult, "\n"))
+	productData.AddPrintResult(strings.Join(printRst, "\n"))
 }
 
 func genProductParameters(productData *PackageGroupData, params []sdk_structure.Parameter) []string {
