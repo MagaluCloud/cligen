@@ -24,4 +24,5 @@ build:
 	@go build -o cligen
 
 copy-cli:
-	@cp -r tmp-cli/* ../cli
+	@cd ../cli && find . -mindepth 1 -not -path './.git*' -delete
+	@cp -r tmp-cli/* ../cli && git add . && git commit -m "feat: update cli" && git push origin main
