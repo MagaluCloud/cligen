@@ -1,6 +1,7 @@
 version: v0.3.45
 menus:
   - name: "profile"
+    description: "Manage account settings, including SSH keys and related configurations."
     menus:
       - name: "availability-zones"
         alias:

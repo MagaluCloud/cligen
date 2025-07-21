@@ -8,8 +8,10 @@ type Config struct {
 
 // Menu representa um menu principal
 type Menu struct {
-	Name       string   `yaml:"name,omitempty"`
-	SDKPackage string   `yaml:"sdk_package,omitempty"`
-	Alias      []string `yaml:"alias,omitempty"`
-	Menus      []Menu   `yaml:"menus,omitempty"`
+	Name            string   `yaml:"name,omitempty"`
+	Description     string   `yaml:"description,omitempty"`
+	LongDescription string   `yaml:"long_description,omitempty"`
+	SDKPackage      string   `yaml:"sdk_package,omitempty"`
+	Alias           []string `yaml:"alias,omitempty"`
+	Menus           []Menu   `yaml:"menus,omitempty"`
 }

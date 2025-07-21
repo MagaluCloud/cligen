@@ -13,8 +13,7 @@ func main() {
 	var rootCmd = &cobra.Command{
 		Use:   "cligen",
 		Short: "Gerador de código para CLI baseado no SDK",
-		Long: `Gerador de código que cria automaticamente o código fonte da CLI
-baseado no SDK do MagaluCloud.`,
+		Long:  `Gerador de código que cria automaticamente o código fonte da CLI baseado no SDK.`,
 	}
 
 	// Adicionar comandos

@@ -84,10 +84,11 @@ type PackageGroupData struct {
 	ServiceSDKParamCreate []string `json:"service_sdk_param_create"`
 
 	// Informações do comando
-	UseName          string `json:"use_name"`
-	ShortDescription string `json:"short_description"`
-	LongDescription  string `json:"long_description"`
-	GroupID          string `json:"group_id,omitempty"`
+	UseName          string   `json:"use_name"`
+	Aliases          []string `json:"aliases"`
+	ShortDescription string   `json:"short_description"`
+	LongDescription  string   `json:"long_description"`
+	GroupID          string   `json:"group_id,omitempty"`
 
 	// Subcomandos que serão adicionados ao grupo
 	SubCommands []SubCommandData `json:"sub_commands"`
@@ -207,6 +208,11 @@ func (pgd *PackageGroupData) SetPackageName(packageName string) {
 // SetUseName define o nome de uso do comando
 func (pgd *PackageGroupData) SetUseName(useName string) {
 	pgd.UseName = strings.ToLower(strutils.ToSnakeCase(useName, "-"))
+}
+
+// SetAliases define os aliases do comando
+func (pgd *PackageGroupData) SetAliases(aliases []string) {
+	pgd.Aliases = aliases
 }
 
 // SetServiceInit define o código para inicializar o serviço

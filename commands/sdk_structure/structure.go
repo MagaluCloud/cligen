@@ -44,10 +44,13 @@ type Method struct {
 
 // Package representa um pacote do SDK com seus serviços
 type Package struct {
-	MenuName string             `json:"menu_name"`
-	Name     string             `json:"name"`
-	Services []Service          `json:"services"`
-	SubPkgs  map[string]Package `json:"sub_packages,omitempty"` // Para suporte recursivo
+	MenuName        string             `json:"menu_name"`
+	Description     string             `json:"description"`
+	LongDescription string             `json:"long_description"`
+	Aliases         []string           `json:"aliases"`
+	Name            string             `json:"name"`
+	Services        []Service          `json:"services"`
+	SubPkgs         map[string]Package `json:"sub_packages,omitempty"` // Para suporte recursivo
 }
 
 // SDKStructure representa a estrutura completa do SDK
@@ -95,10 +98,13 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 
 		// Criar um pacote vazio para o menu de agrupamento
 		groupPkg := Package{
-			MenuName: menu.Name,
-			Name:     menu.Name,
-			Services: []Service{},
-			SubPkgs:  make(map[string]Package),
+			MenuName:        menu.Name,
+			Name:            menu.Name,
+			Description:     menu.Description,
+			LongDescription: "menu.LongDescription 1",
+			Aliases:         menu.Alias,
+			Services:        []Service{},
+			SubPkgs:         make(map[string]Package),
 		}
 
 		// Construir o caminho atual para este menu
@@ -116,7 +122,7 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 			if submenu.SDKPackage != "" {
 				fmt.Printf("  📦 Submenu '%s' tem SDK Package: %s\n", submenu.Name, submenu.SDKPackage)
 				// Para menus filhos, o diretório será dentro do diretório pai
-				subPkg := genCliCodeFromSDK(currentPath, submenu.SDKPackage)
+				subPkg := genCliCodeFromSDK(submenu)
 				subPkg.MenuName = submenu.Name
 				groupPkg.SubPkgs[submenu.SDKPackage] = subPkg
 			} else if len(submenu.Menus) > 0 {
@@ -124,10 +130,13 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 				// Se o submenu também tem submenus, processar recursivamente
 				// Criar um subpacote de agrupamento
 				subGroupPkg := Package{
-					MenuName: submenu.Name,
-					Name:     submenu.Name,
-					Services: []Service{},
-					SubPkgs:  make(map[string]Package),
+					MenuName:        submenu.Name,
+					Name:            submenu.Name,
+					Aliases:         submenu.Alias,
+					Description:     "submenu.Description",
+					LongDescription: "submenu.LongDescription 2",
+					Services:        []Service{},
+					SubPkgs:         make(map[string]Package),
 				}
 
 				// Processar submenus do submenu
@@ -137,7 +146,7 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 					if subSubmenu.SDKPackage != "" {
 						fmt.Printf("    📦 Sub-submenu '%s' tem SDK Package: %s\n", subSubmenu.Name, subSubmenu.SDKPackage)
 						// Para sub-submenus, o diretório será dentro do diretório do submenu pai
-						subSubPkg := genCliCodeFromSDK(filepath.Join(currentPath, submenu.Name), subSubmenu.SDKPackage)
+						subSubPkg := genCliCodeFromSDK(subSubmenu)
 						subSubPkg.MenuName = subSubmenu.Name
 						subGroupPkg.SubPkgs[subSubmenu.SDKPackage] = subSubPkg
 					} else if len(subSubmenu.Menus) > 0 {
@@ -166,9 +175,25 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 		}
 	} else if menu.SDKPackage != "" {
 		fmt.Printf("📦 Menu '%s' tem SDK Package: %s\n", menu.Name, menu.SDKPackage)
-		// Se o menu não tem submenus mas tem SDKPackage, processá-lo como um pacote normal
-		pkg := genCliCodeFromSDK(parentPath, menu.SDKPackage)
+		pkg := genCliCodeFromSDK(menu)
 		pkg.MenuName = menu.Name
+		if pkg.Description == "" {
+			description := []string{}
+			checkpoint := false
+			for _, service := range pkg.Services {
+				description = append(description, service.Name)
+				if len(description) == 6 || len(strings.Join(description, ", ")) > 70 {
+					checkpoint = true
+					break
+				}
+			}
+			pkg.LongDescription = "menu.LongDescription 3"
+			if checkpoint {
+				pkg.Description = strings.Join(description, ", ") + "..."
+			} else {
+				pkg.Description = strings.Join(description, ", ") + "."
+			}
+		}
 
 		// Adicionar ao nível apropriado
 		if parentPath == "" {
@@ -190,21 +215,24 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 // O SDK foi antereiormente clonado no diretório tmp-sdk/
 // parentDir é o diretório pai (pode ser vazio para menus principais)
 // packageName é o nome do pacote SDK
-func genCliCodeFromSDK(parentDir, packageName string) Package {
+func genCliCodeFromSDK(menu config.Menu) Package {
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("Erro ao obter diretório atual: %v", err)
 	}
 
 	// Construir o caminho do SDK baseado na hierarquia
-	sdkDir := filepath.Join(dir, "tmp-sdk", packageName)
+	sdkDir := filepath.Join(dir, "tmp-sdk", menu.SDKPackage)
 	fmt.Printf("🔍 Procurando SDK em diretório principal: %s\n", sdkDir)
 
 	pkg := Package{
-		MenuName: packageName,
-		Name:     packageName,
-		Services: []Service{},
-		SubPkgs:  make(map[string]Package),
+		MenuName:        menu.SDKPackage,
+		Name:            menu.SDKPackage,
+		Description:     menu.Description,
+		LongDescription: "menu.LongDescription 4",
+		Aliases:         menu.Alias,
+		Services:        []Service{},
+		SubPkgs:         make(map[string]Package),
 	}
 
 	// Verificar se o diretório do SDK existe
@@ -228,7 +256,7 @@ func genCliCodeFromSDK(parentDir, packageName string) Package {
 			fmt.Printf("🔧 Processando arquivo client.go em: %s\n", sdkDir)
 			services := genCliCodeFromClient(sdkDir, filepath.Join(sdkDir, file.Name()))
 			pkg.Services = services
-			fmt.Printf("✅ Processados %d serviços do pacote %s\n", len(services), packageName)
+			fmt.Printf("✅ Processados %d serviços do pacote %s\n", len(services), menu.SDKPackage)
 		}
 	}
 
@@ -275,7 +303,7 @@ func genCliCodeFromClient(sdkDir, filePath string) []Service {
 
 	// Agora vamos analisar cada serviço encontrado
 	for _, clientMethod := range clientMethods {
-		service := analyzeService(sdkDir, filePath, clientMethod.ServiceName)
+		service := analyzeService(sdkDir, clientMethod.ServiceName)
 		services = append(services, service)
 
 	}
@@ -284,7 +312,7 @@ func genCliCodeFromClient(sdkDir, filePath string) []Service {
 }
 
 // analyzeService analisa um serviço específico para extrair seus métodos
-func analyzeService(sdkDir, clientFilePath, serviceName string) Service {
+func analyzeService(sdkDir, serviceName string) Service {
 	service := Service{
 		Name:        serviceName,
 		Methods:     []Method{},
@@ -445,7 +473,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 												}
 											} else {
 												// Parâmetro sem nome - gerar nome baseado no tipo
-												paramName := generateParamName(paramType, i)
+												paramName := generateParamName(paramType)
 												isPointer := false
 												if strings.HasPrefix(paramType, "*") {
 													isPointer = true
@@ -497,7 +525,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 												}
 											} else {
 												// Retorno sem nome - gerar nome baseado no tipo
-												returnName := generateReturnName(returnType, i)
+												returnName := generateReturnName(returnType)
 												isPointer := false
 												if strings.HasPrefix(returnType, "*") {
 													isPointer = true
@@ -537,7 +565,7 @@ func analyzeFileForService(filePath string, possibleInterfaceNames []string, ser
 												subServiceName := extractSubServiceName(returnType.Type, methodName)
 												if subServiceName != "" {
 													// Analisar o subserviço recursivamente
-													subService := analyzeService(filepath.Dir(filePath), filePath, subServiceName)
+													subService := analyzeService(filepath.Dir(filePath), subServiceName)
 													if len(subService.Methods) > 0 {
 														service.SubServices[subServiceName] = subService
 														fmt.Printf("   ✅ Subserviço adicionado: %s (%d métodos)\n", subServiceName, len(subService.Methods))
@@ -727,7 +755,7 @@ func extractSubServiceName(returnType string, methodName string) string {
 }
 
 // generateParamName gera um nome para um parâmetro baseado no tipo
-func generateParamName(paramType string, index int) string {
+func generateParamName(paramType string) string {
 	// Converter o tipo para um nome de variável em camelCase
 	switch paramType {
 	case "context.Context":
@@ -756,7 +784,7 @@ func generateParamName(paramType string, index int) string {
 }
 
 // generateReturnName gera um nome para um retorno baseado no tipo
-func generateReturnName(returnType string, index int) string {
+func generateReturnName(returnType string) string {
 	// Para retornos, usar nomes mais descritivos
 	switch returnType {
 	case "error":
@@ -1123,7 +1151,7 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 			}
 		} else {
 			// Campo anônimo (embedded struct)
-			fieldName := generateFieldName(fieldType, i)
+			fieldName := generateFieldName(fieldType)
 			fields[fieldName] = Parameter{
 				Position:    i,
 				Name:        fieldName,
@@ -1170,7 +1198,7 @@ func extractJSONTag(tagValue string) string {
 }
 
 // generateFieldName gera um nome para um campo anônimo baseado no tipo
-func generateFieldName(fieldType string, index int) string {
+func generateFieldName(fieldType string) string {
 	// Remover ponteiros e arrays para gerar nome base
 	baseType := strings.TrimPrefix(fieldType, "*")
 	baseType = strings.TrimPrefix(baseType, "[]")

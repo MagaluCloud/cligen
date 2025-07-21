@@ -15,7 +15,7 @@ const (
 	genDir = "base-cli-gen/cmd/gen"
 
 	// Descrições padrão para comandos (placeholders)
-	defaultShortDesc = "todo"
+	defaultShortDesc = "todo aaa"
 	defaultLongDesc  = "todo2"
 
 	// Nomes de grupos para agrupamento de comandos no CLI
@@ -67,7 +67,7 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 	mainPackageData.SetPackageName(pkg.Name)
 	mainPackageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
 	mainPackageData.SetUseName(pkg.MenuName)
-	mainPackageData.SetDescriptions(defaultShortDesc, defaultLongDesc)
+	mainPackageData.SetDescriptions(pkg.Description, "defaultLongDesc 1")
 	mainPackageData.SetServiceParam(serviceParamPattern)
 	mainPackageData.AddImport(importSDK)
 	mainPackageData.SetGroupID(groupProducts)

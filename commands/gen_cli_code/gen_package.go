@@ -26,10 +26,11 @@ func genPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	packageData.SetGroupID(groupProducts)
 	packageData.SetPackageName(pkg.Name)
 	packageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
-	packageData.SetUseName(pkg.Name)
+	packageData.SetUseName(pkg.MenuName)
+	packageData.SetAliases(pkg.Aliases)
 	packageData.AddImport(importCobra)
 	packageData.AddImport(importSDK)
-	packageData.SetDescriptions(defaultShortDesc, defaultLongDesc)
+	packageData.SetDescriptions(pkg.Description, pkg.LongDescription)
 	packageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
 	packageData.SetServiceParam(serviceParamPattern)
 
