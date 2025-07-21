@@ -11,13 +11,13 @@ run:
 
 run-cli:
 	@cd tmp-cli && go mod tidy
-	@cd tmp-cli && go build -o mgccli
-	@cd tmp-cli && ./mgccli
+	@cd tmp-cli && go build -o cli
+	@cd tmp-cli && ./cli	
 
 run-cli-br:
 	@cd tmp-cli && go mod tidy
-	@cd tmp-cli && go build -o mgccli
-	@cd tmp-cli && ./mgccli --lang pt-BR
+	@cd tmp-cli && go build -o cli
+	@cd tmp-cli && ./cli --lang pt-BR
 
 clean:
 	@rm -rf tmp-cli
@@ -31,9 +31,9 @@ build:
 copy-cli: run-cli
 	@cd ../cli && find . -mindepth 1 -not -path './.git*' -delete
 	@cp -r tmp-cli/* ../cli
-	@cd ../cli && termshot --filename cli.png "./mgccli"
-	@cd ../cli && termshot --filename cli-br.png "./mgccli --lang pt-BR"
-	@cd ../cli && termshot --filename cli-es.png "./mgccli --lang es-ES"
+	@cd ../cli && termshot --filename cli.png "./cli"
+	@cd ../cli && termshot --filename cli-br.png "./cli --lang pt-BR"
+	@cd ../cli && termshot --filename cli-es.png "./cli --lang es-ES"
 
 	@cd ../cli && echo ":brazil: ![cli-br](cli-br.png)" >> README.md
 	@cd ../cli && echo ":us:![cli](cli.png)" >> README.md

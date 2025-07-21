@@ -1,5 +1,7 @@
 # CLI
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/geffersonFerraz/cli)
+
 ## Disclaimer
 
 > ⚠️ **WARNING / AVISO** ⚠️
@@ -13,3 +15,5 @@
 > This project is intended for development and learning purposes only. Production use is NOT recommended yet.
 > 
 > Este projeto é destinado apenas para fins de desenvolvimento e aprendizado. O uso em produção ainda NÃO é recomendado.
+
+

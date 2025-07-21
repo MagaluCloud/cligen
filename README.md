@@ -1,5 +1,7 @@
 # CLI Generator (cligen)
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/geffersonFerraz/cligen)
+
 > ⚠️ **WARNING / AVISO** ⚠️
 > 
 > This is NOT an official Magalu Cloud project. This is a community-driven tool that generates CLI code based on the Magalu Cloud SDK.
