@@ -2,6 +2,7 @@ package sdk_structure
 
 import (
 	"cligen/config"
+	strutils "cligen/str_utils"
 	"fmt"
 	"path/filepath"
 	"strings"
@@ -25,7 +26,7 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 			MenuName:        menu.Name,
 			Name:            menu.Name,
 			Description:     menu.Description,
-			LongDescription: "menu.LongDescription 1",
+			LongDescription: menu.Description,
 			Aliases:         menu.Alias,
 			Services:        []Service{},
 			SubPkgs:         make(map[string]Package),
@@ -101,21 +102,15 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 		fmt.Printf("📦 Menu '%s' tem SDK Package: %s\n", menu.Name, menu.SDKPackage)
 		pkg := genCliCodeFromSDK(menu)
 		pkg.MenuName = menu.Name
-		if pkg.Description == "" {
-			description := []string{}
-			checkpoint := false
-			for _, service := range pkg.Services {
-				description = append(description, service.Name)
-				if len(description) == 6 || len(strings.Join(description, ", ")) > 70 {
-					checkpoint = true
+		if pkg.Description == "" && pkg.LongDescription != "" {
+			strs := strings.Split(pkg.LongDescription, "\n")
+			for _, str := range strs {
+				if str != "" {
+					str = strings.Replace(str, "Package ", "", 1)
+					str = strutils.FirstUpper(str)
+					pkg.Description = str
 					break
 				}
-			}
-			pkg.LongDescription = "menu.LongDescription 3"
-			if checkpoint {
-				pkg.Description = strings.Join(description, ", ") + "..."
-			} else {
-				pkg.Description = strings.Join(description, ", ") + "."
 			}
 		}
 

@@ -38,21 +38,11 @@ func genCliCodeFromSDK(menu config.Menu) Package {
 
 	fmt.Printf("✅ Diretório do SDK encontrado: %s\n", sdkDir)
 
-	files, err := os.ReadDir(sdkDir)
-	if err != nil {
-		log.Fatalf("Erro ao ler diretório do SDK: %v", err)
-	}
-
-	fmt.Printf("📄 Total de arquivos no diretório: %d\n", len(files))
-
-	for _, file := range files {
-		if file.Name() == "client.go" {
-			fmt.Printf("🔧 Processando arquivo client.go em: %s\n", sdkDir)
-			services := genCliCodeFromClient(&pkg, sdkDir, filepath.Join(sdkDir, file.Name()))
-			pkg.Services = services
-			fmt.Printf("✅ Processados %d serviços do pacote %s\n", len(services), menu.SDKPackage)
-		}
-	}
+	// Usar a nova abordagem com parser.ParseDir para analisar todo o package
+	fmt.Printf("🔧 Analisando package com parser.ParseDir...\n")
+	services := genCliCodeFromClient(&pkg, sdkDir, filepath.Join(sdkDir, "client.go"))
+	pkg.Services = services
+	fmt.Printf("✅ Processados %d serviços do pacote %s\n", len(services), menu.SDKPackage)
 
 	return pkg
 }

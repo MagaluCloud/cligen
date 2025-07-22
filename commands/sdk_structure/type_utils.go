@@ -36,7 +36,7 @@ func getTypeStringWithPackage(expr ast.Expr, packageName string) (string, bool) 
 			return t.Name, true
 		}
 		// Se não for primitivo, adicionar o pacote
-		return packageName + "." + t.Name, false
+		return packageName + "Sdk." + t.Name, false
 	case *ast.StarExpr:
 		subType, isPrimitive := getTypeStringWithPackage(t.X, packageName)
 		return "*" + subType, isPrimitive
