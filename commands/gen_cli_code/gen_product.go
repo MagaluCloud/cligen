@@ -79,7 +79,7 @@ func printResult(productData *PackageGroupData, method sdk_structure.Method) {
 		printRst = append(printRst, "\t\t\tfmt.Println(string(sdkResult))")
 		productData.AddImport("\"encoding/json\"")
 	}
-	productData.AddImport("\"mgccli/cmd_utils\"")
+	productData.AddImport("\"gfcli/cmd_utils\"")
 	productData.AddAssignResult(strings.Join(assignResult, ", "))
 	productData.AddPrintResult(strings.Join(printRst, "\n"))
 }
@@ -96,7 +96,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			continue
 		}
 		if len(params) > 0 {
-			productData.AddImport("flags \"mgccli/cobra_utils/flags\"")
+			productData.AddImport("flags \"gfcli/cobra_utils/flags\"")
 		}
 
 		if param.IsPrimitive {

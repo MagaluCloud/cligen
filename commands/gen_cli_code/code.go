@@ -77,9 +77,9 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 			mainPackageData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
 			mainPackageData.AddImport(importCobra)
 			if parentPkg != nil {
-				mainPackageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s/%s\"", strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
+				mainPackageData.AddImport(fmt.Sprintf("\"gfcli/cmd/gen/%s/%s/%s\"", strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
 			} else {
-				mainPackageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
+				mainPackageData.AddImport(fmt.Sprintf("\"gfcli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
 			}
 			mainPackageData.AddSubCommand(service.Name, service.Name, fmt.Sprintf("%sService.%s()", pkg.Name, service.Name))
 		}
@@ -88,7 +88,7 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 	if len(pkg.SubPkgs) > 0 {
 		for _, subPkg := range pkg.SubPkgs {
 			mainPackageData.AddImport(importCobra)
-			mainPackageData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(subPkg.Name)))
+			mainPackageData.AddImport(fmt.Sprintf("\"gfcli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(subPkg.Name)))
 			mainPackageData.AddSubCommand(subPkg.Name, strutils.FirstUpper(subPkg.Name), "sdkCoreConfig")
 			genMainPackageCodeRecursive(&subPkg, pkg)
 		}

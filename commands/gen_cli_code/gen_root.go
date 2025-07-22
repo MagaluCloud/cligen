@@ -15,7 +15,7 @@ func generateRootCode(sdkStructure *sdk_structure.SDKStructure) error {
 	rootGenData.AddImport(importCobra)
 	for _, pkg := range sdkStructure.Packages {
 		rootGenData.AddSubCommand(pkg.Name, strutils.FirstUpper(pkg.Name)+"Cmd")
-		rootGenData.AddImport(fmt.Sprintf("\"mgccli/cmd/gen/%s\"", strings.ToLower(pkg.Name)))
+		rootGenData.AddImport(fmt.Sprintf("\"gfcli/cmd/gen/%s\"", strings.ToLower(pkg.Name)))
 	}
 	if err := rootGenData.WriteRootGenToFile(filepath.Join(genDir, "root_gen.go")); err != nil {
 		log.Fatalf("Erro ao escrever o arquivo root_gen.go: %v", err)

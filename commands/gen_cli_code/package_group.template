@@ -20,9 +20,7 @@ func {{.FunctionName}}Cmd(ctx context.Context, parent *cobra.Command, {{.Service
 		Short:   "{{.ShortDescription}}",
 		Long:    `{{.LongDescription}}`,
 		{{if .Aliases}}Aliases: []string{
-		//	{{range .Aliases}}
-		//	"{{.}}",
-	//		{{end}}
+			{{range .Aliases}}"{{.}}",{{end}}
 		},{{end}}
 		{{if .GroupID}}GroupID: "{{.GroupID}}",{{end}}
 	}

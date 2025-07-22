@@ -2,5 +2,5 @@ tmp-*
 bak-*
 .vscode
 cligen
-base-cli/mgccli
 base-cli-gen/*
+base-cli/cli

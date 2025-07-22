@@ -11,13 +11,7 @@ run:
 
 run-cli:
 	@cd tmp-cli && go mod tidy
-	@cd tmp-cli && go build -o cli
-	@cd tmp-cli && ./cli	
-
-run-cli-br:
-	@cd tmp-cli && go mod tidy
-	@cd tmp-cli && go build -o cli
-	@cd tmp-cli && ./cli --lang pt-BR
+	@bash build_cli.sh
 
 clean:
 	@rm -rf tmp-cli
