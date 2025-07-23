@@ -40,6 +40,7 @@ func analyzePackageWithParseDir(sdkDir string) (*ast.Package, *token.FileSet, er
 func analyzeServiceWithPackage(pkg *ast.Package, fset *token.FileSet, serviceName string, sdkDir string) Service {
 	service := Service{
 		Name:        serviceName,
+		Description: "Dqui1",
 		Methods:     []Method{},
 		SubServices: make(map[string]Service),
 		Interface:   serviceName,
@@ -95,7 +96,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 							if funcType, ok := method.Type.(*ast.FuncType); ok {
 								// É um método direto da interface
 								methodName := method.Names[0].Name
-								methodDescription := ""
+								methodDescription := "doto3"
 								if method.Doc != nil {
 									methodDescription = method.Doc.Text()
 								}

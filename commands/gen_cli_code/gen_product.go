@@ -25,7 +25,7 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 				productData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
 				productData.SetFunctionName(method.Name)
 				productData.SetUseName(strutils.FirstLower(method.Name))
-				productData.SetDescriptions(pkg.Description, "defaultLongDesc 3")
+				productData.SetDescriptions(pkg.Description, method.Description)
 				productData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
 				productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
 				productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))

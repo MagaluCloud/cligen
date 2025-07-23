@@ -3,6 +3,7 @@ package sdk_structure
 // Service representa um serviço individual com seus métodos
 type Service struct {
 	Name        string             `json:"name"`
+	Description string             `json:"description"`
 	Interface   string             `json:"interface"`
 	Methods     []Method           `json:"methods"`
 	SubServices map[string]Service `json:"sub_services,omitempty"` // Para subserviços aninhados
