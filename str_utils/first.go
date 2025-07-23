@@ -45,6 +45,47 @@ func ToSnakeCase(s string, char string) string {
 	return strings.ToLower(result.String())
 }
 
+func ToSnakeCasePreserveID(s string, char string) string {
+	if len(s) == 0 {
+		return s
+	}
+
+	if s == "ID" {
+		return "id"
+	}
+
+	var result strings.Builder
+	result.WriteByte(s[0])
+
+	for i := 1; i < len(s); i++ {
+		if s[i] >= 'A' && s[i] <= 'Z' {
+			// Verificar se é "ID" (duas letras maiúsculas seguidas)
+			if i+1 < len(s) && s[i] == 'I' && s[i+1] == 'D' {
+				// Adicionar separador antes de "ID"
+				if char != "" {
+					result.WriteByte(char[0])
+				} else {
+					result.WriteByte('-')
+				}
+				result.WriteByte(s[i])
+				result.WriteByte(s[i+1])
+				i++ // Pular o próximo caractere (D)
+				continue
+			}
+
+			// Caso geral para outras letras maiúsculas
+			if char != "" {
+				result.WriteByte(char[0])
+			} else {
+				result.WriteByte('-')
+			}
+		}
+		result.WriteByte(s[i])
+	}
+
+	return strings.ToLower(result.String())
+}
+
 // input: "ParametersGroupService"
 // output: "ParameterGroupService"
 func RemovePlural(s string) string {

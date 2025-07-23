@@ -103,7 +103,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, param.Type))
 			productData.AddCobraFlagsDefinition(fmt.Sprintf("var %sFlag *flags.%s", param.Name, translateTypeToCobraFlag(param.Type)))
 			initialChar := strutils.FirstUnusedChar(param.Name, &productData.UsedChars)
-			cobraFlagName := strutils.ToSnakeCase(param.Name, "-")
+			cobraFlagName := strutils.ToSnakeCasePreserveID(param.Name, "-")
 			productData.AddCobraFlagsCreation(
 				fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\", %s, \"%s\")",
 					param.Name,
@@ -126,7 +126,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 				if field.IsPrimitive {
 					productData.AddCobraFlagsDefinition(fmt.Sprintf("var %s_%sFlag *flags.%s", param.Name, field.Name, translateTypeToCobraFlag(field.Type)))
 					initialChar := strutils.FirstUnusedChar(field.Name, &productData.UsedChars)
-					cobraFlagName := strutils.ToSnakeCase(field.Name, "-")
+					cobraFlagName := strutils.ToSnakeCasePreserveID(field.Name, "-")
 					productData.AddCobraFlagsCreation(
 						fmt.Sprintf("%s_%sFlag = flags.New%s(cmd, \"%s\", \"%s\", %s, \"%s\")",
 							param.Name,
@@ -189,7 +189,7 @@ func prepareCommandFlag(str string) string {
 	strSplit := strings.Split(str, "_")[1:]
 	for i, s := range strSplit {
 		if len(s) > 2 {
-			strSplit[i] = strutils.ToSnakeCase(s, "-")
+			strSplit[i] = strutils.ToSnakeCasePreserveID(s, "-")
 		}
 	}
 	result := strings.Join(strSplit, ".")
