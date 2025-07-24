@@ -12,7 +12,6 @@ import (
 	{{range .Imports}}
 	{{.}}
 	{{end}}
-	"fmt"
 )
 
 func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServiceParam}}) {
@@ -25,7 +24,7 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 		Use:     "{{.UseName}}",
 		Short:   "{{.ShortDescription}}",
 		Long:    `{{.LongDescription}}`,
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error{
 			
 			{{range .ServiceSDKParamCreate}}
 			{{.}}// ServiceSDKParamCreate
@@ -42,6 +41,7 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 
 			{{.AssignResult}} := {{.ServiceCall}}({{.ServiceSDKParam}})
 			{{.PrintResult}}
+			return nil
 		},
 	}
 	

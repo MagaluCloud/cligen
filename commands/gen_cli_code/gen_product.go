@@ -55,7 +55,8 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 }
 
 func addPrintError() string {
-	return "\n\t\t\tif err != nil {\n\t\t\tmsg, detail := cmdutils.ParseSDKError(err)\n\t\t\t\t\tfmt.Println(msg)\n\t\t\t\t\tfmt.Println(detail)\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t"
+	return "\n\t\t\tif err != nil {\n\t\t\t\treturn err\n\t\t\t}\n\t\t\t"
+	// return "\n\t\t\tif err != nil {\n\t\t\tmsg, detail := cmdutils.ParseSDKError(err)\n\t\t\t\t\tfmt.Println(msg)\n\t\t\t\t\tfmt.Println(detail)\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t"
 }
 
 func printResult(productData *PackageGroupData, method sdk_structure.Method) {
@@ -74,12 +75,16 @@ func printResult(productData *PackageGroupData, method sdk_structure.Method) {
 		if response.Type == "error" {
 			continue
 		}
-		printRst = append(printRst, fmt.Sprintf("\t\t\tsdkResult, err := json.MarshalIndent(%s, \"\", \"  \")", response.Name))
-		printRst = append(printRst, addPrintError())
-		printRst = append(printRst, "\t\t\tfmt.Println(string(sdkResult))")
-		productData.AddImport("\"encoding/json\"")
+		// printRst = append(printRst, fmt.Sprintf("\t\t\tsdkResult, err := json.MarshalIndent(%s, \"\", \"  \")", response.Name))
+		// printRst = append(printRst, addPrintError())
+		printRst = append(printRst, "\t\t\traw, _ := cmd.Root().PersistentFlags().GetBool(\"raw\")")
+		printRst = append(printRst, fmt.Sprintf("\t\t\tbeautiful.NewOutput(raw).PrintData(%s)", response.Name))
+		productData.AddImport("\"gfcli/beautiful\"")
+		// printRst = append(printRst, "\t\t\tfmt.Println(string(sdkResult))")
+		// productData.AddImport("\"encoding/json\"")
+		// productData.AddImport("\"fmt\"")
 	}
-	productData.AddImport("\"gfcli/cmd_utils\"")
+	// productData.AddImport("\"gfcli/cmd_utils\"")
 	productData.AddAssignResult(strings.Join(assignResult, ", "))
 	productData.AddPrintResult(strings.Join(printRst, "\n"))
 }
