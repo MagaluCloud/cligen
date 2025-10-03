@@ -1,26 +1,18 @@
 # CLI Generator (cligen)
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/geffersonFerraz/cligen)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/magaluCloud/cligen)
 
-> ⚠️ **WARNING / AVISO** ⚠️
+> ⚠️ **PRODUCTION USE WARNING / AVISO DE USO EM PRODUÇÃO** ⚠️
 > 
-> This is NOT an official Magalu Cloud project. This is a community-driven tool that generates CLI code based on the Magalu Cloud SDK.
+> Production use is NOT recommended yet.
 > 
-> Este NÃO é um projeto oficial da Magalu Cloud. Esta é uma ferramenta desenvolvida pela comunidade que gera código de CLI baseado no SDK da Magalu Cloud.
-
-> 🚫 **PRODUCTION USE WARNING / AVISO DE USO EM PRODUÇÃO** 🚫
-> 
-> This project is intended for development and learning purposes only. Production use is NOT recommended yet.
-> 
-> Este projeto é destinado apenas para fins de desenvolvimento e aprendizado. O uso em produção ainda NÃO é recomendado.
+> O uso em produção ainda NÃO é recomendado.
 
 Um gerador de código que cria automaticamente o código fonte da CLI baseado no SDK do MagaluCloud.
 
 ## 📋 Descrição
 
 O **cligen** é uma ferramenta de linha de comando desenvolvida em Go que automatiza a criação de CLIs (Command Line Interfaces) baseadas no SDK do MagaluCloud. Ele gera código estruturado e funcional a partir de configurações YAML, facilitando o desenvolvimento de interfaces de linha de comando para serviços cloud.
-
-## Veja detalhes no [Wiki](https://deepwiki.com/geffersonFerraz/cligen)
 
 ## 🚀 Funcionalidades
 
@@ -31,7 +23,7 @@ O **cligen** é uma ferramenta de linha de comando desenvolvida em Go que automa
 
 ## 📦 Pré-requisitos
 
-- Go 1.24.2 ou superior
+- Go 1.25.0 ou superior
 - Git
 - Acesso à internet (para clonar o SDK)
 
@@ -39,7 +31,7 @@ O **cligen** é uma ferramenta de linha de comando desenvolvida em Go que automa
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/geffersonFerraz/cligen.git
+git clone https://github.com/magaluCloud/cligen.git
 cd cligen
 ```
 

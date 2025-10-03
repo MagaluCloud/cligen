@@ -4,3 +4,4 @@ bak-*
 cligen
 base-cli-gen/*
 base-cli/cli
+cli
