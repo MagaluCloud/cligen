@@ -1,4 +1,4 @@
-module cligen
+module github.com/magaluCloud/cligen
 
 go 1.25.1
 

@@ -1,11 +1,12 @@
 package gen_cli_code
 
 import (
-	"cligen/commands/sdk_structure"
-	strutils "cligen/str_utils"
 	"fmt"
 	"path/filepath"
 	"strings"
+
+	"github.com/magaluCloud/cligen/commands/sdk_structure"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
 func genProductCode(sdkStructure *sdk_structure.SDKStructure) error {
@@ -79,12 +80,12 @@ func printResult(productData *PackageGroupData, method sdk_structure.Method) {
 		// printRst = append(printRst, addPrintError())
 		printRst = append(printRst, "\t\t\traw, _ := cmd.Root().PersistentFlags().GetBool(\"raw\")")
 		printRst = append(printRst, fmt.Sprintf("\t\t\tbeautiful.NewOutput(raw).PrintData(%s)", response.Name))
-		productData.AddImport("\"gfcli/beautiful\"")
+		productData.AddImport("\"github.com/magaluCloud/mgccli/beautiful\"")
 		// printRst = append(printRst, "\t\t\tfmt.Println(string(sdkResult))")
 		// productData.AddImport("\"encoding/json\"")
 		// productData.AddImport("\"fmt\"")
 	}
-	// productData.AddImport("\"gfcli/cmd_utils\"")
+	// productData.AddImport("\"github.com/magaluCloud/mgccli/cmd_utils\"")
 	productData.AddAssignResult(strings.Join(assignResult, ", "))
 	productData.AddPrintResult(strings.Join(printRst, "\n"))
 }
@@ -101,7 +102,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			continue
 		}
 		if len(params) > 0 {
-			productData.AddImport("flags \"gfcli/cobra_utils/flags\"")
+			productData.AddImport("flags \"github.com/magaluCloud/mgccli/cobra_utils/flags\"")
 		}
 
 		if param.IsPrimitive {
@@ -321,7 +322,7 @@ func defaultByType(paramType string) string {
 	switch paramType {
 	case "string":
 		return "\"\""
-	case "int64", "int32", "int16", "int8", "int":
+	case "int64", "int32", "int16", "int8", "int", "float64":
 		return "0"
 	case "bool":
 		return "false"
@@ -369,6 +370,8 @@ func translateTypeToCobraFlag(paramType string) string {
 		return "BoolFlag"
 	case "int":
 		return "IntFlag"
+	case "float64":
+		return "Float64Flag"
 	case "[]string":
 		return "StrSliceFlag"
 	case "map[string]string":
@@ -427,6 +430,11 @@ func translateTypeToCobraFlagCreate(paramType string, withChar bool) string {
 			return "IntP"
 		}
 		return "Int"
+	case "float64":
+		if withChar {
+			return "Float64P"
+		}
+		return "Float64"
 	case "[]string":
 		if withChar {
 			return "StrSliceP"

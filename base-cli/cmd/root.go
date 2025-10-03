@@ -7,13 +7,14 @@ import (
 	"log/slog"
 	"os"
 
-	"gfcli/beautiful"
-	"gfcli/cmd/gen"
-	"gfcli/cmd/static"
-	"gfcli/i18n"
 	"runtime"
 
-	cmdutils "gfcli/cmd_utils"
+	"github.com/magaluCloud/mgccli/beautiful"
+	"github.com/magaluCloud/mgccli/cmd/gen"
+	"github.com/magaluCloud/mgccli/cmd/static"
+	"github.com/magaluCloud/mgccli/i18n"
+
+	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 
 	sdk "github.com/MagaluCloud/mgc-sdk-go/client"
 	"github.com/fatih/color"

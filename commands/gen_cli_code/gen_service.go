@@ -1,11 +1,12 @@
 package gen_cli_code
 
 import (
-	"cligen/commands/sdk_structure"
-	strutils "cligen/str_utils"
 	"fmt"
 	"path/filepath"
 	"strings"
+
+	"github.com/magaluCloud/cligen/commands/sdk_structure"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
 func genServiceCode(sdkStructure *sdk_structure.SDKStructure) error {

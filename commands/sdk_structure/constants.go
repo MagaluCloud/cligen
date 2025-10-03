@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	strutils "cligen/str_utils"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
 // Sufixos comuns para serviços

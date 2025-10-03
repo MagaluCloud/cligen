@@ -9,8 +9,8 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"gfcli/cmd"
-	"gfcli/i18n"
+	"github.com/magaluCloud/mgccli/cmd"
+	"github.com/magaluCloud/mgccli/i18n"
 )
 
 var RawVersion string

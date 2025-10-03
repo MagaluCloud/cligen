@@ -1,11 +1,12 @@
 package sdk_structure
 
 import (
-	"cligen/config"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/magaluCloud/cligen/config"
 )
 
 // genCliCodeFromSDK processa um menu e gera código CLI baseado no SDK

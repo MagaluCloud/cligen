@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"gfcli/i18n"
+	"github.com/magaluCloud/mgccli/i18n"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"

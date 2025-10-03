@@ -1,8 +1,9 @@
 package commands
 
 import (
-	"cligen/commands/sdk_structure"
 	"log"
+
+	"github.com/magaluCloud/cligen/commands/sdk_structure"
 
 	"github.com/spf13/cobra"
 )

@@ -1,7 +1,7 @@
 package static
 
 import (
-	"gfcli/cmd/static/config"
+	"github.com/magaluCloud/mgccli/cmd/static/config"
 
 	sdk "github.com/MagaluCloud/mgc-sdk-go/client"
 	"github.com/spf13/cobra"

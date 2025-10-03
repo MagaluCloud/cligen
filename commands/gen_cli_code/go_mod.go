@@ -2,11 +2,12 @@ package gen_cli_code
 
 import (
 	"bytes"
-	"cligen/config"
 	"log"
 	"os"
 	"path/filepath"
 	"text/template"
+
+	"github.com/magaluCloud/cligen/config"
 
 	_ "embed"
 )

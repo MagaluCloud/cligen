@@ -1,8 +1,9 @@
 package sdk_structure
 
 import (
-	"cligen/config"
 	"log"
+
+	"github.com/magaluCloud/cligen/config"
 )
 
 func GenCliSDKStructure() (SDKStructure, error) {

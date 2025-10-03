@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"cligen/commands/gen_cli_code"
+	"github.com/magaluCloud/cligen/commands/gen_cli_code"
 
 	"github.com/spf13/cobra"
 )
