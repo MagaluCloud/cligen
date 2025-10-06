@@ -1,11 +1,12 @@
 package gen_cli_code
 
 import (
-	"cligen/commands/sdk_structure"
-	strutils "cligen/str_utils"
 	"fmt"
 	"path/filepath"
 	"strings"
+
+	"github.com/magaluCloud/cligen/commands/sdk_structure"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
 func genPackageCode(sdkStructure *sdk_structure.SDKStructure) error {
@@ -37,7 +38,7 @@ func genPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	packageData.AddServiceInit(fmt.Sprintf("%sService := %sSdk.New(&sdkCoreConfig)", pkg.Name, pkg.Name))
 
 	for _, service := range pkg.Services {
-		packageData.AddImport(fmt.Sprintf("\"gfcli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
+		packageData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(service.Name)))
 		packageData.AddSubCommand(service.Name, service.Name, fmt.Sprintf("%sService.%s()", pkg.Name, service.Name))
 	}
 	dir := genDir

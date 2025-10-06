@@ -1,11 +1,12 @@
 package sdk_structure
 
 import (
-	"cligen/config"
-	strutils "cligen/str_utils"
 	"fmt"
 	"path/filepath"
 	"strings"
+
+	"github.com/magaluCloud/cligen/config"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
 // processMenu processa um menu e seus submenus recursivamente

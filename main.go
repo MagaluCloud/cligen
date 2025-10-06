@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"cligen/commands"
+	"github.com/magaluCloud/cligen/commands"
 
 	"github.com/spf13/cobra"
 )

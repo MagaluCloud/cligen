@@ -84,7 +84,7 @@ Use uma hierarquia de chaves para organizar as traduções:
 ### 3. Usando Traduções no Código
 
 ```go
-import "gfcli/i18n"
+import "github.com/magaluCloud/mgccli/i18n"
 
 func myFunction() {
     manager := i18n.GetInstance()

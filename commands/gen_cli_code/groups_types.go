@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	strutils "cligen/str_utils"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
 //go:embed package_group.template

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"gfcli/i18n"
+	"github.com/magaluCloud/mgccli/i18n"
 
 	sdk "github.com/MagaluCloud/mgc-sdk-go/client"
 	"github.com/spf13/cobra"

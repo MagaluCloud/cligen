@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"cligen/config"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,6 +8,8 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/magaluCloud/cligen/config"
 
 	"github.com/spf13/cobra"
 )

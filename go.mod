@@ -1,6 +1,6 @@
-module cligen
+module github.com/magaluCloud/cligen
 
-go 1.24.2
+go 1.25.1
 
 require (
 	github.com/MagaluCloud/mgc-sdk-go v0.3.45

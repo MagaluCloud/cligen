@@ -27,6 +27,11 @@ type IntFlag struct {
 	Value *int
 }
 
+type Float64Flag struct {
+	baseFlag
+	Value *float64
+}
+
 type StrSliceFlag struct {
 	baseFlag
 	Value *[]string
@@ -111,4 +116,16 @@ func NewStrMapP(cmd *cobra.Command, name string, shorthand string, defaultValue 
 	var value *map[string]string = new(map[string]string)
 	cmd.Flags().StringToStringVarP(value, name, shorthand, defaultValue, usage)
 	return &StrMapFlag{baseFlag: baseFlag{cmd, name}, Value: value}
+}
+
+func NewFloat64(cmd *cobra.Command, name string, defaultValue float64, usage string) *Float64Flag {
+	var value *float64 = new(float64)
+	cmd.Flags().Float64Var(value, name, defaultValue, usage)
+	return &Float64Flag{baseFlag: baseFlag{cmd, name}, Value: value}
+}
+
+func NewFloat64P(cmd *cobra.Command, name string, shorthand string, defaultValue float64, usage string) *Float64Flag {
+	var value *float64 = new(float64)
+	cmd.Flags().Float64VarP(value, name, shorthand, defaultValue, usage)
+	return &Float64Flag{baseFlag: baseFlag{cmd, name}, Value: value}
 }
