@@ -1,6 +1,6 @@
 # CLI
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/geffersonFerraz/cli)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/magaluCloud/mgccli)
 
 ## Disclaimer
 

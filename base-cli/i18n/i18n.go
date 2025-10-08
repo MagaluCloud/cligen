@@ -35,28 +35,27 @@ var (
 	once     sync.Once
 )
 
-// GetInstance retorna a instância singleton do gerenciador de i18n
-func GetInstance() *Manager {
+func Init18n(lang string) *Manager {
 	once.Do(func() {
 		instance = &Manager{
 			locales:     make(map[string]*Locale),
-			defaultLang: "pt-BR",
+			defaultLang: lang,
 		}
-		// Carregar traduções automaticamente na inicialização
 		if err := instance.LoadLocales(); err != nil {
-			// Log do erro, mas não falhar a inicialização
 			fmt.Printf("Warning: failed to load translations: %v\n", err)
 		}
 	})
 	return instance
 }
 
-// LoadLocales carrega os arquivos de tradução embutidos
+func GetInstance() *Manager {
+	return instance
+}
+
 func (m *Manager) LoadLocales() error {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
-	// Listar todos os arquivos .json no diretório translations
 	files, err := translationsFS.ReadDir("translations")
 	if err != nil {
 		return fmt.Errorf("erro ao listar arquivos de tradução: %w", err)
@@ -72,18 +71,15 @@ func (m *Manager) LoadLocales() error {
 		}
 	}
 
-	// Definir idioma padrão se não houver nenhum carregado
 	if len(m.locales) == 0 {
 		return fmt.Errorf("nenhum arquivo de tradução encontrado")
 	}
 
-	// Definir idioma atual
 	m.setCurrentLocale(m.detectLanguage())
 
 	return nil
 }
 
-// loadLocaleFile carrega um arquivo de tradução individual do embed
 func (m *Manager) loadLocaleFile(filepath string) (*Locale, error) {
 	data, err := translationsFS.ReadFile(filepath)
 	if err != nil {
@@ -98,18 +94,18 @@ func (m *Manager) loadLocaleFile(filepath string) (*Locale, error) {
 	return &locale, nil
 }
 
-// detectLanguage detecta o idioma preferido do usuário
 func (m *Manager) detectLanguage() string {
-	// 1. Verificar variável de ambiente CLI_LANG
+	if m.defaultLang != "" {
+		return m.defaultLang
+	}
+
 	if lang := os.Getenv("CLI_LANG"); lang != "" {
 		if m.isValidLocale(lang) {
 			return lang
 		}
 	}
 
-	// 2. Verificar variável de ambiente LANG
 	if lang := os.Getenv("LANG"); lang != "" {
-		// Extrair código do idioma (ex: pt_BR.UTF-8 -> pt-BR)
 		langCode := strings.Split(lang, ".")[0]
 		langCode = strings.Replace(langCode, "_", "-", 1)
 
@@ -117,14 +113,12 @@ func (m *Manager) detectLanguage() string {
 			return langCode
 		}
 
-		// Tentar apenas o código principal (pt_BR -> pt)
 		mainLang := strings.Split(langCode, "-")[0]
 		if m.isValidLocale(mainLang) {
 			return mainLang
 		}
 	}
 
-	// 3. Verificar variável de ambiente LC_ALL
 	if lang := os.Getenv("LC_ALL"); lang != "" {
 		langCode := strings.Split(lang, ".")[0]
 		langCode = strings.Replace(langCode, "_", "-", 1)
@@ -134,22 +128,18 @@ func (m *Manager) detectLanguage() string {
 		}
 	}
 
-	// 4. Fallback para idioma padrão
-	return m.defaultLang
+	return "pt-BR"
 }
 
-// isValidLocale verifica se um código de idioma é válido
 func (m *Manager) isValidLocale(code string) bool {
 	_, exists := m.locales[code]
 	return exists
 }
 
-// setCurrentLocale define o idioma atual
 func (m *Manager) setCurrentLocale(code string) {
 	if locale, exists := m.locales[code]; exists {
 		m.current = locale
 	} else {
-		// Fallback para o primeiro idioma disponível
 		for _, locale := range m.locales {
 			m.current = locale
 			break
@@ -157,7 +147,6 @@ func (m *Manager) setCurrentLocale(code string) {
 	}
 }
 
-// SetLanguage define o idioma atual
 func (m *Manager) SetLanguage(code string) error {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
@@ -170,7 +159,6 @@ func (m *Manager) SetLanguage(code string) error {
 	return nil
 }
 
-// GetLanguage retorna o código do idioma atual
 func (m *Manager) GetLanguage() string {
 	m.mutex.RLock()
 	defer m.mutex.RUnlock()
@@ -181,7 +169,6 @@ func (m *Manager) GetLanguage() string {
 	return m.current.Code
 }
 
-// T traduz uma chave para o idioma atual
 func (m *Manager) T(key string, args ...interface{}) string {
 	m.mutex.RLock()
 	defer m.mutex.RUnlock()
@@ -192,7 +179,6 @@ func (m *Manager) T(key string, args ...interface{}) string {
 
 	translation, exists := m.current.Translations[key]
 	if !exists {
-		// Fallback para a chave original
 		return key
 	}
 
@@ -203,7 +189,6 @@ func (m *Manager) T(key string, args ...interface{}) string {
 	return translation
 }
 
-// GetAvailableLanguages retorna a lista de idiomas disponíveis
 func (m *Manager) GetAvailableLanguages() []string {
 	m.mutex.RLock()
 	defer m.mutex.RUnlock()
@@ -215,7 +200,6 @@ func (m *Manager) GetAvailableLanguages() []string {
 	return languages
 }
 
-// GetLanguageInfo retorna informações sobre um idioma específico
 func (m *Manager) GetLanguageInfo(code string) (*Locale, error) {
 	m.mutex.RLock()
 	defer m.mutex.RUnlock()
@@ -228,12 +212,9 @@ func (m *Manager) GetLanguageInfo(code string) (*Locale, error) {
 	return locale, nil
 }
 
-// SetupCobraI18n configura o Cobra para usar internacionalização
 func (m *Manager) SetupCobraI18n(cmd *cobra.Command) {
-	// Adicionar flag para idioma
 	cmd.PersistentFlags().String("lang", "", "Idioma da interface (ex: pt-BR, en-US)")
 
-	// Hook para processar a flag de idioma
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		if lang, _ := cmd.Flags().GetString("lang"); lang != "" {
 			return m.SetLanguage(lang)
