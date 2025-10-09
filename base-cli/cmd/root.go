@@ -3,7 +3,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"log"
 	"log/slog"
 	"os"
 
@@ -22,7 +21,9 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func RootCmd(ctx context.Context, version string, manager *i18n.Manager) *cobra.Command {
+func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cobra.Command {
+	manager := i18n.GetInstance()
+
 	var rootCmd = &cobra.Command{
 		Use:     "cli",
 		Short:   manager.T("cli.short_description"),
@@ -57,16 +58,22 @@ func RootCmd(ctx context.Context, version string, manager *i18n.Manager) *cobra.
 	// Init SDK
 	apiKey := os.Getenv("CLI_API_KEY")
 	if apiKey == "" {
-		apiKey = getApiKeyFlag(rootCmd)
+		apiKey, _, _ = args.GetValue(apiKeyFlag)
 		if apiKey == "" {
-			log.Fatal(manager.T("cli.api_key_required"))
+			// TODO: fatal is the best option?
+			// log.Fatal(manager.T("cli.api_key_required"))
 		}
 	}
 
 	sdkOptions := []sdk.Option{}
-	debugLevel := getLogDebugFlag(rootCmd)
-	sdkOptions = append(sdkOptions, sdk.WithLogger(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.Level(debugLevel)}))))
-	sdkOptions = append(sdkOptions, sdk.WithUserAgent(fmt.Sprintf("CommunityCLI/%s (%s; %s)", version, runtime.GOOS, runtime.GOARCH)))
+	debugLevel := slog.LevelError
+
+	debugLevelValue, debugPresent, _ := args.GetValue(debugLevelFlag)
+	if debugPresent {
+		debugLevel = slog.Level(parseDebugLevel(debugLevelValue))
+	}
+	sdkOptions = append(sdkOptions, sdk.WithLogger(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: debugLevel}))))
+	sdkOptions = append(sdkOptions, sdk.WithUserAgent(fmt.Sprintf("CLIv2/%s (%s; %s)", version, runtime.GOOS, runtime.GOARCH)))
 
 	sdkCoreConfig := sdk.NewMgcClient(apiKey,
 		sdkOptions...,
@@ -75,12 +82,8 @@ func RootCmd(ctx context.Context, version string, manager *i18n.Manager) *cobra.
 	static.RootStatic(rootCmd, *sdkCoreConfig)
 	gen.RootGen(ctx, rootCmd, *sdkCoreConfig)
 
-	// Adicionar comando i18n
-	rootCmd.AddCommand(i18nCmd)
-
-	// Aplicar embelezamento
 	beautifulPrint(rootCmd)
-
+	rootCmd.SetArgs(args.AllArgs())
 	return rootCmd
 }
 

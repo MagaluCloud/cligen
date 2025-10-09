@@ -33,6 +33,23 @@
     "i18n.error_listing_files": "error al listar archivos de traducción: %w",
     "i18n.error_loading_file": "error al cargar %s: %w",
     "cli.config.short": "Configuración",
-    "cli.config.long": "Gestionar configuración"
+    "cli.config.long": "Gestionar configuración",
+    "cli.i18n.short": "Internacionalización",
+    "cli.i18n.long": "Gestionar internacionalización",
+    "cli.i18n.list.short": "Listar idiomas",
+    "cli.i18n.list.long": "Listar idiomas disponibles",
+    "cli.i18n.list.no_languages": "No hay idiomas disponibles",
+    "cli.i18n.list.title": "Idiomas disponibles",
+    "cli.i18n.list.current_language": "Idioma actual: %s\n",
+    "cli.i18n.list.use_set": "Usa 'mgc i18n set <código>' para cambiar el idioma.",
+    "cli.i18n.set.short": "Establecer idioma",
+    "cli.i18n.set.long": "Establecer el idioma actual",
+    "cli.i18n.set.error": "idioma no encontrado: %s",
+    "cli.i18n.set.success": "Idioma cambiado a: %s (%s)\n",
+    "cli.i18n.set.note": "Para persistir esta configuración, puedes:",
+    "cli.i18n.set.note_1": "1. Definir la variable de entorno CLI_LANG:",
+    "cli.i18n.set.note_2": "   export CLI_LANG=%s\n",
+    "cli.i18n.set.note_3": "2. Usar la bandera --lang en cada comando:",
+    "cli.i18n.set.note_4": "   cli --lang=%s [comando]\n"
   }
 } 

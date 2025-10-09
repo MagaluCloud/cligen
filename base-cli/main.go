@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/magaluCloud/mgccli/cmd"
+	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/magaluCloud/mgccli/i18n"
 )
 
@@ -47,29 +48,16 @@ func getVCSInfo(version string) string {
 }
 
 func getLang() string {
-	lang, err := os.LookupEnv("CLI_LANG")
-	if err {
+	lang, isPresent := os.LookupEnv("CLI_LANG")
+	if isPresent {
 		return lang
 	}
 	return ""
 }
 
-func getLangFromArgs(args []string) string {
-	for k, arg := range args {
-		if strings.HasPrefix(arg, "--lang=") {
-			return strings.TrimPrefix(arg, "--lang=")
-		}
-		if strings.HasPrefix(arg, "-l") {
-			return args[k+1]
-		}
-		if strings.HasPrefix(arg, "--lang") {
-			return args[k+1]
-		}
-	}
-	return ""
-}
-
 func main() {
+	args := cmdutils.NewArgsParser()
+
 	panicOff := os.Getenv("CLI_PANIC_OFF")
 	if panicOff == "" {
 		defer panicRecover()
@@ -78,13 +66,14 @@ func main() {
 
 	lang := getLang()
 	if lang == "" {
-		lang = getLangFromArgs(os.Args)
+		langFlagValue, _, _ := args.GetValue(cmd.LangFlag)
+		lang = langFlagValue
 	}
 
-	manager := i18n.GetInstance()
-	manager.SetLanguage(lang)
+	manager := i18n.Init18n(lang)
+	version := fmt.Sprintf("%s (%s)", version, manager.GetLanguage())
 
-	rootCmd := cmd.RootCmd(ctx, version, manager)
+	rootCmd := cmd.RootCmd(ctx, version, args)
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
@@ -95,7 +84,7 @@ func panicRecover() {
 	err := recover()
 	if err != nil {
 
-		Url := "https://github.com/geffersonFerraz/cli/issues/new"
+		Url := "https://github.com/magaluCloud/mgccli/issues/new"
 		args := strings.Join(os.Args, " ")
 
 		query := url.Values{}

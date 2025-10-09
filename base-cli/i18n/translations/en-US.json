@@ -33,6 +33,25 @@
     "i18n.error_listing_files": "error listing translation files: %w",
     "i18n.error_loading_file": "error loading %s: %w",
     "cli.config.short": "Configuration",
-    "cli.config.long": "Manage configuration"
+    "cli.config.long": "Manage configuration",
+    "cli.i18n.short": "Internationalization",
+    "cli.i18n.long": "Manage internationalization",
+    "cli.i18n.list.short": "List languages",
+    "cli.i18n.list.long": "List available languages",
+    "cli.i18n.list.no_languages": "No languages available",
+    "cli.i18n.list.title": "Available languages",
+    "cli.i18n.list.current_language": "Current language: %s\n",
+    "cli.i18n.list.use_set": "Use 'mgc i18n set <code>' to change the language.",
+    "cli.i18n.set.short": "Set language",
+    "cli.i18n.set.long": "Set the current language",
+    "cli.i18n.set.error": "language not found: %s",
+    "cli.i18n.set.success": "Language changed to: %s (%s)\n",
+    "cli.i18n.set.note": "To persist this configuration, you can:",
+    "cli.i18n.set.note_1": "1. Define the CLI_LANG environment variable:",
+    "cli.i18n.set.note_2": "   export CLI_LANG=%s\n",
+    "cli.i18n.set.note_3": "2. Use the --lang flag in each command:",
+    "cli.i18n.set.note_4": "   cli --lang=%s [command]\n"
+
+
   }
 } 
