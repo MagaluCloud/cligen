@@ -19,8 +19,8 @@ type (
 	}
 )
 
-func NewArgsParser(args []string) ArgsParser {
-	return &argsParser{allArgs: args}
+func NewArgsParser() ArgsParser {
+	return &argsParser{allArgs: os.Args[1:]}
 }
 
 func (o *argsParser) FullProgramPath() string {
@@ -53,6 +53,10 @@ func (o *argsParser) GetValue(key string) (string, bool, error) {
 			}
 
 			if len(o.allArgs) == i+1 {
+				if key == "debug" {
+					o.ApplyValue(key, "debug")
+					return "debug", isPresent, nil
+				}
 				return "", isPresent, nil
 			}
 
@@ -62,7 +66,15 @@ func (o *argsParser) GetValue(key string) (string, bool, error) {
 	}
 	return "", false, fmt.Errorf("key not found: %s", key)
 }
-
+func (o *argsParser) ApplyValue(key string, value string) error {
+	for i, arg := range o.allArgs {
+		if o.keyIsValid(arg) && (o.cutPrefix(arg) == key || strings.HasPrefix(o.cutPrefix(arg), key+"=")) {
+			o.allArgs[i] = fmt.Sprintf("%s=%s", key, value)
+			return nil
+		}
+	}
+	return fmt.Errorf("key not found: %s", key)
+}
 func (o *argsParser) GetValueWithDefault(key string, defaultValue string) (string, bool, error) {
 	value, isPresent, err := o.GetValue(key)
 	if err == nil {

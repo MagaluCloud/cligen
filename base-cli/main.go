@@ -56,7 +56,7 @@ func getLang() string {
 }
 
 func main() {
-	args := cmdutils.NewArgsParser(os.Args)
+	args := cmdutils.NewArgsParser()
 
 	panicOff := os.Getenv("CLI_PANIC_OFF")
 	if panicOff == "" {

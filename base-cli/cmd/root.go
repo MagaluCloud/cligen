@@ -83,7 +83,7 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	gen.RootGen(ctx, rootCmd, *sdkCoreConfig)
 
 	beautifulPrint(rootCmd)
-
+	rootCmd.SetArgs(args.AllArgs())
 	return rootCmd
 }
 
