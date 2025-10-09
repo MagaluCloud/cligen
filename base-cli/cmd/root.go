@@ -66,14 +66,13 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	}
 
 	sdkOptions := []sdk.Option{}
-	_, isDebug, _ := args.GetValue(logDebugFlag)
 	debugLevel := slog.LevelError
-	if isDebug {
-		debugLevelValue, _, _ := args.GetValue(debugLevelFlag)
+
+	debugLevelValue, debugPresent, _ := args.GetValue(debugLevelFlag)
+	if debugPresent {
 		debugLevel = slog.Level(parseDebugLevel(debugLevelValue))
 	}
-
-	sdkOptions = append(sdkOptions, sdk.WithLogger(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: debugLevel}))))
+	sdkOptions = append(sdkOptions, sdk.WithLogger(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: debugLevel}))))
 	sdkOptions = append(sdkOptions, sdk.WithUserAgent(fmt.Sprintf("CLIv2/%s (%s; %s)", version, runtime.GOOS, runtime.GOARCH)))
 
 	sdkCoreConfig := sdk.NewMgcClient(apiKey,
@@ -83,7 +82,6 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	static.RootStatic(rootCmd, *sdkCoreConfig)
 	gen.RootGen(ctx, rootCmd, *sdkCoreConfig)
 
-	// Aplicar embelezamento
 	beautifulPrint(rootCmd)
 
 	return rootCmd

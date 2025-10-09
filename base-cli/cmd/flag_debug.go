@@ -6,19 +6,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const logDebugFlag = "debug"
-const debugLevelFlag = "debug-level"
+const debugLevelFlag = "debug"
 
 func addLogDebugFlag(cmd *cobra.Command) {
-	cmd.Root().PersistentFlags().Bool(
-		logDebugFlag,
-		false,
-		`Display detailed log information at the debug level`,
-	)
-
 	cmd.Root().PersistentFlags().String(
 		debugLevelFlag,
-		"info",
+		"debug",
 		`Display detailed log information at the debug level`,
 	)
 }
@@ -47,5 +40,5 @@ func parseDebugLevel(result string) int {
 		return LevelErrorLevel
 	}
 
-	return LevelErrorLevel
+	return LevelDebugLevel
 }
