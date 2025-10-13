@@ -1,12 +1,16 @@
 Todo:
-
 - Incluir a descrição do comando final (vide "doto3")
 - Incluir a descrição do grupo de comando (vide "Dqui1")
+- Ajustar descrição das flags
+
 - Montar esquema de output dos comandos para outros formatos
-- Preparar comando de config
+
+- Preparar comando estatico de config
+- Preparar comando estatico de auth
+
 - Ajustar comandos com apenas 1 campo de input (posicional) (vide `./cli vm instances delete {id}`)
 - Comando de delete precisa solicitar confirmação
-- Ajustar descrição das flags
+
 - Documentação do CLI
 - Documentação do CLIGEN
 - Testes 

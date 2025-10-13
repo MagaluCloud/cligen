@@ -120,7 +120,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			)
 			productData.AddCobraFlagsAssign(createPrimitiveFlagToAssign(param.Name, param.IsPointer))
 			if !param.IsPointer {
-				addRequiredFlag(productData, param, param.Name)
+				addRequiredFlag(productData, param, cobraFlagName)
 			}
 		}
 

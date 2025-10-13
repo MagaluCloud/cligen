@@ -50,33 +50,16 @@ func ToSnakeCasePreserveID(s string, char string) string {
 		return s
 	}
 
-	if s == "ID" {
-		return "id"
-	}
-
 	var result strings.Builder
-	result.WriteByte(s[0])
 
-	for i := 1; i < len(s); i++ {
+	for i := 0; i < len(s); i++ {
 		if s[i] >= 'A' && s[i] <= 'Z' {
-			// Verificar se é "ID" (duas letras maiúsculas seguidas)
-			if i+1 < len(s) && s[i] == 'I' && s[i+1] == 'D' {
-				// Adicionar separador antes de "ID"
-				if char != "" {
-					result.WriteByte(char[0])
-				} else {
-					result.WriteByte('-')
-				}
+			if len(result.String()) == 0 {
 				result.WriteByte(s[i])
-				result.WriteByte(s[i+1])
-				i++ // Pular o próximo caractere (D)
 				continue
 			}
-
-			// Caso geral para outras letras maiúsculas
-			if char != "" {
-				result.WriteByte(char[0])
-			} else {
+			lastResultChar := result.String()[len(result.String())-1]
+			if lastResultChar >= 'a' && lastResultChar <= 'z' {
 				result.WriteByte('-')
 			}
 		}
