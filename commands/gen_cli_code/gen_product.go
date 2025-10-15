@@ -20,7 +20,22 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	if len(pkg.Services) > 0 {
 		for _, service := range pkg.Services {
 			for _, method := range service.Methods {
+				dir := genDir
+				if parentPkg != nil {
+					dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
+				} else {
+					dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
+				}
 				productData := NewPackageGroupData()
+				productData.SetFileID(dir)
+				if productData.HasCustomFile {
+					err := productData.WriteProductCustomToFile(dir)
+					if err != nil {
+						return fmt.Errorf("erro ao escrever o arquivo %s.go para o serviço %s do pacote %s: %v", pkg.Name, pkg.Name, pkg.Name, err)
+					}
+					continue
+				}
+
 				productData.SetPackageName(service.Name)
 				productData.AddImport(importCobra)
 				productData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
@@ -34,12 +49,12 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 				serviceCallParams := genProductParameters(productData, method.Parameters)
 				productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
 				printResult(productData, method)
-				dir := genDir
-				if parentPkg != nil {
-					dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
-				} else {
-					dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
-				}
+				// dir := genDir
+				// if parentPkg != nil {
+				// 	dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
+				// } else {
+				// 	dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
+				// }
 				err := productData.WriteProductToFile(dir)
 				if err != nil {
 					return fmt.Errorf("erro ao escrever o arquivo %s.go para o serviço %s do pacote %s: %v", pkg.Name, pkg.Name, pkg.Name, err)

@@ -20,6 +20,9 @@ var serviceGroupTemplate string
 //go:embed product.template
 var productTemplate string
 
+//go:embed product_custom.template
+var productCustomTemplate string
+
 //go:embed rootgen.template
 var rootGenTemplate string
 
@@ -31,6 +34,7 @@ var (
 	packageGroupTmpl    *template.Template
 	serviceGroupTmpl    *template.Template
 	productTmpl         *template.Template
+	productCustomTmpl   *template.Template
 	rootGenTmpl         *template.Template
 	subPackageGroupTmpl *template.Template
 )
@@ -49,6 +53,10 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	productCustomTmpl, err = template.New("product_custom").Parse(productCustomTemplate)
+	if err != nil {
+		panic(err)
+	}
 	rootGenTmpl, err = template.New("rootgen").Parse(rootGenTemplate)
 	if err != nil {
 		panic(err)
@@ -61,6 +69,11 @@ func init() {
 
 // PackageGroupData representa os dados necessários para gerar um arquivo de grupo de comandos
 type PackageGroupData struct {
+	FileID        string `json:"file_id"`
+	CustomFile    string `json:"custom_file"`
+	HasCustomFile bool   `json:"has_custom_file"`
+	CustomContent string `json:"custom_content"`
+
 	// Informações básicas do pacote
 	PackageName string `json:"package_name"`
 
@@ -139,6 +152,27 @@ func NewPackageGroupData() *PackageGroupData {
 		Params:      []string{},
 		GroupID:     "",
 		UsedChars:   []string{},
+	}
+}
+
+func (pgd *PackageGroupData) SetFileID(fileID string) {
+	pgd.FileID = fileID
+	pgd.CustomFile = strings.Replace(fileID, "base-cli-gen", "base-cli-custom", 1)
+
+	if _, err := os.Stat(pgd.CustomFile); err == nil {
+		pgd.HasCustomFile = true
+		content, err := os.ReadFile(pgd.CustomFile)
+		if err != nil {
+			panic(err)
+		}
+		pgd.CustomContent = string(content)
+		return
+	}
+
+	os.MkdirAll(filepath.Dir(pgd.CustomFile), 0755)
+	_, err := os.Create(pgd.CustomFile + ".keep")
+	if err != nil {
+		panic(err)
 	}
 }
 
@@ -252,6 +286,17 @@ func (pgd *PackageGroupData) WriteServiceToFile(filePath string) error {
 func (pgd *PackageGroupData) WriteSubPackageToFile(filePath string) error {
 	buf := bytes.NewBuffer(nil)
 	err := subPackageGroupTmpl.Execute(buf, pgd)
+	if err != nil {
+		return err
+	}
+
+	os.MkdirAll(filepath.Dir(filePath), 0755)
+	return os.WriteFile(filePath, buf.Bytes(), 0644)
+}
+
+func (pgd *PackageGroupData) WriteProductCustomToFile(filePath string) error {
+	buf := bytes.NewBuffer(nil)
+	err := productCustomTmpl.Execute(buf, pgd)
 	if err != nil {
 		return err
 	}

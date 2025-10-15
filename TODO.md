@@ -18,8 +18,8 @@ In-Progress:
 - Ajustar comandos com apenas 1 campo de input (posicional) (vide `./cli vm instances delete {id}`)
 
 
-
 Done:
 - Preparar esquema de --debug
 - Remover a criação de flags com apenas 1 char
 - Ajustar flags com palavras de apenas 2 letras (vide `./cli vm instances delete xpto`)
+- Sistema de customização de comandos
