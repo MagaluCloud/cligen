@@ -9,15 +9,16 @@ import (
 	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
-func genProductCode(sdkStructure *sdk_structure.SDKStructure) error {
+func genProductCode(custom *CustomHeader, sdkStructure *sdk_structure.SDKStructure) error {
 	for _, pkg := range sdkStructure.Packages {
-		genProductCodeRecursive(&pkg, nil)
+		genProductCodeRecursive(custom, &pkg, nil)
 	}
 	return nil
 }
 
-func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
+func genProductCodeRecursive(custom *CustomHeader, pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
 	if len(pkg.Services) > 0 {
+
 		for _, service := range pkg.Services {
 			for _, method := range service.Methods {
 				dir := genDir
@@ -26,7 +27,7 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 				} else {
 					dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
 				}
-				productData := NewPackageGroupData()
+				productData := NewPackageGroupData(custom)
 				productData.SetFileID(dir)
 				if productData.HasCustomFile {
 					err := productData.WriteProductCustomToFile(dir)
@@ -49,22 +50,17 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 				serviceCallParams := genProductParameters(productData, method.Parameters)
 				productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
 				printResult(productData, method)
-				// dir := genDir
-				// if parentPkg != nil {
-				// 	dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
-				// } else {
-				// 	dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
-				// }
 				err := productData.WriteProductToFile(dir)
 				if err != nil {
 					return fmt.Errorf("erro ao escrever o arquivo %s.go para o serviço %s do pacote %s: %v", pkg.Name, pkg.Name, pkg.Name, err)
 				}
 			}
 		}
+
 	}
 	if len(pkg.SubPkgs) > 0 {
 		for _, subPkg := range pkg.SubPkgs {
-			genProductCodeRecursive(&subPkg, pkg)
+			genProductCodeRecursive(custom, &subPkg, pkg)
 		}
 	}
 	return nil

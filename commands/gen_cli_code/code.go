@@ -38,14 +38,24 @@ func GenCliCode() {
 		log.Fatalf("Erro ao gerar a estrutura do SDK: %v", err)
 	}
 
+	custom := NewCustom()
+	err = custom.Load()
+	if err != nil {
+		panic(fmt.Errorf("erro ao carregar os comandos customizados: %v", err))
+	}
+
 	log.Printf("🔧 Iniciando geração do CLI com %d pacotes", len(sdkStructure.Packages))
 	cleanDir(genDir)
 	genGoModFile()
 	generateRootCode(&sdkStructure)
-	genMainPackageCode(&sdkStructure)
-	genPackageCode(&sdkStructure)
-	genServiceCode(&sdkStructure)
-	genProductCode(&sdkStructure)
+	genMainPackageCode(custom, &sdkStructure)
+	genPackageCode(custom, &sdkStructure)
+	genServiceCode(custom, &sdkStructure)
+	genProductCode(custom, &sdkStructure)
+	err = custom.Write()
+	if err != nil {
+		panic(fmt.Errorf("erro ao escrever os comandos customizados: %v", err))
+	}
 }
 
 func cleanDir(dir string) {
@@ -55,16 +65,17 @@ func cleanDir(dir string) {
 	}
 }
 
-func genMainPackageCode(sdkStructure *sdk_structure.SDKStructure) error {
+func genMainPackageCode(custom *CustomHeader, sdkStructure *sdk_structure.SDKStructure) error {
+
 	for _, pkg := range sdkStructure.Packages {
-		genMainPackageCodeRecursive(&pkg, nil)
+		genMainPackageCodeRecursive(custom, &pkg, nil)
 	}
 
 	return nil
 }
 
-func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
-	mainPackageData := NewPackageGroupData()
+func genMainPackageCodeRecursive(custom *CustomHeader, pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
+	mainPackageData := NewPackageGroupData(custom)
 	mainPackageData.SetPackageName(pkg.Name)
 	mainPackageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
 	mainPackageData.SetUseName(pkg.MenuName)
@@ -91,7 +102,7 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 			mainPackageData.AddImport(importCobra)
 			mainPackageData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(pkg.Name), strings.ToLower(subPkg.Name)))
 			mainPackageData.AddSubCommand(subPkg.Name, strutils.FirstUpper(subPkg.Name), "sdkCoreConfig")
-			genMainPackageCodeRecursive(&subPkg, pkg)
+			genMainPackageCodeRecursive(custom, &subPkg, pkg)
 		}
 	}
 	var err error

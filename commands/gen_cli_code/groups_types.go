@@ -78,7 +78,8 @@ type PackageGroupData struct {
 	PackageName string `json:"package_name"`
 
 	// Imports necessários para o arquivo
-	Imports []string `json:"imports"`
+	Imports []string      `json:"imports"`
+	Custom  *CustomHeader `json:"custom"`
 
 	// Informações da função principal
 	FunctionName string   `json:"function_name"`
@@ -144,8 +145,9 @@ type TemplateData struct {
 }
 
 // NewPackageGroupData cria uma nova instância de PackageGroupData com valores padrão
-func NewPackageGroupData() *PackageGroupData {
+func NewPackageGroupData(custom *CustomHeader) *PackageGroupData {
 	return &PackageGroupData{
+		Custom:      custom,
 		Imports:     []string{},
 		SubCommands: []SubCommandData{},
 		Commands:    []CommandData{},
@@ -242,6 +244,22 @@ func (pgd *PackageGroupData) SetPackageName(packageName string) {
 // SetUseName define o nome de uso do comando
 func (pgd *PackageGroupData) SetUseName(useName string) {
 	pgd.UseName = strings.ToLower(strutils.ToSnakeCase(useName, "-"))
+
+	if pgd.Custom != nil && pgd.FileID != "" {
+		custom := pgd.Custom.Find(pgd.FileID)
+		if custom != nil {
+			pgd.UseName = custom.Use
+			return
+		}
+		newCustom := NewCustomData(pgd.FileID)
+		newCustom.AddUse(pgd.UseName)
+		pgd.Custom.Add(*newCustom)
+	}
+
+}
+
+func (pgd *PackageGroupData) LoadCustomUse() {
+
 }
 
 // SetAliases define os aliases do comando

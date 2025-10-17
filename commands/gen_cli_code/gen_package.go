@@ -9,21 +9,21 @@ import (
 	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
-func genPackageCode(sdkStructure *sdk_structure.SDKStructure) error {
+func genPackageCode(custom *CustomHeader, sdkStructure *sdk_structure.SDKStructure) error {
 	for _, pkg := range sdkStructure.Packages {
-		genPackageCodeRecursive(&pkg, nil)
+		genPackageCodeRecursive(custom, &pkg, nil)
 	}
 	return nil
 }
 
-func genPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
+func genPackageCodeRecursive(custom *CustomHeader, pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
 	if len(pkg.Services) == 0 {
 		return nil
 	}
 	if len(pkg.SubPkgs) > 0 {
 		return nil
 	}
-	packageData := NewPackageGroupData()
+	packageData := NewPackageGroupData(custom)
 	packageData.SetGroupID(groupProducts)
 	packageData.SetPackageName(pkg.Name)
 	packageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
