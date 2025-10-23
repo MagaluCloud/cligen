@@ -270,11 +270,13 @@ func (pgd *PackageGroupData) SetUseName(useName string) {
 
 }
 
-func (pgd *PackageGroupData) AppendPositionalArgs(positionalArgs string) {
+func (pgd *PackageGroupData) AppendPositionalArgs(positionalArgs string) bool {
 	if pgd.AllowPositionalArgs {
 		pgd.UseName = fmt.Sprintf("%s [%s]", pgd.UseName, positionalArgs)
+		return true
 	}
 	pgd.AllowPositionalArgs = false
+	return pgd.AllowPositionalArgs
 }
 
 func (pgd *PackageGroupData) LoadCustomUse() {

@@ -96,8 +96,6 @@ func printResult(productData *PackageGroupData, method sdk_structure.Method) {
 
 func genProductParameters(productData *PackageGroupData, params []sdk_structure.Parameter) []string {
 	var serviceCallParams []string
-	onlyOneFlagIsPositional := false
-
 	for _, param := range params {
 		if param.Type == "context.Context" {
 			serviceCallParams = append(serviceCallParams, param.Name)
@@ -119,14 +117,14 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			// Parâmetro primitivo direto
 			productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, typeName))
 			// Processa como um único field sem prefixo
-			processFieldsRecursive(productData, []sdk_structure.Parameter{param}, "", nil, &onlyOneFlagIsPositional)
+			processFieldsRecursive(productData, []sdk_structure.Parameter{param}, "", nil)
 		} else {
 			// Parâmetro struct
 			productData.AddServiceSDKParamCreate(fmt.Sprintf("%s := %s{}", param.Name, strings.Replace(param.Type, "*", "", 1)))
 			// Processa todos os fields do struct recursivamente
 			// Nota: passa &param para que arrays complexos tenham acesso ao contexto, mas campos primitivos
 			// verificam isDeepNested para usar lógica correta
-			processFieldsRecursive(productData, mapToSlice(param.Struct), param.Name, &param, &onlyOneFlagIsPositional)
+			processFieldsRecursive(productData, mapToSlice(param.Struct), param.Name, &param)
 		}
 
 		// Prepara nome da variável para chamada do SDK
@@ -162,7 +160,7 @@ func mapToSlice(paramMap map[string]sdk_structure.Parameter) []sdk_structure.Par
 }
 
 // processFieldsRecursive processa campos de forma recursiva (unifica a lógica de genProductParameters e genProductParametersRecursive)
-func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structure.Parameter, pathPrefix string, parentField *sdk_structure.Parameter, onlyOneFlagIsPositional *bool) {
+func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structure.Parameter, pathPrefix string, parentField *sdk_structure.Parameter) {
 	for _, field := range fields {
 		// Constrói o caminho atual
 		var currentPath string
@@ -179,8 +177,12 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 		if field.IsPrimitive {
 
 			if !field.IsOptional {
-				field.IsPositional = true
-				productData.AppendPositionalArgs(field.Name)
+				if productData.AppendPositionalArgs(field.Name) {
+					field.IsPositional = true
+				}
+				if !field.IsArray {
+					field.Description = fmt.Sprintf("%s (required)", field.Description)
+				}
 			}
 
 			var cobraFlagName string
@@ -237,7 +239,7 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 				productData.AddCobraStructInitialize(fmt.Sprintf("%s = &%s{}", currentPath, strings.Replace(field.Type, "*", "", 1)))
 			}
 			// Recursão para processar os campos do struct aninhado
-			processFieldsRecursive(productData, mapToSlice(field.Struct), currentPath, &field, nil)
+			processFieldsRecursive(productData, mapToSlice(field.Struct), currentPath, &field)
 		}
 
 		if !field.IsPrimitive && field.IsArray {
