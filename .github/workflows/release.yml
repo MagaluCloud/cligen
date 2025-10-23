@@ -48,6 +48,13 @@ jobs:
       - name: Build generated CLI
         run: make run-cli
 
+      - name: Prepare additional release assets
+        run: |
+          # Criar zip do tmp-cli completo
+          cd tmp-cli
+          zip -r ../tmp-cli-complete.zip .
+          cd ..
+
       - name: Upload CLI binary
         uses: actions/upload-artifact@v4
         with:
@@ -67,13 +74,8 @@ jobs:
           VERSION: ${{ steps.version.outputs.VERSION }}
         run: make ci-release
 
-      - name: Prepare additional release assets
+      - name: Copy assets to dist
         run: |
-          # Criar zip do tmp-cli completo
-          cd tmp-cli
-          zip -r ../tmp-cli-complete.zip .
-          cd ..
-          
           # Copiar o binário cli gerado para o diretório dist
           cp tmp-cli/cli dist/cli
           
