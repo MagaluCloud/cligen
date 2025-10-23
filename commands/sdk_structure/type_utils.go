@@ -91,7 +91,6 @@ func getTypeStringWithPackage(expr ast.Expr, packageName string) (string, bool) 
 
 // isPrimitiveType verifica se um tipo é primitivo do Go
 func isPrimitiveType(typeName string) bool {
-	fmt.Println(typeName)
 	if strings.Contains(typeName, ".") {
 		typeName = strings.Split(typeName, ".")[len(strings.Split(typeName, "."))-1]
 	}

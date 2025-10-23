@@ -108,7 +108,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 	*onlyOneFlagIsPositional = false
 	for i, param := range params {
 		if i != param.Position {
-			fmt.Printf("   ❌ Parâmetro %s não está na posição %d\n", param.Name, param.Position)
+			// fmt.Printf("   ❌ Parâmetro %s não está na posição %d\n", param.Name, param.Position)
 		}
 		if param.Type == "context.Context" {
 			serviceCallParams = append(serviceCallParams, param.Name)
@@ -131,7 +131,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 					strutils.RemoveNewLine(strutils.EscapeQuotes(param.Description)),
 				),
 			)
-			command := createPrimitiveFlagToAssign(param.Name, param.IsPointer, onlyOneFlagIsPositional)
+			command := createPrimitiveFlagToAssign(param, param.Name, onlyOneFlagIsPositional)
 			productData.AddCobraFlagsAssign(command)
 			if strings.Contains(command, "fmt") {
 				productData.AddImport("\"fmt\"")
@@ -144,7 +144,8 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 		if !param.IsPrimitive {
 
 			varPrefixName := param.Name
-			productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", varPrefixName, param.Type))
+			// productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", varPrefixName, param.Type))
+			productData.AddServiceSDKParamCreate(fmt.Sprintf("%s := %s{}", varPrefixName, strings.Replace(param.Type, "*", "", 1)))
 
 			// Tmp
 
@@ -162,7 +163,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 							strutils.RemoveNewLine(strutils.EscapeQuotes(field.Description)),
 						),
 					)
-					command := createStructFlagToAssign(field, param.Name, field.Name, cobraFlagName, field.Position, field.IsPointer)
+					command := createStructFlagToAssign(field, param.Name, field.Name, cobraFlagName)
 					productData.AddCobraFlagsAssign(command)
 					if strings.Contains(command, "fmt") {
 						productData.AddImport("\"fmt\"")
@@ -201,7 +202,11 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			}
 		}
 
-		serviceCallParams = append(serviceCallParams, param.Name)
+		callName := param.Name
+		if param.IsPointer {
+			callName = "&" + param.Name
+		}
+		serviceCallParams = append(serviceCallParams, callName)
 	}
 	return serviceCallParams
 }
@@ -320,11 +325,12 @@ func createPrimitiveFlagToAssignStruct(flagName string, parentStructName string,
 	return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = *%sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
 }
 
-func createPrimitiveFlagToAssign(flagName string, isPointer bool, onlyOneFlagIsPositional *bool) string {
-	if isPointer {
+func createPrimitiveFlagToAssign(field sdk_structure.Parameter, flagName string, onlyOneFlagIsPositional *bool) string {
+	if field.IsPointer {
 		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, flagName, flagName)
 	}
-	if *onlyOneFlagIsPositional {
+
+	if *onlyOneFlagIsPositional || field.IsOptional {
 		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = *%sFlag.Value\n\t\t\t}", flagName, flagName, flagName)
 	}
 
@@ -339,11 +345,13 @@ func createPrimitiveFlagToAssign(flagName string, isPointer bool, onlyOneFlagIsP
 	return command
 }
 
-func createStructFlagToAssign(field sdk_structure.Parameter, paramName, fieldName string, varName string, index int, isPointer bool) string {
-	if isPointer {
+func createStructFlagToAssign(field sdk_structure.Parameter, paramName, fieldName string, varName string) string {
+	if field.IsPointer {
 		return fmt.Sprintf("if %s_%sFlag.IsChanged() {\n\t\t\t\t%s.%s = %s_%sFlag.Value\n\t\t\t}", paramName, fieldName, paramName, fieldName, paramName, fieldName)
 	}
-
+	if field.IsOptional {
+		return fmt.Sprintf("if %s_%sFlag.IsChanged() {\n\t\t\t\t%s.%s = *%s_%sFlag.Value\n\t\t\t}", paramName, fieldName, paramName, fieldName, paramName, fieldName)
+	}
 	command := fmt.Sprintf(`if len(args) > 0{
 		    	%s.%s = args[0]
 		    } else if %s_%sFlag.IsChanged() {

@@ -1,12 +1,12 @@
 package sdk_structure
 
 import (
-	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 )
 
@@ -14,14 +14,14 @@ import (
 func analyzeParameterType(expr ast.Expr, packageName string, sdkDir string) (string, bool, map[string]Parameter) {
 	// Verificar se é uma struct inline (anônima)
 	if structType, ok := expr.(*ast.StructType); ok {
-		fmt.Printf("   🔍 Struct inline detectada\n")
+		// fmt.Printf("   🔍 Struct inline detectada\n")
 		structFields := extractStructFields(structType, packageName, sdkDir)
 		return "struct{}", false, structFields
 	}
 
 	// Verificar se é uma interface inline (anônima)
 	if _, ok := expr.(*ast.InterfaceType); ok {
-		fmt.Printf("   🔍 Interface inline detectada\n")
+		// fmt.Printf("   🔍 Interface inline detectada\n")
 		// Para interfaces, podemos extrair métodos se necessário
 		// Por enquanto, retornamos como interface{}
 		return "interface{}", true, nil
@@ -50,14 +50,14 @@ func analyzeStructType(expr ast.Expr, packageName string, sdkDir string) map[str
 
 	structFields := extractTypeFieldsFromIdent(expr, packageName)
 	if structFields != nil {
-		fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
+		// fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
 		return structFields
 	}
 
 	// Procurar pela definição da struct no diretório do SDK
 	structFields = findStructDefinition(typeName, sdkDir, packageName)
 	if structFields != nil {
-		fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
+		// fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
 	}
 
 	return structFields
@@ -122,7 +122,7 @@ func analyzeFileForStruct(filePath string, typeName string, packageName string) 
 			if structType, ok := typeDecl.Type.(*ast.StructType); ok {
 				// Verificar se é a struct que estamos procurando
 				if typeDecl.Name.Name == typeName {
-					fmt.Printf("   ✅ Struct encontrada: %s\n", typeName)
+					// fmt.Printf("   ✅ Struct encontrada: %s\n", typeName)
 					structFields = extractStructFields(structType, packageName, filepath.Dir(filePath))
 					return false // Parar a busca
 				}
@@ -151,6 +151,14 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 			description = field.Comment.Text()
 		}
 
+		isOptional := false
+		if field.Tag != nil {
+			tagValue := extractJSONTag(field.Tag.Value)
+			if slices.Contains(tagValue, "omitempty") {
+				isOptional = true
+			}
+		}
+
 		// Extrair tipo do campo
 		fieldType, isPrimitive, structFields := analyzeParameterType(field.Type, packageName, sdkDir)
 
@@ -170,7 +178,10 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 				// Verificar se há tags JSON
 				var jsonName string
 				if field.Tag != nil {
-					jsonName = extractJSONTag(field.Tag.Value)
+					jsonNames := extractJSONTag(field.Tag.Value)
+					if len(jsonNames) > 0 {
+						jsonName = jsonNames[0]
+					}
 				}
 				if jsonName == "" {
 					jsonName = name.Name
@@ -185,6 +196,7 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 					Struct:      structFields,
 					IsPointer:   isPointer,
 					IsArray:     isArray,
+					IsOptional:  isOptional,
 				}
 			}
 		} else {
@@ -200,7 +212,7 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 }
 
 // extractJSONTag extrai o nome do campo da tag JSON
-func extractJSONTag(tagValue string) string {
+func extractJSONTag(tagValue string) []string {
 	// Remover aspas
 	tagValue = strings.Trim(tagValue, "`\"")
 
@@ -212,20 +224,16 @@ func extractJSONTag(tagValue string) string {
 				jsonValue := strings.TrimPrefix(part, "json:")
 				jsonValue = strings.Trim(jsonValue, "\"")
 
-				// Se há vírgula, pegar apenas a primeira parte (nome do campo)
-				if strings.Contains(jsonValue, ",") {
-					jsonValue = strings.Split(jsonValue, ",")[0]
-				}
-
-				// Se o valor é "-", ignorar o campo
 				if jsonValue == "-" {
-					return ""
+					return []string{}
 				}
 
-				return jsonValue
+				jsonValues := strings.Split(jsonValue, ",")
+				return jsonValues
+
 			}
 		}
 	}
 
-	return ""
+	return []string{}
 }

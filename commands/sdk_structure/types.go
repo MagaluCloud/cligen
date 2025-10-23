@@ -17,6 +17,7 @@ type Parameter struct {
 	Description string               `json:"description"`
 	IsPrimitive bool                 `json:"is_primitive"`
 	IsPointer   bool                 `json:"is_pointer"`
+	IsOptional  bool                 `json:"is_optional"`
 	IsArray     bool                 `json:"is_array"`
 	Struct      map[string]Parameter `json:"struct,omitempty"`
 }

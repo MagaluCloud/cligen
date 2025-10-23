@@ -46,33 +46,33 @@ func analyzeServiceWithPackage(pkg *ast.Package, fset *token.FileSet, serviceNam
 		Interface:   serviceName,
 	}
 
-	fmt.Printf("🔍 Procurando serviço: %s\n", serviceName)
-	fmt.Printf("📄 Total de arquivos no package: %d\n", len(pkg.Files))
+	// fmt.Printf("🔍 Procurando serviço: %s\n", serviceName)
+	// fmt.Printf("📄 Total de arquivos no package: %d\n", len(pkg.Files))
 
 	// Obter nomes possíveis de interface
 	possibleInterfaceNames := getPossibleInterfaceNames(serviceName)
 
 	// Analisar todos os arquivos do package procurando pela interface
-	found := false
+	// found := false
 	for fileName, file := range pkg.Files {
-		fmt.Printf("🔍 Verificando arquivo: %s\n", filepath.Base(fileName))
+		// fmt.Printf("🔍 Verificando arquivo: %s\n", filepath.Base(fileName))
 
 		if strings.HasSuffix(fileName, "test.go") {
 			continue
 		}
 
 		if lfound := analyzeFileForServiceWithAST(file, possibleInterfaceNames, &service, pkg.Name, sdkDir); lfound {
-			fmt.Printf("✅ Interface encontrada no arquivo: %s\n", filepath.Base(fileName))
-			found = true
+			// fmt.Printf("✅ Interface encontrada no arquivo: %s\n", filepath.Base(fileName))
+			// found = true
 			break
 		}
 	}
 
-	if !found {
-		fmt.Printf("⚠️  Interface não encontrada para o serviço: %s\n", serviceName)
-	} else {
-		fmt.Printf("✅ Total de métodos encontrados: %d\n", len(service.Methods))
-	}
+	// if !found {
+	// 	fmt.Printf("⚠️  Interface não encontrada para o serviço: %s\n", serviceName)
+	// } else {
+	// 	fmt.Printf("✅ Total de métodos encontrados: %d\n", len(service.Methods))
+	// }
 
 	return service
 }
@@ -87,7 +87,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 				// Verificar se é uma das interfaces que estamos procurando
 				for _, interfaceName := range possibleInterfaceNames {
 					if typeDecl.Name.Name == interfaceName || strings.EqualFold(typeDecl.Name.Name, interfaceName) {
-						fmt.Printf("   ✅ Interface encontrada: %s\n", typeDecl.Name.Name)
+						// fmt.Printf("   ✅ Interface encontrada: %s\n", typeDecl.Name.Name)
 						service.Interface = typeDecl.Name.Name
 						found = true
 
@@ -174,7 +174,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 									Description: methodDescription,
 								}
 								service.Methods = append(service.Methods, method)
-								fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
+								// fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
 
 								// Verificar se este método retorna um subserviço
 								if len(returns) == 1 {

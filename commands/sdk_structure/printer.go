@@ -116,7 +116,7 @@ func printParameterDetails(param Parameter, indent string) {
 	}
 
 	// Se tem campos de struct, exibir recursivamente
-	if param.Struct != nil && len(param.Struct) > 0 {
+	if param.Struct != nil {
 		fmt.Printf("%s  📋 Campos da struct:\n", indent)
 		for fieldName, field := range param.Struct {
 			fmt.Printf("%s    - %s (%s)", indent, fieldName, field.Type)
@@ -125,7 +125,7 @@ func printParameterDetails(param Parameter, indent string) {
 			}
 
 			// Recursão para campos aninhados
-			if field.Struct != nil && len(field.Struct) > 0 {
+			if field.Struct != nil {
 				printStructFields(field.Struct, indent+"      ")
 			}
 		}
