@@ -131,7 +131,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 					strutils.RemoveNewLine(strutils.EscapeQuotes(param.Description)),
 				),
 			)
-			command := createPrimitiveFlagToAssign(param, param.Name, onlyOneFlagIsPositional)
+			command := createPrimitiveFlagToAssign(param, param.Name, cobraFlagName, onlyOneFlagIsPositional)
 			productData.AddCobraFlagsAssign(command)
 			if strings.Contains(command, "fmt") {
 				productData.AddImport("\"fmt\"")
@@ -203,7 +203,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 		}
 
 		callName := param.Name
-		if param.IsPointer {
+		if param.IsPointer && !param.IsPrimitive {
 			callName = "&" + param.Name
 		}
 		serviceCallParams = append(serviceCallParams, callName)
@@ -325,7 +325,7 @@ func createPrimitiveFlagToAssignStruct(flagName string, parentStructName string,
 	return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = *%sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
 }
 
-func createPrimitiveFlagToAssign(field sdk_structure.Parameter, flagName string, onlyOneFlagIsPositional *bool) string {
+func createPrimitiveFlagToAssign(field sdk_structure.Parameter, flagName string, cobraFlagName string, onlyOneFlagIsPositional *bool) string {
 	if field.IsPointer {
 		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, flagName, flagName)
 	}
@@ -335,17 +335,18 @@ func createPrimitiveFlagToAssign(field sdk_structure.Parameter, flagName string,
 	}
 
 	command := fmt.Sprintf(`if len(args) > 0{
-				%s = args[0]
-			} else if %sFlag.IsChanged() {
+				cmd.Flags().Set("%s", args[0])
+			}
+			if %sFlag.IsChanged() {
 				%s = *%sFlag.Value
 			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			}`, flagName, flagName, flagName, flagName, flagName, flagName)
+			}`, cobraFlagName, flagName, flagName, flagName, flagName, flagName)
 
 	return command
 }
 
-func createStructFlagToAssign(field sdk_structure.Parameter, paramName, fieldName string, varName string) string {
+func createStructFlagToAssign(field sdk_structure.Parameter, paramName, fieldName string, cobraFlagName string) string {
 	if field.IsPointer {
 		return fmt.Sprintf("if %s_%sFlag.IsChanged() {\n\t\t\t\t%s.%s = %s_%sFlag.Value\n\t\t\t}", paramName, fieldName, paramName, fieldName, paramName, fieldName)
 	}
@@ -353,12 +354,13 @@ func createStructFlagToAssign(field sdk_structure.Parameter, paramName, fieldNam
 		return fmt.Sprintf("if %s_%sFlag.IsChanged() {\n\t\t\t\t%s.%s = *%s_%sFlag.Value\n\t\t\t}", paramName, fieldName, paramName, fieldName, paramName, fieldName)
 	}
 	command := fmt.Sprintf(`if len(args) > 0{
-		    	%s.%s = args[0]
-		    } else if %s_%sFlag.IsChanged() {
+				cmd.Flags().Set("%s", args[0])
+			}
+		    if %s_%sFlag.IsChanged() {
 		    	%s.%s = *%s_%sFlag.Value
 		    } else {
 		    	return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-		    }`, paramName, fieldName, paramName, fieldName, paramName, fieldName, paramName, fieldName, varName, varName)
+		    }`, cobraFlagName, paramName, fieldName, paramName, fieldName, paramName, fieldName, cobraFlagName, cobraFlagName)
 	return command
 
 }
