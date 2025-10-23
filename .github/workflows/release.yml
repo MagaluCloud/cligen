@@ -1,0 +1,142 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g., v1.0.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.3'
+          cache: true
+          cache-dependency-path: |
+            **/go.mod
+            **/go.sum
+
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate CLI from SDK
+        run: make new-run
+
+      - name: Build generated CLI
+        run: make run-cli
+
+      - name: Upload CLI binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: cli-binary
+          path: tmp-cli/cli
+          if-no-files-found: error
+
+      - name: Upload tmp-cli directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: tmp-cli-complete
+          path: tmp-cli/
+          if-no-files-found: error
+
+      - name: Build release binaries
+        env:
+          VERSION: ${{ steps.version.outputs.VERSION }}
+        run: make ci-release
+
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum cligen-* > checksums.txt
+          cat checksums.txt
+
+      - name: Create release notes
+        id: release_notes
+        run: |
+          cat > release_notes.md << EOF
+          ## CLIgen ${{ steps.version.outputs.VERSION }}
+          
+          ### Downloads
+          
+          Baixe o binário apropriado para sua plataforma:
+          
+          - **Linux AMD64**: \`cligen-linux-amd64\`
+          - **Linux ARM64**: \`cligen-linux-arm64\`
+          - **macOS Intel**: \`cligen-darwin-amd64\`
+          - **macOS Apple Silicon**: \`cligen-darwin-arm64\`
+          - **Windows AMD64**: \`cligen-windows-amd64.exe\`
+          
+          ### Instalação
+          
+          #### Linux/macOS
+          \`\`\`bash
+          # Baixe o binário
+          curl -L -o cligen https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.VERSION }}/cligen-\$(uname -s | tr '[:upper:]' '[:lower:]')-\$(uname -m)
+          
+          # Torne executável
+          chmod +x cligen
+          
+          # Mova para um diretório no PATH
+          sudo mv cligen /usr/local/bin/
+          \`\`\`
+          
+          #### Windows
+          Baixe o arquivo \`cligen-windows-amd64.exe\` e adicione ao seu PATH.
+          
+          ### Verificação
+          
+          Após a instalação, verifique com:
+          \`\`\`bash
+          cligen --version
+          \`\`\`
+          
+          ### Checksums
+          
+          Verifique a integridade do download usando o arquivo \`checksums.txt\` incluído na release.
+          EOF
+          
+          echo "NOTES_FILE=release_notes.md" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: Release ${{ steps.version.outputs.VERSION }}
+          body_path: ${{ steps.release_notes.outputs.NOTES_FILE }}
+          draft: false
+          prerelease: false
+          files: |
+            dist/cligen-*
+            dist/checksums.txt
+          fail_on_unmatched_files: true
+
+      - name: Update latest release
+        if: "!contains(steps.version.outputs.VERSION, '-')"
+        run: |
+          gh release edit ${{ steps.version.outputs.VERSION }} --latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
