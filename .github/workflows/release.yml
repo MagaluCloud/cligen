@@ -54,6 +54,9 @@ jobs:
           cd tmp-cli
           zip -r ../tmp-cli-complete.zip .
           cd ..
+          
+          # Copiar o binário cli para a raiz (antes do clean)
+          cp tmp-cli/cli ./cli-generated
 
       - name: Upload CLI binary
         uses: actions/upload-artifact@v4
@@ -76,10 +79,8 @@ jobs:
 
       - name: Copy assets to dist
         run: |
-          # Copiar o binário cli gerado para o diretório dist
-          cp tmp-cli/cli dist/cli
-          
-          # Mover o zip para o diretório dist
+          # Copiar arquivos salvos para o diretório dist
+          cp cli-generated dist/cli
           mv tmp-cli-complete.zip dist/
 
       - name: Generate checksums
