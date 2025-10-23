@@ -20,6 +20,7 @@ type Parameter struct {
 	IsArray     bool                 `json:"is_array"`
 	Struct      map[string]Parameter `json:"struct,omitempty"`
 	Positional  *int                 `json:"positional"`
+	AliasType   string               `json:"alias_type"`
 }
 
 // Method representa um método de um serviço

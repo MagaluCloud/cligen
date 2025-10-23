@@ -107,7 +107,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 								// Analisar parâmetros
 								if funcType.Params != nil {
 									for _, param := range funcType.Params.List {
-										paramType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
+										paramType, aliasType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
 										structFields := analyzeStructType(param.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(paramType, "*")
 										isArray := strings.HasPrefix(paramType, "[]")
@@ -127,6 +127,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsArray:     isArray,
 												IsOptional:  isOptional,
 												Struct:      structFields,
+												AliasType:   aliasType,
 											})
 										}
 										if len(param.Names) == 0 {
@@ -139,6 +140,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsArray:     isArray,
 												IsOptional:  isOptional,
 												Struct:      structFields,
+												AliasType:   aliasType,
 											})
 										}
 									}
@@ -147,7 +149,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 								// Analisar retornos
 								if funcType.Results != nil {
 									for _, result := range funcType.Results.List {
-										returnType, _ := getTypeStringWithPackage(result.Type, packageName)
+										returnType, aliasType, _ := getTypeStringWithPackage(result.Type, packageName)
 										structFields := analyzeStructType(result.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(returnType, "*")
 										isArray := strings.HasPrefix(returnType, "[]")
@@ -166,6 +168,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsArray:    isArray,
 												Struct:     structFields,
 												IsOptional: isOptional,
+												AliasType:  aliasType,
 											})
 										}
 										if len(result.Names) == 0 {
@@ -176,6 +179,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsPointer: isPointer,
 												IsArray:   isArray,
 												Struct:    structFields,
+												AliasType: aliasType,
 											})
 										}
 									}

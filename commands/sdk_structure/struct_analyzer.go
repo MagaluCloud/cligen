@@ -11,12 +11,12 @@ import (
 )
 
 // analyzeParameterType analisa um tipo de parâmetro e retorna informações detalhadas incluindo campos de struct
-func analyzeParameterType(expr ast.Expr, packageName string, sdkDir string) (string, bool, map[string]Parameter) {
+func analyzeParameterType(expr ast.Expr, packageName string, sdkDir string) (string, bool, string, map[string]Parameter) {
 	// Verificar se é uma struct inline (anônima)
 	if structType, ok := expr.(*ast.StructType); ok {
 		// fmt.Printf("   🔍 Struct inline detectada\n")
 		structFields := extractStructFields(structType, packageName, sdkDir)
-		return "struct{}", false, structFields
+		return "struct{}", false, "", structFields
 	}
 
 	// Verificar se é uma interface inline (anônima)
@@ -24,20 +24,23 @@ func analyzeParameterType(expr ast.Expr, packageName string, sdkDir string) (str
 		// fmt.Printf("   🔍 Interface inline detectada\n")
 		// Para interfaces, podemos extrair métodos se necessário
 		// Por enquanto, retornamos como interface{}
-		return "interface{}", true, nil
+		return "interface{}", true, "", nil
 	}
 
-	paramType, isPrimitive := getTypeStringWithPackage(expr, packageName)
+	paramType, aliasType, isPrimitive := getTypeStringWithPackage(expr, packageName)
 
+	if aliasType != "" {
+		aliasType = packageName + "Sdk." + aliasType
+	}
 	// Se é primitivo, não precisa analisar struct
 	if isPrimitive {
-		return paramType, isPrimitive, nil
+		return paramType, isPrimitive, aliasType, nil
 	}
 
 	// Verificar se é um tipo próprio que pode ser uma struct
 	structFields := analyzeStructType(expr, packageName, sdkDir)
 
-	return paramType, isPrimitive, structFields
+	return paramType, isPrimitive, aliasType, structFields
 }
 
 // analyzeStructType analisa um tipo para verificar se é uma struct e extrai seus campos
@@ -160,7 +163,7 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 		}
 
 		// Extrair tipo do campo
-		fieldType, isPrimitive, structFields := analyzeParameterType(field.Type, packageName, sdkDir)
+		fieldType, isPrimitive, aliasType, structFields := analyzeParameterType(field.Type, packageName, sdkDir)
 
 		isPointer := false
 		if strings.HasPrefix(fieldType, "*") {
@@ -196,6 +199,7 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 					IsPointer:   isPointer,
 					IsArray:     isArray,
 					IsOptional:  isOptional,
+					AliasType:   aliasType,
 				}
 			}
 		} else {
