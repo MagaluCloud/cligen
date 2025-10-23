@@ -188,16 +188,11 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 				}
 			}
 		} else {
-			// Campo anônimo (embedded struct)
-			fieldName := generateFieldName(fieldType)
-			fields[fieldName] = Parameter{
-				Position:    i,
-				Name:        fieldName,
-				Type:        fieldType,
-				Description: description,
-				IsPrimitive: isPrimitive,
-				Struct:      structFields,
+
+			for _, field := range structFields {
+				fields[field.Name] = field
 			}
+
 		}
 	}
 

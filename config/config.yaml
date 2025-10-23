@@ -1,61 +1,61 @@
-version: v0.4.4
+version: v0.5.0
 menus:
-  - name: "profile"
-    description: "Manage account settings, including SSH keys and related configurations."
-    menus:
-      - name: "availability-zones"
-        alias:
-          - "azs"
-          - "az"
-        sdk_package: "availabilityzones"
+  # - name: "profile"
+  #   description: "Manage account settings, including SSH keys and related configurations."
+  #   menus:
+  #     - name: "availability-zones"
+  #       alias:
+  #         - "azs"
+  #         - "az"
+  #       sdk_package: "availabilityzones"
         
-      - name: "ssh-keys"
-        alias:
-          - "ssh-keys"
-          - "ssh"
-        sdk_package: "sshkeys"
+  #     - name: "ssh-keys"
+  #       alias:
+  #         - "ssh-keys"
+  #         - "ssh"
+  #       sdk_package: "sshkeys"
 
-  - name: "virtual-machine"
-    alias:
-      - "vm"
-      - "virtual-machines"
-      - "vms"
-      - "compute"
-    sdk_package: "compute"
+  # - name: "virtual-machine"
+  #   alias:
+  #     - "vm"
+  #     - "virtual-machines"
+  #     - "vms"
+  #     - "compute"
+  #   sdk_package: "compute"
 
-  - name: "kubernetes"
-    alias:
-      - "k8s"
-    sdk_package: "kubernetes"
+  # - name: "kubernetes"
+  #   alias:
+  #     - "k8s"
+  #   sdk_package: "kubernetes"
 
-  - name: "lbaas"
-    alias:
-      - "load-balancer"
-    sdk_package: "lbaas"
+  # - name: "lbaas"
+  #   alias:
+  #     - "load-balancer"
+  #   sdk_package: "lbaas"
 
   - name: "audit"
     sdk_package: "audit"
 
-  - name: "block-storage"
-    alias:
-      - "bs"
-    sdk_package: "blockstorage"
+  # - name: "block-storage"
+  #   alias:
+  #     - "bs"
+  #   sdk_package: "blockstorage"
 
-  - name: "container-registry"
-    alias:
-      - "cr"
-    sdk_package: "containerregistry"
+  # - name: "container-registry"
+  #   alias:
+  #     - "cr"
+  #   sdk_package: "containerregistry"
 
-  - name: "dbaas"
-    alias:
-      - "db"
-      - "database"
-    sdk_package: "dbaas"
+  # - name: "dbaas"
+  #   alias:
+  #     - "db"
+  #     - "database"
+  #   sdk_package: "dbaas"
 
-  - name: "network"
-    alias:
-      - "networks"
-      - "net"
-      - "vpc"
-    sdk_package: "network"
+  # - name: "network"
+  #   alias:
+  #     - "networks"
+  #     - "net"
+  #     - "vpc"
+  #   sdk_package: "network"
 

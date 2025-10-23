@@ -115,6 +115,7 @@ type PackageGroupData struct {
 	CobraFlagsDefinition  []string `json:"cobra_flags_definition"`
 	CobraFlagsCreation    []string `json:"cobra_flags_creation"`
 	CobraFlagsAssign      []string `json:"cobra_flags_assign"`
+	PositionalArgs        string   `json:"positional_args"`
 	CobraFlagsRequired    []string `json:"cobra_flags_required"`
 	CobraStructInitialize []string `json:"cobra_struct_initialize"`
 	CobraArrayParse       []string `json:"cobra_array_parse"`
@@ -249,11 +250,12 @@ func (pgd *PackageGroupData) SetUseName(useName string) {
 		custom := pgd.Custom.Find(pgd.FileID)
 		if custom != nil {
 			pgd.UseName = custom.Use
-			return
 		}
-		newCustom := NewCustomData(pgd.FileID)
-		newCustom.AddUse(pgd.UseName)
-		pgd.Custom.Add(*newCustom)
+		if os.Getenv("GEN_FULL") != "" {
+			newCustom := NewCustomData(pgd.FileID)
+			newCustom.AddUse(pgd.UseName)
+			pgd.Custom.Add(*newCustom)
+		}
 	}
 
 }
@@ -426,6 +428,10 @@ func (pgd *PackageGroupData) AddCobraFlagsCreation(cobraFlagsCreation string) {
 
 func (pgd *PackageGroupData) AddCobraFlagsAssign(cobraFlagsAssign string) {
 	pgd.CobraFlagsAssign = append(pgd.CobraFlagsAssign, cobraFlagsAssign)
+}
+
+func (pgd *PackageGroupData) AddPositionalArgs(positionalArgs string) {
+	pgd.PositionalArgs = positionalArgs
 }
 
 func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {
