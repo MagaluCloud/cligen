@@ -43,7 +43,7 @@ func genCliCodeFromSDK(menu config.Menu) Package {
 	fmt.Printf("🔧 Analisando package com parser.ParseDir...\n")
 	services := genCliCodeFromClient(&pkg, sdkDir, filepath.Join(sdkDir, "client.go"))
 	pkg.Services = services
-	fmt.Printf("✅ Processados %d serviços do pacote %s\n", len(services), menu.SDKPackage)
+	// fmt.Printf("✅ Processados %d serviços do pacote %s\n", len(services), menu.SDKPackage)
 
 	return pkg
 }

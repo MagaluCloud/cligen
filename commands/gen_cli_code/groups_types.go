@@ -3,8 +3,10 @@ package gen_cli_code
 import (
 	"bytes"
 	_ "embed"
+	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"text/template"
 
@@ -78,7 +80,8 @@ type PackageGroupData struct {
 	PackageName string `json:"package_name"`
 
 	// Imports necessários para o arquivo
-	Imports []string `json:"imports"`
+	Imports []string      `json:"imports"`
+	Custom  *CustomHeader `json:"custom"`
 
 	// Informações da função principal
 	FunctionName string   `json:"function_name"`
@@ -103,6 +106,8 @@ type PackageGroupData struct {
 	LongDescription  string   `json:"long_description"`
 	GroupID          string   `json:"group_id,omitempty"`
 
+	AllowPositionalArgs bool `json:"allow_positional_args"`
+
 	// Subcomandos que serão adicionados ao grupo
 	SubCommands []SubCommandData `json:"sub_commands"`
 	Commands    []CommandData    `json:"commands"`
@@ -114,6 +119,7 @@ type PackageGroupData struct {
 	CobraFlagsDefinition  []string `json:"cobra_flags_definition"`
 	CobraFlagsCreation    []string `json:"cobra_flags_creation"`
 	CobraFlagsAssign      []string `json:"cobra_flags_assign"`
+	PositionalArgs        string   `json:"positional_args"`
 	CobraFlagsRequired    []string `json:"cobra_flags_required"`
 	CobraStructInitialize []string `json:"cobra_struct_initialize"`
 	CobraArrayParse       []string `json:"cobra_array_parse"`
@@ -144,8 +150,9 @@ type TemplateData struct {
 }
 
 // NewPackageGroupData cria uma nova instância de PackageGroupData com valores padrão
-func NewPackageGroupData() *PackageGroupData {
+func NewPackageGroupData(custom *CustomHeader) *PackageGroupData {
 	return &PackageGroupData{
+		Custom:      custom,
 		Imports:     []string{},
 		SubCommands: []SubCommandData{},
 		Commands:    []CommandData{},
@@ -239,9 +246,41 @@ func (pgd *PackageGroupData) SetPackageName(packageName string) {
 	pgd.PackageName = strings.ToLower(packageName)
 }
 
+var notAllowedPositionalArgs = []string{"create"}
+
 // SetUseName define o nome de uso do comando
 func (pgd *PackageGroupData) SetUseName(useName string) {
 	pgd.UseName = strings.ToLower(strutils.ToSnakeCase(useName, "-"))
+	pgd.AllowPositionalArgs = true
+	if slices.Contains(notAllowedPositionalArgs, pgd.UseName) {
+		pgd.AllowPositionalArgs = false
+	}
+
+	if pgd.Custom != nil && pgd.FileID != "" {
+		custom := pgd.Custom.Find(pgd.FileID)
+		if custom != nil {
+			pgd.UseName = custom.Use
+		}
+		if os.Getenv("GEN_FULL") != "" {
+			newCustom := NewCustomData(pgd.FileID)
+			newCustom.AddUse(pgd.UseName)
+			pgd.Custom.Add(*newCustom)
+		}
+	}
+
+}
+
+func (pgd *PackageGroupData) AppendPositionalArgs(positionalArgs string) bool {
+	if pgd.AllowPositionalArgs {
+		pgd.UseName = fmt.Sprintf("%s [%s]", pgd.UseName, positionalArgs)
+		return true
+	}
+	pgd.AllowPositionalArgs = false
+	return pgd.AllowPositionalArgs
+}
+
+func (pgd *PackageGroupData) LoadCustomUse() {
+
 }
 
 // SetAliases define os aliases do comando
@@ -408,6 +447,10 @@ func (pgd *PackageGroupData) AddCobraFlagsCreation(cobraFlagsCreation string) {
 
 func (pgd *PackageGroupData) AddCobraFlagsAssign(cobraFlagsAssign string) {
 	pgd.CobraFlagsAssign = append(pgd.CobraFlagsAssign, cobraFlagsAssign)
+}
+
+func (pgd *PackageGroupData) AddPositionalArgs(positionalArgs string) {
+	pgd.PositionalArgs = positionalArgs
 }
 
 func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {

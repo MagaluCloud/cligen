@@ -14,6 +14,9 @@ Todo:
 - Documentação do CLIGEN
 - Testes 
 
+- Otimizar o código de geração de código ( stonks )
+
+
 In-Progress:
 - Ajustar comandos com apenas 1 campo de input (posicional) (vide `./cli vm instances delete {id}`)
 

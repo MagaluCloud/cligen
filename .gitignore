@@ -6,3 +6,4 @@ base-cli-gen/*
 base-cli/cli
 cli
 bkp-tmp-cli/*
+base-cli-custom/cmd/**/*.keep

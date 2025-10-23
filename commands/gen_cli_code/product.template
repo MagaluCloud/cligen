@@ -28,6 +28,7 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 		Use:     "{{.UseName}}",
 		Short:   "{{.ShortDescription}}",
 		Long:    `{{.LongDescription}}`,
+		{{ if .PositionalArgs}}{{.PositionalArgs}}{{ end }}
 		RunE: func(cmd *cobra.Command, args []string) error{
 			
 			{{range .ServiceSDKParamCreate}}
@@ -38,7 +39,7 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 			{{.}}//CobraStructInitialize
 			{{end}}
 
-			
+		
 			{{range .CobraFlagsAssign}}
 			{{.}}// CobraFlagsAssign
 			{{end}}

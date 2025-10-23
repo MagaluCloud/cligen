@@ -17,6 +17,7 @@ clean:
 	@rm -rf tmp-cli
 	@rm -rf tmp-sdk
 	@rm -rf base-cli-gen
+	@rm -rf base-cli-custom/cmd
 	@rm cligen
 
 build:

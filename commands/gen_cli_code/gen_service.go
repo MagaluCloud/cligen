@@ -9,17 +9,17 @@ import (
 	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
-func genServiceCode(sdkStructure *sdk_structure.SDKStructure) error {
+func genServiceCode(custom *CustomHeader, sdkStructure *sdk_structure.SDKStructure) error {
 	for _, pkg := range sdkStructure.Packages {
-		genServiceCodeRecursive(&pkg, nil)
+		genServiceCodeRecursive(custom, &pkg, nil)
 	}
 	return nil
 }
 
-func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
+func genServiceCodeRecursive(custom *CustomHeader, pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
 	if len(pkg.Services) > 0 {
 		for _, service := range pkg.Services {
-			serviceData := NewPackageGroupData()
+			serviceData := NewPackageGroupData(custom)
 			serviceData.SetPackageName(service.Name)
 			serviceData.SetFunctionName(service.Name)
 			serviceData.SetUseName(strutils.FirstLower(service.Name))
@@ -44,7 +44,7 @@ func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	}
 	if len(pkg.SubPkgs) > 0 {
 		for _, subPkg := range pkg.SubPkgs {
-			genServiceCodeRecursive(&subPkg, pkg)
+			genServiceCodeRecursive(custom, &subPkg, pkg)
 		}
 	}
 	return nil

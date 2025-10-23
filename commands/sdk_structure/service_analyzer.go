@@ -46,33 +46,33 @@ func analyzeServiceWithPackage(pkg *ast.Package, fset *token.FileSet, serviceNam
 		Interface:   serviceName,
 	}
 
-	fmt.Printf("🔍 Procurando serviço: %s\n", serviceName)
-	fmt.Printf("📄 Total de arquivos no package: %d\n", len(pkg.Files))
+	// fmt.Printf("🔍 Procurando serviço: %s\n", serviceName)
+	// fmt.Printf("📄 Total de arquivos no package: %d\n", len(pkg.Files))
 
 	// Obter nomes possíveis de interface
 	possibleInterfaceNames := getPossibleInterfaceNames(serviceName)
 
 	// Analisar todos os arquivos do package procurando pela interface
-	found := false
+	// found := false
 	for fileName, file := range pkg.Files {
-		fmt.Printf("🔍 Verificando arquivo: %s\n", filepath.Base(fileName))
+		// fmt.Printf("🔍 Verificando arquivo: %s\n", filepath.Base(fileName))
 
 		if strings.HasSuffix(fileName, "test.go") {
 			continue
 		}
 
 		if lfound := analyzeFileForServiceWithAST(file, possibleInterfaceNames, &service, pkg.Name, sdkDir); lfound {
-			fmt.Printf("✅ Interface encontrada no arquivo: %s\n", filepath.Base(fileName))
-			found = true
+			// fmt.Printf("✅ Interface encontrada no arquivo: %s\n", filepath.Base(fileName))
+			// found = true
 			break
 		}
 	}
 
-	if !found {
-		fmt.Printf("⚠️  Interface não encontrada para o serviço: %s\n", serviceName)
-	} else {
-		fmt.Printf("✅ Total de métodos encontrados: %d\n", len(service.Methods))
-	}
+	// if !found {
+	// 	fmt.Printf("⚠️  Interface não encontrada para o serviço: %s\n", serviceName)
+	// } else {
+	// 	fmt.Printf("✅ Total de métodos encontrados: %d\n", len(service.Methods))
+	// }
 
 	return service
 }
@@ -87,7 +87,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 				// Verificar se é uma das interfaces que estamos procurando
 				for _, interfaceName := range possibleInterfaceNames {
 					if typeDecl.Name.Name == interfaceName || strings.EqualFold(typeDecl.Name.Name, interfaceName) {
-						fmt.Printf("   ✅ Interface encontrada: %s\n", typeDecl.Name.Name)
+						// fmt.Printf("   ✅ Interface encontrada: %s\n", typeDecl.Name.Name)
 						service.Interface = typeDecl.Name.Name
 						found = true
 
@@ -106,11 +106,21 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 
 								// Analisar parâmetros
 								if funcType.Params != nil {
-									for k, param := range funcType.Params.List {
-										paramType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
+									for _, param := range funcType.Params.List {
+										paramType, aliasType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
+										if aliasType != "" {
+											aliasType = packageName + "Sdk." + aliasType
+										}
 										structFields := analyzeStructType(param.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(paramType, "*")
 										isArray := strings.HasPrefix(paramType, "[]")
+										isOptional := false
+										if param.Tag != nil {
+											tagValue := extractJSONTag(param.Tag.Value)
+											if slices.Contains(tagValue, "omitempty") {
+												isOptional = true
+											}
+										}
 										for _, paramName := range param.Names {
 											params = append(params, Parameter{
 												Name:        paramName.Name,
@@ -118,8 +128,9 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsPrimitive: isPrimitive,
 												IsPointer:   isPointer,
 												IsArray:     isArray,
-												Position:    k,
+												IsOptional:  isOptional,
 												Struct:      structFields,
+												AliasType:   aliasType,
 											})
 										}
 										if len(param.Names) == 0 {
@@ -130,8 +141,9 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsPrimitive: isPrimitive,
 												IsPointer:   isPointer,
 												IsArray:     isArray,
-												Position:    k,
+												IsOptional:  isOptional,
 												Struct:      structFields,
+												AliasType:   aliasType,
 											})
 										}
 									}
@@ -140,17 +152,29 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 								// Analisar retornos
 								if funcType.Results != nil {
 									for _, result := range funcType.Results.List {
-										returnType, _ := getTypeStringWithPackage(result.Type, packageName)
+										returnType, aliasType, _ := getTypeStringWithPackage(result.Type, packageName)
+										if aliasType != "" {
+											aliasType = packageName + "Sdk." + aliasType
+										}
 										structFields := analyzeStructType(result.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(returnType, "*")
 										isArray := strings.HasPrefix(returnType, "[]")
+										isOptional := false
+										if result.Tag != nil {
+											tagValue := extractJSONTag(result.Tag.Value)
+											if slices.Contains(tagValue, "omitempty") {
+												isOptional = true
+											}
+										}
 										for _, resultName := range result.Names {
 											returns = append(returns, Parameter{
-												Name:      resultName.Name,
-												Type:      returnType,
-												IsPointer: isPointer,
-												IsArray:   isArray,
-												Struct:    structFields,
+												Name:       resultName.Name,
+												Type:       returnType,
+												IsPointer:  isPointer,
+												IsArray:    isArray,
+												Struct:     structFields,
+												IsOptional: isOptional,
+												AliasType:  aliasType,
 											})
 										}
 										if len(result.Names) == 0 {
@@ -161,6 +185,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsPointer: isPointer,
 												IsArray:   isArray,
 												Struct:    structFields,
+												AliasType: aliasType,
 											})
 										}
 									}
@@ -174,7 +199,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 									Description: methodDescription,
 								}
 								service.Methods = append(service.Methods, method)
-								fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
+								// fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
 
 								// Verificar se este método retorna um subserviço
 								if len(returns) == 1 {
