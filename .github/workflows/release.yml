@@ -67,10 +67,25 @@ jobs:
           VERSION: ${{ steps.version.outputs.VERSION }}
         run: make ci-release
 
+      - name: Prepare additional release assets
+        run: |
+          # Criar zip do tmp-cli completo
+          cd tmp-cli
+          zip -r ../tmp-cli-complete.zip .
+          cd ..
+          
+          # Copiar o binário cli gerado para o diretório dist
+          cp tmp-cli/cli dist/cli
+          
+          # Mover o zip para o diretório dist
+          mv tmp-cli-complete.zip dist/
+
       - name: Generate checksums
         run: |
           cd dist
           sha256sum cligen-* > checksums.txt
+          sha256sum tmp-cli-complete.zip >> checksums.txt
+          sha256sum cli >> checksums.txt
           cat checksums.txt
 
       - name: Create release notes
@@ -81,6 +96,8 @@ jobs:
           
           ### Downloads
           
+          #### Binário CLIgen (gerador)
+          
           Baixe o binário apropriado para sua plataforma:
           
           - **Linux AMD64**: \`cligen-linux-amd64\`
@@ -88,6 +105,11 @@ jobs:
           - **macOS Intel**: \`cligen-darwin-amd64\`
           - **macOS Apple Silicon**: \`cligen-darwin-arm64\`
           - **Windows AMD64**: \`cligen-windows-amd64.exe\`
+          
+          #### CLI Gerado
+          
+          - **CLI binário gerado**: \`cli\` - Binário pronto para uso do CLI gerado
+          - **Código-fonte completo do CLI**: \`tmp-cli-complete.zip\` - Código-fonte completo do CLI gerado
           
           ### Instalação
           
@@ -131,6 +153,8 @@ jobs:
           files: |
             dist/cligen-*
             dist/checksums.txt
+            dist/tmp-cli-complete.zip
+            dist/cli
           fail_on_unmatched_files: true
 
       - name: Update latest release
