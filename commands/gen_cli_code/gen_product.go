@@ -106,10 +106,8 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 	var onlyOneFlagIsPositional *bool
 	onlyOneFlagIsPositional = new(bool)
 	*onlyOneFlagIsPositional = false
-	for i, param := range params {
-		if i != param.Position {
-			// fmt.Printf("   ❌ Parâmetro %s não está na posição %d\n", param.Name, param.Position)
-		}
+	for _, param := range params {
+
 		if param.Type == "context.Context" {
 			serviceCallParams = append(serviceCallParams, param.Name)
 			continue
@@ -136,7 +134,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 			if strings.Contains(command, "fmt") {
 				productData.AddImport("\"fmt\"")
 			}
-			if !param.IsPointer {
+			if !param.IsPointer && !param.IsOptional {
 				*onlyOneFlagIsPositional = true
 			}
 		}
@@ -163,14 +161,14 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 							strutils.RemoveNewLine(strutils.EscapeQuotes(field.Description)),
 						),
 					)
-					command := createStructFlagToAssign(field, param.Name, field.Name, cobraFlagName)
+					command := createStructFlagToAssign(field, param.Name, field.Name, cobraFlagName, onlyOneFlagIsPositional)
 					productData.AddCobraFlagsAssign(command)
 					if strings.Contains(command, "fmt") {
 						productData.AddImport("\"fmt\"")
 					}
 
-					if !field.IsPointer { //so, is positional argument
-						addRequiredFlag(productData, field, cobraFlagName)
+					if !field.IsPointer && !field.IsOptional { //so, is positional argument
+						*onlyOneFlagIsPositional = true
 					}
 				}
 				// Here is a struct, we need some recursive call to generate the code for the struct
@@ -196,8 +194,6 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 
 					productData.AddCobraFlagsAssign(createPrimitiveFlagToAssignStruct(varFlagName, currentPath, field, param))
 
-					// }
-
 				}
 			}
 		}
@@ -209,12 +205,6 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 		serviceCallParams = append(serviceCallParams, callName)
 	}
 	return serviceCallParams
-}
-
-func addRequiredFlag(productData *PackageGroupData, param sdk_structure.Parameter, flagName string) {
-	// if !param.IsPointer && !param.IsArray {
-	// 	productData.AddCobraFlagsRequired(fmt.Sprintf("cmd.MarkFlagRequired(\"%s\")", flagName))
-	// }
 }
 
 func prepareCommandFlag(str string) string {
@@ -325,44 +315,35 @@ func createPrimitiveFlagToAssignStruct(flagName string, parentStructName string,
 	return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = *%sFlag.Value\n\t\t\t}", flagName, parentStructName, flagName)
 }
 
-func createPrimitiveFlagToAssign(field sdk_structure.Parameter, flagName string, cobraFlagName string, onlyOneFlagIsPositional *bool) string {
+func createFlagToAssign(field sdk_structure.Parameter, flagVarName, assignTarget, cobraFlagName string, onlyOneFlagIsPositional *bool) string {
 	if field.IsPointer {
-		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagName, flagName, flagName)
+		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = %sFlag.Value\n\t\t\t}", flagVarName, assignTarget, flagVarName)
 	}
 
 	if *onlyOneFlagIsPositional || field.IsOptional {
-		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = *%sFlag.Value\n\t\t\t}", flagName, flagName, flagName)
+		return fmt.Sprintf("if %sFlag.IsChanged() {\n\t\t\t\t%s = *%sFlag.Value\n\t\t\t}", flagVarName, assignTarget, flagVarName)
 	}
 
 	command := fmt.Sprintf(`if len(args) > 0{
-				cmd.Flags().Set("%s", args[0])
-			}
-			if %sFlag.IsChanged() {
-				%s = *%sFlag.Value
-			} else {
-				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			}`, cobraFlagName, flagName, flagName, flagName, flagName, flagName)
+			cmd.Flags().Set("%s", args[0])
+		}
+		if %sFlag.IsChanged() {
+			%s = *%sFlag.Value
+		} else {
+			return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
+		}`, cobraFlagName, flagVarName, assignTarget, flagVarName, flagVarName, flagVarName)
 
 	return command
 }
 
-func createStructFlagToAssign(field sdk_structure.Parameter, paramName, fieldName string, cobraFlagName string) string {
-	if field.IsPointer {
-		return fmt.Sprintf("if %s_%sFlag.IsChanged() {\n\t\t\t\t%s.%s = %s_%sFlag.Value\n\t\t\t}", paramName, fieldName, paramName, fieldName, paramName, fieldName)
-	}
-	if field.IsOptional {
-		return fmt.Sprintf("if %s_%sFlag.IsChanged() {\n\t\t\t\t%s.%s = *%s_%sFlag.Value\n\t\t\t}", paramName, fieldName, paramName, fieldName, paramName, fieldName)
-	}
-	command := fmt.Sprintf(`if len(args) > 0{
-				cmd.Flags().Set("%s", args[0])
-			}
-		    if %s_%sFlag.IsChanged() {
-		    	%s.%s = *%s_%sFlag.Value
-		    } else {
-		    	return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-		    }`, cobraFlagName, paramName, fieldName, paramName, fieldName, paramName, fieldName, cobraFlagName, cobraFlagName)
-	return command
+func createPrimitiveFlagToAssign(field sdk_structure.Parameter, flagName string, cobraFlagName string, onlyOneFlagIsPositional *bool) string {
+	return createFlagToAssign(field, flagName, flagName, cobraFlagName, onlyOneFlagIsPositional)
+}
 
+func createStructFlagToAssign(field sdk_structure.Parameter, paramName, fieldName string, cobraFlagName string, onlyOneFlagIsPositional *bool) string {
+	flagVarName := fmt.Sprintf("%s_%s", paramName, fieldName)
+	assignTarget := fmt.Sprintf("%s.%s", paramName, fieldName)
+	return createFlagToAssign(field, flagVarName, assignTarget, cobraFlagName, onlyOneFlagIsPositional)
 }
 
 func defaultByType(paramType string) string {

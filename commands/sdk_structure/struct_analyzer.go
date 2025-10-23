@@ -142,7 +142,7 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 		return fields
 	}
 
-	for i, field := range structType.Fields.List {
+	for _, field := range structType.Fields.List {
 		// Extrair comentários do campo
 		var description string
 		if field.Doc != nil {
@@ -188,7 +188,6 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 				}
 
 				fields[jsonName] = Parameter{
-					Position:    i,
 					Name:        name.Name,
 					Type:        fieldType,
 					Description: description,

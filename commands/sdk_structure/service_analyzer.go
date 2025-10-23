@@ -106,11 +106,18 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 
 								// Analisar parâmetros
 								if funcType.Params != nil {
-									for k, param := range funcType.Params.List {
+									for _, param := range funcType.Params.List {
 										paramType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
 										structFields := analyzeStructType(param.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(paramType, "*")
 										isArray := strings.HasPrefix(paramType, "[]")
+										isOptional := false
+										if param.Tag != nil {
+											tagValue := extractJSONTag(param.Tag.Value)
+											if slices.Contains(tagValue, "omitempty") {
+												isOptional = true
+											}
+										}
 										for _, paramName := range param.Names {
 											params = append(params, Parameter{
 												Name:        paramName.Name,
@@ -118,7 +125,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsPrimitive: isPrimitive,
 												IsPointer:   isPointer,
 												IsArray:     isArray,
-												Position:    k,
+												IsOptional:  isOptional,
 												Struct:      structFields,
 											})
 										}
@@ -130,7 +137,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 												IsPrimitive: isPrimitive,
 												IsPointer:   isPointer,
 												IsArray:     isArray,
-												Position:    k,
+												IsOptional:  isOptional,
 												Struct:      structFields,
 											})
 										}
@@ -144,13 +151,21 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 										structFields := analyzeStructType(result.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(returnType, "*")
 										isArray := strings.HasPrefix(returnType, "[]")
+										isOptional := false
+										if result.Tag != nil {
+											tagValue := extractJSONTag(result.Tag.Value)
+											if slices.Contains(tagValue, "omitempty") {
+												isOptional = true
+											}
+										}
 										for _, resultName := range result.Names {
 											returns = append(returns, Parameter{
-												Name:      resultName.Name,
-												Type:      returnType,
-												IsPointer: isPointer,
-												IsArray:   isArray,
-												Struct:    structFields,
+												Name:       resultName.Name,
+												Type:       returnType,
+												IsPointer:  isPointer,
+												IsArray:    isArray,
+												Struct:     structFields,
+												IsOptional: isOptional,
 											})
 										}
 										if len(result.Names) == 0 {

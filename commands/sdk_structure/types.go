@@ -11,7 +11,6 @@ type Service struct {
 
 // Parameter representa um parâmetro de método
 type Parameter struct {
-	Position    int                  `json:"position"`
 	Name        string               `json:"name"`
 	Type        string               `json:"type"`
 	Description string               `json:"description"`
@@ -20,6 +19,7 @@ type Parameter struct {
 	IsOptional  bool                 `json:"is_optional"`
 	IsArray     bool                 `json:"is_array"`
 	Struct      map[string]Parameter `json:"struct,omitempty"`
+	Positional  *int                 `json:"positional"`
 }
 
 // Method representa um método de um serviço
