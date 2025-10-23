@@ -32,7 +32,7 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	}
 
 	rootCmd.SetContext(ctx)
-	rootCmd.SilenceErrors = true
+	rootCmd.SilenceErrors = false
 
 	rootCmd.AddGroup(&cobra.Group{
 		ID:    "products",
