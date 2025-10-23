@@ -3,8 +3,10 @@ package gen_cli_code
 import (
 	"bytes"
 	_ "embed"
+	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"text/template"
 
@@ -103,6 +105,8 @@ type PackageGroupData struct {
 	ShortDescription string   `json:"short_description"`
 	LongDescription  string   `json:"long_description"`
 	GroupID          string   `json:"group_id,omitempty"`
+
+	AllowPositionalArgs bool `json:"allow_positional_args"`
 
 	// Subcomandos que serão adicionados ao grupo
 	SubCommands []SubCommandData `json:"sub_commands"`
@@ -242,9 +246,15 @@ func (pgd *PackageGroupData) SetPackageName(packageName string) {
 	pgd.PackageName = strings.ToLower(packageName)
 }
 
+var notAllowedPositionalArgs = []string{"create"}
+
 // SetUseName define o nome de uso do comando
 func (pgd *PackageGroupData) SetUseName(useName string) {
 	pgd.UseName = strings.ToLower(strutils.ToSnakeCase(useName, "-"))
+	pgd.AllowPositionalArgs = true
+	if slices.Contains(notAllowedPositionalArgs, pgd.UseName) {
+		pgd.AllowPositionalArgs = false
+	}
 
 	if pgd.Custom != nil && pgd.FileID != "" {
 		custom := pgd.Custom.Find(pgd.FileID)
@@ -258,6 +268,13 @@ func (pgd *PackageGroupData) SetUseName(useName string) {
 		}
 	}
 
+}
+
+func (pgd *PackageGroupData) AppendPositionalArgs(positionalArgs string) {
+	if pgd.AllowPositionalArgs {
+		pgd.UseName = fmt.Sprintf("%s [%s]", pgd.UseName, positionalArgs)
+	}
+	pgd.AllowPositionalArgs = false
 }
 
 func (pgd *PackageGroupData) LoadCustomUse() {

@@ -71,7 +71,6 @@ func addPrintError() string {
 }
 
 func printResult(productData *PackageGroupData, method sdk_structure.Method) {
-	// first check responses and create a AssignResult
 	assignResult := []string{}
 	printRst := []string{}
 	for _, response := range method.Returns {
@@ -86,16 +85,11 @@ func printResult(productData *PackageGroupData, method sdk_structure.Method) {
 		if response.Type == "error" {
 			continue
 		}
-		// printRst = append(printRst, fmt.Sprintf("\t\t\tsdkResult, err := json.MarshalIndent(%s, \"\", \"  \")", response.Name))
-		// printRst = append(printRst, addPrintError())
+
 		printRst = append(printRst, "\t\t\traw, _ := cmd.Root().PersistentFlags().GetBool(\"raw\")")
 		printRst = append(printRst, fmt.Sprintf("\t\t\tbeautiful.NewOutput(raw).PrintData(%s)", response.Name))
 		productData.AddImport("\"github.com/magaluCloud/mgccli/beautiful\"")
-		// printRst = append(printRst, "\t\t\tfmt.Println(string(sdkResult))")
-		// productData.AddImport("\"encoding/json\"")
-		// productData.AddImport("\"fmt\"")
 	}
-	// productData.AddImport("\"github.com/magaluCloud/mgccli/cmd_utils\"")
 	productData.AddAssignResult(strings.Join(assignResult, ", "))
 	productData.AddPrintResult(strings.Join(printRst, "\n"))
 }
@@ -183,6 +177,12 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 		isDeepNested := strings.Count(pathPrefix, ".") > 0
 
 		if field.IsPrimitive {
+
+			if !field.IsOptional {
+				field.IsPositional = true
+				productData.AppendPositionalArgs(field.Name)
+			}
+
 			var cobraFlagName string
 			var flagTypeGetter, flagCreationGetter func() string
 			var defaultGetter func() string
@@ -211,16 +211,16 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 			}
 
 			addPrimitiveFlag(productData, FlagCreationConfig{
-				FlagName:                varFlagName,
-				TargetVar:               currentPath,
-				CobraFlagName:           cobraFlagName,
-				Field:                   field,
-				ParentField:             parentField,
-				OnlyOneFlagIsPositional: onlyOneFlagIsPositional,
-				FlagTypeGetter:          flagTypeGetter,
-				FlagCreationGetter:      flagCreationGetter,
-				DefaultValueGetter:      defaultGetter,
-				AliasType:               field.AliasType,
+				FlagName:           varFlagName,
+				TargetVar:          currentPath,
+				CobraFlagName:      cobraFlagName,
+				Field:              field,
+				ParentField:        parentField,
+				FlagTypeGetter:     flagTypeGetter,
+				FlagCreationGetter: flagCreationGetter,
+				DefaultValueGetter: defaultGetter,
+				AliasType:          field.AliasType,
+				IsPositional:       field.IsPositional,
 			})
 		}
 
@@ -244,16 +244,15 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 			varCommandName := prepareCommandFlag(varFlagName)
 
 			addPrimitiveFlag(productData, FlagCreationConfig{
-				FlagName:                varFlagName,
-				TargetVar:               currentPath,
-				CobraFlagName:           varCommandName,
-				Field:                   field,
-				ParentField:             parentField,
-				OnlyOneFlagIsPositional: nil, // Arrays complexos não atualizam posicional
-				FlagTypeGetter:          func() string { return translateTypeToCobraFlagComplex(field) },
-				FlagCreationGetter:      func() string { return translateTypeToCobraFlagCreateComplex(field) },
-				DefaultValueGetter:      nil, // Arrays complexos não têm valor default
-				AliasType:               field.AliasType,
+				FlagName:           varFlagName,
+				TargetVar:          currentPath,
+				CobraFlagName:      varCommandName,
+				Field:              field,
+				ParentField:        parentField,
+				FlagTypeGetter:     func() string { return translateTypeToCobraFlagComplex(field) },
+				FlagCreationGetter: func() string { return translateTypeToCobraFlagCreateComplex(field) },
+				DefaultValueGetter: nil, // Arrays complexos não têm valor default
+				AliasType:          field.AliasType,
 			})
 		}
 	}
@@ -293,16 +292,16 @@ type FlagAssignmentConfig struct {
 
 // FlagCreationConfig contém todas as configurações necessárias para criar uma flag completa
 type FlagCreationConfig struct {
-	FlagName                string
-	TargetVar               string
-	CobraFlagName           string
-	Field                   sdk_structure.Parameter
-	ParentField             *sdk_structure.Parameter
-	OnlyOneFlagIsPositional *bool
-	FlagTypeGetter          func() string
-	FlagCreationGetter      func() string
-	DefaultValueGetter      func() string
-	AliasType               string
+	FlagName           string
+	TargetVar          string
+	CobraFlagName      string
+	Field              sdk_structure.Parameter
+	ParentField        *sdk_structure.Parameter
+	FlagTypeGetter     func() string
+	FlagCreationGetter func() string
+	DefaultValueGetter func() string
+	AliasType          string
+	IsPositional       bool
 }
 
 // addPrimitiveFlag cria definição, criação e atribuição de uma flag primitiva
@@ -353,7 +352,7 @@ func addPrimitiveFlag(productData *PackageGroupData, config FlagCreationConfig) 
 		Field:             config.Field,
 		ParentField:       config.ParentField,
 		IsOptional:        config.Field.IsOptional,
-		RequirePositional: config.OnlyOneFlagIsPositional != nil && !(*config.OnlyOneFlagIsPositional || config.Field.IsOptional),
+		RequirePositional: config.IsPositional,
 		AliasType:         config.AliasType,
 	})
 
@@ -364,10 +363,6 @@ func addPrimitiveFlag(productData *PackageGroupData, config FlagCreationConfig) 
 		productData.AddImport("\"fmt\"")
 	}
 
-	// Atualiza flag posicional se necessário
-	if config.OnlyOneFlagIsPositional != nil && !config.Field.IsPointer && !config.Field.IsOptional {
-		*config.OnlyOneFlagIsPositional = true
-	}
 }
 
 // createFlagAssignment gera código para atribuir o valor de uma flag a uma variável
