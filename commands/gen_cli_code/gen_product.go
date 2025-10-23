@@ -414,6 +414,8 @@ func translateTypeToCobraFlag(paramType string) string {
 		return "StrSliceFlag"
 	case "map[string]string":
 		return "StrMapFlag"
+	case "time.Time":
+		return "TimeFlag"
 	default:
 		return "StrFlag"
 	}
@@ -483,6 +485,11 @@ func translateTypeToCobraFlagCreate(paramType string, withChar bool) string {
 			return "StrMapP"
 		}
 		return "StrMap"
+	case "time.Time":
+		if withChar {
+			return "TimeP"
+		}
+		return "Time"
 	default:
 		if withChar {
 			return "StrP"

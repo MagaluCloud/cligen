@@ -10,7 +10,7 @@ import (
 func getTypeString(expr ast.Expr) (string, bool) {
 	switch t := expr.(type) {
 	case *ast.Ident:
-		return t.Name, false
+		return t.Name, isPrimitiveType(t.Name)
 	case *ast.StarExpr:
 		subType, isPrimitive := getTypeString(t.X)
 		return "*" + subType, isPrimitive
@@ -91,6 +91,7 @@ func getTypeStringWithPackage(expr ast.Expr, packageName string) (string, bool) 
 
 // isPrimitiveType verifica se um tipo é primitivo do Go
 func isPrimitiveType(typeName string) bool {
+	fmt.Println(typeName)
 	if strings.Contains(typeName, ".") {
 		typeName = strings.Split(typeName, ".")[len(strings.Split(typeName, "."))-1]
 	}
