@@ -115,8 +115,15 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 		}
 
 		if param.IsPrimitive {
+			typeName := param.Type
+			if param.AliasType != "" {
+				typeName = param.AliasType
+				if param.IsArray {
+					typeName = "[]" + typeName
+				}
+			}
 			// Parâmetro primitivo direto
-			productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, param.Type))
+			productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, typeName))
 			// Processa como um único field sem prefixo
 			processFieldsRecursive(productData, []sdk_structure.Parameter{param}, "", nil, &onlyOneFlagIsPositional)
 		} else {
@@ -374,7 +381,17 @@ func createFlagAssignment(config FlagAssignmentConfig) string {
 		}
 	}
 
-	// Se tem AliasType, usa casting
+	// Detecta slice de tipo não-primitivo (primitivo com alias): []string -> []ImageExpand
+	if config.AliasType != "" && config.Field.IsArray && config.Field.IsPrimitive {
+		return fmt.Sprintf(`if %s.IsChanged() {
+				%s = make([]%s, len(*%s.Value))
+				for i, v := range *%s.Value {
+					%s[i] = %s(v)
+				}
+			}`, flagVar, config.TargetVar, config.AliasType, flagVar, flagVar, config.TargetVar, config.AliasType)
+	}
+
+	// Se tem AliasType (mas não é slice), usa casting
 	if config.AliasType != "" {
 		// Se é pointer, faz cast com pointer
 		if config.Field.IsPointer {

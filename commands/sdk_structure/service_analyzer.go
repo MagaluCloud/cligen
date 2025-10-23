@@ -108,6 +108,9 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 								if funcType.Params != nil {
 									for _, param := range funcType.Params.List {
 										paramType, aliasType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
+										if aliasType != "" {
+											aliasType = packageName + "Sdk." + aliasType
+										}
 										structFields := analyzeStructType(param.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(paramType, "*")
 										isArray := strings.HasPrefix(paramType, "[]")
@@ -150,6 +153,9 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 								if funcType.Results != nil {
 									for _, result := range funcType.Results.List {
 										returnType, aliasType, _ := getTypeStringWithPackage(result.Type, packageName)
+										if aliasType != "" {
+											aliasType = packageName + "Sdk." + aliasType
+										}
 										structFields := analyzeStructType(result.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(returnType, "*")
 										isArray := strings.HasPrefix(returnType, "[]")
