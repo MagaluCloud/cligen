@@ -80,8 +80,7 @@ type PackageGroupData struct {
 	PackageName string `json:"package_name"`
 
 	// Imports necessários para o arquivo
-	Imports []string      `json:"imports"`
-	Custom  *CustomHeader `json:"custom"`
+	Imports []string `json:"imports"`
 
 	// Informações da função principal
 	FunctionName string   `json:"function_name"`
@@ -150,9 +149,8 @@ type TemplateData struct {
 }
 
 // NewPackageGroupData cria uma nova instância de PackageGroupData com valores padrão
-func NewPackageGroupData(custom *CustomHeader) *PackageGroupData {
+func NewPackageGroupData() *PackageGroupData {
 	return &PackageGroupData{
-		Custom:      custom,
 		Imports:     []string{},
 		SubCommands: []SubCommandData{},
 		Commands:    []CommandData{},
@@ -255,19 +253,6 @@ func (pgd *PackageGroupData) SetUseName(useName string) {
 	if slices.Contains(notAllowedPositionalArgs, pgd.UseName) {
 		pgd.AllowPositionalArgs = false
 	}
-
-	if pgd.Custom != nil && pgd.FileID != "" {
-		custom := pgd.Custom.Find(pgd.FileID)
-		if custom != nil {
-			pgd.UseName = custom.Use
-		}
-		if os.Getenv("GEN_FULL") != "" {
-			newCustom := NewCustomData(pgd.FileID)
-			newCustom.AddUse(pgd.UseName)
-			pgd.Custom.Add(*newCustom)
-		}
-	}
-
 }
 
 func (pgd *PackageGroupData) AppendPositionalArgs(positionalArgs string) bool {

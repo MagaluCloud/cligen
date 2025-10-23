@@ -9,14 +9,14 @@ import (
 	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
-func genProductCode(custom *CustomHeader, sdkStructure *sdk_structure.SDKStructure) error {
+func genProductCode(sdkStructure *sdk_structure.SDKStructure) error {
 	for _, pkg := range sdkStructure.Packages {
-		genProductCodeRecursive(custom, &pkg, nil)
+		genProductCodeRecursive(&pkg, nil)
 	}
 	return nil
 }
 
-func genProductCodeRecursive(custom *CustomHeader, pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
+func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
 	if len(pkg.Services) > 0 {
 
 		for _, service := range pkg.Services {
@@ -27,7 +27,7 @@ func genProductCodeRecursive(custom *CustomHeader, pkg *sdk_structure.Package, p
 				} else {
 					dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
 				}
-				productData := NewPackageGroupData(custom)
+				productData := NewPackageGroupData()
 				productData.SetFileID(dir)
 				if productData.HasCustomFile {
 					err := productData.WriteProductCustomToFile(dir)
@@ -60,7 +60,7 @@ func genProductCodeRecursive(custom *CustomHeader, pkg *sdk_structure.Package, p
 	}
 	if len(pkg.SubPkgs) > 0 {
 		for _, subPkg := range pkg.SubPkgs {
-			genProductCodeRecursive(custom, &subPkg, pkg)
+			genProductCodeRecursive(&subPkg, pkg)
 		}
 	}
 	return nil
