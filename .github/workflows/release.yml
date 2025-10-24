@@ -101,7 +101,6 @@ jobs:
           
           # Torne executável
           chmod +x cli         
-.
           EOF
           
           echo "NOTES_FILE=release_notes.md" >> $GITHUB_OUTPUT
