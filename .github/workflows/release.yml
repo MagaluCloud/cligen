@@ -86,7 +86,6 @@ jobs:
       - name: Generate checksums
         run: |
           cd dist
-          sha256sum cligen-* > checksums.txt
           sha256sum tmp-cli-complete.zip >> checksums.txt
           sha256sum cli >> checksums.txt
           cat checksums.txt
@@ -95,52 +94,14 @@ jobs:
         id: release_notes
         run: |
           cat > release_notes.md << EOF
-          ## CLIgen ${{ steps.version.outputs.VERSION }}
-          
-          ### Downloads
-          
-          #### Binário CLIgen (gerador)
-          
-          Baixe o binário apropriado para sua plataforma:
-          
-          - **Linux AMD64**: \`cligen-linux-amd64\`
-          - **Linux ARM64**: \`cligen-linux-arm64\`
-          - **macOS Intel**: \`cligen-darwin-amd64\`
-          - **macOS Apple Silicon**: \`cligen-darwin-arm64\`
-          - **Windows AMD64**: \`cligen-windows-amd64.exe\`
-          
-          #### CLI Gerado
+          ## CLI ${{ steps.version.outputs.VERSION }}
           
           - **CLI binário gerado**: \`cli\` - Binário pronto para uso do CLI gerado
           - **Código-fonte completo do CLI**: \`tmp-cli-complete.zip\` - Código-fonte completo do CLI gerado
           
-          ### Instalação
-          
-          #### Linux/macOS
-          \`\`\`bash
-          # Baixe o binário
-          curl -L -o cligen https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.VERSION }}/cligen-\$(uname -s | tr '[:upper:]' '[:lower:]')-\$(uname -m)
-          
           # Torne executável
-          chmod +x cligen
-          
-          # Mova para um diretório no PATH
-          sudo mv cligen /usr/local/bin/
-          \`\`\`
-          
-          #### Windows
-          Baixe o arquivo \`cligen-windows-amd64.exe\` e adicione ao seu PATH.
-          
-          ### Verificação
-          
-          Após a instalação, verifique com:
-          \`\`\`bash
-          cligen --version
-          \`\`\`
-          
-          ### Checksums
-          
-          Verifique a integridade do download usando o arquivo \`checksums.txt\` incluído na release.
+          chmod +x cli         
+.
           EOF
           
           echo "NOTES_FILE=release_notes.md" >> $GITHUB_OUTPUT
@@ -154,7 +115,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            dist/cligen-*
             dist/checksums.txt
             dist/tmp-cli-complete.zip
             dist/cli

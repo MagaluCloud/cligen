@@ -174,10 +174,12 @@ func (pgd *PackageGroupData) SetFileID(fileID string) {
 		return
 	}
 
-	os.MkdirAll(filepath.Dir(pgd.CustomFile), 0755)
-	_, err := os.Create(pgd.CustomFile + ".keep")
-	if err != nil {
-		panic(err)
+	if os.Getenv("GEN_CUSTOM_FILE") == "true" {
+		os.MkdirAll(filepath.Dir(pgd.CustomFile), 0755)
+		_, err := os.Create(pgd.CustomFile + ".keep")
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
