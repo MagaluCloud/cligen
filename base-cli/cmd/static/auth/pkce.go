@@ -1,46 +1,60 @@
 package auth
 
 import (
+	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
-	"math/rand"
+	"fmt"
 	"strings"
-	"time"
 )
 
-type codeVerifier struct {
+const (
+	// verifierLength define o tamanho do code verifier em bytes
+	// RFC 7636 recomenda entre 43-128 caracteres após encoding
+	verifierLength = 32
+)
+
+// CodeVerifier representa um PKCE code verifier usado no fluxo OAuth
+// Ref: https://datatracker.ietf.org/doc/html/rfc7636
+type CodeVerifier struct {
 	value string
 }
 
-const (
-	length = 32
-)
-
-func base64URLEncode(str []byte) string {
-	encoded := base64.StdEncoding.EncodeToString(str)
-	encoded = strings.Replace(encoded, "+", "-", -1)
-	encoded = strings.Replace(encoded, "/", "_", -1)
-	encoded = strings.Replace(encoded, "=", "", -1)
-	return encoded
-}
-
-func newVerifier() *codeVerifier {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	b := make([]byte, length)
-	for i := 0; i < length; i++ {
-		b[i] = byte(r.Intn(255))
+// NewVerifier cria um novo code verifier aleatório usando geração criptográfica segura
+func NewVerifier() (*CodeVerifier, error) {
+	b := make([]byte, verifierLength)
+	if _, err := rand.Read(b); err != nil {
+		return nil, fmt.Errorf("failed to generate random bytes: %w", err)
 	}
-	return newCodeVerifierFromBytes(b)
+	return newCodeVerifierFromBytes(b), nil
 }
 
-func newCodeVerifierFromBytes(b []byte) *codeVerifier {
-	return &codeVerifier{
+// newCodeVerifierFromBytes cria um code verifier a partir de bytes fornecidos
+func newCodeVerifierFromBytes(b []byte) *CodeVerifier {
+	return &CodeVerifier{
 		value: base64URLEncode(b),
 	}
 }
 
-func (v *codeVerifier) CodeChallengeS256() string {
+// Value retorna o valor do code verifier
+func (v *CodeVerifier) Value() string {
+	return v.value
+}
+
+// CodeChallengeS256 gera o code challenge usando o método S256 (SHA256)
+// Este é o método recomendado pela RFC 7636
+func (v *CodeVerifier) CodeChallengeS256() string {
 	h := sha256.New()
 	h.Write([]byte(v.value))
 	return base64URLEncode(h.Sum(nil))
+}
+
+// base64URLEncode codifica bytes em Base64 URL-safe sem padding
+// conforme especificado na RFC 7636
+func base64URLEncode(data []byte) string {
+	encoded := base64.StdEncoding.EncodeToString(data)
+	encoded = strings.ReplaceAll(encoded, "+", "-")
+	encoded = strings.ReplaceAll(encoded, "/", "_")
+	encoded = strings.ReplaceAll(encoded, "=", "")
+	return encoded
 }

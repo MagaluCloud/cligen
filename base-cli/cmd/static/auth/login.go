@@ -3,96 +3,55 @@ package auth
 import (
 	"context"
 	"fmt"
-	"html/template"
-	"net/http"
+	"os"
 
-	_ "embed"
-
-	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
 )
 
-var (
-	//go:embed html.template
-	htmlTemplate string
-
-	htmlTempl *template.Template
-)
-
-func Login(ctx context.Context) *cobra.Command {
-	var headless bool
-	var qrcode bool
-	var show bool
+// NewLoginCommand cria o comando de login para o CLI
+func NewLoginCommand(ctx context.Context) *cobra.Command {
+	var opts LoginOptions
 
 	cmd := &cobra.Command{
 		Use:   "login",
-		Short: "Login to the Magalu Cloud",
-		Long:  `Login to the Magalu Cloud`,
-		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Login to the Magalu Cloud")
-			err := defaultLogin(ctx)
-			if err != nil {
-				fmt.Println("Error: %v", err)
-			}
+		Short: "Autenticar na Magalu Cloud",
+		Long:  "Executa o fluxo de autenticação OAuth para fazer login na Magalu Cloud",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runLogin(ctx, opts)
 		},
 	}
 
-	cmd.Flags().BoolVar(&headless, "headless", false, "Login to the Magalu Cloud without a browser")
-	cmd.Flags().BoolVar(&qrcode, "qrcode", false, "Login to the Magalu Cloud with a QR code")
-	cmd.Flags().BoolVar(&show, "show", false, "Show the access token after the login process")
+	// Configurar flags
+	cmd.Flags().BoolVar(&opts.Headless, "headless", false, "Login sem abrir navegador (device flow)")
+	cmd.Flags().BoolVar(&opts.QRCode, "qrcode", false, "Exibir QR code para login")
+	cmd.Flags().BoolVar(&opts.Show, "show", false, "Exibir token de acesso após o login")
+
+	// Marcar flags como mutuamente exclusivas
+	cmd.MarkFlagsMutuallyExclusive("headless", "qrcode")
+
 	return cmd
 }
 
-// default login with browser
-type authResult struct {
-	value string
-	err   error
-}
+// runLogin executa o processo de login
+func runLogin(ctx context.Context, opts LoginOptions) error {
+	// Criar configuração
+	config := DefaultConfig()
 
-func defaultLogin(ctx context.Context) error {
+	// Criar serviço de autenticação
+	service := NewService(config)
 
-	htmlTempl, err := template.New("html").Parse(htmlTemplate)
+	// Executar login
+	fmt.Println("Iniciando processo de autenticação...")
+	token, err := service.Login(ctx, opts)
 	if err != nil {
-		return err
-	}
-	fmt.Println("defaultLogin")
-	auth := &auth{
-		httpClient:   &http.Client{},
-		codeVerifier: newVerifier(),
-		htmlTempl:    htmlTempl,
-	}
-	resultChan, cancel, err := startCallbackServer(ctx, false, auth)
-	if err != nil {
-		return err
-	}
-	defer cancel()
-
-	authUrl, err := auth.codeChallengeToURL([]string{"mke.write", "api-consulta.read", "openid", "mcr.read", "dbaas.write",
-		"cpo:read", "cpo:write", "evt:event-tr", "network.read", "network.write", "object-storage.write", "object-storage.read",
-		"block-storage.read", "block-storage.write", "mke.read", "virtual-machine.read", "virtual-machine.write", "dbaas.read",
-		"mcr.write", "gdb:ssh-pkey-r", "gdb:ssh-pkey-w", "pa:sa:manage", "lba.loadbalancer.read", "lba.loadbalancer.write", "gdb:azs-r",
-		"lbaas.read", "lbaas.write", "iam:read", "iam:write"})
-	if err != nil {
-		return err
-	}
-	fmt.Println(authUrl)
-
-	browser.OpenURL(authUrl.String())
-	result := <-resultChan
-	if result.err != nil {
-		return result.err
+		return fmt.Errorf("falha na autenticação: %w", err)
 	}
 
-	fmt.Println(result.value)
+	// Exibir mensagem de sucesso
+	fmt.Fprintln(os.Stderr, "\n✓ Autenticação realizada com sucesso!")
+
+	// TODO: Salvar token em local seguro (keyring/arquivo de configuração)
+	_ = token
+
 	return nil
-}
-
-// qrcode login
-func qrcodeLogin(ctx context.Context) {
-	fmt.Println("qrcodeLogin")
-}
-
-// headless login
-func headlessLogin(ctx context.Context) {
-	fmt.Println("headlessLogin")
 }

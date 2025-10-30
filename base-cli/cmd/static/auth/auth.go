@@ -9,8 +9,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// AuthCmd cria e configura o comando de autenticação
 func AuthCmd(ctx context.Context, parent *cobra.Command, sdkCoreConfig sdk.CoreClient) {
 	manager := i18n.GetInstance()
+
 	cmd := &cobra.Command{
 		Use:     "auth",
 		Short:   manager.T("cli.auth.short"),
@@ -19,6 +21,8 @@ func AuthCmd(ctx context.Context, parent *cobra.Command, sdkCoreConfig sdk.CoreC
 		GroupID: "settings",
 	}
 
-	cmd.AddCommand(Login(ctx))
+	// Adicionar subcomandos
+	cmd.AddCommand(NewLoginCommand(ctx))
+
 	parent.AddCommand(cmd)
 }
