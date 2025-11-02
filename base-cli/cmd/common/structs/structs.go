@@ -2,11 +2,13 @@ package structs
 
 import (
 	"fmt"
+	"os"
 	"reflect"
 	"strconv"
 	"strings"
 
 	"github.com/magaluCloud/mgccli/cmd/common/validator"
+	"gopkg.in/yaml.v3"
 )
 
 func convertStringToType(str string, fieldType reflect.Type) (reflect.Value, error) {
@@ -133,4 +135,22 @@ func Set[T any](structPtr *T, name string, value any) error {
 	}
 
 	return fmt.Errorf("config %s not found", name)
+}
+
+func LoadFileToStruct[T any](filePath string) (T, error) {
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		return InitConfig[T](), nil
+	}
+
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return *new(T), err
+	}
+
+	fileContent := new(T)
+	err = yaml.Unmarshal(data, fileContent)
+	if err != nil {
+		return *new(T), err
+	}
+	return *fileContent, nil
 }

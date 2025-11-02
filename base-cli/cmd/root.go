@@ -8,6 +8,7 @@ import (
 
 	"runtime"
 
+	"github.com/magaluCloud/cligen/base-cli/cmd/common/auth"
 	"github.com/magaluCloud/mgccli/beautiful"
 	"github.com/magaluCloud/mgccli/cmd/common/config"
 	"github.com/magaluCloud/mgccli/cmd/common/workspace"
@@ -28,12 +29,18 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 
 	workspace := workspace.NewWorkspace().Get()
 	config := config.NewConfig(workspace)
+	auth := auth.NewAuth(workspace)
 
 	value, err := config.Get("workers") // TMP - REMOVE IT
 	if err != nil {                     // TMP - REMOVE IT
 		panic(err) // TMP - REMOVE IT
 	} // TMP - REMOVE IT
 	fmt.Println(value) // TMP - REMOVE IT
+
+	fmt.Println(auth.GetAccessKeyID())     // TMP - REMOVE IT
+	fmt.Println(auth.GetAccessToken())     // TMP - REMOVE IT
+	fmt.Println(auth.GetRefreshToken())    // TMP - REMOVE IT
+	fmt.Println(auth.GetSecretAccessKey()) // TMP - REMOVE IT
 
 	var rootCmd = &cobra.Command{
 		Use:     "cli",

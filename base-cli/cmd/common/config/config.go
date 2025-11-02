@@ -39,7 +39,7 @@ type config struct {
 
 func NewConfig(workspace workspace.Workspace) Config {
 	configFile := path.Join(workspace.Dir(), "cli.yaml")
-	cliConfig, err := loadConfig(configFile)
+	cliConfig, err := structs.LoadFileToStruct[CliConfig](configFile)
 	if err != nil {
 		//TODO: Handle error
 		panic(err)
@@ -94,22 +94,4 @@ func (c *config) List() (map[string]any, error) {
 		return nil, err
 	}
 	return configMap, nil
-}
-
-func loadConfig(configPath string) (CliConfig, error) {
-	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		return structs.InitConfig[CliConfig](), nil
-	}
-
-	data, err := os.ReadFile(configPath)
-	if err != nil {
-		return CliConfig{}, err
-	}
-
-	var cliConfig CliConfig
-	err = yaml.Unmarshal(data, &cliConfig)
-	if err != nil {
-		return CliConfig{}, err
-	}
-	return cliConfig, nil
 }
