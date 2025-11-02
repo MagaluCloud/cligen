@@ -9,6 +9,8 @@ import (
 	"runtime"
 
 	"github.com/magaluCloud/mgccli/beautiful"
+	"github.com/magaluCloud/mgccli/cmd/common/config"
+	"github.com/magaluCloud/mgccli/cmd/common/workspace"
 	"github.com/magaluCloud/mgccli/cmd/gen"
 	"github.com/magaluCloud/mgccli/cmd/static"
 	"github.com/magaluCloud/mgccli/i18n"
@@ -23,6 +25,15 @@ import (
 
 func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cobra.Command {
 	manager := i18n.GetInstance()
+
+	workspace := workspace.NewWorkspace().Get()
+	config := config.NewConfig(workspace)
+
+	value, err := config.Get("workers") // TMP - REMOVE IT
+	if err != nil {                     // TMP - REMOVE IT
+		panic(err) // TMP - REMOVE IT
+	} // TMP - REMOVE IT
+	fmt.Println(value) // TMP - REMOVE IT
 
 	var rootCmd = &cobra.Command{
 		Use:     "cli",
