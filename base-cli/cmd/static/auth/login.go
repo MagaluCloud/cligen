@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"os"
 
+	commonauth "github.com/magaluCloud/mgccli/cmd/common/auth"
 	"github.com/spf13/cobra"
 )
 
 // NewLoginCommand cria o comando de login para o CLI
 func NewLoginCommand(ctx context.Context) *cobra.Command {
-	var opts LoginOptions
+	var opts commonauth.LoginOptions
 
 	cmd := &cobra.Command{
 		Use:   "login",
@@ -33,12 +34,12 @@ func NewLoginCommand(ctx context.Context) *cobra.Command {
 }
 
 // runLogin executa o processo de login
-func runLogin(ctx context.Context, opts LoginOptions) error {
+func runLogin(ctx context.Context, opts commonauth.LoginOptions) error {
 	// Criar configuração
-	config := DefaultConfig()
+	config := commonauth.DefaultConfig()
 
 	// Criar serviço de autenticação
-	service := NewService(config)
+	service := commonauth.NewService(config)
 
 	// Executar login
 	fmt.Println("Iniciando processo de autenticação...")
