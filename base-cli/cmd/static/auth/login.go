@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"os"
 
-	commonauth "github.com/magaluCloud/mgccli/cmd/common/auth"
+	"github.com/magaluCloud/mgccli/cmd/common/auth"
 	"github.com/spf13/cobra"
 )
 
 // NewLoginCommand cria o comando de login para o CLI
 func NewLoginCommand(ctx context.Context) *cobra.Command {
-	var opts commonauth.LoginOptions
+	var opts auth.LoginOptions
 
 	cmd := &cobra.Command{
 		Use:   "login",
@@ -34,12 +34,12 @@ func NewLoginCommand(ctx context.Context) *cobra.Command {
 }
 
 // runLogin executa o processo de login
-func runLogin(ctx context.Context, opts commonauth.LoginOptions) error {
+func runLogin(ctx context.Context, opts auth.LoginOptions) error {
 	// Criar configuração
-	config := commonauth.DefaultConfig()
+	config := auth.DefaultConfig()
 
 	// Criar serviço de autenticação
-	service := commonauth.NewService(config)
+	service := auth.NewService(config)
 
 	// Executar login
 	fmt.Println("Iniciando processo de autenticação...")
@@ -51,8 +51,9 @@ func runLogin(ctx context.Context, opts commonauth.LoginOptions) error {
 	// Exibir mensagem de sucesso
 	fmt.Fprintln(os.Stderr, "\n✓ Autenticação realizada com sucesso!")
 
-	// TODO: Salvar token em local seguro (keyring/arquivo de configuração)
-	_ = token
+	auth := ctx.Value("cmdAuth").(auth.Auth)
+	auth.SetAccessToken(token.AccessToken)
+	auth.SetRefreshToken(token.RefreshToken)
 
 	return nil
 }

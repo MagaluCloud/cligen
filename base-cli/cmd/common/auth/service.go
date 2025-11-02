@@ -40,6 +40,10 @@ func (s *Service) Login(ctx context.Context, opts LoginOptions) (*TokenResponse,
 	return s.browserLogin(ctx, opts.Show)
 }
 
+func (s *Service) RefreshToken(ctx context.Context) (*TokenResponse, error) {
+	return nil, fmt.Errorf("refresh token not implemented yet")
+}
+
 // browserLogin executa o fluxo de login padrão abrindo o navegador
 func (s *Service) browserLogin(ctx context.Context, showToken bool) (*TokenResponse, error) {
 	// Preparar template HTML
@@ -70,7 +74,7 @@ func (s *Service) browserLogin(ctx context.Context, showToken bool) (*TokenRespo
 	}
 
 	// Abrir navegador
-	fmt.Printf("Abrindo navegador em: %s\n", authURL.String())
+	fmt.Printf("Abrindo navegador em: %s://%s\n", authURL.Scheme, authURL.Host)
 	if err := browser.OpenURL(authURL.String()); err != nil {
 		fmt.Printf("Não foi possível abrir o navegador automaticamente.\n")
 		fmt.Printf("Por favor, abra manualmente: %s\n", authURL.String())
