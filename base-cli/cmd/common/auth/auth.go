@@ -3,7 +3,9 @@ package auth
 import (
 	"os"
 	"path"
+	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/magaluCloud/mgccli/cmd/common/structs"
 	"github.com/magaluCloud/mgccli/cmd/common/workspace"
 	"gopkg.in/yaml.v3"
@@ -32,6 +34,9 @@ type Auth interface {
 	SetRefreshToken(token string) error
 	SetSecretAccessKey(key string) error
 	SetAccessKeyID(key string) error
+
+	ValidateToken() error
+	RefreshToken() error
 }
 
 type authValue struct {
@@ -102,5 +107,25 @@ func (a *authValue) Write() error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (a *authValue) ValidateToken() error {
+	//extract iat from token, if expires in less than 30 sec, run refresh operation
+	token, err := jwt.Parse(a.authValue.AccessToken, func(token *jwt.Token) (interface{}, error) {
+		return []byte(a.authValue.SecretAccessKey), nil
+	})
+	if err != nil {
+		return err
+	}
+	iat := token.Claims.(jwt.MapClaims)["exp"].(float64)
+	if iat < float64(time.Now().Unix()-60) {
+		return a.RefreshToken()
+	}
+	return nil
+}
+
+func (a *authValue) RefreshToken() error {
+	// not implemented yet
 	return nil
 }

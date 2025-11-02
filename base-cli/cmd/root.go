@@ -4,12 +4,14 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net/http"
 	"os"
+	"time"
 
 	"runtime"
 
-	"github.com/magaluCloud/cligen/base-cli/cmd/common/auth"
 	"github.com/magaluCloud/mgccli/beautiful"
+	"github.com/magaluCloud/mgccli/cmd/common/auth"
 	"github.com/magaluCloud/mgccli/cmd/common/config"
 	"github.com/magaluCloud/mgccli/cmd/common/workspace"
 	"github.com/magaluCloud/mgccli/cmd/gen"
@@ -31,16 +33,11 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	config := config.NewConfig(workspace)
 	auth := auth.NewAuth(workspace)
 
-	value, err := config.Get("workers") // TMP - REMOVE IT
-	if err != nil {                     // TMP - REMOVE IT
-		panic(err) // TMP - REMOVE IT
-	} // TMP - REMOVE IT
-	fmt.Println(value) // TMP - REMOVE IT
-
-	fmt.Println(auth.GetAccessKeyID())     // TMP - REMOVE IT
-	fmt.Println(auth.GetAccessToken())     // TMP - REMOVE IT
-	fmt.Println(auth.GetRefreshToken())    // TMP - REMOVE IT
-	fmt.Println(auth.GetSecretAccessKey()) // TMP - REMOVE IT
+	lang, err := config.Get("lang")
+	if err != nil {
+		panic(err)
+	}
+	manager.SetLanguage(lang.(string))
 
 	var rootCmd = &cobra.Command{
 		Use:     "cli",
@@ -73,19 +70,28 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	addRawOutputFlag(rootCmd)
 	addLangFlag(rootCmd)
 
-	// Init SDK
+	httpClient := http.DefaultClient
+	httpClient.Timeout = 5 * time.Second
+
+	// // Init SDK
+	sdkOptions := []sdk.Option{}
 	apiKey := os.Getenv("CLI_API_KEY")
 	if apiKey == "" {
 		apiKey, _, _ = args.GetValue(apiKeyFlag)
-		if apiKey == "" {
-			// TODO: fatal is the best option?
-			// log.Fatal(manager.T("cli.api_key_required"))
-		}
 	}
 
-	sdkOptions := []sdk.Option{}
-	debugLevel := slog.LevelError
+	if apiKey == "" {
+		httpClient.Transport = &cmdutils.Transport{
+			Headers: map[string]string{
+				"Authorization": fmt.Sprintf("Bearer %s", auth.GetAccessToken()),
+			},
+			Base: http.DefaultTransport,
+		}
 
+		sdkOptions = append(sdkOptions, sdk.WithHTTPClient(httpClient))
+	}
+
+	debugLevel := slog.LevelError
 	debugLevelValue, debugPresent, _ := args.GetValue(debugLevelFlag)
 	if debugPresent {
 		debugLevel = slog.Level(parseDebugLevel(debugLevelValue))
