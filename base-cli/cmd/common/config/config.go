@@ -10,8 +10,40 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+type Value interface {
+	String() string
+	Bool() bool
+	Int() int
+}
+
+type valuePtr struct {
+	value any
+}
+
+func NewValue(value any) *valuePtr {
+	return &valuePtr{value: value}
+}
+func (v *valuePtr) String() string {
+	if v.value == nil {
+		return ""
+	}
+	return v.value.(string)
+}
+func (v *valuePtr) Bool() bool {
+	if v.value == nil {
+		return false
+	}
+	return v.value.(bool)
+}
+func (v *valuePtr) Int() int {
+	if v.value == nil {
+		return 0
+	}
+	return v.value.(int)
+}
+
 type Config interface {
-	Get(name string) (any, error)
+	Get(name string) (Value, error)
 	Set(name string, value any) error
 	Delete(name string) error
 	List() (map[string]any, error)
@@ -47,16 +79,16 @@ func NewConfig(workspace workspace.Workspace) Config {
 	return &config{workspace: workspace, cliConfig: cliConfig}
 }
 
-func (c *config) Get(name string) (any, error) {
+func (c *config) Get(name string) (Value, error) {
 	configMap, err := structs.StructToMap(c.cliConfig)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	value, ok := configMap[name]
 	if !ok {
-		return "", fmt.Errorf("config %s not found", name)
+		return nil, fmt.Errorf("config %s not found", name)
 	}
-	return value, nil
+	return NewValue(value), nil
 }
 
 func (c *config) Set(name string, value any) error {

@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/magaluCloud/mgccli/cmd/common/auth"
+	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/spf13/cobra"
 )
 
@@ -51,7 +52,7 @@ func runLogin(ctx context.Context, opts auth.LoginOptions) error {
 	// Exibir mensagem de sucesso
 	fmt.Fprintln(os.Stderr, "\n✓ Autenticação realizada com sucesso!")
 
-	auth := ctx.Value("cmdAuth").(auth.Auth)
+	auth := ctx.Value(cmdutils.CTX_AUTH_KEY).(auth.Auth)
 	auth.SetAccessToken(token.AccessToken)
 	auth.SetRefreshToken(token.RefreshToken)
 

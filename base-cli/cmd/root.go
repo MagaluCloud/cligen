@@ -33,14 +33,14 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	config := config.NewConfig(workspace)
 	auth := auth.NewAuth(workspace)
 
-	ctx = context.WithValue(ctx, "cmdAuth", auth)
-	ctx = context.WithValue(ctx, "cmdConfig", config)
+	ctx = context.WithValue(ctx, cmdutils.CTX_AUTH_KEY, auth)
+	ctx = context.WithValue(ctx, cmdutils.CXT_CONFIG_KEY, config)
 
-	lang, err := config.Get("lang")
+	lang, err := config.Get(cmdutils.CFG_LANG)
 	if err != nil {
 		panic(err)
 	}
-	manager.SetLanguage(lang.(string))
+	manager.SetLanguage(lang.String())
 
 	var rootCmd = &cobra.Command{
 		Use:     "cli",
@@ -78,7 +78,7 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 
 	// // Init SDK
 	sdkOptions := []sdk.Option{}
-	apiKey := os.Getenv("CLI_API_KEY")
+	apiKey := os.Getenv(cmdutils.ENV_API_KEY.String())
 	if apiKey == "" {
 		apiKey, _, _ = args.GetValue(apiKeyFlag)
 	}
