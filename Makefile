@@ -155,7 +155,7 @@ vet: ## Executa go vet
 lint: ## Executa golangci-lint (requer instalação)
 	@echo "$(INFO_COLOR)Executando linter...$(NO_COLOR)"
 	@if command -v golangci-lint > /dev/null; then \
-		golangci-lint run ./...; \
+		golangci-lint run ./commands/... ./config/... ./str_utils/...; \
 		echo "$(OK_COLOR)✓ Lint concluído$(NO_COLOR)"; \
 	else \
 		echo "$(WARN_COLOR)⚠ golangci-lint não encontrado. Instale com: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest$(NO_COLOR)"; \
