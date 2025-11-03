@@ -86,7 +86,7 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	if apiKey == "" {
 		httpClient.Transport = &cmdutils.Transport{
 			Headers: map[string]string{
-				"Authorization": fmt.Sprintf("Bearer %s", auth.GetAccessToken()),
+				"Authorization": fmt.Sprintf("Bearer %s", auth.GetAccessToken(ctx)),
 			},
 			Base: http.DefaultTransport,
 		}

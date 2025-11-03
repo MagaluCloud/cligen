@@ -1,6 +1,17 @@
 package auth
 
-import "context"
+import (
+	"context"
+
+	"github.com/golang-jwt/jwt/v5"
+)
+
+type TokenClaims struct {
+	jwt.RegisteredClaims
+	TenantIDWithType string `json:"tenant"`
+	ScopesStr        string `json:"scope"`
+	Email            string `json:"email"`
+}
 
 // TokenResponse representa a resposta do servidor de autenticação OAuth
 type TokenResponse struct {

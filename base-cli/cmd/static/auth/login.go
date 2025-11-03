@@ -36,15 +36,11 @@ func NewLoginCommand(ctx context.Context) *cobra.Command {
 
 // runLogin executa o processo de login
 func runLogin(ctx context.Context, opts auth.LoginOptions) error {
-	// Criar configuração
-	config := auth.DefaultConfig()
-
-	// Criar serviço de autenticação
-	service := auth.NewService(config)
+	auth := ctx.Value(cmdutils.CTX_AUTH_KEY).(auth.Auth)
 
 	// Executar login
 	fmt.Println("Iniciando processo de autenticação...")
-	token, err := service.Login(ctx, opts)
+	token, err := auth.GetService().Login(ctx, opts)
 	if err != nil {
 		return fmt.Errorf("falha na autenticação: %w", err)
 	}
@@ -52,7 +48,6 @@ func runLogin(ctx context.Context, opts auth.LoginOptions) error {
 	// Exibir mensagem de sucesso
 	fmt.Fprintln(os.Stderr, "\n✓ Autenticação realizada com sucesso!")
 
-	auth := ctx.Value(cmdutils.CTX_AUTH_KEY).(auth.Auth)
 	auth.SetAccessToken(token.AccessToken)
 	auth.SetRefreshToken(token.RefreshToken)
 

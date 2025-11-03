@@ -2,8 +2,13 @@ package auth
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"io"
+	"net/http"
+	"net/url"
+	"strings"
 
 	_ "embed"
 
@@ -40,8 +45,43 @@ func (s *Service) Login(ctx context.Context, opts LoginOptions) (*TokenResponse,
 	return s.browserLogin(ctx, opts.Show)
 }
 
-func (s *Service) RefreshToken(ctx context.Context) (*TokenResponse, error) {
-	return nil, fmt.Errorf("refresh token not implemented yet")
+func (s *Service) RefreshToken(ctx context.Context, refreshToken string) (*TokenResponse, error) {
+	if refreshToken == "" {
+		return nil, fmt.Errorf("RefreshToken is not set")
+	}
+
+	data := url.Values{}
+	data.Set("client_id", s.config.ClientID)
+	data.Set("grant_type", "refresh_token")
+	data.Set("refresh_token", refreshToken)
+
+	r, err := http.NewRequestWithContext(ctx, http.MethodPost, s.config.TokenURL, strings.NewReader(data.Encode()))
+	r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	resp, err := http.DefaultClient.Do(r)
+	if err != nil {
+		return nil, fmt.Errorf("failed to execute token request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// Ler o corpo da resposta
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	// Verificar status da resposta
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("token request failed with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	// Decodificar resposta
+	var tokenResp TokenResponse
+	if err := json.Unmarshal(body, &tokenResp); err != nil {
+		return nil, fmt.Errorf("failed to decode token response: %w", err)
+	}
+
+	return &tokenResp, nil
 }
 
 // browserLogin executa o fluxo de login padrão abrindo o navegador

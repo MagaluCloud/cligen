@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"context"
+	"fmt"
 	"os"
 	"path"
 	"time"
@@ -26,9 +28,11 @@ type AuthFile struct {
 
 type Auth interface {
 	GetAccessKeyID() string
-	GetAccessToken() string
+	GetAccessToken(ctx context.Context) string
 	GetRefreshToken() string
 	GetSecretAccessKey() string
+	GetService() *Service
+	TokenClaims() (*TokenClaims, error)
 
 	SetAccessToken(token string) error
 	SetRefreshToken(token string) error
@@ -36,29 +40,51 @@ type Auth interface {
 	SetAccessKeyID(key string) error
 
 	ValidateToken() error
-	RefreshToken() error
+	RefreshToken(ctx context.Context) error
 }
 
 type authValue struct {
 	authValue AuthFile
 	workspace workspace.Workspace
+	service   *Service
 }
 
 func NewAuth(workspace workspace.Workspace) Auth {
 	authFile := path.Join(workspace.Dir(), "auth.yaml")
 	authContent, err := structs.LoadFileToStruct[AuthFile](authFile)
+
+	config := DefaultConfig()
+	service := NewService(config)
+
 	if err != nil {
 		//TODO: Handle error
 		panic(err)
 	}
-	return &authValue{workspace: workspace, authValue: authContent}
+	return &authValue{workspace: workspace, authValue: authContent, service: service}
+}
+
+func (a *authValue) GetService() *Service {
+	return a.service
 }
 
 func (a *authValue) GetAccessKeyID() string {
 	return a.authValue.AccessKeyID
 }
 
-func (a *authValue) GetAccessToken() string {
+func (a *authValue) GetAccessToken(ctx context.Context) string {
+	if a.authValue.AccessToken == "" {
+		return ""
+	}
+	err := a.ValidateToken()
+	if err != nil {
+		if a.authValue.RefreshToken != "" {
+			err := a.RefreshToken(ctx)
+			if err != nil {
+				return ""
+			}
+			return a.authValue.AccessToken
+		}
+	}
 	return a.authValue.AccessToken
 }
 
@@ -110,22 +136,41 @@ func (a *authValue) Write() error {
 	return nil
 }
 
+func (a *authValue) TokenClaims() (*TokenClaims, error) {
+	if a.authValue.AccessToken == "" {
+		return nil, fmt.Errorf("access token is not set")
+	}
+
+	tokenClaims := &TokenClaims{}
+	tokenParser := jwt.NewParser()
+
+	_, _, err := tokenParser.ParseUnverified(a.authValue.AccessToken, tokenClaims)
+	if err != nil {
+		return nil, err
+	}
+
+	return tokenClaims, nil
+}
+
 func (a *authValue) ValidateToken() error {
 	//extract iat from token, if expires in less than 30 sec, run refresh operation
-	token, err := jwt.Parse(a.authValue.AccessToken, func(token *jwt.Token) (interface{}, error) {
-		return []byte(a.authValue.SecretAccessKey), nil
-	})
+	tokenClaims, err := a.TokenClaims()
 	if err != nil {
 		return err
 	}
-	iat := token.Claims.(jwt.MapClaims)["exp"].(float64)
-	if iat < float64(time.Now().Unix()-60) {
-		return a.RefreshToken()
+	iat := tokenClaims.ExpiresAt.Time.Unix()
+	if iat < time.Now().Unix()-60 {
+		return fmt.Errorf("token expired")
 	}
 	return nil
 }
 
-func (a *authValue) RefreshToken() error {
-	// not implemented yet
-	return nil
+func (a *authValue) RefreshToken(ctx context.Context) error {
+	token, err := a.service.RefreshToken(ctx, a.authValue.RefreshToken)
+	if err != nil {
+		return err
+	}
+	a.authValue.AccessToken = token.AccessToken
+	a.authValue.RefreshToken = token.RefreshToken
+	return a.Write()
 }
