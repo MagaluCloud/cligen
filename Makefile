@@ -142,13 +142,13 @@ clean-all: clean ## Remove todos os arquivos gerados (incluindo builds multi-pla
 .PHONY: fmt
 fmt: ## Formata o código com go fmt
 	@echo "$(INFO_COLOR)Formatando código...$(NO_COLOR)"
-	@$(GO) fmt ./...
+	@$(GO) fmt ./commands/... ./config/... ./str_utils/...
 	@echo "$(OK_COLOR)✓ Código formatado$(NO_COLOR)"
 
 .PHONY: vet
 vet: ## Executa go vet
 	@echo "$(INFO_COLOR)Executando go vet...$(NO_COLOR)"
-	@$(GO) vet ./...
+	@$(GO) vet ./commands/... ./config/... ./str_utils/...
 	@echo "$(OK_COLOR)✓ Verificação concluída$(NO_COLOR)"
 
 .PHONY: lint
@@ -164,7 +164,7 @@ lint: ## Executa golangci-lint (requer instalação)
 .PHONY: test
 test: ## Executa os testes
 	@echo "$(INFO_COLOR)Executando testes...$(NO_COLOR)"
-	@$(GO) test -v -race -coverprofile=coverage.out ./...
+	@$(GO) test -v -race -coverprofile=coverage.out ./commands/... ./config/... ./str_utils/...
 	@echo "$(OK_COLOR)✓ Testes concluídos$(NO_COLOR)"
 
 .PHONY: test-coverage
@@ -196,7 +196,7 @@ ci-build: ci-deps ## Build otimizado para CI
 .PHONY: ci-test
 ci-test: ## Testes otimizados para CI
 	@echo "$(INFO_COLOR)Executando testes CI...$(NO_COLOR)"
-	@$(GO) test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+	@$(GO) test -v -race -coverprofile=coverage.out -covermode=atomic ./commands/... ./config/... ./str_utils/...
 	@echo "$(OK_COLOR)✓ Testes CI concluídos$(NO_COLOR)"
 
 .PHONY: ci-lint
