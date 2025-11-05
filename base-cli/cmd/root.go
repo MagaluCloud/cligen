@@ -83,15 +83,13 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 		apiKey, _, _ = args.GetValue(apiKeyFlag)
 	}
 
-	if apiKey == "" {
-		httpClient.Transport = &cmdutils.Transport{
-			Headers: map[string]string{
-				"Authorization": fmt.Sprintf("Bearer %s", auth.GetAccessToken(ctx)),
-			},
-			Base: http.DefaultTransport,
-		}
+	if apiKey != "" {
+		sdkOptions = append(sdkOptions, sdk.WithAPIKey(apiKey))
+	}
 
-		sdkOptions = append(sdkOptions, sdk.WithHTTPClient(httpClient))
+	jwtToken := auth.GetAccessToken(ctx)
+	if jwtToken != "" {
+		sdkOptions = append(sdkOptions, sdk.WithJWToken(jwtToken))
 	}
 
 	debugLevel := slog.LevelError
@@ -102,7 +100,7 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	sdkOptions = append(sdkOptions, sdk.WithLogger(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: debugLevel}))))
 	sdkOptions = append(sdkOptions, sdk.WithUserAgent(fmt.Sprintf("CLIv2/%s (%s; %s)", version, runtime.GOOS, runtime.GOARCH)))
 
-	sdkCoreConfig := sdk.NewMgcClient(apiKey,
+	sdkCoreConfig := sdk.NewMgcClient(
 		sdkOptions...,
 	)
 
