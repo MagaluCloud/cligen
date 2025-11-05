@@ -4,11 +4,16 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net/http"
 	"os"
+	"time"
 
 	"runtime"
 
 	"github.com/magaluCloud/mgccli/beautiful"
+	"github.com/magaluCloud/mgccli/cmd/common/auth"
+	"github.com/magaluCloud/mgccli/cmd/common/config"
+	"github.com/magaluCloud/mgccli/cmd/common/workspace"
 	"github.com/magaluCloud/mgccli/cmd/gen"
 	"github.com/magaluCloud/mgccli/cmd/static"
 	"github.com/magaluCloud/mgccli/i18n"
@@ -23,6 +28,19 @@ import (
 
 func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cobra.Command {
 	manager := i18n.GetInstance()
+
+	workspace := workspace.NewWorkspace().Get()
+	config := config.NewConfig(workspace)
+	auth := auth.NewAuth(workspace)
+
+	ctx = context.WithValue(ctx, cmdutils.CTX_AUTH_KEY, auth)
+	ctx = context.WithValue(ctx, cmdutils.CXT_CONFIG_KEY, config)
+
+	lang, err := config.Get(cmdutils.CFG_LANG)
+	if err != nil {
+		panic(err)
+	}
+	manager.SetLanguage(lang.String())
 
 	var rootCmd = &cobra.Command{
 		Use:     "cli",
@@ -55,19 +73,26 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	addRawOutputFlag(rootCmd)
 	addLangFlag(rootCmd)
 
-	// Init SDK
-	apiKey := os.Getenv("CLI_API_KEY")
+	httpClient := http.DefaultClient
+	httpClient.Timeout = 5 * time.Second
+
+	// // Init SDK
+	sdkOptions := []sdk.Option{}
+	apiKey := os.Getenv(cmdutils.ENV_API_KEY.String())
 	if apiKey == "" {
 		apiKey, _, _ = args.GetValue(apiKeyFlag)
-		if apiKey == "" {
-			// TODO: fatal is the best option?
-			// log.Fatal(manager.T("cli.api_key_required"))
-		}
 	}
 
-	sdkOptions := []sdk.Option{}
-	debugLevel := slog.LevelError
+	if apiKey != "" {
+		sdkOptions = append(sdkOptions, sdk.WithAPIKey(apiKey))
+	}
 
+	jwtToken := auth.GetAccessToken(ctx)
+	if jwtToken != "" {
+		sdkOptions = append(sdkOptions, sdk.WithJWToken(jwtToken))
+	}
+
+	debugLevel := slog.LevelError
 	debugLevelValue, debugPresent, _ := args.GetValue(debugLevelFlag)
 	if debugPresent {
 		debugLevel = slog.Level(parseDebugLevel(debugLevelValue))
@@ -75,7 +100,7 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	sdkOptions = append(sdkOptions, sdk.WithLogger(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: debugLevel}))))
 	sdkOptions = append(sdkOptions, sdk.WithUserAgent(fmt.Sprintf("CLIv2/%s (%s; %s)", version, runtime.GOOS, runtime.GOARCH)))
 
-	sdkCoreConfig := sdk.NewMgcClient(apiKey,
+	sdkCoreConfig := sdk.NewMgcClient(
 		sdkOptions...,
 	)
 
