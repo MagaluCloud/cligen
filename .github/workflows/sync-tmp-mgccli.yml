@@ -102,9 +102,8 @@ jobs:
           TOKEN="${GITHUB_TOKEN}"
           
           # Criar nome da branch baseado no número do PR e commit SHA
-          PR_NUMBER="${{ github.event.pull_request.number}}"
-          COMMIT_SHA="${{ github.event.pull_request.merge_commit_sha || github.event.pull_request.head.sha }}"
-          BRANCH_NAME="merge-cligen-pr-${PR_NUMBER}-${COMMIT_SHA:0:7}"
+          RANDOM_STRING=$(openssl rand -hex 8)
+          BRANCH_NAME="merge-cligen-${RANDOM_STRING}"
           # Remover caracteres especiais do nome da branch
           BRANCH_NAME=$(echo "$BRANCH_NAME" | tr -cd '[:alnum:]-_')
           
