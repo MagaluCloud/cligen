@@ -164,41 +164,49 @@ func (pgd *PackageGroupData) SetFileID(fileID string) {
 	pgd.FileID = fileID
 	pgd.CustomFile = strings.Replace(fileID, "base-cli-gen", "base-cli-custom", 1)
 
-	if _, err := os.Stat(pgd.CustomFile); err == nil {
+	if info, err := os.Stat(pgd.CustomFile); err == nil && !info.IsDir() {
 		pgd.HasCustomFile = true
 		content, err := os.ReadFile(pgd.CustomFile)
 		if err != nil {
-			panic(err)
+			panic(fmt.Sprintf("erro ao ler arquivo customizado %s: %v", pgd.CustomFile, err))
 		}
 		pgd.CustomContent = string(content)
 		return
 	}
 
 	if os.Getenv("GEN_CUSTOM_FILE") == "true" {
-		os.MkdirAll(filepath.Dir(pgd.CustomFile), 0755)
-		_, err := os.Create(pgd.CustomFile + ".keep")
-		if err != nil {
-			panic(err)
+		dir := filepath.Dir(pgd.CustomFile)
+		if err := os.MkdirAll(dir, 0755); err != nil {
+			panic(fmt.Sprintf("erro ao criar diretório %s: %v", dir, err))
+		}
+		if _, err := os.Create(pgd.CustomFile + ".keep"); err != nil {
+			panic(fmt.Sprintf("erro ao criar arquivo .keep: %v", err))
 		}
 	}
 }
 
 // AddImport adiciona um import à lista de imports (evita duplicatas)
 func (pgd *PackageGroupData) AddImport(importPath string) {
-	for _, imp := range pgd.Imports {
-		if imp == importPath {
-			return
-		}
+	if pgd.hasImport(importPath) {
+		return
 	}
 	pgd.Imports = append(pgd.Imports, importPath)
 }
 
+// hasImport verifica se um import já existe na lista
+func (pgd *PackageGroupData) hasImport(importPath string) bool {
+	for _, imp := range pgd.Imports {
+		if imp == importPath {
+			return true
+		}
+	}
+	return false
+}
+
 // AddCommand adiciona um comando ao grupo (evita duplicatas)
 func (pgd *PackageGroupData) AddCommand(functionName, serviceCall string) {
-	for _, cmd := range pgd.Commands {
-		if cmd.FunctionName == functionName && cmd.ServiceCall == serviceCall {
-			return
-		}
+	if pgd.hasCommand(functionName, serviceCall) {
+		return
 	}
 	pgd.Commands = append(pgd.Commands, CommandData{
 		FunctionName: functionName,
@@ -206,18 +214,37 @@ func (pgd *PackageGroupData) AddCommand(functionName, serviceCall string) {
 	})
 }
 
-// AddSubCommand adiciona um subcomando ao grupo (evita duplicatas)
-func (pgd *PackageGroupData) AddSubCommand(packageName, functionName, serviceCall string) {
-	for _, subCmd := range pgd.SubCommands {
-		if subCmd.PackageName == strings.ToLower(packageName) && subCmd.FunctionName == functionName && subCmd.ServiceCall == serviceCall {
-			return
+// hasCommand verifica se um comando já existe no grupo
+func (pgd *PackageGroupData) hasCommand(functionName, serviceCall string) bool {
+	for _, cmd := range pgd.Commands {
+		if cmd.FunctionName == functionName && cmd.ServiceCall == serviceCall {
+			return true
 		}
 	}
+	return false
+}
+
+// AddSubCommand adiciona um subcomando ao grupo (evita duplicatas)
+func (pgd *PackageGroupData) AddSubCommand(packageName, functionName, serviceCall string) {
+	lowerPkgName := strings.ToLower(packageName)
+	if pgd.hasSubCommand(lowerPkgName, functionName, serviceCall) {
+		return
+	}
 	pgd.SubCommands = append(pgd.SubCommands, SubCommandData{
-		PackageName:  strings.ToLower(packageName),
+		PackageName:  lowerPkgName,
 		FunctionName: functionName,
 		ServiceCall:  serviceCall,
 	})
+}
+
+// hasSubCommand verifica se um subcomando já existe no grupo
+func (pgd *PackageGroupData) hasSubCommand(packageName, functionName, serviceCall string) bool {
+	for _, subCmd := range pgd.SubCommands {
+		if subCmd.PackageName == packageName && subCmd.FunctionName == functionName && subCmd.ServiceCall == serviceCall {
+			return true
+		}
+	}
+	return false
 }
 
 // SetGroupID define o ID do grupo (usado para agrupamento na CLI)
@@ -286,87 +313,74 @@ func (pgd *PackageGroupData) WriteGroupToFile(filePath string) error {
 		return nil
 	}
 
-	buf := bytes.NewBuffer(nil)
-	err := packageGroupTmpl.Execute(buf, pgd)
-	if err != nil {
-		return err
-	}
-
-	os.MkdirAll(filepath.Dir(filePath), 0755)
 	pgd.GenerateGroup = true
-	return os.WriteFile(filePath, buf.Bytes(), 0644)
+	return pgd.writeTemplateToFile(packageGroupTmpl, filePath)
 }
 
 // WriteToFile escreve os dados no arquivo
 func (pgd *PackageGroupData) WriteServiceToFile(filePath string) error {
-	buf := bytes.NewBuffer(nil)
-	err := serviceGroupTmpl.Execute(buf, pgd)
-	if err != nil {
-		return err
-	}
-
-	os.MkdirAll(filepath.Dir(filePath), 0755)
-	return os.WriteFile(filePath, buf.Bytes(), 0644)
+	return pgd.writeTemplateToFile(serviceGroupTmpl, filePath)
 }
 
 func (pgd *PackageGroupData) WriteSubPackageToFile(filePath string) error {
-	buf := bytes.NewBuffer(nil)
-	err := subPackageGroupTmpl.Execute(buf, pgd)
-	if err != nil {
-		return err
-	}
-
-	os.MkdirAll(filepath.Dir(filePath), 0755)
-	return os.WriteFile(filePath, buf.Bytes(), 0644)
+	return pgd.writeTemplateToFile(subPackageGroupTmpl, filePath)
 }
 
 func (pgd *PackageGroupData) WriteProductCustomToFile(filePath string) error {
-	buf := bytes.NewBuffer(nil)
-	err := productCustomTmpl.Execute(buf, pgd)
-	if err != nil {
-		return err
-	}
-
-	os.MkdirAll(filepath.Dir(filePath), 0755)
-	return os.WriteFile(filePath, buf.Bytes(), 0644)
+	return pgd.writeTemplateToFile(productCustomTmpl, filePath)
 }
 
 // WriteToFile escreve os dados no arquivo
 func (pgd *PackageGroupData) WriteProductToFile(filePath string) error {
+	return pgd.writeTemplateToFile(productTmpl, filePath)
+}
+
+// writeTemplateToFile é uma função auxiliar que escreve um template no arquivo
+func (pgd *PackageGroupData) writeTemplateToFile(tmpl *template.Template, filePath string) error {
 	buf := bytes.NewBuffer(nil)
-	err := productTmpl.Execute(buf, pgd)
-	if err != nil {
-		return err
+	if err := tmpl.Execute(buf, pgd); err != nil {
+		return fmt.Errorf("erro ao executar template: %w", err)
 	}
 
-	os.MkdirAll(filepath.Dir(filePath), 0755)
-	return os.WriteFile(filePath, buf.Bytes(), 0644)
+	if err := os.MkdirAll(filepath.Dir(filePath), 0755); err != nil {
+		return fmt.Errorf("erro ao criar diretório: %w", err)
+	}
+
+	if err := os.WriteFile(filePath, buf.Bytes(), 0644); err != nil {
+		return fmt.Errorf("erro ao escrever arquivo: %w", err)
+	}
+
+	return nil
 }
 
 func (pgd *PackageGroupData) Copy() PackageGroupData {
-	// Cria uma cópia profunda para evitar problemas de referência
 	copied := *pgd
 
-	// Copia os slices de forma eficiente
-	if len(pgd.Imports) > 0 {
-		copied.Imports = make([]string, len(pgd.Imports))
-		copy(copied.Imports, pgd.Imports)
-	}
+	// Copia os slices de forma eficiente usando copy
+	copied.Imports = make([]string, len(pgd.Imports))
+	copy(copied.Imports, pgd.Imports)
 
-	if len(pgd.SubCommands) > 0 {
-		copied.SubCommands = make([]SubCommandData, len(pgd.SubCommands))
-		copy(copied.SubCommands, pgd.SubCommands)
-	}
+	copied.SubCommands = make([]SubCommandData, len(pgd.SubCommands))
+	copy(copied.SubCommands, pgd.SubCommands)
 
-	if len(pgd.Commands) > 0 {
-		copied.Commands = make([]CommandData, len(pgd.Commands))
-		copy(copied.Commands, pgd.Commands)
-	}
+	copied.Commands = make([]CommandData, len(pgd.Commands))
+	copy(copied.Commands, pgd.Commands)
 
-	if len(pgd.Params) > 0 {
-		copied.Params = make([]string, len(pgd.Params))
-		copy(copied.Params, pgd.Params)
-	}
+	copied.Params = make([]string, len(pgd.Params))
+	copy(copied.Params, pgd.Params)
+
+	// Copia outros slices que podem ter sido inicializados
+	copied.ServiceInit = append([]string(nil), pgd.ServiceInit...)
+	copied.ServiceSDKParamType = append([]string(nil), pgd.ServiceSDKParamType...)
+	copied.ServiceSDKParamCreate = append([]string(nil), pgd.ServiceSDKParamCreate...)
+	copied.CobraFlagsDefinition = append([]string(nil), pgd.CobraFlagsDefinition...)
+	copied.CobraFlagsCreation = append([]string(nil), pgd.CobraFlagsCreation...)
+	copied.CobraFlagsAssign = append([]string(nil), pgd.CobraFlagsAssign...)
+	copied.CobraFlagsRequired = append([]string(nil), pgd.CobraFlagsRequired...)
+	copied.CobraStructInitialize = append([]string(nil), pgd.CobraStructInitialize...)
+	copied.CobraArrayParse = append([]string(nil), pgd.CobraArrayParse...)
+	copied.UsedChars = append([]string(nil), pgd.UsedChars...)
+	copied.Aliases = append([]string(nil), pgd.Aliases...)
 
 	return copied
 }
@@ -404,12 +418,20 @@ func NewRootGenData() *RootGenData {
 
 // AddImport adiciona um import à lista de imports (evita duplicatas)
 func (rgd *RootGenData) AddImport(importPath string) {
-	for _, imp := range rgd.Imports {
-		if imp == importPath {
-			return
-		}
+	if rgd.hasImport(importPath) {
+		return
 	}
 	rgd.Imports = append(rgd.Imports, importPath)
+}
+
+// hasImport verifica se um import já existe na lista
+func (rgd *RootGenData) hasImport(importPath string) bool {
+	for _, imp := range rgd.Imports {
+		if imp == importPath {
+			return true
+		}
+	}
+	return false
 }
 
 func (pgd *PackageGroupData) SetServiceSDKParam(param string) {
@@ -457,12 +479,20 @@ func (pgd *PackageGroupData) AddPrintResult(printResult string) {
 }
 
 func (pgd *PackageGroupData) AddCobraStructInitialize(cobraStructInitialize string) {
-	for _, c := range pgd.CobraStructInitialize {
-		if c == cobraStructInitialize {
-			return
-		}
+	if pgd.hasCobraStructInitialize(cobraStructInitialize) {
+		return
 	}
 	pgd.CobraStructInitialize = append(pgd.CobraStructInitialize, cobraStructInitialize)
+}
+
+// hasCobraStructInitialize verifica se uma inicialização de struct já existe
+func (pgd *PackageGroupData) hasCobraStructInitialize(value string) bool {
+	for _, c := range pgd.CobraStructInitialize {
+		if c == value {
+			return true
+		}
+	}
+	return false
 }
 
 // AddSubCommand adiciona um subcomando ao root
@@ -477,11 +507,17 @@ func (rgd *RootGenData) AddSubCommand(packageName, commandName string) {
 // WriteRootGenToFile escreve os dados do root_gen.go no arquivo
 func (rgd *RootGenData) WriteRootGenToFile(filePath string) error {
 	buf := bytes.NewBuffer(nil)
-	err := rootGenTmpl.Execute(buf, rgd)
-	if err != nil {
-		return err
+	if err := rootGenTmpl.Execute(buf, rgd); err != nil {
+		return fmt.Errorf("erro ao executar template: %w", err)
 	}
 
-	os.MkdirAll(filepath.Dir(filePath), 0755)
-	return os.WriteFile(filePath, buf.Bytes(), 0644)
+	if err := os.MkdirAll(filepath.Dir(filePath), 0755); err != nil {
+		return fmt.Errorf("erro ao criar diretório: %w", err)
+	}
+
+	if err := os.WriteFile(filePath, buf.Bytes(), 0644); err != nil {
+		return fmt.Errorf("erro ao escrever arquivo: %w", err)
+	}
+
+	return nil
 }

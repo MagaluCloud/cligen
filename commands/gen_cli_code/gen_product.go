@@ -17,52 +17,61 @@ func genProductCode(sdkStructure *sdk_structure.SDKStructure) error {
 }
 
 func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
-	if len(pkg.Services) > 0 {
+	for _, service := range pkg.Services {
+		for _, method := range service.Methods {
+			filePath := buildProductFilePath(pkg, parentPkg, service.Name, method.Name)
 
-		for _, service := range pkg.Services {
-			for _, method := range service.Methods {
-				dir := genDir
-				if parentPkg != nil {
-					dir = filepath.Join(dir, strings.ToLower(parentPkg.Name), strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
-				} else {
-					dir = filepath.Join(dir, strings.ToLower(pkg.Name), strings.ToLower(service.Name), fmt.Sprintf("%s.go", strings.ToLower(method.Name)))
-				}
-				productData := NewPackageGroupData()
-				productData.SetFileID(dir)
-				if productData.HasCustomFile {
-					err := productData.WriteProductCustomToFile(dir)
-					if err != nil {
-						return fmt.Errorf("erro ao escrever o arquivo %s.go para o serviço %s do pacote %s: %v", pkg.Name, pkg.Name, pkg.Name, err)
-					}
-					continue
-				}
+			productData := NewPackageGroupData()
+			productData.SetFileID(filePath)
 
-				productData.SetPackageName(service.Name)
-				productData.AddImport(importCobra)
-				productData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
-				productData.SetFunctionName(method.Name)
-				productData.SetUseName(strutils.FirstLower(method.Name))
-				productData.SetDescriptions(pkg.Description, method.Description)
-				productData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
-				productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
-				productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))
-
-				serviceCallParams := genProductParameters(productData, method.Parameters)
-				productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
-				printResult(productData, method)
-				err := productData.WriteProductToFile(dir)
-				if err != nil {
-					return fmt.Errorf("erro ao escrever o arquivo %s.go para o serviço %s do pacote %s: %v", pkg.Name, pkg.Name, pkg.Name, err)
+			if productData.HasCustomFile {
+				if err := productData.WriteProductCustomToFile(filePath); err != nil {
+					return fmt.Errorf("erro ao escrever arquivo customizado para método %s do serviço %s do pacote %s: %w", method.Name, service.Name, pkg.Name, err)
 				}
+				continue
+			}
+
+			if err := setupProductData(productData, pkg, service, method); err != nil {
+				return fmt.Errorf("erro ao configurar dados do produto para método %s: %w", method.Name, err)
+			}
+
+			serviceCallParams := genProductParameters(productData, method.Parameters)
+			productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
+			printResult(productData, method)
+
+			if err := productData.WriteProductToFile(filePath); err != nil {
+				return fmt.Errorf("erro ao escrever arquivo para método %s do serviço %s do pacote %s: %w", method.Name, service.Name, pkg.Name, err)
 			}
 		}
-
 	}
-	if len(pkg.SubPkgs) > 0 {
-		for _, subPkg := range pkg.SubPkgs {
-			genProductCodeRecursive(&subPkg, pkg)
+
+	for _, subPkg := range pkg.SubPkgs {
+		if err := genProductCodeRecursive(&subPkg, pkg); err != nil {
+			return err
 		}
 	}
+	return nil
+}
+
+func buildProductFilePath(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package, serviceName, methodName string) string {
+	parts := []string{genDir}
+	if parentPkg != nil {
+		parts = append(parts, strings.ToLower(parentPkg.Name))
+	}
+	parts = append(parts, strings.ToLower(pkg.Name), strings.ToLower(serviceName))
+	return filepath.Join(parts...) + fmt.Sprintf("/%s.go", strings.ToLower(methodName))
+}
+
+func setupProductData(productData *PackageGroupData, pkg *sdk_structure.Package, service sdk_structure.Service, method sdk_structure.Method) error {
+	productData.SetPackageName(service.Name)
+	productData.AddImport(importCobra)
+	productData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
+	productData.SetFunctionName(method.Name)
+	productData.SetUseName(strutils.FirstLower(method.Name))
+	productData.SetDescriptions(pkg.Description, method.Description)
+	productData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
+	productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
+	productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))
 	return nil
 }
 
@@ -71,71 +80,83 @@ func addPrintError() string {
 }
 
 func printResult(productData *PackageGroupData, method sdk_structure.Method) {
-	assignResult := []string{}
-	printRst := []string{}
+	assignResult := make([]string, 0, len(method.Returns))
+	printRst := make([]string, 0, len(method.Returns))
+	hasNonError := false
+
 	for _, response := range method.Returns {
 		assignResult = append(assignResult, response.Name)
+
 		if response.Type == "error" {
 			printRst = append(printRst, addPrintError())
 			continue
 		}
 
+		hasNonError = true
 	}
-	for _, response := range method.Returns {
-		if response.Type == "error" {
-			continue
-		}
 
+	if hasNonError {
 		printRst = append(printRst, "\t\t\traw, _ := cmd.Root().PersistentFlags().GetBool(\"raw\")")
-		printRst = append(printRst, fmt.Sprintf("\t\t\tbeautiful.NewOutput(raw).PrintData(%s)", response.Name))
 		productData.AddImport("\"github.com/magaluCloud/mgccli/beautiful\"")
+
+		for _, response := range method.Returns {
+			if response.Type != "error" {
+				printRst = append(printRst, fmt.Sprintf("\t\t\tbeautiful.NewOutput(raw).PrintData(%s)", response.Name))
+			}
+		}
 	}
+
 	productData.AddAssignResult(strings.Join(assignResult, ", "))
 	productData.AddPrintResult(strings.Join(printRst, "\n"))
 }
 
 func genProductParameters(productData *PackageGroupData, params []sdk_structure.Parameter) []string {
-	var serviceCallParams []string
+	serviceCallParams := make([]string, 0, len(params))
+	flagsImportAdded := false
+
 	for _, param := range params {
 		if param.Type == "context.Context" {
 			serviceCallParams = append(serviceCallParams, param.Name)
 			continue
 		}
 
-		if len(params) > 0 {
+		if !flagsImportAdded && len(params) > 0 {
 			productData.AddImport("flags \"github.com/magaluCloud/mgccli/cobra_utils/flags\"")
+			flagsImportAdded = true
 		}
 
 		if param.IsPrimitive {
-			typeName := param.Type
-			if param.AliasType != "" {
-				typeName = param.AliasType
-				if param.IsArray {
-					typeName = "[]" + typeName
-				}
-			}
-			// Parâmetro primitivo direto
+			typeName := getParamTypeName(param)
 			productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, typeName))
-			// Processa como um único field sem prefixo
 			processFieldsRecursive(productData, []sdk_structure.Parameter{param}, "", nil)
 		} else {
-			// Parâmetro struct
-			productData.AddServiceSDKParamCreate(fmt.Sprintf("%s := %s{}", param.Name, strings.Replace(param.Type, "*", "", 1)))
-			// Processa todos os fields do struct recursivamente
-			// Nota: passa &param para que arrays complexos tenham acesso ao contexto, mas campos primitivos
-			// verificam isDeepNested para usar lógica correta
+			typeName := strings.Replace(param.Type, "*", "", 1)
+			productData.AddServiceSDKParamCreate(fmt.Sprintf("%s := %s{}", param.Name, typeName))
 			processFieldsRecursive(productData, mapToSlice(param.Struct), param.Name, &param)
 		}
 
-		// Prepara nome da variável para chamada do SDK
-		callName := param.Name
-		if param.IsPointer && !param.IsPrimitive {
-			callName = "&" + param.Name
-		}
+		callName := getParamCallName(param)
 		serviceCallParams = append(serviceCallParams, callName)
 	}
 
 	return serviceCallParams
+}
+
+func getParamTypeName(param sdk_structure.Parameter) string {
+	if param.AliasType == "" {
+		return param.Type
+	}
+	if param.IsArray {
+		return "[]" + param.AliasType
+	}
+	return param.AliasType
+}
+
+func getParamCallName(param sdk_structure.Parameter) string {
+	if param.IsPointer && !param.IsPrimitive {
+		return "&" + param.Name
+	}
+	return param.Name
 }
 
 func prepareCommandFlag(str string) string {
@@ -261,23 +282,11 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 }
 
 func canUseSliceFlag(parentField sdk_structure.Parameter) bool {
-	if !parentField.IsArray {
-		return false
-	}
-	if len(parentField.Struct) == 1 {
-		return true
-	}
-	return false
+	return parentField.IsArray && len(parentField.Struct) == 1
 }
 
 func canUseStrAsJson(parentField sdk_structure.Parameter) bool {
-	if !parentField.IsArray {
-		return false
-	}
-	if len(parentField.Struct) > 1 {
-		return true
-	}
-	return false
+	return parentField.IsArray && len(parentField.Struct) > 1
 }
 
 // FlagAssignmentConfig contém as configurações para gerar código de atribuição de flags
@@ -449,19 +458,21 @@ func defaultByType(paramType string) string {
 }
 
 func translateTypeToCobraFlagComplex(field sdk_structure.Parameter) string {
-	typeName := strings.TrimPrefix(field.Type, "*")
-	typeName = strings.TrimPrefix(typeName, "[]")
+	typeName := cleanTypeName(field.Type)
 	if field.IsArray {
 		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
 	}
-
 	return fmt.Sprintf("JSONValue[%s]", typeName)
+}
 
+func cleanTypeName(typeName string) string {
+	typeName = strings.TrimPrefix(typeName, "*")
+	typeName = strings.TrimPrefix(typeName, "[]")
+	return typeName
 }
 
 func translateTypeToCobraFlagStruct(field, parentField sdk_structure.Parameter) string {
-	typeName := strings.TrimPrefix(parentField.Type, "*")
-	typeName = strings.TrimPrefix(typeName, "[]")
+	typeName := cleanTypeName(parentField.Type)
 	if canUseSliceFlag(parentField) {
 		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
 	}
@@ -497,18 +508,15 @@ func translateTypeToCobraFlag(paramType string) string {
 }
 
 func translateTypeToCobraFlagCreateComplex(field sdk_structure.Parameter) string {
-	typeName := strings.TrimPrefix(field.Type, "*")
-	typeName = strings.TrimPrefix(typeName, "[]")
+	typeName := cleanTypeName(field.Type)
 	if field.IsArray {
 		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
 	}
-
 	return fmt.Sprintf("JSONValue[%s]", typeName)
 }
 
 func translateTypeToCobraFlagCreateStruct(field, parentField sdk_structure.Parameter) string {
-	typeName := strings.TrimPrefix(parentField.Type, "*")
-	typeName = strings.TrimPrefix(typeName, "[]")
+	typeName := cleanTypeName(parentField.Type)
 	if canUseSliceFlag(parentField) {
 		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
 	}
@@ -519,9 +527,6 @@ func translateTypeToCobraFlagCreateStruct(field, parentField sdk_structure.Param
 }
 
 func translateTypeToCobraFlagCreate(paramType string, withChar bool) string {
-	// StrFlag
-	// Int64Flag
-	// BoolFlag
 	paramType = strings.TrimPrefix(paramType, "*")
 
 	switch paramType {
@@ -572,5 +577,3 @@ func translateTypeToCobraFlagCreate(paramType string, withChar bool) string {
 		return "Str"
 	}
 }
-
-// PrintResult

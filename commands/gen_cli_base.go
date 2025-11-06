@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -9,97 +10,108 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	baseCLIDir     = "base-cli"
+	baseCLIGenDir  = "base-cli-gen"
+	destCLIDir     = "tmp-cli"
+	dirPermissions = 0755
+)
+
 func GenCLICmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "gen-cli-base",
 		Short: "Gerar a base da CLI",
 		Run: func(cmd *cobra.Command, args []string) {
-			genCliBase()
+			if err := genCliBase(); err != nil {
+				log.Fatalf("Erro ao gerar base da CLI: %v", err)
+			}
 		},
 	}
 }
 
-func genCliBase() {
-	// Copiar o código de base-cli/* para o diretório tmp-cli/
-	srcDir := "base-cli"
-	srcGenDir := "base-cli-gen"
-	dstDir := "tmp-cli"
+func genCliBase() error {
+	srcDirs := []string{baseCLIDir, baseCLIGenDir}
 
-	// Remover diretório de destino se existir
-	if _, err := os.Stat(dstDir); err == nil {
-		os.RemoveAll(dstDir)
+	if err := ensureDestDirReady(); err != nil {
+		return err
 	}
 
-	// Criar diretório de destino se não existir
-	if _, err := os.Stat(dstDir); os.IsNotExist(err) {
-		os.MkdirAll(dstDir, 0755)
-	}
-
-	runCopyDir(srcDir, dstDir)
-	runCopyDir(srcGenDir, dstDir)
-
-}
-
-func runCopyDir(srcDir string, dstDir string) {
-	// Copiar arquivos do diretório de origem para o diretório de destino
-	files, err := os.ReadDir(srcDir)
-	if err != nil {
-		log.Fatalf("Erro ao ler diretório de origem: %v", err)
-	}
-
-	for _, file := range files {
-		srcPath := filepath.Join(srcDir, file.Name())
-		dstPath := filepath.Join(dstDir, file.Name())
-
-		if file.IsDir() {
-			// Se for um diretório, copiar recursivamente
-			copyDir(srcPath, dstPath)
-		} else {
-			// Se for um arquivo, copiar normalmente
-			copyFile(srcPath, dstPath)
+	for _, srcDir := range srcDirs {
+		if err := verifySourceDir(srcDir); err != nil {
+			return err
+		}
+		if err := copyDirectory(srcDir, destCLIDir); err != nil {
+			return fmt.Errorf("erro ao copiar %s: %w", srcDir, err)
 		}
 	}
+
+	return nil
 }
 
-func copyDir(srcDir, dstDir string) {
-	// Criar diretório de destino
-	if err := os.MkdirAll(dstDir, 0755); err != nil {
-		log.Fatalf("Erro ao criar diretório de destino: %v", err)
-	}
-
-	// Ler conteúdo do diretório de origem
-	files, err := os.ReadDir(srcDir)
-	if err != nil {
-		log.Fatalf("Erro ao ler diretório de origem: %v", err)
-	}
-
-	// Copiar cada item do diretório
-	for _, file := range files {
-		srcPath := filepath.Join(srcDir, file.Name())
-		dstPath := filepath.Join(dstDir, file.Name())
-
-		if file.IsDir() {
-			// Se for um diretório, copiar recursivamente
-			copyDir(srcPath, dstPath)
-		} else {
-			// Se for um arquivo, copiar normalmente
-			copyFile(srcPath, dstPath)
+func ensureDestDirReady() error {
+	if _, err := os.Stat(destCLIDir); err == nil {
+		if err := os.RemoveAll(destCLIDir); err != nil {
+			return fmt.Errorf("erro ao remover diretório de destino: %w", err)
 		}
 	}
+	return nil
 }
 
-func copyFile(srcPath, dstPath string) {
+func verifySourceDir(srcDir string) error {
+	info, err := os.Stat(srcDir)
+	if err != nil {
+		return fmt.Errorf("diretório de origem não encontrado: %s: %w", srcDir, err)
+	}
+	if !info.IsDir() {
+		return fmt.Errorf("%s não é um diretório", srcDir)
+	}
+	return nil
+}
+
+func copyDirectory(srcDir, dstDir string) error {
+	return filepath.WalkDir(srcDir, func(srcPath string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		relPath, err := filepath.Rel(srcDir, srcPath)
+		if err != nil {
+			return fmt.Errorf("erro ao calcular caminho relativo: %w", err)
+		}
+
+		dstPath := filepath.Join(dstDir, relPath)
+
+		if d.IsDir() {
+			if err := os.MkdirAll(dstPath, dirPermissions); err != nil {
+				return fmt.Errorf("erro ao criar diretório %s: %w", dstPath, err)
+			}
+			return nil
+		}
+
+		return copyFile(srcPath, dstPath)
+	})
+}
+
+func copyFile(srcPath, dstPath string) error {
 	src, err := os.Open(srcPath)
 	if err != nil {
-		log.Fatalf("Erro ao abrir arquivo de origem: %v", err)
+		return fmt.Errorf("erro ao abrir arquivo de origem %s: %w", srcPath, err)
 	}
 	defer src.Close()
 
+	if err := os.MkdirAll(filepath.Dir(dstPath), dirPermissions); err != nil {
+		return fmt.Errorf("erro ao criar diretório pai para %s: %w", dstPath, err)
+	}
+
 	dst, err := os.Create(dstPath)
 	if err != nil {
-		log.Fatalf("Erro ao criar arquivo de destino: %v", err)
+		return fmt.Errorf("erro ao criar arquivo de destino %s: %w", dstPath, err)
 	}
 	defer dst.Close()
 
-	io.Copy(dst, src)
+	if _, err := io.Copy(dst, src); err != nil {
+		return fmt.Errorf("erro ao copiar conteúdo de %s para %s: %w", srcPath, dstPath, err)
+	}
+
+	return nil
 }
