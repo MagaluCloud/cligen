@@ -79,7 +79,11 @@ jobs:
           SIGNING_KEY=$(gpg --list-secret-keys --keyid-format LONG | awk '/sec/ {split($2, a, "/"); print a[2]}')
           git config --global user.signingkey $SIGNING_KEY
 
-
+      - name: Setup GitHub CLI
+        id: setup-gh-cli
+        if: steps.run-goreleaser.outcome == 'success'
+        uses: ksivamuthu/actions-setup-gh-cli@v3
+        
       - name: Merge tmp-cli to tmp-mgccli repository
         env:
           GPG_PASSPHRASE: ${{ secrets.MAGALUBOT_GPG_PASSPHRASE }}
@@ -123,13 +127,16 @@ jobs:
           if git diff --staged --quiet; then
             echo "Nenhuma mudança para commitar"
           else
+            echo "Fazendo commit"
             # Fazer commit
             git commit -m "PR #${{ github.event.pull_request.number }} - Merge tmp-cli from cligen"
             
+            echo "Fazendo push"
             # Fazer push da branch
             git push origin "${BRANCH_NAME}"
             
             # Criar Pull Request usando a CLI do GitHub
+            echo "Criando Pull Request"
             cd ..
             
             gh pr create \
@@ -138,6 +145,6 @@ jobs:
               --head "${BRANCH_NAME}" \
               --title "Merge tmp-cli from cligen PR #${{ github.event.pull_request.number }}" \
               --body "Automatically created by workflow #${{ github.event.pull_request.number }} from cligen main"
-
+            echo "Pull Request criado com sucesso"
           fi
 
