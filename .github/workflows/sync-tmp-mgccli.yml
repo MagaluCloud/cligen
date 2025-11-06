@@ -60,7 +60,7 @@ jobs:
           cd tmp-mgccli-repo
           
           # Criar e fazer checkout de uma nova branch
-          git checkout -b "${BRANCH_NAME}"
+          git switch -c "${BRANCH_NAME}"
           
           # Remover todos os arquivos existentes (exceto .git)
           find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
@@ -77,11 +77,7 @@ jobs:
             echo "Nenhuma mudança para commitar"
           else
             # Fazer commit
-            git commit -m "Merge tmp-cli from cligen PR #${{ github.event.pull_request.number }}
-
-PR: ${{ github.event.pull_request.html_url }}
-Commit: ${{ github.event.pull_request.merge_commit_sha }}
-Título: ${{ github.event.pull_request.title }}"
+            git commit -m "PR #${{ github.event.pull_request.number }} - Merge tmp-cli from cligen"
             
             # Fazer push da branch
             git push https://${TOKEN}@github.com/MagaluCloud/tmp-mgccli.git "${BRANCH_NAME}"
@@ -94,15 +90,8 @@ Título: ${{ github.event.pull_request.title }}"
               --base main \
               --head "${BRANCH_NAME}" \
               --title "Merge tmp-cli from cligen PR #${{ github.event.pull_request.number }}" \
-              --body "Este PR foi criado automaticamente após o merge do PR #${{ github.event.pull_request.number }} na main do cligen.
+              --body "Automatically created by workflow #${{ github.event.pull_request.number }} from cligen main"
 
-**Informações do PR original:**
-- PR: ${{ github.event.pull_request.html_url }}
-- Título: ${{ github.event.pull_request.title }}
-- Commit: ${{ github.event.pull_request.merge_commit_sha }}
-- Autor: @${{ github.event.pull_request.user.login }}
-
-Este PR contém o merge completo do conteúdo de tmp-cli gerado a partir do código mergeado na main." || echo "Falha ao criar PR (pode já existir um PR para esta branch)"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
