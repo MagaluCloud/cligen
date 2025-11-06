@@ -191,6 +191,7 @@ func (pgd *PackageGroupData) AddImport(importPath string) {
 		return
 	}
 	pgd.Imports = append(pgd.Imports, importPath)
+	slices.Sort(pgd.Imports)
 }
 
 // hasImport verifica se um import já existe na lista
@@ -211,6 +212,12 @@ func (pgd *PackageGroupData) AddCommand(functionName, serviceCall string) {
 	pgd.Commands = append(pgd.Commands, CommandData{
 		FunctionName: functionName,
 		ServiceCall:  serviceCall,
+	})
+	slices.SortFunc(pgd.Commands, func(a, b CommandData) int {
+		return strings.Compare(a.FunctionName, b.FunctionName)
+	})
+	slices.SortFunc(pgd.Commands, func(a, b CommandData) int {
+		return strings.Compare(a.ServiceCall, b.ServiceCall)
 	})
 }
 
@@ -234,6 +241,16 @@ func (pgd *PackageGroupData) AddSubCommand(packageName, functionName, serviceCal
 		PackageName:  lowerPkgName,
 		FunctionName: functionName,
 		ServiceCall:  serviceCall,
+	})
+
+	slices.SortFunc(pgd.SubCommands, func(a, b SubCommandData) int {
+		return strings.Compare(a.PackageName, b.PackageName)
+	})
+	slices.SortFunc(pgd.SubCommands, func(a, b SubCommandData) int {
+		return strings.Compare(a.FunctionName, b.FunctionName)
+	})
+	slices.SortFunc(pgd.SubCommands, func(a, b SubCommandData) int {
+		return strings.Compare(a.ServiceCall, b.ServiceCall)
 	})
 }
 
@@ -305,6 +322,8 @@ func (pgd *PackageGroupData) SetAliases(aliases []string) {
 // SetServiceInit define o código para inicializar o serviço
 func (pgd *PackageGroupData) AddServiceInit(serviceInit string) {
 	pgd.ServiceInit = append(pgd.ServiceInit, serviceInit)
+	slices.Sort(pgd.ServiceInit)
+
 }
 
 // WriteToFile escreve os dados no arquivo
@@ -387,6 +406,7 @@ func (pgd *PackageGroupData) Copy() PackageGroupData {
 
 func (pdg *PackageGroupData) AddParam(param string) {
 	pdg.Params = append(pdg.Params, param)
+	slices.Sort(pdg.Params)
 }
 
 func (pdg *PackageGroupData) SetServiceCall(serviceCall string) {
@@ -422,6 +442,7 @@ func (rgd *RootGenData) AddImport(importPath string) {
 		return
 	}
 	rgd.Imports = append(rgd.Imports, importPath)
+	slices.Sort(rgd.Imports)
 }
 
 // hasImport verifica se um import já existe na lista
@@ -440,22 +461,28 @@ func (pgd *PackageGroupData) SetServiceSDKParam(param string) {
 
 func (pgd *PackageGroupData) AddServiceSDKParamType(paramType string) {
 	pgd.ServiceSDKParamType = append(pgd.ServiceSDKParamType, paramType)
+	slices.Sort(pgd.ServiceSDKParamType)
 }
 
 func (pgd *PackageGroupData) AddServiceSDKParamCreate(paramCreate string) {
 	pgd.ServiceSDKParamCreate = append(pgd.ServiceSDKParamCreate, paramCreate)
+	slices.Sort(pgd.ServiceSDKParamCreate)
 }
 
 func (pgd *PackageGroupData) AddCobraFlagsDefinition(cobraFlagsDefinition string) {
 	pgd.CobraFlagsDefinition = append(pgd.CobraFlagsDefinition, cobraFlagsDefinition)
+	slices.Sort(pgd.CobraFlagsDefinition)
 }
 
 func (pgd *PackageGroupData) AddCobraFlagsCreation(cobraFlagsCreation string) {
 	pgd.CobraFlagsCreation = append(pgd.CobraFlagsCreation, cobraFlagsCreation)
+	slices.Sort(pgd.CobraFlagsCreation)
 }
 
 func (pgd *PackageGroupData) AddCobraFlagsAssign(cobraFlagsAssign string) {
 	pgd.CobraFlagsAssign = append(pgd.CobraFlagsAssign, cobraFlagsAssign)
+	slices.Sort(pgd.CobraFlagsAssign)
+
 }
 
 func (pgd *PackageGroupData) AddPositionalArgs(positionalArgs string) {
@@ -464,10 +491,12 @@ func (pgd *PackageGroupData) AddPositionalArgs(positionalArgs string) {
 
 func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {
 	pgd.CobraFlagsRequired = append(pgd.CobraFlagsRequired, cobraFlagsRequired)
+	slices.Sort(pgd.CobraFlagsRequired)
 }
 
 func (pgd *PackageGroupData) AddCobraArrayParse(cobraArrayParse string) {
 	pgd.CobraArrayParse = append(pgd.CobraArrayParse, cobraArrayParse)
+	slices.Sort(pgd.CobraArrayParse)
 }
 
 func (pgd *PackageGroupData) AddAssignResult(assignResult string) {
@@ -483,6 +512,7 @@ func (pgd *PackageGroupData) AddCobraStructInitialize(cobraStructInitialize stri
 		return
 	}
 	pgd.CobraStructInitialize = append(pgd.CobraStructInitialize, cobraStructInitialize)
+	slices.Sort(pgd.CobraStructInitialize)
 }
 
 // hasCobraStructInitialize verifica se uma inicialização de struct já existe
@@ -502,6 +532,13 @@ func (rgd *RootGenData) AddSubCommand(packageName, commandName string) {
 		Command: commandName,
 	}
 	rgd.SubCommands = append(rgd.SubCommands, subCmd)
+	slices.SortFunc(rgd.SubCommands, func(a, b RootSubCommandData) int {
+		return strings.Compare(a.Package, b.Package)
+	})
+	slices.SortFunc(rgd.SubCommands, func(a, b RootSubCommandData) int {
+		return strings.Compare(a.Command, b.Command)
+	})
+
 }
 
 // WriteRootGenToFile escreve os dados do root_gen.go no arquivo
