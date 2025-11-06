@@ -81,6 +81,10 @@ jobs:
 
 
       - name: Merge tmp-cli to tmp-mgccli repository
+        env:
+          GPG_PASSPHRASE: ${{ secrets.MAGALUBOT_GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT2 }}
+          TMP_MGCCLI_PAT: ${{ secrets.TMP_MGCCLI_PAT }}
         run: |
           # Configurar git
           git config --global user.name "github-actions[bot]"
@@ -136,7 +140,4 @@ jobs:
               --body "Automatically created by workflow #${{ github.event.pull_request.number }} from cligen main"
 
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT2 }}
-          TMP_MGCCLI_PAT: ${{ secrets.TMP_MGCCLI_PAT }}
 
