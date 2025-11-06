@@ -85,12 +85,10 @@ jobs:
             # Criar Pull Request usando a CLI do GitHub
             cd ..
             echo "${TOKEN}" | gh auth login --with-token
-            gh pr create \
-              --repo MagaluCloud/tmp-mgccli \
-              --base main \
-              --head "${BRANCH_NAME}" \
-              --title "Merge tmp-cli from cligen PR #${{ github.event.pull_request.number }}" \
-              --body "Este PR foi criado automaticamente após o merge do PR #${{ github.event.pull_request.number }} na main do cligen.
+            
+            # Criar body do PR usando heredoc
+            PR_BODY=$(cat <<EOF
+Este PR foi criado automaticamente após o merge do PR #${{ github.event.pull_request.number }} na main do cligen.
 
 **Informações do PR original:**
 - PR: ${{ github.event.pull_request.html_url }}
@@ -98,7 +96,16 @@ jobs:
 - Commit: ${{ github.event.pull_request.merge_commit_sha }}
 - Autor: @${{ github.event.pull_request.user.login }}
 
-Este PR contém o merge completo do conteúdo de tmp-cli gerado a partir do código mergeado na main." || echo "Falha ao criar PR (pode já existir um PR para esta branch)"
+Este PR contém o merge completo do conteúdo de tmp-cli gerado a partir do código mergeado na main.
+EOF
+)
+            
+            gh pr create \
+              --repo MagaluCloud/tmp-mgccli \
+              --base main \
+              --head "${BRANCH_NAME}" \
+              --title "Merge tmp-cli from cligen PR #${{ github.event.pull_request.number }}" \
+              --body "${PR_BODY}" || echo "Falha ao criar PR (pode já existir um PR para esta branch)"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
