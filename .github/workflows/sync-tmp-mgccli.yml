@@ -133,6 +133,9 @@ jobs:
             git commit -m "PR #${{ github.event.pull_request.number }} - Merge tmp-cli from cligen"
             
             echo "Fazendo push"
+            # Configurar a URL do remote com o token para autenticação
+            git remote set-url origin https://${TOKEN}@github.com/MagaluCloud/tmp-mgccli.git
+            
             # Fazer push da branch
             git push origin "${BRANCH_NAME}"
             
