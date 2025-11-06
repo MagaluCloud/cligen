@@ -9,19 +9,48 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+	"sync"
 )
 
-// analyzePackageWithParseDir analisa todo o diretório do package usando parser.ParseDir
-func analyzePackageWithParseDir(sdkDir string) (*ast.Package, *token.FileSet, error) {
-	fset := token.NewFileSet()
+// packageCache armazena packages parseados por diretório
+type packageCache struct {
+	mu    sync.RWMutex
+	cache map[string]*cachedPackage
+}
 
-	// ParseDir retorna um map[string]*ast.Package, onde a chave é o nome do package
-	pkgs, err := parser.ParseDir(fset, sdkDir, nil, parser.ParseComments)
-	if err != nil {
-		return nil, nil, fmt.Errorf("erro ao analisar diretório %s: %v", sdkDir, err)
+type cachedPackage struct {
+	pkg  *ast.Package
+	fset *token.FileSet
+}
+
+var globalPackageCache = &packageCache{
+	cache: make(map[string]*cachedPackage),
+}
+
+// analyzePackageWithParseDir analisa todo o diretório do package usando parser.ParseDir com cache
+func analyzePackageWithParseDir(sdkDir string) (*ast.Package, *token.FileSet, error) {
+	globalPackageCache.mu.RLock()
+	if cached, exists := globalPackageCache.cache[sdkDir]; exists {
+		globalPackageCache.mu.RUnlock()
+		return cached.pkg, cached.fset, nil
+	}
+	globalPackageCache.mu.RUnlock()
+
+	// Cache miss - fazer parsing
+	globalPackageCache.mu.Lock()
+	defer globalPackageCache.mu.Unlock()
+
+	// Double-check após adquirir lock exclusivo
+	if cached, exists := globalPackageCache.cache[sdkDir]; exists {
+		return cached.pkg, cached.fset, nil
 	}
 
-	// Como estamos analisando um único package, pegamos o primeiro (e único) package
+	fset := token.NewFileSet()
+	pkgs, err := parser.ParseDir(fset, sdkDir, nil, parser.ParseComments)
+	if err != nil {
+		return nil, nil, fmt.Errorf("erro ao analisar diretório %s: %w", sdkDir, err)
+	}
+
 	var pkg *ast.Package
 	for _, p := range pkgs {
 		pkg = p
@@ -33,6 +62,13 @@ func analyzePackageWithParseDir(sdkDir string) (*ast.Package, *token.FileSet, er
 	}
 
 	fmt.Printf("✅ Package analisado: %s (%d arquivos)\n", pkg.Name, len(pkg.Files))
+
+	// Armazenar no cache
+	globalPackageCache.cache[sdkDir] = &cachedPackage{
+		pkg:  pkg,
+		fset: fset,
+	}
+
 	return pkg, fset, nil
 }
 

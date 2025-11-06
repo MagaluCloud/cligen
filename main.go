@@ -16,11 +16,10 @@ func main() {
 		Long:  `Gerador de código que cria automaticamente o código fonte da CLI baseado no SDK.`,
 	}
 
-	// Adicionar comandos
-	rootCmd.AddCommand(commands.CloneSDKCmd())
-	rootCmd.AddCommand(commands.GenCLICmd())
-	rootCmd.AddCommand(commands.GenCLISDKStructureCmd())
-	rootCmd.AddCommand(commands.GenCLICodeCmd())
+	// Adicionar todos os comandos
+	for _, cmd := range commands.AllCommands() {
+		rootCmd.AddCommand(cmd)
+	}
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

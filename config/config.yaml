@@ -1,4 +1,4 @@
-version: v0.7.0
+version: v1.0.0
 menus:
   - name: "profile"
     description: "Manage account settings, including SSH keys and related configurations."

@@ -8,6 +8,24 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+	"sync"
+)
+
+// fileCache armazena arquivos parseados por caminho
+type fileCache struct {
+	mu    sync.RWMutex
+	cache map[string]*ast.File
+}
+
+// structCache armazena structs encontradas por tipo e diretório
+type structCache struct {
+	mu    sync.RWMutex
+	cache map[string]map[string]Parameter // chave: "sdkDir:typeName"
+}
+
+var (
+	globalFileCache   = &fileCache{cache: make(map[string]*ast.File)}
+	globalStructCache = &structCache{cache: make(map[string]map[string]Parameter)}
 )
 
 // analyzeParameterType analisa um tipo de parâmetro e retorna informações detalhadas incluindo campos de struct
@@ -80,7 +98,7 @@ func extractTypeFieldsFromIdent(expr ast.Expr, packageName string) map[string]Pa
 	return nil
 }
 
-// findStructDefinition procura pela definição de uma struct no diretório do SDK
+// findStructDefinition procura pela definição de uma struct no diretório do SDK com cache
 func findStructDefinition(typeName string, sdkDir string, packageName string) map[string]Parameter {
 	// Remover o prefixo do pacote se presente
 	cleanTypeName := typeName
@@ -89,7 +107,16 @@ func findStructDefinition(typeName string, sdkDir string, packageName string) ma
 		cleanTypeName = parts[len(parts)-1]
 	}
 
-	// Procurar em todos os arquivos .go do diretório
+	// Verificar cache de structs
+	cacheKey := sdkDir + ":" + cleanTypeName
+	globalStructCache.mu.RLock()
+	if cached, exists := globalStructCache.cache[cacheKey]; exists {
+		globalStructCache.mu.RUnlock()
+		return cached
+	}
+	globalStructCache.mu.RUnlock()
+
+	// Cache miss - procurar struct
 	files, err := os.ReadDir(sdkDir)
 	if err != nil {
 		return nil
@@ -103,19 +130,47 @@ func findStructDefinition(typeName string, sdkDir string, packageName string) ma
 		filePath := filepath.Join(sdkDir, file.Name())
 		structFields := analyzeFileForStruct(filePath, cleanTypeName, packageName)
 		if structFields != nil {
+			// Armazenar no cache
+			globalStructCache.mu.Lock()
+			globalStructCache.cache[cacheKey] = structFields
+			globalStructCache.mu.Unlock()
 			return structFields
 		}
 	}
 
+	// Armazenar nil no cache para evitar buscas futuras
+	globalStructCache.mu.Lock()
+	globalStructCache.cache[cacheKey] = nil
+	globalStructCache.mu.Unlock()
+
 	return nil
 }
 
-// analyzeFileForStruct analisa um arquivo procurando por uma definição de struct específica
+// analyzeFileForStruct analisa um arquivo procurando por uma definição de struct específica com cache
 func analyzeFileForStruct(filePath string, typeName string, packageName string) map[string]Parameter {
-	fset := token.NewFileSet()
-	file, err := parser.ParseFile(fset, filePath, nil, parser.ParseComments)
-	if err != nil {
-		return nil
+	// Verificar cache de arquivo
+	globalFileCache.mu.RLock()
+	file, exists := globalFileCache.cache[filePath]
+	globalFileCache.mu.RUnlock()
+
+	if !exists {
+		// Cache miss - fazer parsing
+		globalFileCache.mu.Lock()
+		// Double-check após adquirir lock exclusivo
+		if cached, exists := globalFileCache.cache[filePath]; exists {
+			globalFileCache.mu.Unlock()
+			file = cached
+		} else {
+			fset := token.NewFileSet()
+			parsedFile, err := parser.ParseFile(fset, filePath, nil, parser.ParseComments)
+			if err != nil {
+				globalFileCache.mu.Unlock()
+				return nil
+			}
+			globalFileCache.cache[filePath] = parsedFile
+			file = parsedFile
+			globalFileCache.mu.Unlock()
+		}
 	}
 
 	var structFields map[string]Parameter
@@ -123,11 +178,9 @@ func analyzeFileForStruct(filePath string, typeName string, packageName string) 
 	ast.Inspect(file, func(n ast.Node) bool {
 		if typeDecl, ok := n.(*ast.TypeSpec); ok {
 			if structType, ok := typeDecl.Type.(*ast.StructType); ok {
-				// Verificar se é a struct que estamos procurando
 				if typeDecl.Name.Name == typeName {
-					// fmt.Printf("   ✅ Struct encontrada: %s\n", typeName)
 					structFields = extractStructFields(structType, packageName, filepath.Dir(filePath))
-					return false // Parar a busca
+					return false
 				}
 			}
 		}
