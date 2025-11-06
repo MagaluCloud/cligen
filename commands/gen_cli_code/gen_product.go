@@ -183,6 +183,7 @@ func mapToSlice(paramMap map[string]sdk_structure.Parameter) []sdk_structure.Par
 // processFieldsRecursive processa campos de forma recursiva (unifica a lógica de genProductParameters e genProductParametersRecursive)
 func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structure.Parameter, pathPrefix string, parentField *sdk_structure.Parameter) {
 	for _, field := range fields {
+		productData.SetAllowedPositionalArgs()
 		// Constrói o caminho atual
 		var currentPath string
 		if pathPrefix == "" {
@@ -196,11 +197,21 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 		isDeepNested := strings.Count(pathPrefix, ".") > 0
 
 		if field.IsPrimitive {
+			field.IsPositional = false
 
-			if !field.IsOptional {
-				if productData.AppendPositionalArgs(field.Name) {
+			if !field.IsOptional && !field.IsArray {
+				if parentField != nil && !parentField.IsPrimitive {
+					productData.SetNotAllowedPositionalArgs()
+				}
+				canPositionalArgs := productData.CanAddPositionalArgs(productData.UseName)
+				if canPositionalArgs {
+					productData.AddPositionalArgs(field.Name)
 					field.IsPositional = true
 				}
+				if !canPositionalArgs {
+					productData.SetNotAllowedPositionalArgs()
+				}
+
 				if !field.IsArray {
 					field.Description = fmt.Sprintf("%s (required)", field.Description)
 				}

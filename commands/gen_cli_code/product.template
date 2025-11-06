@@ -25,10 +25,9 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 	
 
 	cmd := &cobra.Command{
-		Use:     "{{.UseName}}",
+		Use:     "{{.UseName}}{{range .PositionalArgs}} [{{.}}]{{end}}",
 		Short:   "{{.ShortDescription}}",
 		Long:    `{{.LongDescription}}`,
-		{{ if .PositionalArgs}}{{.PositionalArgs}}{{ end }}
 		RunE: func(cmd *cobra.Command, args []string) error{
 			
 			{{range .ServiceSDKParamCreate}}

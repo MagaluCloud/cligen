@@ -118,7 +118,7 @@ type PackageGroupData struct {
 	CobraFlagsDefinition  []string `json:"cobra_flags_definition"`
 	CobraFlagsCreation    []string `json:"cobra_flags_creation"`
 	CobraFlagsAssign      []string `json:"cobra_flags_assign"`
-	PositionalArgs        string   `json:"positional_args"`
+	PositionalArgs        []string `json:"positional_args"`
 	CobraFlagsRequired    []string `json:"cobra_flags_required"`
 	CobraStructInitialize []string `json:"cobra_struct_initialize"`
 	CobraArrayParse       []string `json:"cobra_array_parse"`
@@ -290,24 +290,23 @@ func (pgd *PackageGroupData) SetPackageName(packageName string) {
 	pgd.PackageName = strings.ToLower(packageName)
 }
 
-var notAllowedPositionalArgs = []string{"create"}
-
 // SetUseName define o nome de uso do comando
 func (pgd *PackageGroupData) SetUseName(useName string) {
 	pgd.UseName = strings.ToLower(strutils.ToSnakeCase(useName, "-"))
-	pgd.AllowPositionalArgs = true
-	if slices.Contains(notAllowedPositionalArgs, pgd.UseName) {
-		pgd.AllowPositionalArgs = false
-	}
 }
 
-func (pgd *PackageGroupData) AppendPositionalArgs(positionalArgs string) bool {
-	if pgd.AllowPositionalArgs {
-		pgd.UseName = fmt.Sprintf("%s [%s]", pgd.UseName, positionalArgs)
-		return true
-	}
+var notAllowedPositionalArgs = []string{"create"}
+
+func (pgd *PackageGroupData) CanAddPositionalArgs(positionalArgs string) bool {
+	return !slices.Contains(notAllowedPositionalArgs, strings.ToLower(positionalArgs))
+}
+
+func (pgd *PackageGroupData) SetAllowedPositionalArgs() {
+	pgd.AllowPositionalArgs = true
+}
+
+func (pgd *PackageGroupData) SetNotAllowedPositionalArgs() {
 	pgd.AllowPositionalArgs = false
-	return pgd.AllowPositionalArgs
 }
 
 func (pgd *PackageGroupData) LoadCustomUse() {
@@ -486,7 +485,8 @@ func (pgd *PackageGroupData) AddCobraFlagsAssign(cobraFlagsAssign string) {
 }
 
 func (pgd *PackageGroupData) AddPositionalArgs(positionalArgs string) {
-	pgd.PositionalArgs = positionalArgs
+	pgd.PositionalArgs = append(pgd.PositionalArgs, positionalArgs)
+	slices.Sort(pgd.PositionalArgs)
 }
 
 func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {

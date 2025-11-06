@@ -115,6 +115,19 @@ run-cli: ## Compila e executa o CLI gerado
 	@bash build_cli.sh
 	@echo "$(OK_COLOR)✓ CLI gerado compilado$(NO_COLOR)"
 
+.PHONY: copy-cli
+copy-cli: ## Copy tmp-cli to ../tmp-mgccli
+	@echo "$(INFO_COLOR)Copying tmp-cli to ../tmp-mgccli...$(NO_COLOR)"
+	@if [ -d ../tmp-mgccli ]; then \
+		echo "$(INFO_COLOR)Removendo conteúdo existente (exceto .git)...$(NO_COLOR)"; \
+		find ../tmp-mgccli -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +; \
+	fi
+	@cp -r $(TMP_CLI_DIR)/** ../tmp-mgccli
+	@echo "$(OK_COLOR)✓ tmp-cli copied to ../tmp-mgccli$(NO_COLOR)"
+
+
+.PHONY: sync-local
+sync-local: clean run run-cli copy-cli 
 # ==================================================================================== #
 ##@ Limpeza
 # ==================================================================================== #
@@ -123,7 +136,6 @@ run-cli: ## Compila e executa o CLI gerado
 clean: ## Remove arquivos temporários e binários
 	@echo "$(INFO_COLOR)Limpando arquivos temporários...$(NO_COLOR)"
 	@rm -rf $(TMP_CLI_DIR)
-	@rm -rf $(TMP_SDK_DIR)
 	@rm -rf $(BASE_CLI_GEN_DIR)
 	@rm -rf $(BASE_CLI_CUSTOM_CMD_DIR)
 	@rm -f $(BINARY_NAME)
@@ -132,6 +144,7 @@ clean: ## Remove arquivos temporários e binários
 .PHONY: clean-all
 clean-all: clean ## Remove todos os arquivos gerados (incluindo builds multi-plataforma)
 	@echo "$(INFO_COLOR)Limpando todos os builds...$(NO_COLOR)"
+	@rm -rf $(TMP_SDK_DIR)
 	@rm -f $(BINARY_NAME)-*
 	@echo "$(OK_COLOR)✓ Limpeza completa concluída$(NO_COLOR)"
 
