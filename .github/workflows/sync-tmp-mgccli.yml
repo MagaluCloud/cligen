@@ -10,7 +10,7 @@ on:
 
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
 
 jobs:
@@ -84,19 +84,25 @@ jobs:
       - name: Setup GitHub CLI
         id: setup-gh-cli
         uses: ksivamuthu/actions-setup-gh-cli@v3
+      
+      - name: Checkout tmp-mgccli repository
+        uses: actions/checkout@v4
+        with:
+          repository: MagaluCloud/tmp-mgccli
+          path: tmp-mgccli-repo
+          token: ${{ secrets.MAGALUBOT_GH_PAT }}
         
       - name: Merge tmp-cli to tmp-mgccli repository
         env:
           GPG_PASSPHRASE: ${{ secrets.MAGALUBOT_GPG_PASSPHRASE }}
-          GITHUB_TOKEN: ${{ secrets.GH_PAT2 }}
-          TMP_MGCCLI_PAT: ${{ secrets.TMP_MGCCLI_PAT }}
+          GITHUB_TOKEN: ${{ secrets.MAGALUBOT_GH_PAT }}
         run: |
           # Configurar git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # Usar PAT customizado se disponível, caso contrário usar GITHUB_TOKEN
-          TOKEN="${TMP_MGCCLI_PAT:-${GITHUB_TOKEN}}"
+          TOKEN="${GITHUB_TOKEN}"
           
           # Criar nome da branch baseado no número do PR e commit SHA
           PR_NUMBER="${{ github.event.pull_request.number }}"
@@ -104,9 +110,6 @@ jobs:
           BRANCH_NAME="merge-cligen-pr-${PR_NUMBER}-${COMMIT_SHA:0:7}"
           # Remover caracteres especiais do nome da branch
           BRANCH_NAME=$(echo "$BRANCH_NAME" | tr -cd '[:alnum:]-_')
-          
-          # Clonar o repositório tmp-mgccli
-          git clone https://${TOKEN}@github.com/MagaluCloud/tmp-mgccli.git tmp-mgccli-repo
           
           # Entrar no repositório clonado
           cd tmp-mgccli-repo
@@ -133,10 +136,7 @@ jobs:
             git commit -m "PR #${{ github.event.pull_request.number }} - Merge tmp-cli from cligen"
             
             echo "Fazendo push"
-            # Configurar a URL do remote com o token para autenticação
-            git remote set-url origin https://${TOKEN}@github.com/MagaluCloud/tmp-mgccli.git
-            
-            # Fazer push da branch
+            # Fazer push da branch (actions/checkout já configurou a autenticação)
             git push origin "${BRANCH_NAME}"
             
             # Criar Pull Request usando a CLI do GitHub
