@@ -1,0 +1,110 @@
+name: Sync tmp-cli to tmp-mgccli
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  sync:
+    name: Sync tmp-cli to tmp-mgccli
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.3'
+          cache: true
+          cache-dependency-path: |
+            **/go.mod
+            **/go.sum
+
+      - name: Generate CLI from SDK
+        run: make new-run
+
+      - name: Build generated CLI
+        run: make run-cli
+
+      - name: Merge tmp-cli to tmp-mgccli repository
+        run: |
+          # Configurar git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Usar PAT customizado se disponível, caso contrário usar GITHUB_TOKEN
+          TOKEN="${TMP_MGCCLI_PAT:-${GITHUB_TOKEN}}"
+          
+          # Criar nome da branch baseado no número do PR e commit SHA
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          COMMIT_SHA="${{ github.event.pull_request.merge_commit_sha }}"
+          BRANCH_NAME="merge-cligen-pr-${PR_NUMBER}-${COMMIT_SHA:0:7}"
+          # Remover caracteres especiais do nome da branch
+          BRANCH_NAME=$(echo "$BRANCH_NAME" | tr -cd '[:alnum:]-_')
+          
+          # Clonar o repositório tmp-mgccli
+          git clone https://${TOKEN}@github.com/MagaluCloud/tmp-mgccli.git tmp-mgccli-repo
+          
+          # Entrar no repositório clonado
+          cd tmp-mgccli-repo
+          
+          # Criar e fazer checkout de uma nova branch
+          git checkout -b "${BRANCH_NAME}"
+          
+          # Remover todos os arquivos existentes (exceto .git)
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          
+          # Copiar todo o conteúdo de tmp-cli para o repositório
+          cp -r ../tmp-cli/* .
+          cp -r ../tmp-cli/.[!.]* . 2>/dev/null || true
+          
+          # Adicionar todos os arquivos
+          git add -A
+          
+          # Verificar se há mudanças para commitar
+          if git diff --staged --quiet; then
+            echo "Nenhuma mudança para commitar"
+          else
+            # Fazer commit
+            git commit -m "Merge tmp-cli from cligen PR #${{ github.event.pull_request.number }}
+
+PR: ${{ github.event.pull_request.html_url }}
+Commit: ${{ github.event.pull_request.merge_commit_sha }}
+Título: ${{ github.event.pull_request.title }}"
+            
+            # Fazer push da branch
+            git push https://${TOKEN}@github.com/MagaluCloud/tmp-mgccli.git "${BRANCH_NAME}"
+            
+            # Criar Pull Request usando a CLI do GitHub
+            cd ..
+            echo "${TOKEN}" | gh auth login --with-token
+            gh pr create \
+              --repo MagaluCloud/tmp-mgccli \
+              --base main \
+              --head "${BRANCH_NAME}" \
+              --title "Merge tmp-cli from cligen PR #${{ github.event.pull_request.number }}" \
+              --body "Este PR foi criado automaticamente após o merge do PR #${{ github.event.pull_request.number }} na main do cligen.
+
+**Informações do PR original:**
+- PR: ${{ github.event.pull_request.html_url }}
+- Título: ${{ github.event.pull_request.title }}
+- Commit: ${{ github.event.pull_request.merge_commit_sha }}
+- Autor: @${{ github.event.pull_request.user.login }}
+
+Este PR contém o merge completo do conteúdo de tmp-cli gerado a partir do código mergeado na main." || echo "Falha ao criar PR (pode já existir um PR para esta branch)"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TMP_MGCCLI_PAT: ${{ secrets.TMP_MGCCLI_PAT }}
+
