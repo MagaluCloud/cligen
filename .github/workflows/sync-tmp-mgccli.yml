@@ -97,16 +97,13 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.MAGALUBOT_GPG_PASSPHRASE }}
           GITHUB_TOKEN: ${{ secrets.MAGALUBOT_GH_PAT }}
         run: |
-          # Configurar git
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
+
           # Usar PAT customizado se disponível, caso contrário usar GITHUB_TOKEN
           TOKEN="${GITHUB_TOKEN}"
           
           # Criar nome da branch baseado no número do PR e commit SHA
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          COMMIT_SHA="${{ github.event.pull_request.merge_commit_sha }}"
+          PR_NUMBER="${{ github.event.pull_request.number}}"
+          COMMIT_SHA="${{ github.event.pull_request.merge_commit_sha || github.event.pull_request.head.sha }}"
           BRANCH_NAME="merge-cligen-pr-${PR_NUMBER}-${COMMIT_SHA:0:7}"
           # Remover caracteres especiais do nome da branch
           BRANCH_NAME=$(echo "$BRANCH_NAME" | tr -cd '[:alnum:]-_')
