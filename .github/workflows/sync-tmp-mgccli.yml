@@ -81,7 +81,6 @@ jobs:
 
       - name: Setup GitHub CLI
         id: setup-gh-cli
-        if: steps.run-goreleaser.outcome == 'success'
         uses: ksivamuthu/actions-setup-gh-cli@v3
         
       - name: Merge tmp-cli to tmp-mgccli repository
