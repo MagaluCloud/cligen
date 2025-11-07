@@ -115,19 +115,24 @@ run-cli: ## Compila e executa o CLI gerado
 	@bash build_cli.sh
 	@echo "$(OK_COLOR)✓ CLI gerado compilado$(NO_COLOR)"
 
-.PHONY: copy-cli
-copy-cli: ## Copy tmp-cli to ../tmp-mgccli
-	@echo "$(INFO_COLOR)Copying tmp-cli to ../tmp-mgccli...$(NO_COLOR)"
-	@if [ -d ../tmp-mgccli ]; then \
-		echo "$(INFO_COLOR)Removendo conteúdo existente (exceto .git)...$(NO_COLOR)"; \
-		find ../tmp-mgccli -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +; \
+.PHONY: clone-tmp-mgccli
+clone-tmp-mgccli: ## Clone tmp-mgccli
+	@echo "$(INFO_COLOR)Cloning tmp-mgccli...$(NO_COLOR)"
+	@if [ ! -d ../tmp-mgccli ]; then \
+		echo "$(INFO_COLOR)Clonando repositório tmp-mgccli...$(NO_COLOR)"; \
+		git clone git@github.com:MagaluCloud/tmp-mgccli.git ../tmp-mgccli; \
 	fi
+	@echo "$(OK_COLOR)✓ tmp-mgccli cloned$(NO_COLOR)"
+
+.PHONY: copy-cli-to-tmp-mgccli
+copy-cli-to-tmp-mgccli: ## Copy tmp-cli to ../tmp-mgccli
+	@echo "$(INFO_COLOR)Copying tmp-cli to ../tmp-mgccli...$(NO_COLOR)"
 	@cp -r $(TMP_CLI_DIR)/** ../tmp-mgccli
+	@cp $(TMP_CLI_DIR)/.gitignore ../tmp-mgccli
 	@echo "$(OK_COLOR)✓ tmp-cli copied to ../tmp-mgccli$(NO_COLOR)"
 
-
 .PHONY: sync-local
-sync-local: clean run run-cli copy-cli 
+sync-local: clean run run-cli clone-tmp-mgccli copy-cli-to-tmp-mgccli
 # ==================================================================================== #
 ##@ Limpeza
 # ==================================================================================== #
