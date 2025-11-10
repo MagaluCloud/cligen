@@ -106,6 +106,7 @@ type PackageGroupData struct {
 	GroupID          string   `json:"group_id,omitempty"`
 
 	AllowPositionalArgs bool `json:"allow_positional_args"`
+	PositionalIndex     int  `json:"positional_index"`
 
 	// Subcomandos que serão adicionados ao grupo
 	SubCommands []SubCommandData `json:"sub_commands"`
@@ -115,13 +116,13 @@ type PackageGroupData struct {
 	GenerateGroup bool `json:"generate_group"`
 
 	// Cobra flags definition
-	CobraFlagsDefinition  []string `json:"cobra_flags_definition"`
-	CobraFlagsCreation    []string `json:"cobra_flags_creation"`
-	CobraFlagsAssign      []string `json:"cobra_flags_assign"`
-	PositionalArgs        []string `json:"positional_args"`
-	CobraFlagsRequired    []string `json:"cobra_flags_required"`
-	CobraStructInitialize []string `json:"cobra_struct_initialize"`
-	CobraArrayParse       []string `json:"cobra_array_parse"`
+	CobraFlagsDefinition  []string       `json:"cobra_flags_definition"`
+	CobraFlagsCreation    []string       `json:"cobra_flags_creation"`
+	CobraFlagsAssign      []string       `json:"cobra_flags_assign"`
+	PositionalArgs        map[int]string `json:"positional_args"`
+	CobraFlagsRequired    []string       `json:"cobra_flags_required"`
+	CobraStructInitialize []string       `json:"cobra_struct_initialize"`
+	CobraArrayParse       []string       `json:"cobra_array_parse"`
 
 	// Used chars
 	UsedChars []string `json:"used_chars"`
@@ -484,9 +485,16 @@ func (pgd *PackageGroupData) AddCobraFlagsAssign(cobraFlagsAssign string) {
 
 }
 
-func (pgd *PackageGroupData) AddPositionalArgs(positionalArgs string) {
-	pgd.PositionalArgs = append(pgd.PositionalArgs, positionalArgs)
-	slices.Sort(pgd.PositionalArgs)
+func (pgd *PackageGroupData) AddPositionalArgs(positionalArgs string) int {
+	if pgd.PositionalArgs == nil {
+		pgd.PositionalArgs = make(map[int]string)
+	}
+	pgd.PositionalArgs[pgd.PositionalIndex] = positionalArgs
+
+	pgd.PositionalIndex = pgd.PositionalIndex + 1
+
+	return pgd.PositionalIndex - 1
+
 }
 
 func (pgd *PackageGroupData) AddCobraFlagsRequired(cobraFlagsRequired string) {

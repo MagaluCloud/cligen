@@ -11,16 +11,17 @@ type Service struct {
 
 // Parameter representa um parâmetro de método
 type Parameter struct {
-	Name         string               `json:"name"`
-	Type         string               `json:"type"`
-	Description  string               `json:"description"`
-	IsPrimitive  bool                 `json:"is_primitive"`
-	IsPointer    bool                 `json:"is_pointer"`
-	IsOptional   bool                 `json:"is_optional"`
-	IsArray      bool                 `json:"is_array"`
-	IsPositional bool                 `json:"is_positional"`
-	Struct       map[string]Parameter `json:"struct,omitempty"`
-	AliasType    string               `json:"alias_type"`
+	Name            string               `json:"name"`
+	Type            string               `json:"type"`
+	Description     string               `json:"description"`
+	IsPrimitive     bool                 `json:"is_primitive"`
+	IsPointer       bool                 `json:"is_pointer"`
+	IsOptional      bool                 `json:"is_optional"`
+	IsArray         bool                 `json:"is_array"`
+	IsPositional    bool                 `json:"is_positional"`
+	PositionalIndex int                  `json:"positional_index"`
+	Struct          map[string]Parameter `json:"struct,omitempty"`
+	AliasType       string               `json:"alias_type"`
 }
 
 // Method representa um método de um serviço
