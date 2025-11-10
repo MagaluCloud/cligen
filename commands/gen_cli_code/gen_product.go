@@ -192,30 +192,11 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 			currentPath = pathPrefix + "." + field.Name
 		}
 		varFlagName := strings.ReplaceAll(currentPath, ".", "_")
-
 		// Verifica se está em nível profundo (aninhado) baseado no número de pontos no path
 		isDeepNested := strings.Count(pathPrefix, ".") > 0
 
 		if field.IsPrimitive {
 			field.IsPositional = false
-
-			if !field.IsOptional && !field.IsArray {
-				if parentField != nil && !parentField.IsPrimitive {
-					productData.SetNotAllowedPositionalArgs()
-				}
-				canPositionalArgs := productData.CanAddPositionalArgs(productData.UseName)
-				if canPositionalArgs {
-					productData.AddPositionalArgs(field.Name)
-					field.IsPositional = true
-				}
-				if !canPositionalArgs {
-					productData.SetNotAllowedPositionalArgs()
-				}
-
-				if !field.IsArray {
-					field.Description = fmt.Sprintf("%s (required)", field.Description)
-				}
-			}
 
 			var cobraFlagName string
 			var flagTypeGetter, flagCreationGetter func() string
@@ -228,6 +209,25 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 				flagTypeGetter = func() string { return translateTypeToCobraFlag(field.Type) }
 				flagCreationGetter = func() string { return translateTypeToCobraFlagCreate(field.Type, false) }
 				defaultGetter = func() string { return defaultByType(field.Type) }
+
+				if !field.IsOptional && !field.IsArray {
+					if parentField != nil && !parentField.IsPrimitive {
+						productData.SetNotAllowedPositionalArgs()
+					}
+					canPositionalArgs := productData.CanAddPositionalArgs(productData.UseName)
+					if canPositionalArgs {
+						field.PositionalIndex = productData.AddPositionalArgs(cobraFlagName)
+						field.IsPositional = true
+					}
+					if !canPositionalArgs {
+						productData.SetNotAllowedPositionalArgs()
+					}
+
+					if field.IsPositional {
+						field.Description = fmt.Sprintf("%s (required)", field.Description)
+					}
+				}
+
 			} else {
 				// Campos aninhados profundos - usa lógica de struct
 				cobraFlagName = prepareCommandFlag(varFlagName)
@@ -255,6 +255,7 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 				DefaultValueGetter: defaultGetter,
 				AliasType:          field.AliasType,
 				IsPositional:       field.IsPositional,
+				PositionalIndex:    field.PositionalIndex,
 			})
 		}
 
@@ -310,6 +311,7 @@ type FlagAssignmentConfig struct {
 	AliasType         string
 	IsOptional        bool
 	RequirePositional bool
+	PositionalIndex   int
 }
 
 // FlagCreationConfig contém todas as configurações necessárias para criar uma flag completa
@@ -324,6 +326,7 @@ type FlagCreationConfig struct {
 	DefaultValueGetter func() string
 	AliasType          string
 	IsPositional       bool
+	PositionalIndex    int
 }
 
 // addPrimitiveFlag cria definição, criação e atribuição de uma flag primitiva
@@ -376,6 +379,7 @@ func addPrimitiveFlag(productData *PackageGroupData, config FlagCreationConfig) 
 		IsOptional:        config.Field.IsOptional,
 		RequirePositional: config.IsPositional,
 		AliasType:         config.AliasType,
+		PositionalIndex:   config.PositionalIndex,
 	})
 
 	productData.AddCobraFlagsAssign(command)
@@ -420,13 +424,13 @@ func createFlagAssignment(config FlagAssignmentConfig) string {
 		}
 		// Caso requer argumento posicional: verifica args ou flag com cast
 		return fmt.Sprintf(`if len(args) > 0{
-				cmd.Flags().Set("%s", args[0])
+				cmd.Flags().Set("%s", args[%d])
 			}
 			if %s.IsChanged() {
 				%s = (%s)(*%s.Value)
 			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			}`, config.CobraFlagName, flagVar, config.TargetVar, config.AliasType, flagVar, config.CobraFlagName, config.CobraFlagName)
+			}`, config.CobraFlagName, config.PositionalIndex, flagVar, config.TargetVar, config.AliasType, flagVar, config.CobraFlagName, config.CobraFlagName)
 	}
 
 	// Se é pointer, atribui diretamente o valor
@@ -441,13 +445,13 @@ func createFlagAssignment(config FlagAssignmentConfig) string {
 
 	// Caso requer argumento posicional: verifica args ou flag
 	return fmt.Sprintf(`if len(args) > 0{
-				cmd.Flags().Set("%s", args[0])
+				cmd.Flags().Set("%s", args[%d])
 			}
 			if %s.IsChanged() {
 				%s = *%s.Value
 			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			}`, config.CobraFlagName, flagVar, config.TargetVar, flagVar, config.CobraFlagName, config.CobraFlagName)
+			}`, config.CobraFlagName, config.PositionalIndex, flagVar, config.TargetVar, flagVar, config.CobraFlagName, config.CobraFlagName)
 }
 
 func defaultByType(paramType string) string {
