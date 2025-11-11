@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"strconv"
 
 	"github.com/magaluCloud/mgccli/cmd/common/structs"
 	"github.com/magaluCloud/mgccli/cmd/common/workspace"
@@ -23,11 +24,26 @@ type valuePtr struct {
 func NewValue(value any) *valuePtr {
 	return &valuePtr{value: value}
 }
+
+func anyToString(value any) string {
+	switch v := value.(type) {
+	case string:
+		return v
+	case int:
+		return strconv.Itoa(v)
+	case bool:
+		return strconv.FormatBool(v)
+	case float64:
+		return strconv.FormatFloat(v, 'f', -1, 64)
+	}
+	return ""
+}
+
 func (v *valuePtr) String() string {
 	if v.value == nil {
 		return ""
 	}
-	return v.value.(string)
+	return anyToString(v.value)
 }
 func (v *valuePtr) Bool() bool {
 	if v.value == nil {
