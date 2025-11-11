@@ -210,7 +210,7 @@ func processFieldsRecursive(productData *PackageGroupData, fields []sdk_structur
 				flagCreationGetter = func() string { return translateTypeToCobraFlagCreate(field.Type, false) }
 				defaultGetter = func() string { return defaultByType(field.Type) }
 
-				if !field.IsOptional && !field.IsArray {
+				if !field.IsOptional && !field.IsArray && parentField == nil {
 					if parentField != nil && !parentField.IsPrimitive {
 						productData.SetNotAllowedPositionalArgs()
 					}
