@@ -6,15 +6,17 @@
 package gen
 
 import (
-	"context"
-
+	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 {{range .Imports}}
 	{{.}}
 {{end}}
 )
 
-func RootGen(ctx context.Context, parent *cobra.Command, sdkCoreConfig sdk.CoreClient) {
+func RootGen(parent *cobra.Command) {
+
+	sdkCoreConfig := parent.Context().Value(cmdutils.CTX_SDK_KEY).(sdk.CoreClient)
+
 {{range .SubCommands}}
-	{{.Package}}.{{.Command}}(ctx, parent, sdkCoreConfig)
+	{{.Package}}.{{.Command}}(parent.Context(), parent, sdkCoreConfig)
 {{end}}
 }

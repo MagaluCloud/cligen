@@ -1,6 +1,5 @@
 Todo:
-- (p1) Preparar comando estatico de config
-- (p1) Preparar comando estatico de auth
+
 - (p1) Comando de delete precisa solicitar confirmação
 
 - (p2) Incluir a descrição do comando final (vide "doto3")
@@ -17,7 +16,7 @@ Todo:
 
 
 In-Progress:
-
+- Preparar comando estatico de config
 
 
 Done:
@@ -26,3 +25,4 @@ Done:
 - Ajustar flags com palavras de apenas 2 letras (vide `./cli vm instances delete xpto`)
 - Sistema de customização de comandos
 - Ajustar comandos com apenas 1 campo de input (posicional) (vide `./cli vm instances delete {id}`)
+- Preparar comando estatico de auth

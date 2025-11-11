@@ -49,7 +49,6 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 		Version: version,
 	}
 
-	rootCmd.SetContext(ctx)
 	rootCmd.SilenceErrors = false
 
 	rootCmd.AddGroup(&cobra.Group{
@@ -104,8 +103,11 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 		sdkOptions...,
 	)
 
-	static.RootStatic(rootCmd, *sdkCoreConfig)
-	gen.RootGen(ctx, rootCmd, *sdkCoreConfig)
+	ctx = context.WithValue(ctx, cmdutils.CTX_SDK_KEY, *sdkCoreConfig)
+	rootCmd.SetContext(ctx)
+
+	static.RootStatic(rootCmd)
+	gen.RootGen(rootCmd)
 
 	beautifulPrint(rootCmd)
 	rootCmd.SetArgs(args.AllArgs())

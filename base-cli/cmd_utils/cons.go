@@ -6,6 +6,7 @@ type ContextKey string
 const (
 	CTX_AUTH_KEY   ContextKey = "ctxAuth"
 	CXT_CONFIG_KEY ContextKey = "ctxConfig"
+	CTX_SDK_KEY    ContextKey = "ctxSdk"
 )
 
 // Environment constants
