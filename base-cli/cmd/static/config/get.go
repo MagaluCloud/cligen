@@ -23,7 +23,7 @@ func Get(config config.Config) *cobra.Command {
 				fmt.Println("Erro ao obter configuração:", err)
 				return
 			}
-			fmt.Printf("%s: %v\n", color.BlueString(args[0]), color.YellowString(value.String()))
+			fmt.Printf("%s: %v\n", color.BlueString(args[0]), color.YellowString(fmt.Sprintf("%v", value.Value)))
 		},
 	}
 	return cmd

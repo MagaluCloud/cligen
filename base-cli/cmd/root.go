@@ -36,7 +36,7 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	ctx = context.WithValue(ctx, cmdutils.CTX_AUTH_KEY, auth)
 	ctx = context.WithValue(ctx, cmdutils.CXT_CONFIG_KEY, config)
 
-	lang, err := config.Get(cmdutils.CFG_LANG)
+	lang, err := config.Value(cmdutils.CFG_LANG)
 	if err != nil {
 		panic(err)
 	}

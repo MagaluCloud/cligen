@@ -16,7 +16,7 @@ Todo:
 
 
 In-Progress:
-- Preparar comando estatico de config
+
 
 
 Done:
@@ -26,3 +26,4 @@ Done:
 - Sistema de customização de comandos
 - Ajustar comandos com apenas 1 campo de input (posicional) (vide `./cli vm instances delete {id}`)
 - Preparar comando estatico de auth
+- Preparar comando estatico de config
