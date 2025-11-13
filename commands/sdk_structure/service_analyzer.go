@@ -82,33 +82,18 @@ func analyzeServiceWithPackage(pkg *ast.Package, fset *token.FileSet, serviceNam
 		Interface:   serviceName,
 	}
 
-	// fmt.Printf("🔍 Procurando serviço: %s\n", serviceName)
-	// fmt.Printf("📄 Total de arquivos no package: %d\n", len(pkg.Files))
-
-	// Obter nomes possíveis de interface
 	possibleInterfaceNames := getPossibleInterfaceNames(serviceName)
 
-	// Analisar todos os arquivos do package procurando pela interface
-	// found := false
 	for fileName, file := range pkg.Files {
-		// fmt.Printf("🔍 Verificando arquivo: %s\n", filepath.Base(fileName))
 
 		if strings.HasSuffix(fileName, "test.go") {
 			continue
 		}
 
 		if lfound := analyzeFileForServiceWithAST(file, possibleInterfaceNames, &service, pkg.Name, sdkDir); lfound {
-			// fmt.Printf("✅ Interface encontrada no arquivo: %s\n", filepath.Base(fileName))
-			// found = true
 			break
 		}
 	}
-
-	// if !found {
-	// 	fmt.Printf("⚠️  Interface não encontrada para o serviço: %s\n", serviceName)
-	// } else {
-	// 	fmt.Printf("✅ Total de métodos encontrados: %d\n", len(service.Methods))
-	// }
 
 	return service
 }
@@ -132,6 +117,11 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 							if funcType, ok := method.Type.(*ast.FuncType); ok {
 								// É um método direto da interface
 								methodName := method.Names[0].Name
+
+								if strings.ToLower(methodName) == "listall" {
+									continue
+								}
+
 								methodDescription := "doto3"
 								if method.Doc != nil {
 									methodDescription = method.Doc.Text()

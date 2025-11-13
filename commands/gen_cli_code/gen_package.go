@@ -24,7 +24,7 @@ func genPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 		return nil
 	}
 	packageData := NewPackageGroupData()
-	packageData.SetGroupID(groupProducts)
+	packageData.SetGroupID(pkg.GroupID)
 	packageData.SetPackageName(pkg.Name)
 	packageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
 	packageData.SetUseName(pkg.MenuName)

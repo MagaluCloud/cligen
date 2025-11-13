@@ -17,7 +17,21 @@ Todo:
 
 In-Progress:
 
-
+- Equiparação:
+  [x]audit
+  []block-storage
+  []container-registry
+  []dbaas
+  []iam
+  []kubernetes
+  []load-balancer
+  []network
+  []object-storage
+  []virtual-machine
+  []auth
+  []config
+  []profile
+  []workspace
 
 Done:
 - Preparar esquema de --debug
@@ -27,3 +41,4 @@ Done:
 - Ajustar comandos com apenas 1 campo de input (posicional) (vide `./cli vm instances delete {id}`)
 - Preparar comando estatico de auth
 - Preparar comando estatico de config
+

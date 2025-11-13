@@ -39,6 +39,7 @@ type Package struct {
 	Description     string             `json:"description"`
 	LongDescription string             `json:"long_description"`
 	Aliases         []string           `json:"aliases"`
+	GroupID         string             `json:"group_id"`
 	Name            string             `json:"name"`
 	Services        []Service          `json:"services"`
 	SubPkgs         map[string]Package `json:"sub_packages,omitempty"` // Para suporte recursivo
