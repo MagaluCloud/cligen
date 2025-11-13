@@ -4,12 +4,11 @@ import (
 	"github.com/magaluCloud/mgccli/cmd/common/config"
 	"github.com/magaluCloud/mgccli/i18n"
 
-	sdk "github.com/MagaluCloud/mgc-sdk-go/client"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/spf13/cobra"
 )
 
-func ConfigCmd(parent *cobra.Command, sdkCoreConfig sdk.CoreClient) {
+func ConfigCmd(parent *cobra.Command) {
 	manager := i18n.GetInstance()
 	cmd := &cobra.Command{
 		Use:     "config",

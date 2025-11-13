@@ -33,6 +33,7 @@ func RootCmd(ctx context.Context, version string, args cmdutils.ArgsParser) *cob
 	config := config.NewConfig(workspace)
 	auth := auth.NewAuth(workspace)
 
+	ctx = context.WithValue(ctx, cmdutils.CXT_WORKSPACE_KEY, workspace)
 	ctx = context.WithValue(ctx, cmdutils.CTX_AUTH_KEY, auth)
 	ctx = context.WithValue(ctx, cmdutils.CXT_CONFIG_KEY, config)
 
@@ -252,7 +253,7 @@ func beautifulPrint(cmd *cobra.Command) {
 	// // Configurar função de erro personalizada
 	cmd.SetUsageFunc(func(cmd *cobra.Command) error {
 		if cmd.Context() != nil {
-			if errorHandled, ok := cmd.Context().Value("error_already_handled").(bool); ok && errorHandled {
+			if errorHandled, ok := cmd.Context().Value(cmdutils.CTX_ERROR_HANDLED).(bool); ok && errorHandled {
 				return nil
 			}
 		}
@@ -330,12 +331,16 @@ func beautifulPrint(cmd *cobra.Command) {
 
 			if err != nil {
 				msg, detail := cmdutils.ParseSDKError(err)
-				beautifulOutput.PrintError(msg, true)
-				beautifulOutput.PrintError(detail, false)
 
-				cmd.SetContext(context.WithValue(cmd.Context(), "error_already_handled", true))
+				if detail != "" {
+					beautifulOutput.PrintError(fmt.Sprintf("%s: %s", msg, detail))
+				}
+
+				beautifulOutput.PrintError(msg)
+
+				cmd.SetContext(context.WithValue(cmd.Context(), cmdutils.CTX_ERROR_HANDLED, true))
 			}
-
+			cmd.SilenceErrors = true
 			return err
 		}
 	}
