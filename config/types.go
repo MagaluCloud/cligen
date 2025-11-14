@@ -12,6 +12,7 @@ type Menu struct {
 	Description     string   `yaml:"description,omitempty"`
 	LongDescription string   `yaml:"long_description,omitempty"`
 	SDKPackage      string   `yaml:"sdk_package,omitempty"`
+	CliGroup        string   `yaml:"cli_group,omitempty"`
 	Alias           []string `yaml:"alias,omitempty"`
 	Menus           []Menu   `yaml:"menus,omitempty"`
 }

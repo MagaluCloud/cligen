@@ -1,6 +1,5 @@
 Todo:
-- (p1) Preparar comando estatico de config
-- (p1) Preparar comando estatico de auth
+
 - (p1) Comando de delete precisa solicitar confirmação
 
 - (p2) Incluir a descrição do comando final (vide "doto3")
@@ -18,7 +17,21 @@ Todo:
 
 In-Progress:
 
-
+- Equiparação:
+  [x]audit
+  []block-storage
+  []container-registry
+  []dbaas
+  []iam
+  []kubernetes
+  []load-balancer
+  []network
+  []object-storage
+  []virtual-machine
+  []auth
+  []config
+  []profile
+  []workspace
 
 Done:
 - Preparar esquema de --debug
@@ -26,3 +39,6 @@ Done:
 - Ajustar flags com palavras de apenas 2 letras (vide `./cli vm instances delete xpto`)
 - Sistema de customização de comandos
 - Ajustar comandos com apenas 1 campo de input (posicional) (vide `./cli vm instances delete {id}`)
+- Preparar comando estatico de auth
+- Preparar comando estatico de config
+

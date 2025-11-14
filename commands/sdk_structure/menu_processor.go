@@ -29,6 +29,7 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 			Description:     menu.Description,
 			LongDescription: menu.Description,
 			Aliases:         menu.Alias,
+			GroupID:         menu.CliGroup,
 			Services:        []Service{},
 			SubPkgs:         make(map[string]Package),
 		}
@@ -62,6 +63,7 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 					Description:     "submenu.Description",
 					LongDescription: "submenu.LongDescription 2",
 					Services:        []Service{},
+					GroupID:         menu.CliGroup,
 					SubPkgs:         make(map[string]Package),
 				}
 
@@ -103,6 +105,7 @@ func processMenuRecursive(menu config.Menu, parentPath string, sdkStructure *SDK
 		// fmt.Printf("📦 Menu '%s' tem SDK Package: %s\n", menu.Name, menu.SDKPackage)
 		pkg := genCliCodeFromSDK(menu)
 		pkg.MenuName = menu.Name
+		pkg.GroupID = menu.CliGroup
 		if pkg.Description == "" && pkg.LongDescription != "" {
 			strs := strings.Split(pkg.LongDescription, "\n")
 			for _, str := range strs {

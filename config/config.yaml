@@ -1,6 +1,7 @@
 version: v1.0.0
 menus:
   - name: "profile"
+    cli_group: "settings"
     description: "Manage account settings, including SSH keys and related configurations."
     menus:
       - name: "availability-zones"
@@ -16,6 +17,7 @@ menus:
         sdk_package: "sshkeys"
 
   - name: "virtual-machine"
+    cli_group: "products"
     alias:
       - "vm"
       - "virtual-machines"
@@ -24,35 +26,42 @@ menus:
     sdk_package: "compute"
 
   - name: "kubernetes"
+    cli_group: "products"
     alias:
       - "k8s"
     sdk_package: "kubernetes"
 
   - name: "lbaas"
+    cli_group: "products"
     alias:
       - "load-balancer"
     sdk_package: "lbaas"
 
   - name: "audit"
+    cli_group: "products"
     sdk_package: "audit"
 
   - name: "block-storage"
+    cli_group: "products"
     alias:
       - "bs"
     sdk_package: "blockstorage"
 
   - name: "container-registry"
+    cli_group: "products"
     alias:
       - "cr"
     sdk_package: "containerregistry"
 
   - name: "dbaas"
+    cli_group: "products"
     alias:
       - "db"
       - "database"
     sdk_package: "dbaas"
 
   - name: "network"
+    cli_group: "products"
     alias:
       - "networks"
       - "net"

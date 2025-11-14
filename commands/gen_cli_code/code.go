@@ -15,14 +15,14 @@ const (
 	// Diretório onde os arquivos gerados serão salvos
 	genDir = "base-cli-gen/cmd/gen"
 
-	// Descrições padrão para comandos (placeholders)
-	defaultShortDesc = "todo aaa"
-	defaultLongDesc  = "todo2"
+	// // Descrições padrão para comandos (placeholders)
+	// defaultShortDesc = "todo aaa"
+	// defaultLongDesc  = "todo2"
 
 	// Nomes de grupos para agrupamento de comandos no CLI
-	groupProducts = "products"
-	groupSettings = "settings"
-	groupOther    = "other"
+	// groupProducts = "products"
+	// groupSettings = "settings"
+	// groupOther    = "other"
 
 	// Padrões de imports comuns
 	importCobra = "\"github.com/spf13/cobra\""
@@ -73,7 +73,7 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 	mainPackageData.SetDescriptions(pkg.Description, "defaultLongDesc 1")
 	mainPackageData.SetServiceParam(serviceParamPattern)
 	mainPackageData.AddImport(importSDK)
-	mainPackageData.SetGroupID(groupProducts)
+	mainPackageData.SetGroupID(pkg.GroupID)
 
 	if len(pkg.Services) > 0 {
 		setupMainPackageServices(mainPackageData, pkg, parentPkg)
