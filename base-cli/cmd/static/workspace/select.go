@@ -21,11 +21,10 @@ func SelectCmd(parent *cobra.Command) *cobra.Command {
 
 			options := []huh.Option[string]{}
 			for _, w := range list {
-				options = append(options, huh.NewOption[string](w.Name(), w.Name()))
+				options = append(options, huh.NewOption(w.Name(), w.Name()))
 			}
 
 			selectedWorkspace := huh.NewSelect[string]()
-			selectedWorkspace.Title("Select a workspace.")
 			selectedWorkspace.Options(options...)
 			err = selectedWorkspace.Run()
 			if err != nil {

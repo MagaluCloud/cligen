@@ -22,7 +22,7 @@ func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 			serviceData := NewPackageGroupData()
 			serviceData.SetPackageName(service.Name)
 			serviceData.SetFunctionName(service.Name)
-			serviceData.SetUseName(strutils.FirstLower(service.Name))
+			serviceData.SetUseName(service.Name)
 			serviceData.AddImport(importCobra)
 			serviceData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
 			for _, method := range service.Methods {

@@ -21,25 +21,46 @@ func FirstUpper(s string) string {
 	return strings.ToUpper(s[:1]) + s[1:]
 }
 
-// input: "VirtualMachine"
-// output: "virtual_machine"
 func ToSnakeCase(s string, char string) string {
 	if len(s) == 0 {
 		return s
 	}
 
-	var result strings.Builder
-	result.WriteByte(s[0])
+	isUpper := func(s string) bool {
+		return s[0] >= 'A' && s[0] <= 'Z'
+	}
 
-	for i := 1; i < len(s); i++ {
-		if s[i] >= 'A' && s[i] <= 'Z' {
-			if char != "" {
-				result.WriteByte(char[0])
-			} else {
-				result.WriteByte('_')
-			}
+	isLower := func(s string) bool {
+		return s[0] >= 'a' && s[0] <= 'z'
+	}
+
+	separator := char
+	if separator == "" {
+		separator = "_"
+	}
+
+	var result strings.Builder
+
+	sliceString := strings.Split(s, "")
+	for i, ch := range sliceString {
+		if i == 0 {
+			result.WriteString(ch)
+			continue
 		}
-		result.WriteByte(s[i])
+		if isLower(ch) {
+			result.WriteString(ch)
+			continue
+		}
+		if isUpper(ch) {
+			if isUpper(sliceString[i-1]) {
+				result.WriteString(ch)
+				continue
+			}
+			result.WriteString(separator)
+			result.WriteString(ch)
+			continue
+		}
+		result.WriteString(separator)
 	}
 
 	return strings.ToLower(result.String())
