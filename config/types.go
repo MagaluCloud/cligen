@@ -10,8 +10,8 @@ type Config struct {
 type Menu struct {
 	Name            string   `yaml:"name,omitempty"`
 	Enabled         bool     `yaml:"enabled,omitempty"`
-	Description     string   `yaml:"description,omitempty"`
-	LongDescription string   `yaml:"long_description,omitempty"`
+	Description     string   `yaml:"description"`
+	LongDescription string   `yaml:"long_description"`
 	Level           int      `yaml:"level,omitempty"`
 	SDKPackage      string   `yaml:"sdk_package,omitempty"`
 	CliGroup        string   `yaml:"cli_group,omitempty"`

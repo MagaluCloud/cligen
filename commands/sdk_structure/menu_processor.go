@@ -3,10 +3,8 @@ package sdk_structure
 import (
 	"fmt"
 	"path/filepath"
-	"strings"
 
 	"github.com/magaluCloud/cligen/config"
-	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
 func processMenu(menu *config.Menu, sdkStructure *SDKStructure) {
@@ -14,7 +12,7 @@ func processMenu(menu *config.Menu, sdkStructure *SDKStructure) {
 }
 
 func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SDKStructure) {
-	if len(menu.Menus) > 0 && menu.Level == 0 {
+	if len(menu.Menus) > 0 && menu.Name == "profile" {
 		groupPkg := Package{
 			MenuName:        menu.Name,
 			Name:            menu.Name,
@@ -35,6 +33,8 @@ func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SD
 			if submenu.SDKPackage != "" {
 				subPkg := genCliCodeFromSDK(submenu)
 				subPkg.MenuName = submenu.Name
+				subPkg.Description = submenu.Description
+				subPkg.LongDescription = submenu.LongDescription
 				groupPkg.SubPkgs[submenu.SDKPackage] = subPkg
 			} else if len(submenu.Menus) > 0 {
 				subGroupPkg := Package{
@@ -53,6 +53,8 @@ func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SD
 					if subSubmenu.SDKPackage != "" {
 						subSubPkg := genCliCodeFromSDK(subSubmenu)
 						subSubPkg.MenuName = subSubmenu.Name
+						subSubPkg.Description = subSubmenu.Description
+						subSubPkg.LongDescription = subSubmenu.LongDescription
 						subGroupPkg.SubPkgs[subSubmenu.SDKPackage] = subSubPkg
 					} else if len(subSubmenu.Menus) > 0 {
 						processMenuRecursive(subSubmenu, filepath.Join(currentPath, submenu.Name), sdkStructure)
@@ -73,17 +75,9 @@ func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SD
 		pkg := genCliCodeFromSDK(menu)
 		pkg.MenuName = menu.Name
 		pkg.GroupID = menu.CliGroup
-		if pkg.Description == "" && pkg.LongDescription != "" {
-			strs := strings.Split(pkg.LongDescription, "\n")
-			for _, str := range strs {
-				if str != "" {
-					str = strings.Replace(str, "Package ", "", 1)
-					str = strutils.FirstUpper(str)
-					pkg.Description = str
-					break
-				}
-			}
-		}
+		pkg.Description = menu.Description
+		pkg.LongDescription = menu.LongDescription
+
 		if parentPath == "" {
 			sdkStructure.Packages[menu.SDKPackage] = pkg
 		} else {

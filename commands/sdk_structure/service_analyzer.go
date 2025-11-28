@@ -6,6 +6,7 @@ import (
 	"go/token"
 	"log"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strings"
 
@@ -31,14 +32,30 @@ func analyzePackageWithParseDir(sdkDir string) ([]*packages.Package, *token.File
 	return pkgs, fset, nil
 }
 
+func isCompatible(a, b string) bool {
+	regex := regexp.MustCompile(`^[a-zA-Z]+$`)
+	return regex.MatchString(a) && regex.MatchString(b) && strings.EqualFold(a, b)
+}
+
 // analyzeServiceWithPackage analisa um serviço usando o package já parseado
-func analyzeServiceWithPackage(pkgs []*packages.Package, fset *token.FileSet, serviceName string, sdkDir string) Service {
+func analyzeServiceWithPackage(menu *config.Menu, pkgs []*packages.Package, fset *token.FileSet, serviceName string, sdkDir string) Service {
+	description := menu.Description
+	longDescription := menu.LongDescription
+	for _, menuItem := range menu.Menus {
+		if isCompatible(menuItem.Name, serviceName) {
+			description = menuItem.Description
+			longDescription = menuItem.LongDescription
+			break
+		}
+	}
+
 	service := Service{
-		Name:        serviceName,
-		Description: "Dqui1",
-		Methods:     []Method{},
-		SubServices: make(map[string]Service),
-		Interface:   serviceName,
+		Name:            serviceName,
+		Description:     description,
+		LongDescription: longDescription,
+		Methods:         []Method{},
+		SubServices:     make(map[string]Service),
+		Interface:       serviceName,
 	}
 
 	possibleInterfaceNames := getPossibleInterfaceNames(serviceName)
@@ -51,7 +68,7 @@ func analyzeServiceWithPackage(pkgs []*packages.Package, fset *token.FileSet, se
 				continue
 			}
 
-			if found := analyzeFileForServiceWithAST(astFile, possibleInterfaceNames, &service, pkg.Name, sdkDir); found {
+			if found := analyzeFileForServiceWithAST(menu, astFile, possibleInterfaceNames, &service, pkg.Name, sdkDir); found {
 				doBreak = true
 				break
 			}
@@ -65,7 +82,7 @@ func analyzeServiceWithPackage(pkgs []*packages.Package, fset *token.FileSet, se
 }
 
 // analyzeFileForServiceWithAST analisa um arquivo AST procurando por interfaces de serviço
-func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []string, service *Service, packageName string, sdkDir string) bool {
+func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInterfaceNames []string, service *Service, packageName string, sdkDir string) bool {
 	found := false
 
 	ast.Inspect(file, func(n ast.Node) bool {
@@ -83,9 +100,32 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 									continue
 								}
 
-								methodDescription := "doto3"
-								if method.Doc != nil {
-									methodDescription = method.Doc.Text()
+								methodDescription := ""
+								methodLongDescription := ""
+
+								for _, menu := range menu.Menus {
+									if menu.Name == methodName {
+										methodDescription = menu.Description
+										methodLongDescription = menu.LongDescription
+										break
+									}
+								}
+
+								if methodDescription == "" {
+									doBreak := false
+									for _, menuLvl2 := range menu.Menus {
+										for _, menu := range menuLvl2.Menus {
+											if menu.Name == methodName {
+												methodDescription = menu.Description
+												methodLongDescription = menu.LongDescription
+												doBreak = true
+												break
+											}
+										}
+										if doBreak {
+											break
+										}
+									}
 								}
 
 								params := []Parameter{}
@@ -177,11 +217,12 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 								}
 
 								method := Method{
-									Name:        methodName,
-									Parameters:  params,
-									Returns:     returns,
-									Comments:    methodDescription,
-									Description: methodDescription,
+									Name:            methodName,
+									Parameters:      params,
+									Returns:         returns,
+									Comments:        methodDescription,
+									Description:     methodDescription,
+									LongDescription: methodLongDescription,
 								}
 								service.Methods = append(service.Methods, method)
 								if len(returns) == 1 {
@@ -260,7 +301,7 @@ func genCliCodeFromClient(menu *config.Menu, pkg *Package, sdkDir, filePath stri
 	})
 
 	for _, clientMethod := range clientMethods {
-		service := analyzeServiceWithPackage(astPkg, fset, clientMethod.ServiceName, sdkDir)
+		service := analyzeServiceWithPackage(menu, astPkg, fset, clientMethod.ServiceName, sdkDir)
 		services = append(services, service)
 	}
 

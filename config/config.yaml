@@ -2,57 +2,54 @@ version: v1.0.0
 menus:
     - name: profile
       enabled: true
-      level: 0
+      level: 1
       description: Manage account settings, including SSH keys and related configurations.
+      long_description: Manage account settings, including SSH keys and related configurations.
       cli_group: settings
       menus:
         - name: availability-zones
           sdk_package: availabilityzones
-          level: 1
+          description: Manage availability zones
+          long_description: Manage and list availability zones for resource deployment
+          level: 2
           alias:
             - azs
             - az
           menus:
-            - name: AvailabilityZones
-              level: 2
-              description: Manage availability zones
-              long_description: Manage and list availability zones for resource deployment
-              menus:
-                - name: List
-                  level: 3
-                  description: List availability zones
-                  long_description: List all available availability zones for resource deployment
+            - name: List
+              level: 3
+              description: List availability zones
+              long_description: List all available availability zones for resource deployment
         - name: ssh-keys
-          level: 1
+          level: 2
           sdk_package: sshkeys
+          description: Manage SSH keys
+          long_description: Manage SSH keys for secure server access
           alias:
             - ssh-keys
             - ssh
           menus:
-            - name: Keys
-              level: 1
-              description: Manage SSH keys
-              long_description: Manage SSH keys for secure server access
-              menus:
-                - name: List
-                  level: 2
-                  description: List SSH keys
-                  long_description: List all SSH keys associated with your account
-                - name: Create
-                  level: 2
-                  description: Create SSH key
-                  long_description: Create a new SSH key for secure server access
-                - name: Get
-                  description: Get SSH key details
-                  level: 2
-                  long_description: Get detailed information about a specific SSH key
-                - name: Delete
-                  description: Delete SSH key
-                  level: 2
-                  long_description: Delete an SSH key from your account
+            - name: List
+              level: 3
+              description: List SSH keys
+              long_description: List all SSH keys associated with your account
+            - name: Create
+              level: 3
+              description: Create SSH key
+              long_description: Create a new SSH key for secure server access
+            - name: Get
+              description: Get SSH key details
+              level: 2
+              long_description: Get detailed information about a specific SSH key
+            - name: Delete
+              description: Delete SSH key
+              level: 2
+              long_description: Delete an SSH key from your account
     - name: virtual-machine
       enabled: true
       sdk_package: compute
+      long_description: Create, manage, and control virtual machine instances
+      description: Manage virtual machine instances
       level: 1
       cli_group: products
       alias:
@@ -172,6 +169,8 @@ menus:
     - name: kubernetes
       enabled: true
       level: 1
+      long_description: Create, configure, and manage Kubernetes clusters
+      description: Manage Kubernetes clusters
       sdk_package: kubernetes
       cli_group: products
       alias:
@@ -257,6 +256,8 @@ menus:
       enabled: true
       sdk_package: lbaas
       cli_group: products
+      long_description: Create, configure, and manage load balancers
+      description: Manage load balancers
       level: 1
       alias:
         - load-balancer
@@ -422,6 +423,8 @@ menus:
               long_description: Update configuration of a load balancer
     - name: audit
       enabled: true
+      long_description: Manage audit events and event types
+      description: Manage audit events and event types
       sdk_package: audit
       cli_group: products
       level: 1
@@ -446,6 +449,8 @@ menus:
               long_description: List all event types
     - name: block-storage
       enabled: true
+      long_description: Create, manage, and attach block storage volumes
+      description: Manage block storage volumes
       sdk_package: blockstorage
       cli_group: products
       level: 1
@@ -558,6 +563,8 @@ menus:
               long_description: Detach a volume from an instance
     - name: container-registry
       enabled: true
+      long_description: Create, manage, and control container registries
+      description: Manage container registries
       sdk_package: containerregistry
       cli_group: products
       level: 1
@@ -635,6 +642,8 @@ menus:
     - name: dbaas
       enabled: true
       sdk_package: dbaas
+      long_description: Create, manage, and control database instances and snapshots
+      description: Manage database instances and snapshots
       cli_group: products
       level: 1
       alias:
@@ -855,6 +864,8 @@ menus:
     - name: network
       enabled: true
       sdk_package: network
+      long_description: Create, manage, and configure virtual private clouds with subnets, ports, and public IPs
+      description: Manage virtual private clouds
       cli_group: products
       level: 1
       alias:

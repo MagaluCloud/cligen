@@ -74,7 +74,7 @@ func genMainPackageCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_stru
 	mainPackageData.SetPackageName(pkg.Name)
 	mainPackageData.SetFunctionName(strutils.FirstUpper(pkg.Name))
 	mainPackageData.SetUseName(pkg.MenuName)
-	mainPackageData.SetDescriptions(pkg.Description, "defaultLongDesc 1")
+	mainPackageData.SetDescriptions(pkg.Description, pkg.LongDescription)
 	mainPackageData.SetServiceParam(serviceParamPattern)
 	mainPackageData.AddImport(importSDK)
 	mainPackageData.SetGroupID(pkg.GroupID)
