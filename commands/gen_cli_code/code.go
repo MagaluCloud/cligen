@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/magaluCloud/cligen/commands/sdk_structure"
+	"github.com/magaluCloud/cligen/config"
 	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
@@ -33,12 +34,16 @@ const (
 )
 
 func GenCliCode() {
-	sdkStructure, err := sdk_structure.GenCliSDKStructure()
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		panic(fmt.Errorf("erro ao carregar configuração: %w", err))
+	}
+
+	sdkStructure, err := sdk_structure.GenCliSDKStructure(cfg)
 	if err != nil {
 		log.Fatalf("Erro ao gerar a estrutura do SDK: %v", err)
 	}
 
-	log.Printf("🔧 Iniciando geração do CLI com %d pacotes", len(sdkStructure.Packages))
 	cleanDir(genDir)
 	genGoModFile()
 	generateRootCode(&sdkStructure)
@@ -46,7 +51,6 @@ func GenCliCode() {
 	genPackageCode(&sdkStructure)
 	genServiceCode(&sdkStructure)
 	genProductCode(&sdkStructure)
-
 }
 
 func cleanDir(dir string) {

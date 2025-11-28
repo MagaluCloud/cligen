@@ -21,3 +21,16 @@ func LoadConfig() (*Config, error) {
 
 	return &config, nil
 }
+
+func (c *Config) SaveConfig() error {
+	data, err := yaml.Marshal(c)
+	if err != nil {
+		return fmt.Errorf("erro ao serializar o arquivo de configuração: %w", err)
+	}
+	err = os.WriteFile("config/config_new.yaml", data, 0644)
+	if err != nil {
+		return fmt.Errorf("erro ao salvar o arquivo de configuração: %w", err)
+	}
+	return nil
+
+}

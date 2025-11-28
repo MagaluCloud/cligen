@@ -1,0 +1,829 @@
+version: v1.0.0
+menus:
+    - name: profile
+      enabled: true
+      description: Manage account settings, including SSH keys and related configurations.
+      cli_group: settings
+      menus:
+        - name: availability-zones
+          sdk_package: availabilityzones
+          alias:
+            - azs
+            - az
+          menus:
+            - name: AvailabilityZones
+              description: Dqui1
+              long_description: Dqui1
+              menus:
+                - name: List
+                  description: doto3
+                  long_description: doto3
+        - name: ssh-keys
+          sdk_package: sshkeys
+          alias:
+            - ssh-keys
+            - ssh
+          menus:
+            - name: Keys
+              description: Dqui1
+              long_description: Dqui1
+              menus:
+                - name: List
+                  description: doto3
+                  long_description: doto3
+                - name: Create
+                  description: doto3
+                  long_description: doto3
+                - name: Get
+                  description: doto3
+                  long_description: doto3
+                - name: Delete
+                  description: doto3
+                  long_description: doto3
+    - name: virtual-machine
+      enabled: true
+      sdk_package: compute
+      cli_group: products
+      alias:
+        - vm
+        - virtual-machines
+        - vms
+        - compute
+      menus:
+        - name: Instances
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Rename
+              description: doto3
+              long_description: doto3
+            - name: Retype
+              description: doto3
+              long_description: doto3
+            - name: Start
+              description: doto3
+              long_description: doto3
+            - name: Stop
+              description: doto3
+              long_description: doto3
+            - name: Suspend
+              description: doto3
+              long_description: doto3
+            - name: GetFirstWindowsPassword
+              description: doto3
+              long_description: doto3
+            - name: AttachNetworkInterface
+              description: doto3
+              long_description: doto3
+            - name: DetachNetworkInterface
+              description: doto3
+              long_description: doto3
+            - name: InitLog
+              description: doto3
+              long_description: doto3
+        - name: Images
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+        - name: InstanceTypes
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+        - name: Snapshots
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Rename
+              description: doto3
+              long_description: doto3
+            - name: Restore
+              description: doto3
+              long_description: doto3
+            - name: Copy
+              description: doto3
+              long_description: doto3
+    - name: kubernetes
+      enabled: true
+      sdk_package: kubernetes
+      cli_group: products
+      alias:
+        - k8s
+      menus:
+        - name: Clusters
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+            - name: GetKubeConfig
+              description: doto3
+              long_description: doto3
+        - name: Flavors
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+        - name: Nodepools
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Nodes
+              description: doto3
+              long_description: doto3
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+        - name: Versions
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+    - name: lbaas
+      enabled: true
+      sdk_package: lbaas
+      cli_group: products
+      alias:
+        - load-balancer
+      menus:
+        - name: NetworkACLs
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Replace
+              description: doto3
+              long_description: doto3
+        - name: NetworkBackends
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+        - name: NetworkBackendTargets
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Replace
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+        - name: NetworkCertificates
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+        - name: NetworkHealthChecks
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+        - name: NetworkListeners
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+        - name: NetworkLoadBalancers
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+    - name: audit
+      enabled: true
+      sdk_package: audit
+      cli_group: products
+      menus:
+        - name: Events
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+        - name: EventTypes
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+    - name: block-storage
+      enabled: true
+      sdk_package: blockstorage
+      cli_group: products
+      alias:
+        - bs
+      menus:
+        - name: Volumes
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Rename
+              description: doto3
+              long_description: doto3
+            - name: Extend
+              description: doto3
+              long_description: doto3
+            - name: Retype
+              description: doto3
+              long_description: doto3
+            - name: Attach
+              description: doto3
+              long_description: doto3
+            - name: Detach
+              description: doto3
+              long_description: doto3
+        - name: VolumeTypes
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+        - name: Snapshots
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Rename
+              description: doto3
+              long_description: doto3
+        - name: Schedulers
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: AttachVolume
+              description: doto3
+              long_description: doto3
+            - name: DetachVolume
+              description: doto3
+              long_description: doto3
+    - name: container-registry
+      enabled: true
+      sdk_package: containerregistry
+      cli_group: products
+      alias:
+        - cr
+      menus:
+        - name: Credentials
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: ResetPassword
+              description: doto3
+              long_description: doto3
+        - name: Registries
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+        - name: Repositories
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+        - name: Images
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+    - name: dbaas
+      enabled: true
+      sdk_package: dbaas
+      cli_group: products
+      alias:
+        - db
+        - database
+      menus:
+        - name: Engines
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: ListEngineParameters
+              description: doto3
+              long_description: doto3
+        - name: InstanceTypes
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+        - name: Instances
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+            - name: Resize
+              description: doto3
+              long_description: doto3
+            - name: Start
+              description: doto3
+              long_description: doto3
+            - name: Stop
+              description: doto3
+              long_description: doto3
+            - name: ListSnapshots
+              description: doto3
+              long_description: doto3
+            - name: ListAllSnapshots
+              description: doto3
+              long_description: doto3
+            - name: CreateSnapshot
+              description: doto3
+              long_description: doto3
+            - name: GetSnapshot
+              description: doto3
+              long_description: doto3
+            - name: UpdateSnapshot
+              description: doto3
+              long_description: doto3
+            - name: DeleteSnapshot
+              description: doto3
+              long_description: doto3
+            - name: RestoreSnapshot
+              description: doto3
+              long_description: doto3
+        - name: Replicas
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Resize
+              description: doto3
+              long_description: doto3
+            - name: Start
+              description: doto3
+              long_description: doto3
+            - name: Stop
+              description: doto3
+              long_description: doto3
+        - name: ParametersGroup
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+        - name: Parameters
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+        - name: Clusters
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+            - name: Resize
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Start
+              description: doto3
+              long_description: doto3
+            - name: Stop
+              description: doto3
+              long_description: doto3
+    - name: network
+      enabled: true
+      sdk_package: network
+      cli_group: products
+      alias:
+        - networks
+        - net
+        - vpc
+      menus:
+        - name: VPCs
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Rename
+              description: doto3
+              long_description: doto3
+            - name: ListPorts
+              description: doto3
+              long_description: doto3
+            - name: CreatePort
+              description: doto3
+              long_description: doto3
+            - name: ListPublicIPs
+              description: doto3
+              long_description: doto3
+            - name: CreatePublicIP
+              description: doto3
+              long_description: doto3
+            - name: ListSubnets
+              description: doto3
+              long_description: doto3
+            - name: CreateSubnet
+              description: doto3
+              long_description: doto3
+        - name: Subnets
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+        - name: Ports
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Update
+              description: doto3
+              long_description: doto3
+            - name: AttachSecurityGroup
+              description: doto3
+              long_description: doto3
+            - name: DetachSecurityGroup
+              description: doto3
+              long_description: doto3
+        - name: SecurityGroups
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+        - name: Rules
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+        - name: PublicIPs
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: AttachToPort
+              description: doto3
+              long_description: doto3
+            - name: DetachFromPort
+              description: doto3
+              long_description: doto3
+        - name: SubnetPools
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: List
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: BookCIDR
+              description: doto3
+              long_description: doto3
+            - name: UnbookCIDR
+              description: doto3
+              long_description: doto3
+        - name: NatGateways
+          description: Dqui1
+          long_description: Dqui1
+          menus:
+            - name: Create
+              description: doto3
+              long_description: doto3
+            - name: Delete
+              description: doto3
+              long_description: doto3
+            - name: Get
+              description: doto3
+              long_description: doto3
+            - name: List
+              description: doto3
+              long_description: doto3
