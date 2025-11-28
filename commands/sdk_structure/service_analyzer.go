@@ -102,11 +102,15 @@ func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInt
 
 								methodDescription := ""
 								methodLongDescription := ""
+								var confirmation *config.Confirmation
 
 								for _, menu := range menu.Menus {
 									if menu.Name == methodName {
 										methodDescription = menu.Description
 										methodLongDescription = menu.LongDescription
+										if menu.Confirmation != nil {
+											confirmation = menu.Confirmation
+										}
 										break
 									}
 								}
@@ -118,6 +122,9 @@ func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInt
 											if menu.Name == methodName {
 												methodDescription = menu.Description
 												methodLongDescription = menu.LongDescription
+												if menu.Confirmation != nil {
+													confirmation = menu.Confirmation
+												}
 												doBreak = true
 												break
 											}
@@ -223,6 +230,7 @@ func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInt
 									Comments:        methodDescription,
 									Description:     methodDescription,
 									LongDescription: methodLongDescription,
+									Confirmation:    confirmation,
 								}
 								service.Methods = append(service.Methods, method)
 								if len(returns) == 1 {

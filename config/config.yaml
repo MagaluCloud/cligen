@@ -39,11 +39,11 @@ menus:
               long_description: Create a new SSH key for secure server access
             - name: Get
               description: Get SSH key details
-              level: 2
+              level: 3
               long_description: Get detailed information about a specific SSH key
             - name: Delete
               description: Delete SSH key
-              level: 2
+              level: 3
               long_description: Delete an SSH key from your account
     - name: virtual-machine
       enabled: true
@@ -67,14 +67,28 @@ menus:
               level: 3
               description: List virtual machine instances
               long_description: List all virtual machine instances in your account
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: Deseja continuar?
             - name: Create
               level: 3
               description: Create virtual machine instance
               long_description: Create a new virtual machine instance with specified configuration
+              confirmation:
+                enabled: true
+                type: type-value
+                field: name
+                text: "Informe o nome para confirmar:"
             - name: Get
               level: 3
               description: Get instance details
               long_description: Get detailed information about a specific virtual machine instance
+              confirmation:
+                enabled: true
+                type: just-type
+                value: confirmar
+                text: "Digite `confirmar` para continuar:"
             - name: Delete
               level: 3
               description: Delete virtual machine instance

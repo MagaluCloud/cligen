@@ -20,7 +20,7 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 	for _, service := range pkg.Services {
 		for _, method := range service.Methods {
 			filePath := buildProductFilePath(pkg, parentPkg, service.Name, method.Name)
-
+			// volte aqui meu padrinho
 			productData := NewPackageGroupData()
 			productData.SetFileID(filePath)
 
