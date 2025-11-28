@@ -3,94 +3,77 @@ package sdk_structure
 import (
 	"fmt"
 	"go/ast"
-	"go/parser"
 	"go/token"
 	"log"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strings"
-	"sync"
+
+	"github.com/magaluCloud/cligen/config"
+	"golang.org/x/tools/go/packages"
 )
 
-// packageCache armazena packages parseados por diretório
-type packageCache struct {
-	mu    sync.RWMutex
-	cache map[string]*cachedPackage
-}
-
-type cachedPackage struct {
-	pkg  *ast.Package
-	fset *token.FileSet
-}
-
-var globalPackageCache = &packageCache{
-	cache: make(map[string]*cachedPackage),
-}
-
 // analyzePackageWithParseDir analisa todo o diretório do package usando parser.ParseDir com cache
-func analyzePackageWithParseDir(sdkDir string) (*ast.Package, *token.FileSet, error) {
-	globalPackageCache.mu.RLock()
-	if cached, exists := globalPackageCache.cache[sdkDir]; exists {
-		globalPackageCache.mu.RUnlock()
-		return cached.pkg, cached.fset, nil
-	}
-	globalPackageCache.mu.RUnlock()
-
-	// Cache miss - fazer parsing
-	globalPackageCache.mu.Lock()
-	defer globalPackageCache.mu.Unlock()
-
-	// Double-check após adquirir lock exclusivo
-	if cached, exists := globalPackageCache.cache[sdkDir]; exists {
-		return cached.pkg, cached.fset, nil
-	}
+func analyzePackageWithParseDir(sdkDir string) ([]*packages.Package, *token.FileSet, error) {
 
 	fset := token.NewFileSet()
-	pkgs, err := parser.ParseDir(fset, sdkDir, nil, parser.ParseComments)
+
+	cfg := &packages.Config{Fset: fset, Dir: sdkDir, Mode: packages.NeedSyntax | packages.NeedTypes | packages.NeedTypesInfo | packages.NeedDeps | packages.NeedName | packages.NeedFiles | packages.NeedImports}
+	pkgs, err := packages.Load(cfg)
 	if err != nil {
 		return nil, nil, fmt.Errorf("erro ao analisar diretório %s: %w", sdkDir, err)
 	}
 
-	var pkg *ast.Package
-	for _, p := range pkgs {
-		pkg = p
-		break
+	for _, pkg := range pkgs {
+		fmt.Println(pkg)
 	}
 
-	if pkg == nil {
-		return nil, nil, fmt.Errorf("nenhum package encontrado em %s", sdkDir)
-	}
+	return pkgs, fset, nil
+}
 
-	fmt.Printf("✅ Package analisado: %s (%d arquivos)\n", pkg.Name, len(pkg.Files))
-
-	// Armazenar no cache
-	globalPackageCache.cache[sdkDir] = &cachedPackage{
-		pkg:  pkg,
-		fset: fset,
-	}
-
-	return pkg, fset, nil
+func isCompatible(a, b string) bool {
+	regex := regexp.MustCompile(`^[a-zA-Z]+$`)
+	return regex.MatchString(a) && regex.MatchString(b) && strings.EqualFold(a, b)
 }
 
 // analyzeServiceWithPackage analisa um serviço usando o package já parseado
-func analyzeServiceWithPackage(pkg *ast.Package, fset *token.FileSet, serviceName string, sdkDir string) Service {
+func analyzeServiceWithPackage(menu *config.Menu, pkgs []*packages.Package, fset *token.FileSet, serviceName string, sdkDir string) Service {
+	description := menu.Description
+	longDescription := menu.LongDescription
+	for _, menuItem := range menu.Menus {
+		if isCompatible(menuItem.Name, serviceName) {
+			description = menuItem.Description
+			longDescription = menuItem.LongDescription
+			break
+		}
+	}
+
 	service := Service{
-		Name:        serviceName,
-		Description: "Dqui1",
-		Methods:     []Method{},
-		SubServices: make(map[string]Service),
-		Interface:   serviceName,
+		Name:            serviceName,
+		Description:     description,
+		LongDescription: longDescription,
+		Methods:         []Method{},
+		SubServices:     make(map[string]Service),
+		Interface:       serviceName,
 	}
 
 	possibleInterfaceNames := getPossibleInterfaceNames(serviceName)
 
-	for fileName, file := range pkg.Files {
+	for _, pkg := range pkgs {
+		doBreak := false
+		for _, astFile := range pkg.Syntax {
+			fileName := fset.File(astFile.Pos()).Name()
+			if strings.HasSuffix(fileName, "_test.go") {
+				continue
+			}
 
-		if strings.HasSuffix(fileName, "test.go") {
-			continue
+			if found := analyzeFileForServiceWithAST(menu, astFile, possibleInterfaceNames, &service, pkg.Name, sdkDir); found {
+				doBreak = true
+				break
+			}
 		}
-
-		if lfound := analyzeFileForServiceWithAST(file, possibleInterfaceNames, &service, pkg.Name, sdkDir); lfound {
+		if doBreak {
 			break
 		}
 	}
@@ -99,38 +82,55 @@ func analyzeServiceWithPackage(pkg *ast.Package, fset *token.FileSet, serviceNam
 }
 
 // analyzeFileForServiceWithAST analisa um arquivo AST procurando por interfaces de serviço
-func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []string, service *Service, packageName string, sdkDir string) bool {
+func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInterfaceNames []string, service *Service, packageName string, sdkDir string) bool {
 	found := false
 
 	ast.Inspect(file, func(n ast.Node) bool {
 		if typeDecl, ok := n.(*ast.TypeSpec); ok {
 			if interfaceType, ok := typeDecl.Type.(*ast.InterfaceType); ok {
-				// Verificar se é uma das interfaces que estamos procurando
 				for _, interfaceName := range possibleInterfaceNames {
 					if typeDecl.Name.Name == interfaceName || strings.EqualFold(typeDecl.Name.Name, interfaceName) {
-						// fmt.Printf("   ✅ Interface encontrada: %s\n", typeDecl.Name.Name)
 						service.Interface = typeDecl.Name.Name
 						found = true
-
-						// Analisar os métodos da interface
 						for _, method := range interfaceType.Methods.List {
 							if funcType, ok := method.Type.(*ast.FuncType); ok {
-								// É um método direto da interface
 								methodName := method.Names[0].Name
 
 								if strings.ToLower(methodName) == "listall" {
 									continue
 								}
 
-								methodDescription := "doto3"
-								if method.Doc != nil {
-									methodDescription = method.Doc.Text()
+								methodDescription := ""
+								methodLongDescription := ""
+
+								for _, menu := range menu.Menus {
+									if menu.Name == methodName {
+										methodDescription = menu.Description
+										methodLongDescription = menu.LongDescription
+										break
+									}
+								}
+
+								if methodDescription == "" {
+									doBreak := false
+									for _, menuLvl2 := range menu.Menus {
+										for _, menu := range menuLvl2.Menus {
+											if menu.Name == methodName {
+												methodDescription = menu.Description
+												methodLongDescription = menu.LongDescription
+												doBreak = true
+												break
+											}
+										}
+										if doBreak {
+											break
+										}
+									}
 								}
 
 								params := []Parameter{}
 								returns := []Parameter{}
 
-								// Analisar parâmetros
 								if funcType.Params != nil {
 									for _, param := range funcType.Params.List {
 										paramType, aliasType, isPrimitive := getTypeStringWithPackage(param.Type, packageName)
@@ -175,7 +175,6 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 									}
 								}
 
-								// Analisar retornos
 								if funcType.Results != nil {
 									for _, result := range funcType.Results.List {
 										returnType, aliasType, _ := getTypeStringWithPackage(result.Type, packageName)
@@ -218,27 +217,18 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 								}
 
 								method := Method{
-									Name:        methodName,
-									Parameters:  params,
-									Returns:     returns,
-									Comments:    methodDescription,
-									Description: methodDescription,
+									Name:            methodName,
+									Parameters:      params,
+									Returns:         returns,
+									Comments:        methodDescription,
+									Description:     methodDescription,
+									LongDescription: methodLongDescription,
 								}
 								service.Methods = append(service.Methods, method)
-								// fmt.Printf("   ✅ Método adicionado: %s\n", methodName)
-
-								// Verificar se este método retorna um subserviço
 								if len(returns) == 1 {
 									for _, returnType := range returns {
 										if isSubServiceType(returnType.Type) {
-											fmt.Printf("   🔍 Detectado possível subserviço: %s -> %s\n", methodName, returnType.Type)
-											subServiceName := extractSubServiceName(returnType.Type, methodName)
-											if subServiceName != "" {
-												// Analisar o subserviço recursivamente usando o mesmo package
-												// Nota: aqui precisaríamos passar o ast.Package, mas como estamos dentro de analyzeFileForServiceWithAST,
-												// vamos usar uma abordagem diferente - analisar o subserviço depois
-												fmt.Printf("   🔍 Subserviço detectado: %s (será analisado posteriormente)\n", subServiceName)
-											}
+											_ = extractSubServiceName(returnType.Type, methodName)
 										}
 									}
 								}
@@ -257,9 +247,7 @@ func analyzeFileForServiceWithAST(file *ast.File, possibleInterfaceNames []strin
 
 var ignoredFunctions = []string{"newRequest", "newResponse"}
 
-// genCliCodeFromClient analisa o arquivo client.go para extrair serviços
-func genCliCodeFromClient(pkg *Package, sdkDir, filePath string) []Service {
-	// Usar a nova abordagem com ParseDir
+func genCliCodeFromClient(menu *config.Menu, pkg *Package, sdkDir, filePath string) []Service {
 	astPkg, fset, err := analyzePackageWithParseDir(sdkDir)
 	if err != nil {
 		log.Fatalf("Erro ao analisar package: %v", err)
@@ -268,11 +256,16 @@ func genCliCodeFromClient(pkg *Package, sdkDir, filePath string) []Service {
 	var services []Service
 	var clientMethods []ClientMethod
 
-	// Procurar pelo arquivo client.go no package
 	var clientFile *ast.File
-	for fileName, file := range astPkg.Files {
-		if filepath.Base(fileName) == "client.go" {
-			clientFile = file
+	for _, pkg := range astPkg {
+		for _, file := range pkg.Syntax {
+			fileName := fset.File(file.Pos()).Name()
+			if filepath.Base(fileName) == "client.go" {
+				clientFile = file
+				break
+			}
+		}
+		if clientFile != nil {
 			break
 		}
 	}
@@ -281,18 +274,14 @@ func genCliCodeFromClient(pkg *Package, sdkDir, filePath string) []Service {
 		log.Fatalf("Arquivo client.go não encontrado no package")
 	}
 
-	// Primeiro, vamos encontrar os métodos do cliente que retornam serviços
 	ast.Inspect(clientFile, func(n ast.Node) bool {
-		// Collect the comment of header of the file
 		if clientFile.Doc != nil {
 			pkg.LongDescription = clientFile.Doc.Text()
 		}
 
 		if funcDecl, ok := n.(*ast.FuncDecl); ok {
 			if funcDecl.Recv != nil && len(funcDecl.Recv.List) > 0 {
-				// É um método do cliente
 				if !slices.Contains(ignoredFunctions, funcDecl.Name.Name) {
-					// Verificar se retorna um tipo de serviço
 					if funcDecl.Type.Results != nil && len(funcDecl.Type.Results.List) > 0 {
 						resultType := funcDecl.Type.Results.List[0].Type
 						if typeName, ok := resultType.(*ast.Ident); ok {
@@ -311,9 +300,8 @@ func genCliCodeFromClient(pkg *Package, sdkDir, filePath string) []Service {
 		return true
 	})
 
-	// Agora vamos analisar cada serviço encontrado
 	for _, clientMethod := range clientMethods {
-		service := analyzeServiceWithPackage(astPkg, fset, clientMethod.ServiceName, sdkDir)
+		service := analyzeServiceWithPackage(menu, astPkg, fset, clientMethod.ServiceName, sdkDir)
 		services = append(services, service)
 	}
 

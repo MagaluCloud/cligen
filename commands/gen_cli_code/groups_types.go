@@ -271,9 +271,9 @@ func (pgd *PackageGroupData) SetGroupID(groupID string) {
 }
 
 // SetDescriptions define as descrições do comando
-func (pgd *PackageGroupData) SetDescriptions(short, long string) {
-	pgd.ShortDescription = short
-	pgd.LongDescription = long
+func (pgd *PackageGroupData) SetDescriptions(description, longDescription string) {
+	pgd.ShortDescription = description
+	pgd.LongDescription = longDescription
 }
 
 // SetServiceParam define o parâmetro do serviço

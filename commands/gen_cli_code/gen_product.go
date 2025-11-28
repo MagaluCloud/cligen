@@ -68,7 +68,7 @@ func setupProductData(productData *PackageGroupData, pkg *sdk_structure.Package,
 	productData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
 	productData.SetFunctionName(method.Name)
 	productData.SetUseName(strutils.FirstLower(method.Name))
-	productData.SetDescriptions(pkg.Description, method.Description)
+	productData.SetDescriptions(method.Description, method.LongDescription)
 	productData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
 	productData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
 	productData.SetServiceCall(fmt.Sprintf("%s.%s", strutils.FirstLower(service.Interface), method.Name))

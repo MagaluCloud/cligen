@@ -26,7 +26,7 @@ func genServiceCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 			serviceData.AddImport(importCobra)
 			serviceData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(service.Interface), pkg.Name, service.Interface))
 			for _, method := range service.Methods {
-				serviceData.SetDescriptions(pkg.Description, service.Description)
+				serviceData.SetDescriptions(service.Description, service.LongDescription)
 				serviceData.AddImport(fmt.Sprintf("%sSdk \"github.com/MagaluCloud/mgc-sdk-go/%s\"", pkg.Name, pkg.Name))
 				serviceData.AddCommand(method.Name, strutils.FirstLower(service.Interface))
 			}
