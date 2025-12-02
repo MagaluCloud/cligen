@@ -75,11 +75,6 @@ menus:
               level: 3
               description: Create virtual machine instance
               long_description: Create a new virtual machine instance with specified configuration
-              confirmation:
-                enabled: true
-                type: type-value
-                field: name
-                text: "Informe o nome para confirmar:"
             - name: Get
               level: 3
               description: Get instance details
@@ -97,6 +92,11 @@ menus:
               level: 3
               description: Rename instance
               long_description: Rename a virtual machine instance
+              confirmation:
+                enabled: true
+                type: type-value
+                field: id
+                text: "Informe o id para confirmar:"
             - name: Retype
               level: 3
               description: Change instance type

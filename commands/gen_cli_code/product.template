@@ -43,6 +43,10 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 			{{.}}// CobraFlagsAssign
 			{{end}}
 
+			{{if .Confirmation}}
+			{{.Confirmation}}
+			{{end}}
+
 			{{.AssignResult}} := {{.ServiceCall}}({{.ServiceSDKParam}})
 			{{.PrintResult}}
 			return nil

@@ -91,7 +91,8 @@ type PackageGroupData struct {
 	Params []string `json:"params"`
 
 	// Código da função
-	ServiceCall string `json:"service_call"`
+	ServiceCall  string `json:"service_call"`
+	Confirmation string `json:"confirmation"`
 
 	// Parâmetros do serviço
 	ServiceSDKParam       string   `json:"service_sdk_param"`
@@ -159,6 +160,10 @@ func NewPackageGroupData() *PackageGroupData {
 		GroupID:     "",
 		UsedChars:   []string{},
 	}
+}
+
+func (pgd *PackageGroupData) SetConfirmation(confirmation string) {
+	pgd.Confirmation = confirmation
 }
 
 func (pgd *PackageGroupData) SetFileID(fileID string) {

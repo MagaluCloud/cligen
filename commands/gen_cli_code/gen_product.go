@@ -16,6 +16,75 @@ func genProductCode(sdkStructure *sdk_structure.SDKStructure) error {
 	return nil
 }
 
+const (
+	ConfirmationSimpleAsk = "simple-ask"
+	ConfirmationTypeValue = "type-value"
+	ConfirmationJustType  = "just-type"
+)
+
+func genConfirmation(method sdk_structure.Method, pd *PackageGroupData) error {
+	if method.Confirmation == nil || !*method.Confirmation.Enabled {
+		return nil
+	}
+
+	if method.Confirmation.Type == nil {
+		method.Confirmation.Type = new(string)
+		*method.Confirmation.Type = ConfirmationSimpleAsk
+	}
+
+	confirmation := ""
+	switch *method.Confirmation.Type {
+	case ConfirmationSimpleAsk:
+		confirmation = fmt.Sprintf(`var confirm bool
+			huh.NewConfirm().Title("%s").Affirmative("Yes").Negative("No").Value(&confirm).Run()
+			if !confirm {
+				return nil
+			}`, StrPtrToStr(method.Confirmation.Text))
+	case ConfirmationTypeValue:
+		for _, field := range pd.Params {
+			if field == *method.Confirmation.Field {
+				confirmation = fmt.Sprintf(`var userInput string
+			
+			erri := huh.NewInput().
+				Title("%s").
+				Value(&userInput).Run()
+			if erri != nil {
+				return erri
+			}
+			if userInput != %s {
+				return nil
+			}`, StrPtrToStr(method.Confirmation.Text), StrPtrToStr(method.Confirmation.Field))
+				break
+			}
+		}
+
+	case ConfirmationJustType:
+		confirmation = fmt.Sprintf(`var userInput string
+			input := "%s"
+			erri := huh.NewInput().
+				Title("%s").
+				Value(&userInput).Run()
+			if erri != nil {
+				return erri
+			}
+			if userInput != input {
+				return nil
+			}`, StrPtrToStr(method.Confirmation.Value), StrPtrToStr(method.Confirmation.Text))
+	}
+
+	pd.SetConfirmation(confirmation)
+	pd.AddImport("\"github.com/charmbracelet/huh\"")
+
+	return nil
+}
+
+func StrPtrToStr(str *string) string {
+	if str == nil {
+		return ""
+	}
+	return *str
+}
+
 func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
 	for _, service := range pkg.Services {
 		for _, method := range service.Methods {
@@ -38,6 +107,12 @@ func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structur
 			serviceCallParams := genProductParameters(productData, method.Parameters)
 			productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
 			printResult(productData, method)
+
+			if method.Confirmation != nil {
+				if err := genConfirmation(method, productData); err != nil {
+					return fmt.Errorf("erro ao gerar confirmação para método %s: %w", method.Name, err)
+				}
+			}
 
 			if err := productData.WriteProductToFile(filePath); err != nil {
 				return fmt.Errorf("erro ao escrever arquivo para método %s do serviço %s do pacote %s: %w", method.Name, service.Name, pkg.Name, err)
@@ -127,6 +202,7 @@ func genProductParameters(productData *PackageGroupData, params []sdk_structure.
 
 		if param.IsPrimitive {
 			typeName := getParamTypeName(param)
+			productData.AddParam(param.Name)
 			productData.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, typeName))
 			processFieldsRecursive(productData, []sdk_structure.Parameter{param}, "", nil)
 		} else {
@@ -423,14 +499,14 @@ func createFlagAssignment(config FlagAssignmentConfig) string {
 			return fmt.Sprintf("if %s.IsChanged() {\n\t\t\t\t%s = (%s)(*%s.Value)\n\t\t\t}", flagVar, config.TargetVar, config.AliasType, flagVar)
 		}
 		// Caso requer argumento posicional: verifica args ou flag com cast
-		return fmt.Sprintf(`if len(args) > 0{
+		return fmt.Sprintf(`if len(args) > %d{
 				cmd.Flags().Set("%s", args[%d])
 			}
 			if %s.IsChanged() {
 				%s = (%s)(*%s.Value)
 			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			}`, config.CobraFlagName, config.PositionalIndex, flagVar, config.TargetVar, config.AliasType, flagVar, config.CobraFlagName, config.CobraFlagName)
+			}`, config.PositionalIndex, config.CobraFlagName, config.PositionalIndex, flagVar, config.TargetVar, config.AliasType, flagVar, config.CobraFlagName, config.CobraFlagName)
 	}
 
 	// Se é pointer, atribui diretamente o valor
@@ -444,14 +520,14 @@ func createFlagAssignment(config FlagAssignmentConfig) string {
 	}
 
 	// Caso requer argumento posicional: verifica args ou flag
-	return fmt.Sprintf(`if len(args) > 0{
+	return fmt.Sprintf(`if len(args) > %d{
 				cmd.Flags().Set("%s", args[%d])
 			}
 			if %s.IsChanged() {
 				%s = *%s.Value
 			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			}`, config.CobraFlagName, config.PositionalIndex, flagVar, config.TargetVar, flagVar, config.CobraFlagName, config.CobraFlagName)
+			}`, config.PositionalIndex, config.CobraFlagName, config.PositionalIndex, flagVar, config.TargetVar, flagVar, config.CobraFlagName, config.CobraFlagName)
 }
 
 func defaultByType(paramType string) string {
