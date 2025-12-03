@@ -45,6 +45,10 @@ menus:
               description: Delete SSH key
               level: 3
               long_description: Delete an SSH key from your account
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
     - name: virtual-machine
       enabled: true
       sdk_package: compute
@@ -67,10 +71,6 @@ menus:
               level: 3
               description: List virtual machine instances
               long_description: List all virtual machine instances in your account
-              confirmation:
-                enabled: true
-                type: simple-ask
-                text: Deseja continuar?
             - name: Create
               level: 3
               description: Create virtual machine instance
@@ -79,24 +79,18 @@ menus:
               level: 3
               description: Get instance details
               long_description: Get detailed information about a specific virtual machine instance
-              confirmation:
-                enabled: true
-                type: just-type
-                value: confirmar
-                text: "Digite `confirmar` para continuar:"
             - name: Delete
               level: 3
               description: Delete virtual machine instance
               long_description: Delete a virtual machine instance from your account
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Rename
               level: 3
               description: Rename instance
               long_description: Rename a virtual machine instance
-              confirmation:
-                enabled: true
-                type: type-value
-                field: id
-                text: "Informe '%s' para confirmar:"
             - name: Retype
               level: 3
               description: Change instance type
@@ -168,6 +162,10 @@ menus:
               description: Delete instance snapshot
               level: 3
               long_description: Delete a virtual machine instance snapshot
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Rename
               description: Rename instance snapshot
               level: 3
@@ -211,6 +209,10 @@ menus:
               level: 3
               description: Delete Kubernetes cluster
               long_description: Delete a Kubernetes cluster
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Update
               description: Update Kubernetes cluster
               level: 3
@@ -257,6 +259,10 @@ menus:
               description: Delete node pool
               level: 3
               long_description: Delete a Kubernetes node pool
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
         - name: Versions
           description: Manage Kubernetes versions
           level: 2
@@ -289,6 +295,10 @@ menus:
               description: Delete network ACL
               level: 3
               long_description: Delete a network access control list
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Replace
               description: Replace network ACL
               level: 3
@@ -306,6 +316,10 @@ menus:
               description: Delete network backend
               level: 3
               long_description: Delete a backend server from load balancers
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Get
               description: Get network backend details
               level: 3
@@ -335,6 +349,10 @@ menus:
               description: Delete network backend target
               level: 3
               long_description: Delete a target server from a backend server
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
         - name: NetworkCertificates
           description: Manage SSL/TLS certificates
           level: 2
@@ -348,6 +366,10 @@ menus:
               description: Delete network certificate
               level: 3
               long_description: Delete a SSL/TLS certificate from load balancers
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Get
               description: Get network certificate details
               level: 3
@@ -373,6 +395,10 @@ menus:
               level: 3
               description: Delete network health check
               long_description: Delete a health check monitor from load balancers
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Get
               level: 3
               description: Get network health check details
@@ -398,6 +424,10 @@ menus:
               level: 3
               description: Delete network listener
               long_description: Delete a listener from a load balancer
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Get
               level: 3
               description: Get network listener details
@@ -423,6 +453,10 @@ menus:
               level: 3
               description: Delete network load balancer
               long_description: Delete a load balancer
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Get
               level: 3
               description: Get network load balancer details
@@ -492,6 +526,10 @@ menus:
               level: 3
               description: Delete block storage volume
               long_description: Delete a block storage volume
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Rename
               level: 3
               description: Rename block storage volume
@@ -542,6 +580,10 @@ menus:
               level: 3
               description: Delete volume snapshot
               long_description: Delete a block storage volume snapshot
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Rename
               level: 3
               description: Rename volume snapshot
@@ -567,6 +609,10 @@ menus:
               level: 3
               description: Attach volume
               long_description: Attach a volume to an instance
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: AttachVolume
               level: 3
               description: Detach volume
@@ -598,6 +644,10 @@ menus:
               level: 3
               description: Reset container registry credentials
               long_description: Reset the container registry access credentials
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: Are you sure you want to reset the container registry's password?
         - name: Registries
           level: 2
           description: Manage container registries
@@ -619,6 +669,10 @@ menus:
               level: 3
               description: Delete container registry
               long_description: Delete a container registry
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
         - name: Repositories
           level: 2
           description: Manage container repositories
@@ -636,6 +690,10 @@ menus:
               level: 3
               description: Delete container repository
               long_description: Delete a container image repository
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
         - name: Images
           level: 2
           description: Manage container images
@@ -649,6 +707,10 @@ menus:
               level: 3
               description: Delete container image
               long_description: Delete a container image from a repository
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Get
               level: 3
               description: Get container image details
@@ -715,6 +777,10 @@ menus:
               level: 3
               description: Delete database instance
               long_description: Delete a database instance
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Update
               level: 3
               description: Update database instance
@@ -755,6 +821,10 @@ menus:
               level: 3
               description: Delete database instance snapshot
               long_description: Delete a database instance snapshot
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: RestoreSnapshot
               level: 3
               description: Restore database instance snapshot
@@ -780,6 +850,10 @@ menus:
               level: 3
               description: Delete database replica
               long_description: Delete a database replica
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Resize
               level: 3
               description: Resize database replica
@@ -817,6 +891,10 @@ menus:
               level: 3
               description: Delete database parameter group
               long_description: Delete a database parameter group
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
         - name: Parameters
           level: 2
           description: Manage database parameters
@@ -838,6 +916,10 @@ menus:
               level: 3
               description: Delete database parameter
               long_description: Delete a database parameter
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
         - name: Clusters
           level: 2
           description: Manage database clusters
@@ -867,6 +949,10 @@ menus:
               level: 3
               description: Delete database cluster
               long_description: Delete a database cluster
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Start
               level: 3
               description: Start database cluster
@@ -908,6 +994,10 @@ menus:
               level: 3
               description: Delete VPC
               long_description: Delete a VPC
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Rename
               level: 3
               description: Rename VPC
@@ -949,6 +1039,10 @@ menus:
               level: 3
               description: Delete subnet
               long_description: Delete a subnet
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Update
               level: 3
               description: Update subnet
@@ -970,6 +1064,10 @@ menus:
               level: 3
               description: Delete port
               long_description: Delete a port
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Update
               level: 3
               description: Update port
@@ -1003,6 +1101,10 @@ menus:
               level: 3
               description: Delete security group
               long_description: Delete a security group
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
         - name: Rules
           level: 2
           description: Manage security group rules
@@ -1024,6 +1126,10 @@ menus:
               level: 3
               description: Delete rule
               long_description: Delete a rule from a security group
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
         - name: PublicIPs
           level: 2
           description: Manage public IP addresses
@@ -1041,6 +1147,10 @@ menus:
               level: 3
               description: Create public IP
               long_description: Create a new public IP in a VPC
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: AttachToPort
               level: 3
               description: Attach public IP to port
@@ -1070,6 +1180,10 @@ menus:
               level: 3
               description: Delete subnet pool
               long_description: Delete a subnet pool
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: BookCIDR
               level: 3
               description: Book CIDR block
@@ -1091,6 +1205,10 @@ menus:
               level: 3
               description: Delete NAT gateway
               long_description: Delete a NAT gateway
+              confirmation:
+                enabled: true
+                type: simple-ask
+                text: This action cannot be undone. Proceed?
             - name: Get
               level: 3
               description: Get NAT gateway details
