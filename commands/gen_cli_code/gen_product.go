@@ -43,17 +43,29 @@ func genConfirmation(method sdk_structure.Method, pd *PackageGroupData) error {
 	case ConfirmationTypeValue:
 		for _, field := range pd.Params {
 			if field == *method.Confirmation.Field {
-				confirmation = fmt.Sprintf(`var userInput string
-			
-			erri := huh.NewInput().
-				Title("%s").
-				Value(&userInput).Run()
-			if erri != nil {
-				return erri
-			}
-			if userInput != %s {
-				return nil
-			}`, StrPtrToStr(method.Confirmation.Text), StrPtrToStr(method.Confirmation.Field))
+				if strings.Contains(*method.Confirmation.Text, "%s") {
+					confirmation = fmt.Sprintf(`var userInput string
+					erri := huh.NewInput().
+						Title(fmt.Sprintf("%s", %s)).
+						Value(&userInput).Run()
+					if erri != nil {
+						return erri
+					}
+					if userInput != %s {
+						return nil
+					}`, StrPtrToStr(method.Confirmation.Text), StrPtrToStr(method.Confirmation.Field), StrPtrToStr(method.Confirmation.Field))
+				} else {
+					confirmation = fmt.Sprintf(`var userInput string
+					erri := huh.NewInput().
+						Title("%s").
+						Value(&userInput).Run()
+					if erri != nil {
+						return erri
+					}
+					if userInput != %s {
+						return nil
+					}`, StrPtrToStr(method.Confirmation.Text), StrPtrToStr(method.Confirmation.Field))
+				}
 				break
 			}
 		}

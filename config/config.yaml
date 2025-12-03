@@ -96,7 +96,7 @@ menus:
                 enabled: true
                 type: type-value
                 field: id
-                text: "Informe o id para confirmar:"
+                text: "Informe '%s' para confirmar:"
             - name: Retype
               level: 3
               description: Change instance type
