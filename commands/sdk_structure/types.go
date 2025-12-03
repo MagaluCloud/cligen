@@ -1,5 +1,7 @@
 package sdk_structure
 
+import "github.com/magaluCloud/cligen/config"
+
 // Service representa um serviço individual com seus métodos
 type Service struct {
 	Name            string             `json:"name"`
@@ -27,12 +29,13 @@ type Parameter struct {
 
 // Method representa um método de um serviço
 type Method struct {
-	Description     string      `json:"description"`
-	LongDescription string      `json:"long_description"`
-	Name            string      `json:"name"`
-	Parameters      []Parameter `json:"parameters"` // nome -> tipo
-	Returns         []Parameter `json:"returns"`    // nome -> tipo
-	Comments        string      `json:"comments"`
+	Description     string               `json:"description"`
+	LongDescription string               `json:"long_description"`
+	Name            string               `json:"name"`
+	Parameters      []Parameter          `json:"parameters"` // nome -> tipo
+	Returns         []Parameter          `json:"returns"`    // nome -> tipo
+	Comments        string               `json:"comments"`
+	Confirmation    *config.Confirmation `json:"confirmation,omitempty"`
 }
 
 // Package representa um pacote do SDK com seus serviços

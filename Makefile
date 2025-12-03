@@ -111,7 +111,7 @@ run: build ## Executa o fluxo de geração (código + base)
 .PHONY: run-cli
 run-cli: ## Compila e executa o CLI gerado
 	@echo "$(INFO_COLOR)Compilando CLI gerado...$(NO_COLOR)"
-	@cd $(TMP_CLI_DIR) && $(GO) mod tidy
+	@cd $(TMP_CLI_DIR) && $(GO) mod tidy && $(GO) vet ./... && $(GO) fmt ./...
 	@bash build_cli.sh
 	@echo "$(OK_COLOR)✓ CLI gerado compilado$(NO_COLOR)"
 

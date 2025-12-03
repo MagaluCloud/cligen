@@ -3,7 +3,7 @@
 cd tmp-cli
 
 # Build the CLI
-go build -o cli -ldflags "-X 'main.RawVersion=v0.0.0-$(date +%y%m%d_%H%M%S)'" -v
+go build -o mgccli -ldflags "-X 'main.RawVersion=v0.0.0-$(date +%y%m%d_%H%M%S)'" -v
 
 if [ $? -ne 0 ]; then
     echo "Failed to build the CLI"
@@ -11,4 +11,4 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run the CLI
-./cli --version
+./mgccli --version
