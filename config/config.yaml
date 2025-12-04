@@ -1,7 +1,7 @@
 cli_version: v1.0.0
 sdk_branch: main
-sdk_tag: v2.0.0
-tag_or_branch_or_latest: tag
+sdk_tag: v1.1.0
+tag_or_branch_or_latest: latest
 show_git_error: false
 menus:
     - name: profile
