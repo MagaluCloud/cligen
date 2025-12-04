@@ -19,7 +19,6 @@ const (
 	sdkURL        = "https://github.com/MagaluCloud/mgc-sdk-go.git"
 	sdkDir        = "tmp-sdk"
 	githubAPIBase = "https://api.github.com/repos/MagaluCloud/mgc-sdk-go/releases"
-	// githubAPIBase = "https://api.github.com/repos/MagaluCloud/mgc-sdk-go/releases/latest"
 	httpTimeout   = 30 * time.Second
 	gitCloneDepth = "1"
 )
