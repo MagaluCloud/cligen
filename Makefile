@@ -93,6 +93,12 @@ tidy: ## Organiza go.mod e go.sum
 ##@ Execução
 # ==================================================================================== #
 
+.PHONY: clone
+clone: build## Clona o SDK
+	@echo "$(INFO_COLOR)Clonando SDK...$(NO_COLOR)"
+	@./$(BINARY_NAME) clone-sdk
+	@echo "$(OK_COLOR)✓ SDK clonado$(NO_COLOR)"
+
 .PHONY: new-run
 new-run: build ## Executa o fluxo completo (clone SDK + geração de código + geração base)
 	@echo "$(INFO_COLOR)Executando fluxo completo...$(NO_COLOR)"

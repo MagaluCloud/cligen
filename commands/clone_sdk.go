@@ -18,7 +18,7 @@ import (
 const (
 	sdkURL        = "https://github.com/MagaluCloud/mgc-sdk-go.git"
 	sdkDir        = "tmp-sdk"
-	githubAPIBase = "https://api.github.com/repos/MagaluCloud/mgc-sdk-go/releases/tags"
+	githubAPIBase = "https://api.github.com/repos/MagaluCloud/mgc-sdk-go/releases"
 	httpTimeout   = 30 * time.Second
 	gitCloneDepth = "1"
 )
@@ -36,18 +36,24 @@ func CloneSDKCmd() *cobra.Command {
 		Short: "Clona o SDK do MagaluCloud",
 		Long:  "Clona o repositório github.com/MagaluCloud/mgc-sdk-go no diretório tmp-sdk/ usando a última versão publicada",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return cloneSDK()
+			cfg, err := config.LoadConfig()
+			if err != nil {
+				return fmt.Errorf("erro ao carregar configuração: %w", err)
+			}
+
+			g := github{config: cfg}
+			return g.cloneSDK()
 		},
 	}
 }
 
-func getLatestRelease() (*GitHubRelease, error) {
-	cfg, err := config.LoadConfig()
-	if err != nil {
-		return nil, fmt.Errorf("erro ao carregar configuração: %w", err)
-	}
+type github struct {
+	config *config.Config
+}
 
-	url := fmt.Sprintf("%s/%s", githubAPIBase, cfg.Version)
+func (g *github) getLatestRelease() (*GitHubRelease, error) {
+
+	url := fmt.Sprintf("%s/latest", githubAPIBase)
 
 	client := &http.Client{Timeout: httpTimeout}
 	resp, err := client.Get(url)
@@ -73,35 +79,57 @@ func getLatestRelease() (*GitHubRelease, error) {
 	return &release, nil
 }
 
-func cloneSDK() error {
-	if err := ensureSDKDirRemoved(); err != nil {
+func (g *github) cloneSDK() error {
+	if err := g.ensureSDKDirRemoved(); err != nil {
 		return err
 	}
 
-	fmt.Println("Obtendo a última versão publicada via API do GitHub...")
-	release, err := getLatestRelease()
-	if err != nil {
-		fmt.Printf("Aviso: Não foi possível obter a última versão via API (%v). Clonando branch padrão...\n", err)
-		return cloneWithFallback(sdkURL, sdkDir, "")
+	version := ""
+	if g.config.TagOrBranchOrLatest == "branch" {
+		if g.config.SDKBranch == "" {
+			return fmt.Errorf("branch não configurado")
+		}
+		version = g.config.SDKBranch
+		err := g.executeGitClone(g.config.SDKBranch)
+		if err != nil {
+			return fmt.Errorf("erro ao clonar branch %s (%v): %w", g.config.SDKBranch, err, err)
+		}
 	}
 
-	fmt.Printf("Última versão encontrada: %s (%s)\n", release.TagName, release.Name)
-	fmt.Printf("Clonando SDK versão %s de %s para %s...\n", release.TagName, sdkURL, sdkDir)
-
-	if err := executeGitClone(release.TagName); err != nil {
-		fmt.Printf("Aviso: Falha ao clonar tag %s (%v). Tentando branch padrão...\n", release.TagName, err)
-		return cloneWithFallback(sdkURL, sdkDir, "")
+	if g.config.TagOrBranchOrLatest == "tag" {
+		if g.config.SDKTag == "" {
+			return fmt.Errorf("tag não configurado")
+		}
+		version = g.config.SDKTag
+		err := g.executeGitClone(g.config.SDKTag)
+		if err != nil {
+			return fmt.Errorf("erro ao clonar tag %s (%v): %w", g.config.SDKTag, err, err)
+		}
 	}
 
-	if err := cleanupSDKDir(); err != nil {
+	if g.config.TagOrBranchOrLatest == "latest" {
+		fmt.Println("Obtendo a última versão publicada via API do GitHub...")
+		release, err := g.getLatestRelease()
+		if err != nil {
+			return fmt.Errorf("erro ao obter a última versão via API (%v): %w", err, err)
+		}
+
+		version = release.TagName
+		err = g.executeGitClone(release.TagName)
+		if err != nil {
+			return fmt.Errorf("erro ao clonar tag %s (%v): %w", release.TagName, err, err)
+		}
+	}
+
+	if err := g.cleanupSDKDir(); err != nil {
 		return fmt.Errorf("erro ao limpar diretório do SDK: %w", err)
 	}
 
-	fmt.Printf("SDK versão %s clonado com sucesso em %s\n", release.TagName, sdkDir)
+	fmt.Printf("SDK versão %s clonado com sucesso em %s\n", version, sdkDir)
 	return nil
 }
 
-func ensureSDKDirRemoved() error {
+func (g *github) ensureSDKDirRemoved() error {
 	if _, err := os.Stat(sdkDir); err == nil {
 		fmt.Printf("Diretório %s já existe. Removendo...\n", sdkDir)
 		if err := os.RemoveAll(sdkDir); err != nil {
@@ -111,14 +139,17 @@ func ensureSDKDirRemoved() error {
 	return nil
 }
 
-func executeGitClone(branchOrTag string) error {
+func (g *github) executeGitClone(branchOrTag string) error {
 	cloneCmd := exec.Command("git", "clone", "--depth", gitCloneDepth, "--branch", branchOrTag, sdkURL, sdkDir)
-	cloneCmd.Stdout = os.Stdout
-	cloneCmd.Stderr = os.Stderr
+	if g.config.ShowGitError {
+		cloneCmd.Stdout = os.Stdout
+		cloneCmd.Stderr = os.Stderr
+	}
+
 	return cloneCmd.Run()
 }
 
-func cleanupSDKDir() error {
+func (g *github) cleanupSDKDir() error {
 	dirsToRemove := []string{".github", ".git"}
 	for _, dir := range dirsToRemove {
 		path := filepath.Join(sdkDir, dir)
@@ -127,27 +158,4 @@ func cleanupSDKDir() error {
 		}
 	}
 	return nil
-}
-
-func cloneWithFallback(sdkURL, sdkDir, preferredBranch string) error {
-	branches := []string{"main", "master"}
-	if preferredBranch != "" {
-		branches = append([]string{preferredBranch}, branches...)
-	}
-
-	for _, branch := range branches {
-		if branch == "" {
-			continue
-		}
-		fmt.Printf("Tentando clonar branch %s...\n", branch)
-		if err := executeGitClone(branch); err == nil {
-			if err := cleanupSDKDir(); err != nil {
-				return fmt.Errorf("erro ao limpar diretório do SDK: %w", err)
-			}
-			fmt.Printf("SDK clonado com sucesso da branch %s em %s\n", branch, sdkDir)
-			return nil
-		}
-	}
-
-	return fmt.Errorf("erro ao clonar SDK: todas as branches falharam")
 }

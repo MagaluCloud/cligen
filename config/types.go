@@ -2,8 +2,12 @@ package config
 
 // Config representa a estrutura principal do arquivo config.yaml
 type Config struct {
-	Version string  `yaml:"version"`
-	Menus   []*Menu `yaml:"menus"`
+	CLIVersion          string  `yaml:"cli_version"`
+	SDKBranch           string  `yaml:"sdk_branch"`
+	SDKTag              string  `yaml:"sdk_tag"`
+	TagOrBranchOrLatest string  `yaml:"tag_or_branch_or_latest"`
+	ShowGitError        bool    `yaml:"show_git_error"`
+	Menus               []*Menu `yaml:"menus"`
 }
 
 // Menu representa um menu principal
