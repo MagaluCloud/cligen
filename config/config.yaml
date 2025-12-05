@@ -1,6 +1,6 @@
 cli_version: v1.0.0
 sdk_branch: main
-sdk_tag: v1.1.0
+sdk_tag: v1.2.1
 tag_or_branch_or_latest: latest
 show_git_error: false
 menus:
@@ -1221,3 +1221,13 @@ menus:
               level: 3
               description: List NAT gateways
               long_description: List all NAT gateways
+    - name: iam
+      enabled: true
+      level: 1
+      description: Manage IAM users, roles, and policies
+      long_description: Manage IAM users, roles, and policies
+      sdk_package: iam
+      cli_group: products
+      alias:
+        - iam
+        - identity

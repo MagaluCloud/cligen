@@ -93,6 +93,13 @@ tidy: ## Organiza go.mod e go.sum
 ##@ Execução
 # ==================================================================================== #
 
+.PHONY: write-config
+write-config: build## Escreve a configuração
+	@echo "$(INFO_COLOR)Escrevendo configuração...$(NO_COLOR)"
+	@./$(BINARY_NAME) write-config
+	@echo "$(OK_COLOR)✓ Configuração escrita$(NO_COLOR)"
+
+
 .PHONY: clone
 clone: build## Clona o SDK
 	@echo "$(INFO_COLOR)Clonando SDK...$(NO_COLOR)"

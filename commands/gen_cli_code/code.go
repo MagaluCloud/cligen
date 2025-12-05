@@ -1,6 +1,7 @@
 package gen_cli_code
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -33,13 +34,31 @@ const (
 	serviceParamPattern = "sdkCoreConfig sdk.CoreClient"
 )
 
-func GenCliCode() {
+func WriteConfig() {
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		panic(fmt.Errorf("erro ao carregar configuração: %w", err))
 	}
 
-	sdkStructure, err := sdk_structure.GenCliSDKStructure(cfg)
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, "write_value", true)
+
+	_, err = sdk_structure.GenCliSDKStructure(ctx, cfg)
+	if err != nil {
+		log.Fatalf("Erro ao gerar a estrutura do SDK: %v", err)
+	}
+
+	cfg.SaveConfig()
+	fmt.Println("Configuração salva com sucesso")
+}
+
+func GenCliCode() {
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		panic(fmt.Errorf("erro ao carregar configuração: %w", err))
+	}
+	ctx := context.Background()
+	sdkStructure, err := sdk_structure.GenCliSDKStructure(ctx, cfg)
 	if err != nil {
 		log.Fatalf("Erro ao gerar a estrutura do SDK: %v", err)
 	}
