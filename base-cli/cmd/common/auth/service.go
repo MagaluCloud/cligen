@@ -200,6 +200,7 @@ func (s *Service) qrCodeLogin(ctx context.Context, showToken bool) (*TokenRespon
 	return token, nil
 }
 
+// manualTokenRetrieval solicita ao usuário a URL de callback e obtém o token
 func (s *Service) manualTokenRetrieval(ctx context.Context, client *OAuthClient) (*TokenResponse, error) {
 	var responseURL string
 	fmt.Println("Insira a URL de resposta:")
@@ -224,6 +225,7 @@ func (s *Service) manualTokenRetrieval(ctx context.Context, client *OAuthClient)
 	return token, nil
 }
 
+// printTokens exibe o access token e o refresh token
 func (s *Service) printTokens(token *TokenResponse) {
 	if token != nil {
 		fmt.Printf("\nAccess Token: %s\n", token.AccessToken)
