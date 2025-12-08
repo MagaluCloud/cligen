@@ -17,7 +17,7 @@ func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SD
 			MenuName:        menu.Name,
 			Name:            menu.Name,
 			Description:     menu.Description,
-			LongDescription: menu.Description,
+			LongDescription: menu.LongDescription,
 			Aliases:         menu.Alias,
 			GroupID:         menu.CliGroup,
 			Services:        []Service{},
