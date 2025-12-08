@@ -41,7 +41,7 @@ func genGoModFile() {
 	}
 
 	gmd := GoModData{
-		Version: config.CLIVersion,
+		Version: config.SDKTag,
 	}
 
 	gmd.WriteGoModFile(filepath.Join("base-cli-gen", "go.mod"))
