@@ -18,7 +18,7 @@ func processMenuRecursive(ctx context.Context, menu *config.Menu, parentPath str
 			MenuName:        menu.Name,
 			Name:            menu.Name,
 			Description:     menu.Description,
-			LongDescription: menu.Description,
+			LongDescription: menu.LongDescription,
 			Aliases:         menu.Alias,
 			GroupID:         menu.CliGroup,
 			Services:        []Service{},

@@ -13,6 +13,7 @@ import (
 	_ "embed"
 
 	"github.com/pkg/browser"
+	"github.com/skip2/go-qrcode"
 )
 
 var (
@@ -35,11 +36,11 @@ func NewService(config *Config) *Service {
 // Login executa o fluxo de autenticação OAuth com as opções fornecidas
 func (s *Service) Login(ctx context.Context, opts LoginOptions) (*TokenResponse, error) {
 	if opts.QRCode {
-		return s.qrCodeLogin(ctx)
+		return s.qrCodeLogin(ctx, opts.Show)
 	}
 
 	if opts.Headless {
-		return s.headlessLogin(ctx)
+		return s.headlessLogin(ctx, opts.Show)
 	}
 
 	return s.browserLogin(ctx, opts.Show)
@@ -127,24 +128,109 @@ func (s *Service) browserLogin(ctx context.Context, showToken bool) (*TokenRespo
 	}
 
 	// Exibir token se solicitado
-	if showToken && result.Token != nil {
-		fmt.Printf("\nAccess Token: %s\n", result.Token.AccessToken)
-		if result.Token.RefreshToken != "" {
-			fmt.Printf("Refresh Token: %s\n", result.Token.RefreshToken)
-		}
+	if showToken {
+		s.printTokens(result.Token)
 	}
 
 	return result.Token, nil
 }
 
 // headlessLogin executa o fluxo de login sem abrir navegador
-// TODO: Implementar fluxo headless (device flow)
-func (s *Service) headlessLogin(ctx context.Context) (*TokenResponse, error) {
-	return nil, fmt.Errorf("headless login not implemented yet")
+func (s *Service) headlessLogin(ctx context.Context, showToken bool) (*TokenResponse, error) {
+	// Criar cliente OAuth
+	client, err := NewOAuthClient(s.config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create OAuth client: %w", err)
+	}
+
+	// Construir URL de autenticação
+	authURL, err := client.BuildAuthURL()
+	if err != nil {
+		return nil, fmt.Errorf("failed to build auth URL: %w", err)
+	}
+
+	fmt.Print(authURL.String() + "\n\n")
+
+	token, err := s.manualTokenRetrieval(ctx, client)
+	if err != nil {
+		return nil, err
+	}
+
+	// Exibir token se solicitado
+	if showToken {
+		s.printTokens(token)
+	}
+
+	return token, nil
 }
 
 // qrCodeLogin executa o fluxo de login exibindo um QR code
-// TODO: Implementar fluxo com QR code
-func (s *Service) qrCodeLogin(ctx context.Context) (*TokenResponse, error) {
-	return nil, fmt.Errorf("QR code login not implemented yet")
+func (s *Service) qrCodeLogin(ctx context.Context, showToken bool) (*TokenResponse, error) {
+	// Criar cliente OAuth
+	client, err := NewOAuthClient(s.config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create OAuth client: %w", err)
+	}
+
+	// Construir URL de autenticação
+	authURL, err := client.BuildAuthURL()
+	if err != nil {
+		return nil, fmt.Errorf("failed to build auth URL: %w", err)
+	}
+
+	// Construir QR code
+	qrCode, err := qrcode.New(authURL.String(), qrcode.Low)
+	if err != nil {
+		return nil, err
+	}
+
+	qrCodeString := qrCode.ToSmallString(false)
+	fmt.Println(qrCodeString)
+
+	token, err := s.manualTokenRetrieval(ctx, client)
+	if err != nil {
+		return nil, err
+	}
+
+	// Exibir token se solicitado
+	if showToken {
+		s.printTokens(token)
+	}
+
+	return token, nil
+}
+
+// manualTokenRetrieval solicita ao usuário a URL de callback e obtém o token
+func (s *Service) manualTokenRetrieval(ctx context.Context, client *OAuthClient) (*TokenResponse, error) {
+	var responseURL string
+	fmt.Println("Insira a URL de resposta:")
+	_, _ = fmt.Scanln(&responseURL)
+
+	url, err := url.Parse(responseURL)
+	if err != nil {
+		return nil, err
+	}
+
+	authCode := url.Query().Get("code")
+	if authCode == "" {
+		return nil, fmt.Errorf("invalid response URL")
+	}
+
+	// Trocar código por token
+	token, err := client.ExchangeCodeForToken(ctx, authCode)
+	if err != nil {
+		return nil, err
+	}
+
+	return token, nil
+}
+
+// printTokens exibe o access token e o refresh token
+func (s *Service) printTokens(token *TokenResponse) {
+	if token != nil {
+		fmt.Printf("\nAccess Token: %s\n", token.AccessToken)
+		if token.RefreshToken != "" {
+			fmt.Printf("Refresh Token: %s\n", token.RefreshToken)
+		}
+	}
 }
