@@ -1,17 +1,18 @@
 package sdk_structure
 
 import (
+	"context"
 	"fmt"
 	"path/filepath"
 
 	"github.com/magaluCloud/cligen/config"
 )
 
-func processMenu(menu *config.Menu, sdkStructure *SDKStructure) {
-	processMenuRecursive(menu, "", sdkStructure)
+func processMenu(ctx context.Context, menu *config.Menu, sdkStructure *SDKStructure) {
+	processMenuRecursive(ctx, menu, "", sdkStructure)
 }
 
-func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SDKStructure) {
+func processMenuRecursive(ctx context.Context, menu *config.Menu, parentPath string, sdkStructure *SDKStructure) {
 	if len(menu.Menus) > 0 && menu.Name == "profile" {
 		groupPkg := Package{
 			MenuName:        menu.Name,
@@ -31,7 +32,7 @@ func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SD
 
 		for _, submenu := range menu.Menus {
 			if submenu.SDKPackage != "" {
-				subPkg := genCliCodeFromSDK(submenu)
+				subPkg := genCliCodeFromSDK(ctx, submenu)
 				subPkg.MenuName = submenu.Name
 				subPkg.Description = submenu.Description
 				subPkg.LongDescription = submenu.LongDescription
@@ -51,13 +52,13 @@ func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SD
 				for _, subSubmenu := range submenu.Menus {
 
 					if subSubmenu.SDKPackage != "" {
-						subSubPkg := genCliCodeFromSDK(subSubmenu)
+						subSubPkg := genCliCodeFromSDK(ctx, subSubmenu)
 						subSubPkg.MenuName = subSubmenu.Name
 						subSubPkg.Description = subSubmenu.Description
 						subSubPkg.LongDescription = subSubmenu.LongDescription
 						subGroupPkg.SubPkgs[subSubmenu.SDKPackage] = subSubPkg
 					} else if len(subSubmenu.Menus) > 0 {
-						processMenuRecursive(subSubmenu, filepath.Join(currentPath, submenu.Name), sdkStructure)
+						processMenuRecursive(ctx, subSubmenu, filepath.Join(currentPath, submenu.Name), sdkStructure)
 					}
 				}
 
@@ -72,7 +73,7 @@ func processMenuRecursive(menu *config.Menu, parentPath string, sdkStructure *SD
 			sdkStructure.Packages[packageKey] = groupPkg
 		}
 	} else if menu.SDKPackage != "" {
-		pkg := genCliCodeFromSDK(menu)
+		pkg := genCliCodeFromSDK(ctx, menu)
 		pkg.MenuName = menu.Name
 		pkg.GroupID = menu.CliGroup
 		pkg.Description = menu.Description

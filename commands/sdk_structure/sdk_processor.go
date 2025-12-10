@@ -1,6 +1,7 @@
 package sdk_structure
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -9,7 +10,7 @@ import (
 	"github.com/magaluCloud/cligen/config"
 )
 
-func genCliCodeFromSDK(menu *config.Menu) Package {
+func genCliCodeFromSDK(ctx context.Context, menu *config.Menu) Package {
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("Erro ao obter diretório atual: %v", err)
@@ -32,7 +33,7 @@ func genCliCodeFromSDK(menu *config.Menu) Package {
 		return pkg
 	}
 
-	services := genCliCodeFromClient(menu, &pkg, sdkDir, filepath.Join(sdkDir, "client.go"))
+	services := genCliCodeFromClient(ctx, menu, &pkg, sdkDir, filepath.Join(sdkDir, "client.go"))
 	pkg.Services = services
 
 	return pkg

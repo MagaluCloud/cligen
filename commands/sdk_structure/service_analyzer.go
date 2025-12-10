@@ -1,6 +1,7 @@
 package sdk_structure
 
 import (
+	"context"
 	"fmt"
 	"go/ast"
 	"go/token"
@@ -37,8 +38,16 @@ func isCompatible(a, b string) bool {
 	return regex.MatchString(a) && regex.MatchString(b) && strings.EqualFold(a, b)
 }
 
+func writeValue(ctx context.Context) bool {
+	writeValueCtx := ctx.Value("write_value")
+	if writeValueCtx != nil {
+		return writeValueCtx.(bool)
+	}
+	return false
+}
+
 // analyzeServiceWithPackage analisa um serviço usando o package já parseado
-func analyzeServiceWithPackage(menu *config.Menu, pkgs []*packages.Package, fset *token.FileSet, serviceName string, sdkDir string) Service {
+func analyzeServiceWithPackage(ctx context.Context, menu *config.Menu, pkgs []*packages.Package, fset *token.FileSet, serviceName string, sdkDir string) Service {
 	description := menu.Description
 	longDescription := menu.LongDescription
 	for _, menuItem := range menu.Menus {
@@ -76,6 +85,27 @@ func analyzeServiceWithPackage(menu *config.Menu, pkgs []*packages.Package, fset
 		if doBreak {
 			break
 		}
+	}
+
+	if writeValue(ctx) {
+		newMenuItem := config.Menu{
+			Name:            serviceName,
+			Description:     "service.Description",
+			LongDescription: "service.LongDescription",
+			Level:           2,
+		}
+
+		for _, subMenuItem := range service.Methods {
+			newSubMenuItem := config.Menu{
+				Name:            subMenuItem.Name,
+				Description:     "subMenuItem.Description",
+				LongDescription: "subMenuItem.LongDescription",
+				Level:           3,
+			}
+			newMenuItem.Menus = append(newMenuItem.Menus, &newSubMenuItem)
+		}
+
+		menu.Menus = append(menu.Menus, &newMenuItem)
 	}
 
 	return service
@@ -255,7 +285,7 @@ func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInt
 
 var ignoredFunctions = []string{"newRequest", "newResponse"}
 
-func genCliCodeFromClient(menu *config.Menu, pkg *Package, sdkDir, filePath string) []Service {
+func genCliCodeFromClient(ctx context.Context, menu *config.Menu, pkg *Package, sdkDir, filePath string) []Service {
 	astPkg, fset, err := analyzePackageWithParseDir(sdkDir)
 	if err != nil {
 		log.Fatalf("Erro ao analisar package: %v", err)
@@ -309,7 +339,7 @@ func genCliCodeFromClient(menu *config.Menu, pkg *Package, sdkDir, filePath stri
 	})
 
 	for _, clientMethod := range clientMethods {
-		service := analyzeServiceWithPackage(menu, astPkg, fset, clientMethod.ServiceName, sdkDir)
+		service := analyzeServiceWithPackage(ctx, menu, astPkg, fset, clientMethod.ServiceName, sdkDir)
 		services = append(services, service)
 	}
 
