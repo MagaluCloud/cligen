@@ -19,17 +19,29 @@ func AllCommands() []*cobra.Command {
 		GenCLICmd(),
 		GenCLISDKStructureCmd(),
 		GenCLICodeCmd(),
-		WriteConfigCmd(),
+		GenerateConfigCmd(),
+		ManipulateConfigCmd(),
+	}
+}
+
+// ManipulateConfigCmd retorna o comando para manipular a configuração
+func ManipulateConfigCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "manipulate-config",
+		Short: "Manipula a configuração",
+		Run: func(cmd *cobra.Command, args []string) {
+			gen_cli_code.Manipulate()
+		},
 	}
 }
 
 // WriteConfigCmd retorna o comando para escrever a configuração
-func WriteConfigCmd() *cobra.Command {
+func GenerateConfigCmd() *cobra.Command {
 	return &cobra.Command{
-		Use:   "write-config",
+		Use:   "generate-config",
 		Short: "Escreve a configuração",
 		Run: func(cmd *cobra.Command, args []string) {
-			gen_cli_code.WriteConfig()
+			gen_cli_code.GenConfig()
 		},
 	}
 

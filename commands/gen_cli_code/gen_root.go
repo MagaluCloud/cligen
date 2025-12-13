@@ -6,15 +6,15 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/magaluCloud/cligen/commands/sdk_structure"
+	"github.com/magaluCloud/cligen/config"
 	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
-func generateRootCode(sdkStructure *sdk_structure.SDKStructure) error {
+func generateRootCode(sdkStructure *config.Config) error {
 	rootGenData := NewRootGenData()
 	rootGenData.AddImport(importSDK)
 	rootGenData.AddImport(importCobra)
-	for _, pkg := range sdkStructure.Packages {
+	for _, pkg := range sdkStructure.Menus {
 		rootGenData.AddSubCommand(pkg.Name, strutils.FirstUpper(pkg.Name)+"Cmd")
 		rootGenData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s\"", strings.ToLower(pkg.Name)))
 	}

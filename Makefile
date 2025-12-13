@@ -93,6 +93,12 @@ tidy: ## Organiza go.mod e go.sum
 ##@ Execução
 # ==================================================================================== #
 
+.PHONY: manipulate-config
+manipulate-config: build## Manipula a configuração
+	@echo "$(INFO_COLOR)Manipulando configuração...$(NO_COLOR)"
+	@./$(BINARY_NAME) manipulate-config
+	@echo "$(OK_COLOR)✓ Configuração manipulada$(NO_COLOR)"
+
 .PHONY: write-config
 write-config: build## Escreve a configuração
 	@echo "$(INFO_COLOR)Escrevendo configuração...$(NO_COLOR)"

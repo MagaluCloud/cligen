@@ -32,7 +32,7 @@ func processMenuRecursive(ctx context.Context, menu *config.Menu, parentPath str
 
 		for _, submenu := range menu.Menus {
 			if submenu.SDKPackage != "" {
-				subPkg := genCliCodeFromSDK(ctx, submenu)
+				subPkg := genCliCodeFromSDK(ctx, submenu, true)
 				subPkg.MenuName = submenu.Name
 				subPkg.Description = submenu.Description
 				subPkg.LongDescription = submenu.LongDescription
@@ -52,7 +52,7 @@ func processMenuRecursive(ctx context.Context, menu *config.Menu, parentPath str
 				for _, subSubmenu := range submenu.Menus {
 
 					if subSubmenu.SDKPackage != "" {
-						subSubPkg := genCliCodeFromSDK(ctx, subSubmenu)
+						subSubPkg := genCliCodeFromSDK(ctx, subSubmenu, true)
 						subSubPkg.MenuName = subSubmenu.Name
 						subSubPkg.Description = subSubmenu.Description
 						subSubPkg.LongDescription = subSubmenu.LongDescription
@@ -73,7 +73,7 @@ func processMenuRecursive(ctx context.Context, menu *config.Menu, parentPath str
 			sdkStructure.Packages[packageKey] = groupPkg
 		}
 	} else if menu.SDKPackage != "" {
-		pkg := genCliCodeFromSDK(ctx, menu)
+		pkg := genCliCodeFromSDK(ctx, menu, false)
 		pkg.MenuName = menu.Name
 		pkg.GroupID = menu.CliGroup
 		pkg.Description = menu.Description

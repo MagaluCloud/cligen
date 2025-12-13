@@ -8,9 +8,10 @@ import (
 	"path/filepath"
 
 	"github.com/magaluCloud/cligen/config"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 )
 
-func genCliCodeFromSDK(ctx context.Context, menu *config.Menu) Package {
+func genCliCodeFromSDK(ctx context.Context, menu *config.Menu, isSubPackage bool) Package {
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("Erro ao obter diretório atual: %v", err)
@@ -26,12 +27,17 @@ func genCliCodeFromSDK(ctx context.Context, menu *config.Menu) Package {
 		Aliases:         menu.Alias,
 		Services:        []Service{},
 		SubPkgs:         make(map[string]Package),
+		SDKFile:         strutils.GetFileName(sdkDir),
+	}
+	if !isSubPackage {
+		pkg.ServiceInterface = menu.Name
 	}
 
 	if _, err := os.Stat(sdkDir); os.IsNotExist(err) {
 		fmt.Printf("⚠️  Diretório do SDK não encontrado: %s (menu de agrupamento)\n", sdkDir)
 		return pkg
 	}
+	menu.SDKFile = sdkDir
 
 	services := genCliCodeFromClient(ctx, menu, &pkg, sdkDir, filepath.Join(sdkDir, "client.go"))
 	pkg.Services = services

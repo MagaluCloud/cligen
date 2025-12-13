@@ -10,6 +10,7 @@ type Service struct {
 	Interface       string             `json:"interface"`
 	Methods         []Method           `json:"methods"`
 	SubServices     map[string]Service `json:"sub_services,omitempty"` // Para subserviços aninhados
+	SDKFile         string             `json:"sdk_file"`
 }
 
 // Parameter representa um parâmetro de método
@@ -36,18 +37,23 @@ type Method struct {
 	Returns         []Parameter          `json:"returns"`    // nome -> tipo
 	Comments        string               `json:"comments"`
 	Confirmation    *config.Confirmation `json:"confirmation,omitempty"`
+	IsService       bool                 `json:"is_service"`
+	ServiceImport   string               `json:"service_import"`
+	SDKFile         string               `json:"sdk_file"`
 }
 
 // Package representa um pacote do SDK com seus serviços
 type Package struct {
-	MenuName        string             `json:"menu_name"`
-	Description     string             `json:"description"`
-	LongDescription string             `json:"long_description"`
-	Aliases         []string           `json:"aliases"`
-	GroupID         string             `json:"group_id"`
-	Name            string             `json:"name"`
-	Services        []Service          `json:"services"`
-	SubPkgs         map[string]Package `json:"sub_packages,omitempty"` // Para suporte recursivo
+	MenuName         string             `json:"menu_name"`
+	Description      string             `json:"description"`
+	LongDescription  string             `json:"long_description"`
+	Aliases          []string           `json:"aliases"`
+	ServiceInterface string             `json:"service_interface"`
+	GroupID          string             `json:"group_id"`
+	Name             string             `json:"name"`
+	Services         []Service          `json:"services"`
+	SubPkgs          map[string]Package `json:"sub_packages,omitempty"` // Para suporte recursivo
+	SDKFile          string             `json:"sdk_file"`
 }
 
 // SDKStructure representa a estrutura completa do SDK

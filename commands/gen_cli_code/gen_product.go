@@ -100,35 +100,71 @@ func StrPtrToStr(str *string) string {
 func genProductCodeRecursive(pkg *sdk_structure.Package, parentPkg *sdk_structure.Package) error {
 	for _, service := range pkg.Services {
 		for _, method := range service.Methods {
-			filePath := buildProductFilePath(pkg, parentPkg, service.Name, method.Name)
-			// volte aqui meu padrinho
-			productData := NewPackageGroupData()
-			productData.SetFileID(filePath)
+			if !method.IsService {
+				filePath := buildProductFilePath(pkg, parentPkg, service.Name, method.Name)
+				// volte aqui meu padrinho
+				productData := NewPackageGroupData()
+				productData.SetFileID(filePath)
 
-			if productData.HasCustomFile {
-				if err := productData.WriteProductCustomToFile(filePath); err != nil {
-					return fmt.Errorf("erro ao escrever arquivo customizado para método %s do serviço %s do pacote %s: %w", method.Name, service.Name, pkg.Name, err)
+				if productData.HasCustomFile {
+					if err := productData.WriteProductCustomToFile(filePath); err != nil {
+						return fmt.Errorf("erro ao escrever arquivo customizado para método %s do serviço %s do pacote %s: %w", method.Name, service.Name, pkg.Name, err)
+					}
+					continue
 				}
-				continue
+
+				if err := setupProductData(productData, pkg, service, method); err != nil {
+					return fmt.Errorf("erro ao configurar dados do produto para método %s: %w", method.Name, err)
+				}
+
+				serviceCallParams := genProductParameters(productData, method.Parameters)
+				productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
+				printResult(productData, method)
+
+				if method.Confirmation != nil {
+					if err := genConfirmation(method, productData); err != nil {
+						return fmt.Errorf("erro ao gerar confirmação para método %s: %w", method.Name, err)
+					}
+				}
+
+				if err := productData.WriteProductToFile(filePath); err != nil {
+					return fmt.Errorf("erro ao escrever arquivo para método %s do serviço %s do pacote %s: %w", method.Name, service.Name, pkg.Name, err)
+				}
 			}
+			for _, subService := range service.SubServices {
+				for _, subMethod := range subService.Methods {
+					filePath := buildProductFilePath(pkg, parentPkg, fmt.Sprintf("%s/%s", service.Name, subService.Name), subMethod.Name)
+					// volte aqui meu padrinho
+					productData := NewPackageGroupData()
+					productData.SetFileID(filePath)
 
-			if err := setupProductData(productData, pkg, service, method); err != nil {
-				return fmt.Errorf("erro ao configurar dados do produto para método %s: %w", method.Name, err)
-			}
+					if productData.HasCustomFile {
+						if err := productData.WriteProductCustomToFile(filePath); err != nil {
+							return fmt.Errorf("erro ao escrever arquivo customizado para método %s do serviço %s do pacote %s: %w", subMethod.Name, subService.Name, pkg.Name, err)
+						}
+						continue
+					}
 
-			serviceCallParams := genProductParameters(productData, method.Parameters)
-			productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
-			printResult(productData, method)
+					if err := setupProductData(productData, pkg, subService, subMethod); err != nil {
+						return fmt.Errorf("erro ao configurar dados do produto para método %s: %w", subMethod.Name, err)
+					}
 
-			if method.Confirmation != nil {
-				if err := genConfirmation(method, productData); err != nil {
-					return fmt.Errorf("erro ao gerar confirmação para método %s: %w", method.Name, err)
+					serviceCallParams := genProductParameters(productData, subMethod.Parameters)
+					productData.SetServiceSDKParam(strings.Join(serviceCallParams, ", "))
+					printResult(productData, subMethod)
+
+					if subMethod.Confirmation != nil {
+						if err := genConfirmation(subMethod, productData); err != nil {
+							return fmt.Errorf("erro ao gerar confirmação para método %s: %w", subMethod.Name, err)
+						}
+					}
+
+					if err := productData.WriteProductToFile(filePath); err != nil {
+						return fmt.Errorf("erro ao escrever arquivo para método %s do serviço %s do pacote %s: %w", subMethod.Name, subService.Name, pkg.Name, err)
+					}
 				}
 			}
 
-			if err := productData.WriteProductToFile(filePath); err != nil {
-				return fmt.Errorf("erro ao escrever arquivo para método %s do serviço %s do pacote %s: %w", method.Name, service.Name, pkg.Name, err)
-			}
 		}
 	}
 

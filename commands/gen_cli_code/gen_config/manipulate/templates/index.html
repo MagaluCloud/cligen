@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Config Manipulator</h1>
+            <div class="actions">
+                <button id="undoBtn" class="btn btn-secondary" title="Desfazer (Ctrl+Z)" disabled>↶ Desfazer</button>
+                <button id="redoBtn" class="btn btn-secondary" title="Refazer (Ctrl+Y)" disabled>↷ Refazer</button>
+                <button id="createMenuBtn" class="btn btn-success">+ Criar Menu</button>
+                <button id="regenerateBtn" class="btn btn-warning">Recriar config.json</button>
+                <button id="saveBtn" class="btn btn-primary">Salvar Config Manipulado</button>
+                <button id="reloadBtn" class="btn btn-secondary">Recarregar</button>
+            </div>
+        </header>
+
+        <div id="status" class="status"></div>
+
+        <div id="loading" class="loading">Carregando configuração...</div>
+
+        <div id="configTree" class="config-tree">
+            <div class="tree-header">
+                <h2>CLI:</h2>
+            </div>
+            <div id="menusContainer" class="menus-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal para editar menu/submenu/method -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="editModalTitle">Editar</h2>
+                <span class="close" id="closeEditModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editElementId" name="element_id">
+                    <input type="hidden" id="editElementType" name="element_type">
+                    <input type="hidden" id="editMenuId" name="menu_id">
+                    <input type="hidden" id="editSubmenuId" name="submenu_id">
+                    <input type="hidden" id="editMethodIndex" name="method_index">
+                    
+                    <div id="editFormFields"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="submitEditBtn">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para criar menu -->
+    <div id="createMenuModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Criar Novo Menu</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="createMenuForm">
+                    <div class="form-group">
+                        <label for="menuName">Nome do Menu *</label>
+                        <input type="text" id="menuName" name="name" required placeholder="ex: novomenu">
+                    </div>
+                    <div class="form-group">
+                        <label for="menuSDKPackage">SDK Package</label>
+                        <input type="text" id="menuSDKPackage" name="sdk_package" placeholder="ex: github.com/MagaluCloud/mgc-sdk-go/novomenu">
+                    </div>
+                    <div class="form-group">
+                        <label for="menuDescription">Descrição</label>
+                        <textarea id="menuDescription" name="description" rows="3" placeholder="Descrição do menu"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="menuEnabled" name="enabled" checked>
+                            Habilitado
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelCreateMenuBtn">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="submitCreateMenuBtn">Criar Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
+

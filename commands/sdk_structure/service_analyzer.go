@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/magaluCloud/cligen/config"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -65,19 +66,21 @@ func analyzeServiceWithPackage(ctx context.Context, menu *config.Menu, pkgs []*p
 		Methods:         []Method{},
 		SubServices:     make(map[string]Service),
 		Interface:       serviceName,
+		SDKFile:         strutils.GetFileName(sdkDir),
 	}
 
 	possibleInterfaceNames := getPossibleInterfaceNames(serviceName)
 
+	fileName := ""
 	for _, pkg := range pkgs {
 		doBreak := false
 		for _, astFile := range pkg.Syntax {
-			fileName := fset.File(astFile.Pos()).Name()
+			fileName = fset.File(astFile.Pos()).Name()
 			if strings.HasSuffix(fileName, "_test.go") {
 				continue
 			}
 
-			if found := analyzeFileForServiceWithAST(menu, astFile, possibleInterfaceNames, &service, pkg.Name, sdkDir); found {
+			if found := analyzeFileForServiceWithAST(ctx, menu, pkgs, fset, astFile, possibleInterfaceNames, &service, pkg.Name, sdkDir, fileName); found {
 				doBreak = true
 				break
 			}
@@ -87,32 +90,34 @@ func analyzeServiceWithPackage(ctx context.Context, menu *config.Menu, pkgs []*p
 		}
 	}
 
-	if writeValue(ctx) {
-		newMenuItem := config.Menu{
-			Name:            serviceName,
-			Description:     "service.Description",
-			LongDescription: "service.LongDescription",
-			Level:           2,
-		}
+	// if writeValue(ctx) {
+	// 	newMenuItem := config.Menu{
+	// 		Name:            serviceName,
+	// 		Description:     "service.Description",
+	// 		LongDescription: "service.LongDescription",
+	// 		SDKFile:         fileName,
+	// 		Level:           2,
+	// 	}
 
-		for _, subMenuItem := range service.Methods {
-			newSubMenuItem := config.Menu{
-				Name:            subMenuItem.Name,
-				Description:     "subMenuItem.Description",
-				LongDescription: "subMenuItem.LongDescription",
-				Level:           3,
-			}
-			newMenuItem.Menus = append(newMenuItem.Menus, &newSubMenuItem)
-		}
+	// 	for _, subMenuItem := range service.Methods {
+	// 		newSubMenuItem := config.Menu{
+	// 			Name:            subMenuItem.Name,
+	// 			Description:     "subMenuItem.Description",
+	// 			LongDescription: "subMenuItem.LongDescription",
+	// 			SDKFile:         fileName,
+	// 			Level:           3,
+	// 		}
+	// 		newMenuItem.Menus = append(newMenuItem.Menus, &newSubMenuItem)
+	// 	}
 
-		menu.Menus = append(menu.Menus, &newMenuItem)
-	}
+	// 	menu.Menus = append(menu.Menus, &newMenuItem)
+	// }
 
 	return service
 }
 
 // analyzeFileForServiceWithAST analisa um arquivo AST procurando por interfaces de serviço
-func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInterfaceNames []string, service *Service, packageName string, sdkDir string) bool {
+func analyzeFileForServiceWithAST(ctx context.Context, menu *config.Menu, pkgs []*packages.Package, fset *token.FileSet, file *ast.File, possibleInterfaceNames []string, service *Service, packageName string, sdkDir string, fileName string) bool {
 	found := false
 
 	ast.Inspect(file, func(n ast.Node) bool {
@@ -134,36 +139,38 @@ func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInt
 								methodLongDescription := ""
 								var confirmation *config.Confirmation
 
-								for _, menu := range menu.Menus {
-									if menu.Name == methodName {
-										methodDescription = menu.Description
-										methodLongDescription = menu.LongDescription
-										if menu.Confirmation != nil {
-											confirmation = menu.Confirmation
-										}
-										break
-									}
-								}
+								// for _, smenu := range menu.Menus {
+								// 	if smenu.Name == methodName {
+								// 		methodDescription = smenu.Description
+								// 		methodLongDescription = smenu.LongDescription
+								// 		smenu.SDKFile = fileName
+								// 		if smenu.Confirmation != nil {
+								// 			confirmation = smenu.Confirmation
+								// 		}
+								// 		break
+								// 	}
+								// }
 
-								if methodDescription == "" {
-									doBreak := false
-									for _, menuLvl2 := range menu.Menus {
-										for _, menu := range menuLvl2.Menus {
-											if menu.Name == methodName {
-												methodDescription = menu.Description
-												methodLongDescription = menu.LongDescription
-												if menu.Confirmation != nil {
-													confirmation = menu.Confirmation
-												}
-												doBreak = true
-												break
-											}
-										}
-										if doBreak {
-											break
-										}
-									}
-								}
+								// if methodDescription == "" {
+								// 	doBreak := false
+								// 	for _, menuLvl2 := range menu.Menus {
+								// 		for _, menuLvl3 := range menuLvl2.Menus {
+								// 			if menuLvl3.Name == methodName {
+								// 				methodDescription = menuLvl3.Description
+								// 				methodLongDescription = menuLvl3.LongDescription
+								// 				menuLvl3.SDKFile = fileName
+								// 				if menuLvl3.Confirmation != nil {
+								// 					confirmation = menuLvl3.Confirmation
+								// 				}
+								// 				doBreak = true
+								// 				break
+								// 			}
+								// 		}
+								// 		if doBreak {
+								// 			break
+								// 		}
+								// 	}
+								// }
 
 								params := []Parameter{}
 								returns := []Parameter{}
@@ -212,12 +219,24 @@ func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInt
 									}
 								}
 
+								isService := false
+								serviceImport := ""
 								if funcType.Results != nil {
 									for _, result := range funcType.Results.List {
 										returnType, aliasType, _ := getTypeStringWithPackage(result.Type, packageName)
 										if aliasType != "" {
 											aliasType = packageName + "Sdk." + aliasType
 										}
+
+										if isServiceFunction(returnType) {
+											serviceName := extractSubServiceName(returnType, methodName)
+											subservice := analyzeServiceWithPackage(ctx, menu, pkgs, fset, serviceName, sdkDir)
+											service.SubServices[serviceName] = subservice
+											isService = true
+											serviceImport = serviceName
+											continue
+										}
+
 										structFields := analyzeStructType(result.Type, packageName, sdkDir)
 										isPointer := strings.HasPrefix(returnType, "*")
 										isArray := strings.HasPrefix(returnType, "[]")
@@ -261,6 +280,9 @@ func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInt
 									Description:     methodDescription,
 									LongDescription: methodLongDescription,
 									Confirmation:    confirmation,
+									IsService:       isService,
+									ServiceImport:   serviceImport,
+									SDKFile:         strutils.GetFileName(fileName),
 								}
 								service.Methods = append(service.Methods, method)
 								if len(returns) == 1 {
@@ -284,6 +306,10 @@ func analyzeFileForServiceWithAST(menu *config.Menu, file *ast.File, possibleInt
 }
 
 var ignoredFunctions = []string{"newRequest", "newResponse"}
+
+func isServiceFunction(funcName string) bool {
+	return strings.HasSuffix(funcName, "Service")
+}
 
 func genCliCodeFromClient(ctx context.Context, menu *config.Menu, pkg *Package, sdkDir, filePath string) []Service {
 	astPkg, fset, err := analyzePackageWithParseDir(sdkDir)
