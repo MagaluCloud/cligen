@@ -1,9 +1,11 @@
-package code
+package root_gen
 
 import (
 	"fmt"
 	"slices"
 	"strings"
+
+	"github.com/magaluCloud/cligen/file_utils"
 )
 
 type rootGenType struct {
@@ -36,7 +38,7 @@ func (rg *rootGenType) Save() error {
 	if rg.SaveToFile == "" {
 		return fmt.Errorf("save to file path is not set")
 	}
-	return writeTemplateToFile(rootGenTmpl, rg, rg.SaveToFile)
+	return file_utils.WriteTemplateToFile(rootGenTmpl, rg, rg.SaveToFile)
 }
 
 func (rg *rootGenType) SetPathSaveToFile(saveToFilePath string) {

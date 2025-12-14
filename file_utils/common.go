@@ -1,14 +1,14 @@
-package code
+package file_utils
 
 import (
 	"bytes"
 	"fmt"
-	"html/template"
 	"os"
 	"path/filepath"
+	"text/template"
 )
 
-func writeTemplateToFile[T any](tmpl *template.Template, data T, filePath string) error {
+func WriteTemplateToFile[T any](tmpl *template.Template, data T, filePath string) error {
 	buf := bytes.NewBuffer(nil)
 	if err := tmpl.Execute(buf, data); err != nil {
 		return fmt.Errorf("erro ao executar template: %w", err)

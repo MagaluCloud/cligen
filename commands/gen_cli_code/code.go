@@ -25,10 +25,8 @@ func Manipulate() {
 }
 
 func GenCliCode() {
-
 	cleanDir(genDir)
 	code.Run()
-
 }
 
 func cleanDir(dir string) {

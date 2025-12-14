@@ -105,7 +105,7 @@ func Run() {
 							if IsServiceFunction(returnType) {
 								subMenu := &config.Menu{
 									ID:               GenerateRandomID(),
-									Name:             returnType.(*ast.Ident).Name,
+									Name:             funcDecl.Name.Name,
 									Enabled:          true,
 									Description:      "",
 									LongDescription:  "",
