@@ -33,6 +33,10 @@ func init() {
 
 func GenerateModule(cfg *config.Config) error {
 	for _, menu := range cfg.Menus {
+		if menu.IsGroup {
+			genGroupModule(menu)
+			continue
+		}
 		module := NewModule()
 		module.AddImport(fmt.Sprintf("\"%s\"", menu.SDKPackage))
 		module.SetPathSaveToFile(filepath.Join(genDir, strings.ToLower(menu.Name), fmt.Sprintf("%s.go", strings.ToLower(menu.Name))))
@@ -62,5 +66,37 @@ func GenerateModule(cfg *config.Config) error {
 	}
 
 	return nil
+}
 
+func genGroupModule(menu *config.Menu) error {
+	module := NewModule()
+	module.SetPathSaveToFile(filepath.Join(genDir, strings.ToLower(menu.Name), fmt.Sprintf("%s.go", strings.ToLower(menu.Name))))
+
+	for _, submenu := range menu.Menus {
+		module.AddImport(fmt.Sprintf("\"%s\"", submenu.SDKPackage))
+
+		moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(submenu.Name))
+		module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, strings.ToLower(submenu.Name)))
+
+		for _, ssmenu := range submenu.Menus {
+			module.AddSubCommand(subCommandType{
+				PackageName:  strings.ToLower(ssmenu.Name),
+				FunctionName: strutils.FirstUpper(ssmenu.Name) + "Cmd",
+				ServiceCall:  fmt.Sprintf("%s.%s()", moduleServiceName, ssmenu.Name),
+			})
+			module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.Name), strings.ToLower(ssmenu.Name)))
+		}
+	}
+	module.SetPackageName(strings.ToLower(menu.Name))
+	module.SetFunctionName(strutils.FirstUpper(menu.Name) + "Cmd")
+	module.SetUseName(menu.Name)
+	module.SetShortDescription(menu.Description)
+	module.SetLongDescription(menu.LongDescription)
+	module.AddAliases(menu.Alias...)
+	module.SetGroupID(menu.CliGroup)
+	module.AddImport(importCobra)
+	module.AddImport(importSDK)
+	module.SetServiceParam(serviceParamPattern)
+	module.Save()
+	return nil
 }
