@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code/menu"
+	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code/menu_item"
 	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code/module"
 	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code/root_gen"
 	"github.com/magaluCloud/cligen/config"
@@ -18,6 +19,6 @@ func Run() {
 	root_gen.GenerateRootGen(cfg)
 	module.GenerateModule(cfg)
 	menu.GenerateMenu(cfg)
-	// menu_item.GenerateMenuItem(cfg)
+	menu_item.GenerateMenuItem(cfg)
 	fmt.Println(cfg.SDKTag)
 }

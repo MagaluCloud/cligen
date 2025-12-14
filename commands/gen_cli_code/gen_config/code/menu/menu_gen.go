@@ -47,8 +47,8 @@ func GenMenu(cfg *config.Config, submenu *config.Menu) error {
 	menuData.SetPathSaveToFile(filepath.Join(genDir, parentsPath, fmt.Sprintf("%s.go", strings.ToLower(submenu.Name))))
 
 	nameFromParent, sdkPackageFromParent := FindSDKPackageFromParents(cfg, submenu.ParentMenuID)
-	menuData.SetServiceParam(fmt.Sprintf("%s %s.%s", strutils.FirstLower(submenu.ServiceInterface), nameFromParent, submenu.ServiceInterface))
-	menuData.AddImport(fmt.Sprintf("\"%s\"", sdkPackageFromParent))
+	menuData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(submenu.ServiceInterface), nameFromParent, submenu.ServiceInterface))
+	menuData.AddImport(fmt.Sprintf("%sSdk \"%s\"", nameFromParent, sdkPackageFromParent))
 
 	menuData.SetPackageName(submenu.Name)
 	menuData.SetFunctionName(strutils.FirstUpper(submenu.Name))
@@ -66,7 +66,7 @@ func GenMenu(cfg *config.Config, submenu *config.Menu) error {
 		})
 	}
 	for _, ssmenu := range submenu.Menus {
-		menuData.AddServiceInit(fmt.Sprintf("%s.%sCmd(ctx, cmd, %s)", strings.ToLower(ssmenu.Name), ssmenu.Name, strutils.FirstLower(submenu.ServiceInterface)))
+		menuData.AddServiceInit(fmt.Sprintf("%s.%sCmd(ctx, cmd, %s.%s())", strings.ToLower(ssmenu.Name), ssmenu.Name, strutils.FirstLower(submenu.ServiceInterface), ssmenu.Name))
 		menuData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", parentsPath, strings.ToLower(ssmenu.Name)))
 		GenMenu(cfg, ssmenu)
 	}
