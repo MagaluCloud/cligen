@@ -64,7 +64,9 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 		menuItem.AddImport(fmt.Sprintf("%s \"%s\"", "flags", "github.com/magaluCloud/mgccli/cobra_utils/flags"))
 		for _, param := range method.Parameters {
 			fd := FlagsDefinition(param)
-			menuItem.AddCobraFlagsDefinition(fd)
+			for _, item := range fd {
+				menuItem.AddCobraFlagsDefinition(item)
+			}
 			//
 			spc := ServiceSDKParamCreate(param, sdkName)
 			menuItem.AddServiceSDKParamCreate(spc)
@@ -74,7 +76,6 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 
 		}
 
-		// menuItem.AddCobraFlagsCreation()
 		// menuItem.AddCobraFlagsAssign()
 		// menuItem.AddCobraFlagsRequired()
 		// menuItem.AddCobraStructInitialize()
@@ -108,34 +109,57 @@ func ServiceSDKParamCreate(param config.Parameter, sdkName string) string {
 		return ""
 	}
 
-	if param.IsPrimitive {
-		typeName := getParamTypeName(param)
+	if param.IsPrimitive && !param.IsArray {
+		typeName := getParamTypeName(param, sdkName)
 		return fmt.Sprintf("var %s %s", param.Name, typeName)
-	} else {
+	}
+	if param.IsPrimitive && param.IsArray {
+		typeName := getParamTypeName(param, sdkName)
+		return fmt.Sprintf("var %s %s", param.Name, typeName)
+	}
+
+	if !param.IsPrimitive && !param.IsArray {
 		typeName := strings.Replace(param.Type, "*", "", 1)
 		return fmt.Sprintf("%s := %s{}", param.Name, typeName)
 	}
+	return ""
 }
 
-func getParamTypeName(param config.Parameter) string {
+func getParamTypeName(param config.Parameter, sdkName string) string {
 	if param.AliasType == "" {
 		return param.Type
 	}
 	if param.IsArray {
+		if param.AliasType != "" && sdkName != "" {
+			return "[]" + sdkName + "." + param.AliasType
+		}
 		return "[]" + param.AliasType
 	}
 	return param.AliasType
 }
 
-func FlagsDefinition(param config.Parameter) string {
+func FlagsDefinition(param config.Parameter) []string {
 	if param.Name == "ctx" {
-		return ""
+		return nil
 	}
 	if param.IsPrimitive {
-		return fmt.Sprintf("var %sFlag *flags.%s", param.Name, translateTypeToCobraFlag(param.Type))
+		return []string{fmt.Sprintf("var %sFlag *flags.%s", param.Name, translateTypeToCobraFlag(param.Type))}
+	}
+	if !param.IsPrimitive {
+		if !param.IsArray {
+			if len(param.Struct) > 0 {
+				var results []string
+				for _, sparam := range param.Struct {
+					sparam.Name = fmt.Sprintf("%s_%s", param.Name, sparam.Name)
+					results = append(results, FlagsDefinition(sparam)...)
+				}
+				return results
+			}
+		}
+
 	}
 
-	return fmt.Sprintf("FALHOU: %s", param.Name)
+	return nil
 }
 
 func defaultByType(paramType string) string {
