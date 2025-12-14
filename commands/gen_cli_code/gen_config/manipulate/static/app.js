@@ -1394,9 +1394,10 @@ async function moveElementToBackend(elementID, elementType, targetID, targetType
 
     const { element } = removed;
 
-    // Adicionar ao destino
+    // Adicionar ao destino e atualizar parent_menu_id
     if (targetType === 'root' || !targetID) {
-        // Mover para a raiz
+        // Mover para a raiz - limpar parent_menu_id e atualizar recursivamente todos os submenus filhos
+        updateParentMenuIDRecursive(element, '');
         configData.menus.push(element);
     } else {
         // Encontrar o destino
@@ -1410,6 +1411,8 @@ async function moveElementToBackend(elementID, elementType, targetID, targetType
         if (!targetMenu.menus) {
             targetMenu.menus = [];
         }
+        // Atualizar parent_menu_id do menu movido para o ID do menu pai e atualizar recursivamente todos os submenus filhos
+        updateParentMenuIDRecursive(element, targetMenu.id);
         targetMenu.menus.push(element);
     }
 
@@ -1433,6 +1436,21 @@ function isDescendantOf(menu, ancestor) {
         }
     }
     return false;
+}
+
+// Função para atualizar recursivamente o parent_menu_id de um menu e todos os seus submenus
+function updateParentMenuIDRecursive(menu, parentID) {
+    if (!menu) {
+        return;
+    }
+    // Atualizar o parent_menu_id do menu atual
+    menu.parent_menu_id = parentID;
+    // Atualizar recursivamente todos os submenus filhos
+    if (menu.menus && menu.menus.length > 0) {
+        for (const submenu of menu.menus) {
+            updateParentMenuIDRecursive(submenu, menu.id);
+        }
+    }
 }
 
 // Função para promover submenu para menu (mover para raiz)
@@ -1459,7 +1477,8 @@ function promoteSubmenuToMenu(submenuID) {
 
     const { element } = removed;
 
-    // Adicionar à raiz como menu
+    // Adicionar à raiz como menu - limpar parent_menu_id e atualizar recursivamente todos os submenus filhos
+    updateParentMenuIDRecursive(element, '');
     configData.menus.push(element);
 
     showStatus('Submenu promovido para menu! (Clique em Salvar para persistir)', 'success');

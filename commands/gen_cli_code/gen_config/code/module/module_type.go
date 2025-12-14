@@ -85,7 +85,7 @@ func (m *moduleType) AddImport(importPath string) {
 }
 
 func (m *moduleType) SetPackageName(packageName string) {
-	m.PackageName = packageName
+	m.PackageName = strings.ToLower(packageName)
 }
 
 func (m *moduleType) SetFunctionName(functionName string) {
@@ -97,7 +97,7 @@ func (m *moduleType) SetServiceParam(serviceParam string) {
 }
 
 func (m *moduleType) SetUseName(useName string) {
-	m.UseName = useName
+	m.UseName = strings.ToLower(useName)
 }
 
 func (m *moduleType) SetShortDescription(shortDescription string) {

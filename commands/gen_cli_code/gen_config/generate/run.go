@@ -21,7 +21,8 @@ const (
 )
 
 var (
-	DIRS_TO_SKIP = []string{"internal", "client", "cmd", "helpers", "docs"}
+	DIRS_TO_SKIP  = []string{"internal", "client", "cmd", "helpers", "docs"}
+	DIRS_TO_ALLOW = []string{"compute", "availabilityzones", "sshkeys", "iam"} // limpar aqui para gerar todos =)
 )
 
 func Run() {
@@ -74,7 +75,7 @@ func Run() {
 			SDKFile:          "",
 			CustomFile:       "",
 			IsGroup:          false,
-			ParentMenu:       nil,
+			ParentMenuID:     "",
 			Pkgs:             pkgs[0],
 			Fset:             fset,
 			MapFile:          make(map[string]*ast.File),
@@ -118,7 +119,7 @@ func Run() {
 									SDKFile:          filePath,
 									CustomFile:       "",
 									IsGroup:          false,
-									ParentMenu:       menu,
+									ParentMenuID:     menu.ID,
 									Pkgs:             menu.Pkgs,
 									Fset:             menu.Fset,
 									MapFile:          menu.MapFile,
@@ -136,10 +137,10 @@ func Run() {
 
 	// Aqui virá de interfaces
 	for _, menu := range cfg.Menus {
-		fmt.Printf("%sMenu: %s\n", Ident(ParentMenuCount(menu, nil)), menu.Name)
+		fmt.Printf("%sMenu: %s\n", Ident(ParentMenuCount(cfg, menu.ParentMenuID, nil)), menu.Name)
 		for _, subMenu := range menu.Menus {
-			fmt.Printf("%sSubMenu: %s\n", Ident(ParentMenuCount(subMenu, nil)), subMenu.Name)
-			ProcessMenu(subMenu)
+			fmt.Printf("%sSubMenu: %s\n", Ident(ParentMenuCount(cfg, subMenu.ParentMenuID, nil)), subMenu.Name)
+			ProcessMenu(cfg, subMenu)
 		}
 
 	}
@@ -156,22 +157,37 @@ func GenerateRandomID() string {
 	return uuid.New().String()
 }
 
-func ParentMenuCount(menu *config.Menu, count *int) int {
+func ParentMenuCount(cfg *config.Config, menuID string, count *int) int {
 	if count == nil {
 		count = new(int)
 	}
-	if menu.ParentMenu != nil {
+	if menuID != "" {
 		*count++
-		ParentMenuCount(menu.ParentMenu, count)
+		ParentMenuCount(cfg, FindMenuByID(cfg.Menus, menuID).ParentMenuID, count)
 	}
 	return *count
+}
+
+func FindMenuByID(menus []*config.Menu, id string) *config.Menu {
+	for _, menu := range menus {
+		if menu.ID == id {
+			return menu
+		}
+		if len(menu.Menus) > 0 {
+			menu := FindMenuByID(menu.Menus, id)
+			if menu != nil {
+				return menu
+			}
+		}
+	}
+	return nil
 }
 
 func Ident(count int) string {
 	return strings.Repeat("\t", count)
 }
 
-func ProcessMenu(menu *config.Menu) {
+func ProcessMenu(cfg *config.Config, menu *config.Menu) {
 	doBreak := false
 	for _, filePath := range menu.Pkgs.GoFiles {
 		astFile, exists := menu.MapFile[filePath]
@@ -189,10 +205,10 @@ func ProcessMenu(menu *config.Menu) {
 							if funcType, ok := method.Type.(*ast.FuncType); ok && funcType.Results != nil {
 								for _, result := range funcType.Results.List {
 									if IsServiceFunction(result.Type) {
-										fmt.Printf("%sSubMenu: %s\n", Ident(ParentMenuCount(menu, nil)+1), result.Type.(*ast.Ident).Name)
+										fmt.Printf("%sSubMenu: %s\n", Ident(ParentMenuCount(cfg, menu.ParentMenuID, nil)+1), result.Type.(*ast.Ident).Name)
 										subSubMenu := &config.Menu{
 											ID:               GenerateRandomID(),
-											Name:             result.Type.(*ast.Ident).Name,
+											Name:             method.Names[0].Name,
 											Enabled:          true,
 											Description:      "",
 											LongDescription:  "",
@@ -205,12 +221,12 @@ func ProcessMenu(menu *config.Menu) {
 											SDKFile:          filePath,
 											CustomFile:       "",
 											IsGroup:          false,
-											ParentMenu:       menu,
+											ParentMenuID:     menu.ID,
 											Pkgs:             menu.Pkgs,
 											Fset:             menu.Fset,
 											MapFile:          menu.MapFile,
 										}
-										ProcessMenu(subSubMenu)
+										ProcessMenu(cfg, subSubMenu)
 										menu.Menus = append(menu.Menus, subSubMenu)
 										methodIsService = true
 									}
@@ -218,7 +234,7 @@ func ProcessMenu(menu *config.Menu) {
 							}
 							if !methodIsService {
 								for _, name := range method.Names {
-									fmt.Printf("%sMethod:%s\n", Ident(ParentMenuCount(menu, nil)+1), name)
+									fmt.Printf("%sMethod:%s\n", Ident(ParentMenuCount(cfg, menu.ParentMenuID, nil)+1), name)
 									methodItem := &config.Method{
 										Description:     "",
 										LongDescription: "",
@@ -282,6 +298,9 @@ func ListDir(dir string) ([]string, error) {
 		if file.IsDir() {
 			dirName := file.Name()
 			if slices.Contains(DIRS_TO_SKIP, dirName) {
+				continue
+			}
+			if !slices.Contains(DIRS_TO_ALLOW, dirName) {
 				continue
 			}
 			names = append(names, file.Name())

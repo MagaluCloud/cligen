@@ -382,9 +382,10 @@ func moveElement(c *gin.Context) {
 		*parentMenus = append((*parentMenus)[:elementIndex], (*parentMenus)[elementIndex+1:]...)
 	}
 
-	// Adicionar ao destino
+	// Adicionar ao destino e atualizar parent_menu_id
 	if req.TargetType == "root" || req.TargetID == "" {
-		// Mover para a raiz
+		// Mover para a raiz - limpar parent_menu_id e atualizar recursivamente todos os submenus filhos
+		updateParentMenuIDRecursive(elementToMove, "")
 		cfg.Menus = append(cfg.Menus, elementToMove)
 	} else {
 		// Encontrar o destino
@@ -398,6 +399,8 @@ func moveElement(c *gin.Context) {
 		if targetMenu.Menus == nil {
 			targetMenu.Menus = []*config.Menu{}
 		}
+		// Atualizar parent_menu_id do menu movido para o ID do menu pai e atualizar recursivamente todos os submenus filhos
+		updateParentMenuIDRecursive(elementToMove, targetMenu.ID)
 		targetMenu.Menus = append(targetMenu.Menus, elementToMove)
 	}
 
@@ -449,6 +452,21 @@ func findMenuInSubmenus(menus []*config.Menu, id string) (*config.Menu, *[]*conf
 		}
 	}
 	return nil, nil, -1
+}
+
+// updateParentMenuIDRecursive atualiza recursivamente o parent_menu_id de um menu e todos os seus submenus
+func updateParentMenuIDRecursive(menu *config.Menu, parentID string) {
+	if menu == nil {
+		return
+	}
+	// Atualizar o parent_menu_id do menu atual
+	menu.ParentMenuID = parentID
+	// Atualizar recursivamente todos os submenus filhos
+	if menu.Menus != nil {
+		for _, submenu := range menu.Menus {
+			updateParentMenuIDRecursive(submenu, menu.ID)
+		}
+	}
 }
 
 // updateMenuRequest representa a requisição para atualizar um menu/submenu

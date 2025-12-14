@@ -33,7 +33,7 @@ type Menu struct {
 	SDKFile          string               `json:"sdk_file,omitempty"`
 	CustomFile       string               `json:"custom_file,omitempty"`
 	IsGroup          bool                 `json:"is_group,omitempty"`
-	ParentMenu       *Menu                `json:"-"`
+	ParentMenuID     string               `json:"parent_menu_id,omitempty"`
 	Pkgs             *packages.Package    `json:"-"`
 	Fset             *token.FileSet       `json:"-"`
 	MapFile          map[string]*ast.File `json:"-"`
