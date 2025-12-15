@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/magaluCloud/mgccli/beautiful"
 	"github.com/magaluCloud/mgccli/cmd/common/structs"
 	"github.com/magaluCloud/mgccli/cmd/common/workspace"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
@@ -39,7 +38,7 @@ type Auth interface {
 	GetSecretAccessKey() string
 	GetService() *Service
 	GetCurrentTenantID() (string, error)
-	GetCurrentTenant(ctx context.Context, rawMode bool) (*Tenant, error)
+	GetCurrentTenant(ctx context.Context) (*Tenant, error)
 	GetScopes() (string, error)
 	TokenClaims() (*TokenClaims, error)
 
@@ -128,7 +127,7 @@ func (a *authValue) GetCurrentTenantID() (string, error) {
 	return tenantId, nil
 }
 
-func (a *authValue) GetCurrentTenant(ctx context.Context, rawMode bool) (*Tenant, error) {
+func (a *authValue) GetCurrentTenant(ctx context.Context) (*Tenant, error) {
 	currentTenantId, err := a.GetCurrentTenantID()
 	if err != nil {
 		return nil, err
@@ -146,11 +145,7 @@ func (a *authValue) GetCurrentTenant(ctx context.Context, rawMode bool) (*Tenant
 		}
 	}
 
-	beautiful.NewOutput(rawMode).PrintError("O ID do tenant atual não foi encontrado na lista de tenants.")
-	fmt.Fprintf(os.Stderr, "\nID: %s\nTenants:\n", currentTenantId)
-	beautiful.NewOutput(rawMode).PrintData(tenants)
-
-	return nil, fmt.Errorf("tenant não foi encontrado na lista de tenants")
+	return nil, fmt.Errorf("o ID (%s) do tenant atual não foi encontrado na lista de tenants", currentTenantId)
 }
 
 func (a *authValue) GetScopes() (string, error) {

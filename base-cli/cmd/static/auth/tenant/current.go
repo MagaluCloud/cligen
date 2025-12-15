@@ -33,7 +33,7 @@ func CurrentCommand(ctx context.Context) *cobra.Command {
 func runCurrent(ctx context.Context, rawMode bool) error {
 	auth := ctx.Value(cmdutils.CTX_AUTH_KEY).(auth.Auth)
 
-	tenant, err := auth.GetCurrentTenant(ctx, rawMode)
+	tenant, err := auth.GetCurrentTenant(ctx)
 	if err != nil {
 		return fmt.Errorf("erro ao pegar o tenant atual: %w", err)
 	}
