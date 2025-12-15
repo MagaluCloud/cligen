@@ -391,7 +391,15 @@ func RetrieveType(expr ast.Expr, param *ast.Field, pkgs *packages.Package) (type
 	typeString, aliasType, isPrimitive = getTypeStringWithPackage(expr, pkgs.Name)
 	isPointer = strings.HasPrefix(typeString, "*")
 	isArray = strings.HasPrefix(typeString, "[]")
+
 	isOptional = false
+	if !isPrimitive {
+		isOptional = true
+	}
+	if isPointer {
+		isOptional = true
+		return
+	}
 	if param.Tag != nil {
 		tagValue := extractJSONTag(param.Tag.Value)
 		if slices.Contains(tagValue, "omitempty") {

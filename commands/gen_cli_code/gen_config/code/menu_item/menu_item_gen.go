@@ -17,10 +17,7 @@ var menuItemTemplate string
 var menuItemTmpl *template.Template
 
 const (
-	genDir              = "base-cli-gen/cmd/gen"
-	importCobra         = "\"github.com/spf13/cobra\""
-	importSDK           = "sdk \"github.com/MagaluCloud/mgc-sdk-go/client\""
-	serviceParamPattern = "sdkCoreConfig sdk.CoreClient"
+	genDir = "base-cli-gen/cmd/gen"
 )
 
 func init() {
@@ -58,7 +55,7 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 		menuItem.SetPathSaveToFile(filepath.Join(genDir, parentsPath, fmt.Sprintf("%s.go", strings.ToLower(method.Name))))
 		menuItem.SetPackageName(strings.ToLower(menu.Name))
 		menuItem.SetFunctionName(strutils.FirstUpper(method.Name))
-		menuItem.SetUseName(method.Name)
+		menuItem.SetUseName(strutils.ToSnakeCasePreserveID(method.Name, "-"))
 		menuItem.SetShortDescription(method.Description)
 		menuItem.SetLongDescription(method.LongDescription)
 		menuItem.AddImport(fmt.Sprintf("%s \"%s\"", "flags", "github.com/magaluCloud/mgccli/cobra_utils/flags"))
@@ -76,7 +73,7 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 				menuItem.AddCobraFlagsCreation(item)
 			}
 
-			cfa := CobraFlagsAssign(param, []string{}, true)
+			cfa := CobraFlagsAssign(param, []string{}, true, nameFromParent)
 			for _, item := range cfa {
 				menuItem.AddCobraFlagsAssign(item)
 			}
@@ -102,19 +99,8 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 	return nil
 }
 
-func CobraFlagsAssign(param config.Parameter, parentField []string, firstLevel bool) []string {
-	if param.Name == "ctx" {
-		return nil
-	}
-
-	if param.IsPrimitive {
-		return []string{fmt.Sprintf("%s = %sFlag.Value()", param.Name, param.Name)}
-	}
-
-	if param.IsArray {
-		return []string{fmt.Sprintf("%s = %sFlag.Value()", param.Name, param.Name)}
-	}
-	return nil
+func CobraFlagsAssign(param config.Parameter, parentField []string, firstLevel bool, nameFromParent string) []string {
+	return []string{}
 }
 
 func CobraFlagsCreation(param config.Parameter, parentField []string, firstLevel bool) []string {

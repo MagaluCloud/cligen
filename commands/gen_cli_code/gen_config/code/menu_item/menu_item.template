@@ -43,7 +43,7 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 			{{.Confirmation}}
 			{{end}}
 
-			{{.AssignResult}} := {{.ServiceCall}}({{.ServiceSDKParam}})
+			{{if .AssignResult}}{{.AssignResult}} := {{.ServiceCall}}({{.ServiceSDKParam}}){{end}}
 			{{.PrintResult}}
 			return nil
 		},

@@ -155,6 +155,9 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 			description = field.Comment.Text()
 		}
 
+		// Extrair tipo do campo
+		fieldType, isPrimitive, aliasType, structFields := analyzeParameterType(field.Type, packageName, sdkDir)
+
 		isOptional := false
 		if field.Tag != nil {
 			tagValue := extractJSONTag(field.Tag.Value)
@@ -162,13 +165,14 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 				isOptional = true
 			}
 		}
-
-		// Extrair tipo do campo
-		fieldType, isPrimitive, aliasType, structFields := analyzeParameterType(field.Type, packageName, sdkDir)
+		if !isPrimitive {
+			isOptional = true
+		}
 
 		isPointer := false
 		if strings.HasPrefix(fieldType, "*") {
 			isPointer = true
+			isOptional = true
 		}
 
 		isArray := false
