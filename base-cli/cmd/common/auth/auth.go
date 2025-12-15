@@ -575,16 +575,6 @@ func (a *authValue) processScopes(ctx context.Context, scopes []string) ([]Scope
 			return nil, err
 		}
 
-		selectedScopesTitle := []string{}
-		for _, opt := range opts {
-			for title, id := range scopesTitleMap {
-				if id == opt {
-					selectedScopesTitle = append(selectedScopesTitle, title)
-					break
-				}
-			}
-		}
-
 		if len(opts) == 0 {
 			return nil, fmt.Errorf("nenhum scope selecionado")
 		}
