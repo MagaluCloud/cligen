@@ -54,7 +54,7 @@ func runCreate(ctx context.Context, opts CreateOptions) error {
 		return fmt.Errorf("erro ao criar a API Key: %w", err)
 	}
 
-	fmt.Printf("\nAPI Key criada com sucesso!\nID: %s\n", apiKey.UUID)
+	fmt.Printf("API Key criada com sucesso!\nID: %s\n", apiKey.UUID)
 
 	return nil
 }
