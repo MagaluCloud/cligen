@@ -6,7 +6,7 @@
   "show_git_error": false,
   "menus": [
     {
-      "id": "d124989e-9cf5-445a-82ef-afcf973ef83b",
+      "id": "906fe97b-4d48-4c35-b538-20e9a036dfe5",
       "name": "compute",
       "enabled": true,
       "description": "",
@@ -14,7 +14,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/compute",
       "menus": [
         {
-          "id": "04d18aa6-226c-44d2-b220-845928808e20",
+          "id": "b24f7f38-d643-41fb-a707-5081a75db26e",
           "name": "Instances",
           "enabled": true,
           "description": "",
@@ -133,454 +133,6 @@
                       "is_array": true,
                       "is_positional": false,
                       "positional_index": 0,
-                      "struct": {
-                        "availability_zone": {
-                          "name": "AvailabilityZone",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "created_at": {
-                          "name": "CreatedAt",
-                          "type": "time.Time",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "error": {
-                          "name": "Error",
-                          "type": "*computeSdk.Error",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "message": {
-                              "name": "Message",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "slug": {
-                              "name": "Slug",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "id": {
-                          "name": "ID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "image": {
-                          "name": "Image",
-                          "type": "*computeSdk.VmImage",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": true,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "id": {
-                              "name": "ID",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "name": {
-                              "name": "Name",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "platform": {
-                              "name": "Platform",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "labels": {
-                          "name": "Labels",
-                          "type": "*[]string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": false,
-                          "is_array": true,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "machine_type": {
-                          "name": "MachineType",
-                          "type": "*computeSdk.InstanceTypes",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": true,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "disk": {
-                              "name": "Disk",
-                              "type": "*int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "id": {
-                              "name": "ID",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "name": {
-                              "name": "Name",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "ram": {
-                              "name": "Ram",
-                              "type": "*int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "vcpus": {
-                              "name": "Vcpus",
-                              "type": "*int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "name": {
-                          "name": "Name",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "network": {
-                          "name": "Network",
-                          "type": "*computeSdk.Network",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": true,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "interfaces": {
-                              "name": "Interfaces",
-                              "type": "*[]computeSdk.NetworkInterface",
-                              "description": "",
-                              "is_primitive": false,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": true,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "struct": {
-                                "associated_public_ipv4": {
-                                  "name": "AssociatedPublicIpv4",
-                                  "type": "*string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "id": {
-                                  "name": "ID",
-                                  "type": "string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": false,
-                                  "is_optional": false,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "ip_addresses": {
-                                  "name": "IpAddresses",
-                                  "type": "computeSdk.IpAddressNewExpand",
-                                  "description": "",
-                                  "is_primitive": false,
-                                  "is_pointer": false,
-                                  "is_optional": false,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "struct": {
-                                    "private_ipv4": {
-                                      "name": "PrivateIpv4",
-                                      "type": "string",
-                                      "description": "",
-                                      "is_primitive": true,
-                                      "is_pointer": false,
-                                      "is_optional": false,
-                                      "is_array": false,
-                                      "is_positional": false,
-                                      "positional_index": 0,
-                                      "alias_type": ""
-                                    },
-                                    "public_ipv6": {
-                                      "name": "PublicIpv6",
-                                      "type": "string",
-                                      "description": "",
-                                      "is_primitive": true,
-                                      "is_pointer": false,
-                                      "is_optional": true,
-                                      "is_array": false,
-                                      "is_positional": false,
-                                      "positional_index": 0,
-                                      "alias_type": ""
-                                    }
-                                  },
-                                  "alias_type": ""
-                                },
-                                "name": {
-                                  "name": "Name",
-                                  "type": "string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": false,
-                                  "is_optional": false,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "primary": {
-                                  "name": "Primary",
-                                  "type": "*bool",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": false,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "security_groups": {
-                                  "name": "SecurityGroups",
-                                  "type": "*[]string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": false,
-                                  "is_array": true,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                }
-                              },
-                              "alias_type": ""
-                            },
-                            "vpc": {
-                              "name": "Vpc",
-                              "type": "*computeSdk.IDOrName",
-                              "description": "",
-                              "is_primitive": false,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "struct": {
-                                "id": {
-                                  "name": "ID",
-                                  "type": "*string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "name": {
-                                  "name": "Name",
-                                  "type": "*string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                }
-                              },
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "ssh_key_name": {
-                          "name": "SSHKeyName",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "state": {
-                          "name": "State",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "status": {
-                          "name": "Status",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "updated_at": {
-                          "name": "UpdatedAt",
-                          "type": "*time.Time",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "user_data": {
-                          "name": "UserData",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
                       "alias_type": ""
                     },
                     "meta": {
@@ -593,70 +145,6 @@
                       "is_array": false,
                       "is_positional": false,
                       "positional_index": 0,
-                      "struct": {
-                        "page": {
-                          "name": "Page",
-                          "type": "computeSdk.Page",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "count": {
-                              "name": "Count",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "limit": {
-                              "name": "Limit",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "offset": {
-                              "name": "Offset",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "total": {
-                              "name": "Total",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        }
-                      },
                       "alias_type": ""
                     }
                   },
@@ -998,106 +486,6 @@
                           "is_array": true,
                           "is_positional": false,
                           "positional_index": 0,
-                          "struct": {
-                            "associated_public_ipv4": {
-                              "name": "AssociatedPublicIpv4",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "id": {
-                              "name": "ID",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "ip_addresses": {
-                              "name": "IpAddresses",
-                              "type": "computeSdk.IpAddressNewExpand",
-                              "description": "",
-                              "is_primitive": false,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "struct": {
-                                "private_ipv4": {
-                                  "name": "PrivateIpv4",
-                                  "type": "string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": false,
-                                  "is_optional": false,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "public_ipv6": {
-                                  "name": "PublicIpv6",
-                                  "type": "string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": false,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                }
-                              },
-                              "alias_type": ""
-                            },
-                            "name": {
-                              "name": "Name",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "primary": {
-                              "name": "Primary",
-                              "type": "*bool",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "security_groups": {
-                              "name": "SecurityGroups",
-                              "type": "*[]string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": true,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
                           "alias_type": ""
                         },
                         "vpc": {
@@ -1367,6 +755,96 @@
                       "is_array": false,
                       "is_positional": false,
                       "positional_index": 0,
+                      "struct": {
+                        "associate_public_ip": {
+                          "name": "AssociatePublicIp",
+                          "type": "*bool",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": true,
+                          "is_optional": true,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "interface": {
+                          "name": "Interface",
+                          "type": "*computeSdk.CreateParametersNetworkInterface",
+                          "description": "",
+                          "is_primitive": false,
+                          "is_pointer": true,
+                          "is_optional": true,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "struct": {
+                            "id": {
+                              "name": "ID",
+                              "type": "*string",
+                              "description": "",
+                              "is_primitive": true,
+                              "is_pointer": true,
+                              "is_optional": true,
+                              "is_array": false,
+                              "is_positional": false,
+                              "positional_index": 0,
+                              "alias_type": ""
+                            },
+                            "security_groups": {
+                              "name": "SecurityGroups",
+                              "type": "*[]computeSdk.CreateParametersNetworkInterfaceWithID",
+                              "description": "",
+                              "is_primitive": false,
+                              "is_pointer": true,
+                              "is_optional": true,
+                              "is_array": true,
+                              "is_positional": false,
+                              "positional_index": 0,
+                              "alias_type": ""
+                            }
+                          },
+                          "alias_type": ""
+                        },
+                        "vpc": {
+                          "name": "Vpc",
+                          "type": "*computeSdk.IDOrName",
+                          "description": "",
+                          "is_primitive": false,
+                          "is_pointer": true,
+                          "is_optional": true,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "struct": {
+                            "id": {
+                              "name": "ID",
+                              "type": "*string",
+                              "description": "",
+                              "is_primitive": true,
+                              "is_pointer": true,
+                              "is_optional": true,
+                              "is_array": false,
+                              "is_positional": false,
+                              "positional_index": 0,
+                              "alias_type": ""
+                            },
+                            "name": {
+                              "name": "Name",
+                              "type": "*string",
+                              "description": "",
+                              "is_primitive": true,
+                              "is_pointer": true,
+                              "is_optional": true,
+                              "is_array": false,
+                              "is_positional": false,
+                              "positional_index": 0,
+                              "alias_type": ""
+                            }
+                          },
+                          "alias_type": ""
+                        }
+                      },
                       "alias_type": ""
                     },
                     "ssh_key_name": {
@@ -1720,106 +1198,6 @@
                           "is_array": true,
                           "is_positional": false,
                           "positional_index": 0,
-                          "struct": {
-                            "associated_public_ipv4": {
-                              "name": "AssociatedPublicIpv4",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "id": {
-                              "name": "ID",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "ip_addresses": {
-                              "name": "IpAddresses",
-                              "type": "computeSdk.IpAddressNewExpand",
-                              "description": "",
-                              "is_primitive": false,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "struct": {
-                                "private_ipv4": {
-                                  "name": "PrivateIpv4",
-                                  "type": "string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": false,
-                                  "is_optional": false,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "public_ipv6": {
-                                  "name": "PublicIpv6",
-                                  "type": "string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": false,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                }
-                              },
-                              "alias_type": ""
-                            },
-                            "name": {
-                              "name": "Name",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "primary": {
-                              "name": "Primary",
-                              "type": "*bool",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "security_groups": {
-                              "name": "SecurityGroups",
-                              "type": "*[]string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": false,
-                              "is_array": true,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
                           "alias_type": ""
                         },
                         "vpc": {
@@ -2757,10 +2135,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "d124989e-9cf5-445a-82ef-afcf973ef83b"
+          "parent_menu_id": "906fe97b-4d48-4c35-b538-20e9a036dfe5"
         },
         {
-          "id": "725d359c-61e3-40d2-99ef-4e2fa5742528",
+          "id": "7ea038de-510f-4a60-917c-0573a99bba12",
           "name": "Images",
           "enabled": true,
           "description": "",
@@ -2867,178 +2245,6 @@
                       "is_array": true,
                       "is_positional": false,
                       "positional_index": 0,
-                      "struct": {
-                        "availability_zones": {
-                          "name": "AvailabilityZones",
-                          "type": "*[]string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": true,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "end_life_at": {
-                          "name": "EndLifeAt",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "end_standard_support_at": {
-                          "name": "EndStandardSupportAt",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "id": {
-                          "name": "ID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "labels": {
-                          "name": "Labels",
-                          "type": "*[]string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": true,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "minimum_requirements": {
-                          "name": "MinimumRequirements",
-                          "type": "computeSdk.MinimumRequirements",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "disk": {
-                              "name": "Disk",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "ram": {
-                              "name": "RAM",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "vcpu": {
-                              "name": "VCPU",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "name": {
-                          "name": "Name",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "platform": {
-                          "name": "Platform",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "release_at": {
-                          "name": "ReleaseAt",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "status": {
-                          "name": "Status",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "computeSdk.ImageStatus"
-                        },
-                        "version": {
-                          "name": "Version",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
                       "alias_type": ""
                     },
                     "meta": {
@@ -3051,70 +2257,6 @@
                       "is_array": false,
                       "is_positional": false,
                       "positional_index": 0,
-                      "struct": {
-                        "page": {
-                          "name": "Page",
-                          "type": "computeSdk.Page",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "count": {
-                              "name": "Count",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "limit": {
-                              "name": "Limit",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "offset": {
-                              "name": "Offset",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "total": {
-                              "name": "Total",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        }
-                      },
                       "alias_type": ""
                     }
                   },
@@ -3391,10 +2533,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "d124989e-9cf5-445a-82ef-afcf973ef83b"
+          "parent_menu_id": "906fe97b-4d48-4c35-b538-20e9a036dfe5"
         },
         {
-          "id": "a7bdbd70-3454-4c00-a372-20d097215499",
+          "id": "209db638-bd18-4607-aad4-a13a7dd81aab",
           "name": "InstanceTypes",
           "enabled": true,
           "description": "",
@@ -3501,104 +2643,6 @@
                       "is_array": true,
                       "is_positional": false,
                       "positional_index": 0,
-                      "struct": {
-                        "availability_zones": {
-                          "name": "AvailabilityZones",
-                          "type": "*[]string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": true,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "disk": {
-                          "name": "Disk",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "gpu": {
-                          "name": "GPU",
-                          "type": "*int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "id": {
-                          "name": "ID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "name": {
-                          "name": "Name",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "ram": {
-                          "name": "RAM",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "status": {
-                          "name": "Status",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "vcpus": {
-                          "name": "VCPUs",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
                       "alias_type": ""
                     },
                     "meta": {
@@ -3877,10 +2921,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "d124989e-9cf5-445a-82ef-afcf973ef83b"
+          "parent_menu_id": "906fe97b-4d48-4c35-b538-20e9a036dfe5"
         },
         {
-          "id": "64d5fbc2-7c47-40c6-bbe6-31458b9d72b4",
+          "id": "3504265b-d1e1-43ba-ac75-2818782692b6",
           "name": "Snapshots",
           "enabled": true,
           "description": "",
@@ -3987,70 +3031,6 @@
                       "is_array": false,
                       "is_positional": false,
                       "positional_index": 0,
-                      "struct": {
-                        "page": {
-                          "name": "Page",
-                          "type": "computeSdk.Page",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "count": {
-                              "name": "Count",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "limit": {
-                              "name": "Limit",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "offset": {
-                              "name": "Offset",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "total": {
-                              "name": "Total",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        }
-                      },
                       "alias_type": ""
                     },
                     "snapshots": {
@@ -4063,194 +3043,6 @@
                       "is_array": true,
                       "is_positional": false,
                       "positional_index": 0,
-                      "struct": {
-                        "created_at": {
-                          "name": "CreatedAt",
-                          "type": "time.Time",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "id": {
-                          "name": "ID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "instance": {
-                          "name": "Instance",
-                          "type": "*computeSdk.SnapshotInstance",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": true,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "id": {
-                              "name": "ID",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "image": {
-                              "name": "Image",
-                              "type": "*computeSdk.IDOrName",
-                              "description": "",
-                              "is_primitive": false,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "struct": {
-                                "id": {
-                                  "name": "ID",
-                                  "type": "*string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "name": {
-                                  "name": "Name",
-                                  "type": "*string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                }
-                              },
-                              "alias_type": ""
-                            },
-                            "machine_type": {
-                              "name": "MachineType",
-                              "type": "*computeSdk.IDOrName",
-                              "description": "",
-                              "is_primitive": false,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "struct": {
-                                "id": {
-                                  "name": "ID",
-                                  "type": "*string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                },
-                                "name": {
-                                  "name": "Name",
-                                  "type": "*string",
-                                  "description": "",
-                                  "is_primitive": true,
-                                  "is_pointer": true,
-                                  "is_optional": true,
-                                  "is_array": false,
-                                  "is_positional": false,
-                                  "positional_index": 0,
-                                  "alias_type": ""
-                                }
-                              },
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "name": {
-                          "name": "Name",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "size": {
-                          "name": "Size",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "state": {
-                          "name": "State",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "status": {
-                          "name": "Status",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "updated_at": {
-                          "name": "UpdatedAt",
-                          "type": "*time.Time",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
                       "alias_type": ""
                     }
                   },
@@ -4394,32 +3186,6 @@
                           "is_array": false,
                           "is_positional": false,
                           "positional_index": 0,
-                          "struct": {
-                            "id": {
-                              "name": "ID",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "name": {
-                              "name": "Name",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
                           "alias_type": ""
                         },
                         "machine_type": {
@@ -4432,32 +3198,6 @@
                           "is_array": false,
                           "is_positional": false,
                           "positional_index": 0,
-                          "struct": {
-                            "id": {
-                              "name": "ID",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "name": {
-                              "name": "Name",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
                           "alias_type": ""
                         }
                       },
@@ -4732,32 +3472,6 @@
                           "is_array": false,
                           "is_positional": false,
                           "positional_index": 0,
-                          "struct": {
-                            "id": {
-                              "name": "ID",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "name": {
-                              "name": "Name",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
                           "alias_type": ""
                         },
                         "machine_type": {
@@ -4770,32 +3484,6 @@
                           "is_array": false,
                           "is_positional": false,
                           "positional_index": 0,
-                          "struct": {
-                            "id": {
-                              "name": "ID",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "name": {
-                              "name": "Name",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
                           "alias_type": ""
                         }
                       },
@@ -5193,12 +3881,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "d124989e-9cf5-445a-82ef-afcf973ef83b"
+          "parent_menu_id": "906fe97b-4d48-4c35-b538-20e9a036dfe5"
         }
       ]
     },
     {
-      "id": "b7cf3e38-2a57-41c1-b781-9cd16c1a48a0",
+      "id": "471631fc-5607-407b-a94b-928fd795490e",
       "name": "iam",
       "enabled": true,
       "description": "",
@@ -5206,14 +3894,14 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/iam",
       "menus": [
         {
-          "id": "8c92620e-fa0a-4ec4-a2a7-3671e59cbf20",
+          "id": "f83e97fb-dcab-4505-8417-9974b36f5dc5",
           "name": "Members",
           "enabled": true,
           "description": "",
           "long_description": "",
           "menus": [
             {
-              "id": "01a6d012-58c4-43e2-970a-149434aceed7",
+              "id": "21d98282-29dd-4147-8c2d-834cef9bc2bb",
               "name": "Grants",
               "enabled": true,
               "description": "",
@@ -5492,7 +4180,7 @@
                 }
               ],
               "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go",
-              "parent_menu_id": "8c92620e-fa0a-4ec4-a2a7-3671e59cbf20"
+              "parent_menu_id": "f83e97fb-dcab-4505-8417-9974b36f5dc5"
             }
           ],
           "service_interface": "MemberService",
@@ -5817,10 +4505,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "b7cf3e38-2a57-41c1-b781-9cd16c1a48a0"
+          "parent_menu_id": "471631fc-5607-407b-a94b-928fd795490e"
         },
         {
-          "id": "7140fdfe-d2f3-45df-9c2b-de27bc33de1a",
+          "id": "9944860f-bbba-409c-9826-a93a729cc134",
           "name": "Roles",
           "enabled": true,
           "description": "",
@@ -6431,10 +5119,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "b7cf3e38-2a57-41c1-b781-9cd16c1a48a0"
+          "parent_menu_id": "471631fc-5607-407b-a94b-928fd795490e"
         },
         {
-          "id": "c4970671-1b7d-4311-abcd-14dda28cda58",
+          "id": "8195f302-2882-476e-b919-aba32220b240",
           "name": "Permissions",
           "enabled": true,
           "description": "",
@@ -6551,10 +5239,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "b7cf3e38-2a57-41c1-b781-9cd16c1a48a0"
+          "parent_menu_id": "471631fc-5607-407b-a94b-928fd795490e"
         },
         {
-          "id": "388b41fe-1056-4ff3-97ae-75e148a07f34",
+          "id": "89fc9d19-4b14-4479-ae01-4ecbcd95fb8a",
           "name": "AccessControl",
           "enabled": true,
           "description": "",
@@ -6957,10 +5645,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "b7cf3e38-2a57-41c1-b781-9cd16c1a48a0"
+          "parent_menu_id": "471631fc-5607-407b-a94b-928fd795490e"
         },
         {
-          "id": "c44955a6-5b97-4c46-a46a-2209a2adacf8",
+          "id": "c4ccb6ac-75d8-4771-96aa-8166798a27df",
           "name": "ServiceAccounts",
           "enabled": true,
           "description": "",
@@ -8283,10 +6971,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "b7cf3e38-2a57-41c1-b781-9cd16c1a48a0"
+          "parent_menu_id": "471631fc-5607-407b-a94b-928fd795490e"
         },
         {
-          "id": "c57f116c-02c0-4632-858e-546da186bb35",
+          "id": "8161d6fb-d5c6-4931-888a-cf8bf606d84e",
           "name": "Scopes",
           "enabled": true,
           "description": "",
@@ -8453,19 +7141,164 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "b7cf3e38-2a57-41c1-b781-9cd16c1a48a0"
+          "parent_menu_id": "471631fc-5607-407b-a94b-928fd795490e"
         }
       ]
     },
     {
-      "id": "84b9cf01-bbdc-42a8-b1c3-a9a1c017b0c3",
+      "id": "3dd01815-82da-420f-b015-6df2bc1bab8d",
       "name": "profile",
       "enabled": true,
       "description": "",
       "long_description": "",
       "menus": [
         {
-          "id": "64ff84c0-a813-4ad2-85ce-3ee12b9a897d",
+          "id": "f55ebf41-c4a4-442e-822e-3659297de7d6",
+          "name": "availabilityzones",
+          "enabled": true,
+          "description": "",
+          "long_description": "",
+          "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/availabilityzones",
+          "menus": [
+            {
+              "id": "c630b3da-c1da-4ce2-8734-4eb2e9db16fd",
+              "name": "AvailabilityZones",
+              "enabled": true,
+              "description": "",
+              "long_description": "",
+              "service_interface": "Service",
+              "methods": [
+                {
+                  "name": "List",
+                  "parameters": [
+                    {
+                      "name": "ctx",
+                      "type": "context.Context",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "opts",
+                      "type": "availabilityzonesSdk.ListOptions",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "struct": {
+                        "ShowBlocked": {
+                          "name": "ShowBlocked",
+                          "type": "bool",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
+                      "alias_type": ""
+                    }
+                  ],
+                  "returns": [
+                    {
+                      "name": "",
+                      "type": "[]availabilityzonesSdk.Region",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": true,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "struct": {
+                        "availability_zones": {
+                          "name": "AvailabilityZones",
+                          "type": "[]availabilityzonesSdk.AvailabilityZone",
+                          "description": "",
+                          "is_primitive": false,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": true,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "struct": {
+                            "az_id": {
+                              "name": "ID",
+                              "type": "string",
+                              "description": "",
+                              "is_primitive": true,
+                              "is_pointer": false,
+                              "is_optional": false,
+                              "is_array": false,
+                              "is_positional": false,
+                              "positional_index": 0,
+                              "alias_type": ""
+                            },
+                            "block_type": {
+                              "name": "BlockType",
+                              "type": "string",
+                              "description": "",
+                              "is_primitive": true,
+                              "is_pointer": false,
+                              "is_optional": false,
+                              "is_array": false,
+                              "is_positional": false,
+                              "positional_index": 0,
+                              "alias_type": "availabilityzonesSdk.BlockType"
+                            }
+                          },
+                          "alias_type": ""
+                        },
+                        "region_id": {
+                          "name": "ID",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "",
+                      "type": "error",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  ],
+                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/az.go"
+                }
+              ],
+              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/client.go",
+              "parent_menu_id": "f55ebf41-c4a4-442e-822e-3659297de7d6"
+            }
+          ],
+          "parent_menu_id": "3dd01815-82da-420f-b015-6df2bc1bab8d"
+        },
+        {
+          "id": "b3b0aefe-2510-42ac-84db-5201079c4c83",
           "name": "sshkeys",
           "enabled": true,
           "description": "",
@@ -8473,7 +7306,7 @@
           "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/sshkeys",
           "menus": [
             {
-              "id": "5a8ec063-768c-4ffe-9c97-c3563fc4533d",
+              "id": "06092314-755c-4aa5-aff1-5e144e85c5bd",
               "name": "Keys",
               "enabled": true,
               "description": "",
@@ -8970,155 +7803,10 @@
                 }
               ],
               "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/client.go",
-              "parent_menu_id": "64ff84c0-a813-4ad2-85ce-3ee12b9a897d"
+              "parent_menu_id": "b3b0aefe-2510-42ac-84db-5201079c4c83"
             }
           ],
-          "parent_menu_id": "84b9cf01-bbdc-42a8-b1c3-a9a1c017b0c3"
-        },
-        {
-          "id": "a58cce72-f879-4cfb-86ba-e939db0370e3",
-          "name": "availabilityzones",
-          "enabled": true,
-          "description": "",
-          "long_description": "",
-          "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/availabilityzones",
-          "menus": [
-            {
-              "id": "21cf37cf-9274-41fd-903f-8428a1c85179",
-              "name": "AvailabilityZones",
-              "enabled": true,
-              "description": "",
-              "long_description": "",
-              "service_interface": "Service",
-              "methods": [
-                {
-                  "name": "List",
-                  "parameters": [
-                    {
-                      "name": "ctx",
-                      "type": "context.Context",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    {
-                      "name": "opts",
-                      "type": "availabilityzonesSdk.ListOptions",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "ShowBlocked": {
-                          "name": "ShowBlocked",
-                          "type": "bool",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    }
-                  ],
-                  "returns": [
-                    {
-                      "name": "",
-                      "type": "[]availabilityzonesSdk.Region",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": true,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "availability_zones": {
-                          "name": "AvailabilityZones",
-                          "type": "[]availabilityzonesSdk.AvailabilityZone",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": true,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "az_id": {
-                              "name": "ID",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "block_type": {
-                              "name": "BlockType",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": "availabilityzonesSdk.BlockType"
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "region_id": {
-                          "name": "ID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    },
-                    {
-                      "name": "",
-                      "type": "error",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/az.go"
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/client.go",
-              "parent_menu_id": "a58cce72-f879-4cfb-86ba-e939db0370e3"
-            }
-          ],
-          "parent_menu_id": "84b9cf01-bbdc-42a8-b1c3-a9a1c017b0c3"
+          "parent_menu_id": "3dd01815-82da-420f-b015-6df2bc1bab8d"
         }
       ],
       "is_group": true

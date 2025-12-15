@@ -53,10 +53,6 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 	{{.}}
 	{{end}}
 
-
-	{{range .CobraFlagsRequired}}
-	{{.}}
-	{{end}}
 	parent.AddCommand(cmd)
 
 }

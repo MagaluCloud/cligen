@@ -62,20 +62,22 @@ func analyzeStructType(expr ast.Expr, packageName string, sdkDir string) map[str
 
 	structFields := extractTypeFieldsFromIdent(expr, packageName)
 	if structFields != nil {
-		// fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
 		return structFields
 	}
 
-	// Procurar pela definição da struct no diretório do SDK
 	structFields = findStructDefinition(typeName, sdkDir, packageName)
 	if structFields != nil {
-		// fmt.Printf("   🔍 Struct encontrada: %s com %d campos\n", typeName, len(structFields))
 	}
 
 	return structFields
 }
 
 func extractTypeFieldsFromIdent(expr ast.Expr, packageName string) map[string]config.Parameter {
+	// Tratar ponteiros desembrulhando recursivamente
+	if starExpr, ok := expr.(*ast.StarExpr); ok {
+		return extractTypeFieldsFromIdent(starExpr.X, packageName)
+	}
+
 	if ident, ok := expr.(*ast.Ident); ok {
 		if ident.Obj != nil {
 			if typeDecl, ok := ident.Obj.Decl.(*ast.TypeSpec); ok {
@@ -213,18 +215,12 @@ func extractStructFields(structType *ast.StructType, packageName string, sdkDir 
 	return fields
 }
 func analyzeParameterType(expr ast.Expr, packageName string, sdkDir string) (string, bool, string, map[string]config.Parameter) {
-	// Verificar se é uma struct inline (anônima)
 	if structType, ok := expr.(*ast.StructType); ok {
-		// fmt.Printf("   🔍 Struct inline detectada\n")
 		structFields := extractStructFields(structType, packageName, sdkDir)
 		return "struct{}", false, "", structFields
 	}
 
-	// Verificar se é uma interface inline (anônima)
 	if _, ok := expr.(*ast.InterfaceType); ok {
-		// fmt.Printf("   🔍 Interface inline detectada\n")
-		// Para interfaces, podemos extrair métodos se necessário
-		// Por enquanto, retornamos como interface{}
 		return "interface{}", true, "", nil
 	}
 
@@ -233,14 +229,11 @@ func analyzeParameterType(expr ast.Expr, packageName string, sdkDir string) (str
 	if aliasType != "" {
 		aliasType = packageName + "Sdk." + aliasType
 	}
-	// Se é primitivo, não precisa analisar struct
 	if isPrimitive {
 		return paramType, isPrimitive, aliasType, nil
 	}
 
-	// Verificar se é um tipo próprio que pode ser uma struct
 	structFields := analyzeStructType(expr, packageName, sdkDir)
-
 	return paramType, isPrimitive, aliasType, structFields
 }
 func analyzeFileForStruct(filePath string, typeName string, packageName string) map[string]config.Parameter {

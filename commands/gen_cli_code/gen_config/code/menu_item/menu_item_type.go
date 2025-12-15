@@ -20,7 +20,6 @@ type menuItemType struct {
 	CobraFlagsDefinition  []string `json:"cobra_flags_definition"`
 	CobraFlagsCreation    []string `json:"cobra_flags_creation"`
 	CobraFlagsAssign      []string `json:"cobra_flags_assign"`
-	CobraFlagsRequired    []string `json:"cobra_flags_required"`
 	CobraStructInitialize []string `json:"cobra_struct_initialize"`
 	CobraArrayParse       []string `json:"cobra_array_parse"`
 	Confirmation          string   `json:"confirmation"`
@@ -44,7 +43,6 @@ type MenuItem interface {
 	AddCobraFlagsDefinition(cobraFlagsDefinition string)
 	AddCobraFlagsCreation(cobraFlagsCreation string)
 	AddCobraFlagsAssign(cobraFlagsAssign string)
-	AddCobraFlagsRequired(cobraFlagsRequired string)
 	AddCobraStructInitialize(cobraStructInitialize string)
 	AddCobraArrayParse(cobraArrayParse []string)
 	SetConfirmation(confirmation string)
@@ -140,14 +138,6 @@ func (m *menuItemType) AddCobraFlagsAssign(cobraFlagsAssign string) {
 	}
 	m.CobraFlagsAssign = append(m.CobraFlagsAssign, cobraFlagsAssign)
 	slices.Sort(m.CobraFlagsAssign)
-}
-
-func (m *menuItemType) AddCobraFlagsRequired(cobraFlagsRequired string) {
-	if cobraFlagsRequired == "" {
-		return
-	}
-	m.CobraFlagsRequired = append(m.CobraFlagsRequired, cobraFlagsRequired)
-	slices.Sort(m.CobraFlagsRequired)
 }
 
 func (m *menuItemType) AddCobraStructInitialize(cobraStructInitialize string) {

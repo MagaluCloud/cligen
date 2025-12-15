@@ -71,13 +71,19 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 			spc := ServiceSDKParamCreate(param, sdkName)
 			menuItem.AddServiceSDKParamCreate(spc)
 
-			cfc := CobraFlagsCreation(param)
-			menuItem.AddCobraFlagsCreation(cfc)
+			cfc := CobraFlagsCreation(param, []string{}, true)
+			for _, item := range cfc {
+				menuItem.AddCobraFlagsCreation(item)
+			}
+
+			cfa := CobraFlagsAssign(param, []string{}, true)
+			for _, item := range cfa {
+				menuItem.AddCobraFlagsAssign(item)
+			}
 
 		}
 
 		// menuItem.AddCobraFlagsAssign()
-		// menuItem.AddCobraFlagsRequired()
 		// menuItem.AddCobraStructInitialize()
 		// menuItem.AddCobraArrayParse()
 		// menuItem.SetConfirmation()
@@ -96,12 +102,65 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 	return nil
 }
 
-func CobraFlagsCreation(param config.Parameter) string {
+func CobraFlagsAssign(param config.Parameter, parentField []string, firstLevel bool) []string {
 	if param.Name == "ctx" {
-		return ""
+		return nil
 	}
 
-	return ""
+	if param.IsPrimitive {
+		return []string{fmt.Sprintf("%s = %sFlag.Value()", param.Name, param.Name)}
+	}
+
+	if param.IsArray {
+		return []string{fmt.Sprintf("%s = %sFlag.Value()", param.Name, param.Name)}
+	}
+	return nil
+}
+
+func CobraFlagsCreation(param config.Parameter, parentField []string, firstLevel bool) []string {
+	if param.Name == "ctx" {
+		return nil
+	}
+
+	flagName := strutils.ToSnakeCasePreserveID(param.Name, "-")
+
+	if param.IsPrimitive {
+		if !param.IsOptional {
+			param.Description = fmt.Sprintf("%s (required)", param.Description)
+		}
+		if len(parentField) > 0 {
+			flagName = fmt.Sprintf("%s.%s", strings.Join(parentField, "."), flagName)
+		}
+		return []string{fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", %s,\"%s\")", param.Name, translateTypeToCobraFlagCreate(param.Type), flagName, defaultByType(param.Type), param.Description)}
+	}
+
+	if param.IsArray {
+		if len(parentField) > 0 {
+			flagName = fmt.Sprintf("%s.%s", strings.Join(parentField, "."), flagName)
+		}
+		return []string{fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", %s,\"%s\")", param.Name, translateTypeToCobraFlagCreate(param.Type), flagName, defaultByType(param.Type), param.Description)}
+	}
+
+	if param.Struct != nil {
+		var results []string
+		if !firstLevel {
+			parentField = append(parentField, flagName)
+		}
+		for _, sparam := range param.Struct {
+			var cfc []string
+			if firstLevel {
+				cfc = CobraFlagsCreation(sparam, []string{}, false)
+			} else {
+				cfc = CobraFlagsCreation(sparam, parentField, false)
+			}
+			for _, item := range cfc {
+				results = append(results, fmt.Sprintf("%s_%s", param.Name, item))
+			}
+		}
+		return results
+	}
+
+	return nil
 }
 
 func ServiceSDKParamCreate(param config.Parameter, sdkName string) string {
@@ -122,6 +181,7 @@ func ServiceSDKParamCreate(param config.Parameter, sdkName string) string {
 		typeName := strings.Replace(param.Type, "*", "", 1)
 		return fmt.Sprintf("%s := %s{}", param.Name, typeName)
 	}
+
 	return ""
 }
 
@@ -150,8 +210,11 @@ func FlagsDefinition(param config.Parameter) []string {
 			if len(param.Struct) > 0 {
 				var results []string
 				for _, sparam := range param.Struct {
-					sparam.Name = fmt.Sprintf("%s_%s", param.Name, sparam.Name)
-					results = append(results, FlagsDefinition(sparam)...)
+					fd := FlagsDefinition(sparam)
+					for _, item := range fd {
+						item = strings.Replace(item, sparam.Name, fmt.Sprintf("%s_%s", param.Name, sparam.Name), 1)
+						results = append(results, item)
+					}
 				}
 				return results
 			}
@@ -249,54 +312,28 @@ func translateTypeToCobraFlagCreateStruct(field, parentField config.Parameter) s
 	return translateTypeToCobraFlag(field.Type)
 }
 
-func translateTypeToCobraFlagCreate(paramType string, withChar bool) string {
+func translateTypeToCobraFlagCreate(paramType string) string {
 	paramType = strings.TrimPrefix(paramType, "*")
 
 	switch paramType {
 	case "string":
-		if withChar {
-			return "StrP"
-		}
 		return "Str"
 	case "int64", "int32", "int16", "int8":
-		if withChar {
-			return "Int64P"
-		}
 		return "Int64"
 	case "bool":
-		if withChar {
-			return "BoolP"
-		}
 		return "Bool"
 	case "int":
-		if withChar {
-			return "IntP"
-		}
 		return "Int"
 	case "float64":
-		if withChar {
-			return "Float64P"
-		}
 		return "Float64"
 	case "[]string":
-		if withChar {
-			return "StrSliceP"
-		}
 		return "StrSlice"
 	case "map[string]string":
-		if withChar {
-			return "StrMapP"
-		}
 		return "StrMap"
 	case "time.Time":
-		if withChar {
-			return "TimeP"
-		}
 		return "Time"
 	default:
-		if withChar {
-			return "StrP"
-		}
+
 		return "Str"
 	}
 }
