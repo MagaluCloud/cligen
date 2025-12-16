@@ -207,7 +207,7 @@ type CreateClient struct {
 	Scopes                           []createClientScopes `json:"scopes" jsonschema:"description=List of scopes (separated by space),example=openid profile" mgc:"positional"`
 	RedirectURIs                     []string             `json:"redirect_uris" jsonschema:"description=Redirect URIs (separated by space)" mgc:"positional"`
 	Icon                             *string              `json:"icon,omitempty" jsonschema:"description=URL for client icon" mgc:"positional"`
-	AccessTokenExp                   *int                 `json:"access_token_exp,omitempty" jsonschema:"description=Access token expiration (in seconds),example=7200" mgc:"positional"`
+	AccessTokenExp                   int                  `json:"access_token_exp,omitempty" jsonschema:"description=Access token expiration (in seconds),example=7200" mgc:"positional"`
 	AlwaysRequireLogin               *bool                `json:"always_require_login,omitempty" jsonschema:"description=Must ignore active Magalu ID session and always require login,example=false" mgc:"positional"`
 	ClientPrivacyTermUrl             string               `json:"client_privacy_term_url" jsonschema:"description=URL to privacy term" mgc:"positional"`
 	ClientTermUrl                    string               `json:"client_term_url" jsonschema:"description=URL to terms of use" mgc:"positional"`
@@ -216,7 +216,7 @@ type CreateClient struct {
 	BackchannelLogoutUri             *string              `json:"backchannel_logout_uri,omitempty" jsonschema:"description=Backchannel logout URI" mgc:"positional"`
 	OidcAudience                     []string             `json:"oidc_audience,omitempty" jsonschema:"description=Audiences for ID token, should be the Client ID values" mgc:"positional"`
 	RefreshTokenCustomExpiresEnabled *bool                `json:"refresh_token_custom_expires_enabled,omitempty" jsonschema:"description=Use custom value for refresh token expiration,example=false" mgc:"positional"`
-	RefreshTokenExp                  *int                 `json:"refresh_token_exp,omitempty" jsonschema:"description=Custom refresh token expiration value (in seconds),example=15778476" mgc:"positional"`
+	RefreshTokenExp                  int                  `json:"refresh_token_exp,omitempty" jsonschema:"description=Custom refresh token expiration value (in seconds),example=15778476" mgc:"positional"`
 	Reason                           string               `json:"request_reason,omitempty" jsonschema:"description=Note to inform the reason for creating the client. Will help with the application approval process" mgc:"positional"`
 	SupportUrl                       *string              `json:"support_url,omitempty" jsonschema:"description=URL for client support" mgc:"positional"`
 	GrantTypes                       []string             `json:"grant_types,omitempty" jsonschema:"description=Grant types the client can request for token generation (separated by space)" mgc:"positional"`

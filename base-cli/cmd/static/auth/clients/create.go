@@ -53,18 +53,18 @@ func CreateCommand(ctx context.Context) *cobra.Command {
 				ClientTermsURL:       opts.ClientTermsURL,
 				ClientPrivacyTermURL: opts.ClientPrivacyTermURL,
 				RedirectURIs:         opts.RedirectURIs,
+				AccessTokenExp:       &opts.AccessTokenExp,
+				RefreshTokenExp:      &opts.RefreshTokenExp,
 			}
 
 			NilIfNotChanged(cmd, BackchannelLogoutSessionEnabled, &params.BackchannelLogoutSessionEnabled, opts.BackchannelLogoutSessionEnabled)
 			NilIfNotChanged(cmd, Audiences, &params.Audiences, opts.Audiences)
 			NilIfNotChanged(cmd, Reason, &params.Reason, opts.Reason)
 			NilIfNotChanged(cmd, Icon, &params.Icon, opts.Icon)
-			NilIfNotChanged(cmd, AccessTokenExp, &params.AccessTokenExp, opts.AccessTokenExp)
 			NilIfNotChanged(cmd, AlwaysRequireLogin, &params.AlwaysRequireLogin, opts.AlwaysRequireLogin)
 			NilIfNotChanged(cmd, BackchannelLogoutURI, &params.BackchannelLogoutURI, opts.BackchannelLogoutURI)
 			NilIfNotChanged(cmd, OidcAudience, &params.OidcAudience, opts.OidcAudience)
 			NilIfNotChanged(cmd, RefreshTokenCustomExpiresEnabled, &params.RefreshTokenCustomExpiresEnabled, opts.RefreshTokenCustomExpiresEnabled)
-			NilIfNotChanged(cmd, RefreshTokenExp, &params.RefreshTokenExp, opts.RefreshTokenExp)
 			NilIfNotChanged(cmd, SupportURL, &params.SupportURL, opts.SupportURL)
 			NilIfNotChanged(cmd, Email, &params.Email, opts.Email)
 			NilIfNotChanged(cmd, GrantTypes, &params.GrantTypes, opts.GrantTypes)

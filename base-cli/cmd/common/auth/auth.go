@@ -699,10 +699,10 @@ func (a *authValue) CreateClient(ctx context.Context, opts CreateClientParams) (
 		ClientPrivacyTermUrl:             opts.ClientPrivacyTermURL,
 		ClientTermUrl:                    opts.ClientTermsURL,
 		BackchannelLogoutSessionEnabled:  opts.BackchannelLogoutSessionEnabled,
-		AccessTokenExp:                   opts.AccessTokenExp,
+		AccessTokenExp:                   *opts.AccessTokenExp,
 		AlwaysRequireLogin:               opts.AlwaysRequireLogin,
 		RefreshTokenCustomExpiresEnabled: opts.RefreshTokenCustomExpiresEnabled,
-		RefreshTokenExp:                  opts.RefreshTokenExp,
+		RefreshTokenExp:                  *opts.RefreshTokenExp,
 		Icon:                             opts.Icon,
 		BackchannelLogoutUri:             opts.BackchannelLogoutURI,
 		SupportUrl:                       opts.SupportURL,
@@ -736,11 +736,6 @@ func (a *authValue) CreateClient(ctx context.Context, opts CreateClientParams) (
 
 	if opts.GrantTypes != nil {
 		clientPayload.GrantTypes = stringToSlice(*opts.GrantTypes, " ", true)
-	}
-
-	if opts.AccessTokenExp == nil {
-		defaultAccessTokenExp := 7200
-		clientPayload.AccessTokenExp = &defaultAccessTokenExp
 	}
 
 	var buf bytes.Buffer
