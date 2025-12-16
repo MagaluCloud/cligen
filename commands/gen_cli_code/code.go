@@ -4,9 +4,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code"
-	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/generate"
-	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/manipulate"
+	"github.com/magaluCloud/cligen/commands/gen_cli_code/code"
+	"github.com/magaluCloud/cligen/commands/gen_cli_code/generate_config"
+	"github.com/magaluCloud/cligen/commands/gen_cli_code/manipulate_config"
 )
 
 const (
@@ -14,11 +14,11 @@ const (
 )
 
 func GenConfig() {
-	generate.Run()
+	generate_config.Run()
 }
 
 func Manipulate() {
-	manipulate.StartServer("8080")
+	manipulate_config.StartServer("8080")
 }
 
 func GenCliCode() {

@@ -1,4 +1,4 @@
-package manipulate
+package manipulate_config
 
 import (
 	"encoding/json"
