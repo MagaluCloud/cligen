@@ -365,7 +365,7 @@ function createSubmenuBlock(submenu, menuIndex, submenuIndex, parentSubmenuIndex
     const promoteBtn = document.createElement('button');
     promoteBtn.className = 'promote-btn';
     promoteBtn.innerHTML = '⬆️';
-    promoteBtn.title = 'Promover para Menu (mover para raiz)';
+    promoteBtn.title = 'Promover para o mesmo nível do parent';
     promoteBtn.onclick = (e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -1453,7 +1453,7 @@ function updateParentMenuIDRecursive(menu, parentID) {
     }
 }
 
-// Função para promover submenu para menu (mover para raiz)
+// Função para promover submenu para o mesmo nível do parent
 function promoteSubmenuToMenu(submenuID) {
     if (!submenuID) {
         showStatus('ID do submenu não encontrado', 'error');
@@ -1468,6 +1468,16 @@ function promoteSubmenuToMenu(submenuID) {
     // Salvar estado antes de modificar
     saveState();
 
+    // Encontrar o submenu
+    const submenu = findMenuByIdInConfig(configData.menus, submenuID);
+    if (!submenu) {
+        showStatus('Submenu não encontrado', 'error');
+        return;
+    }
+
+    // Obter o parent_menu_id do submenu
+    const parentMenuID = submenu.parent_menu_id;
+    
     // Encontrar e remover o submenu do local original
     const removed = findAndRemoveElementById(configData.menus, submenuID);
     if (!removed) {
@@ -1477,11 +1487,48 @@ function promoteSubmenuToMenu(submenuID) {
 
     const { element } = removed;
 
-    // Adicionar à raiz como menu - limpar parent_menu_id e atualizar recursivamente todos os submenus filhos
-    updateParentMenuIDRecursive(element, '');
-    configData.menus.push(element);
-
-    showStatus('Submenu promovido para menu! (Clique em Salvar para persistir)', 'success');
+    // Se o submenu tem um parent (não está na raiz)
+    if (parentMenuID) {
+        // Encontrar o parent do submenu
+        const parentMenu = findMenuByIdInConfig(configData.menus, parentMenuID);
+        if (parentMenu) {
+            // Verificar se o parent tem um parent (não está na raiz)
+            if (parentMenu.parent_menu_id) {
+                // Encontrar o parent do parent (avô)
+                const grandParentMenu = findMenuByIdInConfig(configData.menus, parentMenu.parent_menu_id);
+                if (grandParentMenu) {
+                    // Mover para dentro do avô (mesmo nível do parent)
+                    if (!grandParentMenu.menus) {
+                        grandParentMenu.menus = [];
+                    }
+                    updateParentMenuIDRecursive(element, grandParentMenu.id);
+                    grandParentMenu.menus.push(element);
+                    showStatus('Submenu promovido para o mesmo nível do parent! (Clique em Salvar para persistir)', 'success');
+                } else {
+                    // Se não encontrou o avô, mover para a raiz
+                    updateParentMenuIDRecursive(element, '');
+                    configData.menus.push(element);
+                    showStatus('Submenu promovido para menu! (Clique em Salvar para persistir)', 'success');
+                }
+            } else {
+                // O parent está na raiz, então mover para a raiz também
+                updateParentMenuIDRecursive(element, '');
+                configData.menus.push(element);
+                showStatus('Submenu promovido para menu! (Clique em Salvar para persistir)', 'success');
+            }
+        } else {
+            // Se não encontrou o parent, mover para a raiz
+            updateParentMenuIDRecursive(element, '');
+            configData.menus.push(element);
+            showStatus('Submenu promovido para menu! (Clique em Salvar para persistir)', 'success');
+        }
+    } else {
+        // Se o submenu já está na raiz (não tem parent), não há o que promover
+        // Adicionar de volta ao local original
+        removed.parentMenus.splice(removed.index, 0, element);
+        showStatus('Submenu já está no nível raiz', 'info');
+        return;
+    }
     
     // Atualizar interface visualmente
     renderConfig(configData);

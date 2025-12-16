@@ -92,12 +92,20 @@ tidy: ## Organiza go.mod e go.sum
 # ==================================================================================== #
 ##@ Execução
 # ==================================================================================== #
+.PHONY: generate-config
+generate-config:
+	@echo "$(INFO_COLOR)Gerando configuração...$(NO_COLOR)"
+	@./$(BINARY_NAME) generate-config
+	@echo "$(OK_COLOR)✓ Configuração gerada$(NO_COLOR)"
+
 
 .PHONY: manipulate-config
 manipulate-config: build## Manipula a configuração
 	@echo "$(INFO_COLOR)Manipulando configuração...$(NO_COLOR)"
 	@./$(BINARY_NAME) manipulate-config
 	@echo "$(OK_COLOR)✓ Configuração manipulada$(NO_COLOR)"
+
+
 
 .PHONY: clone
 clone: build## Clona o SDK

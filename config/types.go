@@ -14,6 +14,7 @@ type Config struct {
 	SDKTag              string  `json:"sdk_tag"`
 	TagOrBranchOrLatest string  `json:"tag_or_branch_or_latest"`
 	ShowGitError        bool    `json:"show_git_error"`
+	ShowLogs            bool    `json:"show_logs"`
 	Menus               []*Menu `json:"menus"`
 }
 

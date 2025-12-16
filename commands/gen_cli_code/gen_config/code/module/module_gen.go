@@ -45,11 +45,13 @@ func GenerateModule(cfg *config.Config) error {
 
 func GenModule(menu *config.Menu) error {
 	module := NewModule()
-	module.AddImport(fmt.Sprintf("\"%s\"", menu.SDKPackage))
+	moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(menu.Name))
+
+	sdkImportName := fmt.Sprintf("%sSdk", moduleServiceName)
+	module.AddImport(fmt.Sprintf("%s \"%s\"", sdkImportName, menu.SDKPackage))
 	module.SetPathSaveToFile(filepath.Join(genDir, strings.ToLower(menu.Name), fmt.Sprintf("%s.go", strings.ToLower(menu.Name))))
 
-	moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(menu.Name))
-	module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, strings.ToLower(menu.Name)))
+	module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, sdkImportName))
 
 	for _, submenu := range menu.Menus {
 		module.AddSubCommand(subCommandType{
@@ -78,10 +80,12 @@ func GenGroupModule(menu *config.Menu) error {
 	module.SetPathSaveToFile(filepath.Join(genDir, strings.ToLower(menu.Name), fmt.Sprintf("%s.go", strings.ToLower(menu.Name))))
 
 	for _, submenu := range menu.Menus {
-		module.AddImport(fmt.Sprintf("\"%s\"", submenu.SDKPackage))
 
 		moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(submenu.Name))
-		module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, strings.ToLower(submenu.Name)))
+		sdkImportName := fmt.Sprintf("%sSdk", moduleServiceName)
+		module.AddImport(fmt.Sprintf("%s \"%s\"", sdkImportName, submenu.SDKPackage))
+
+		module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, sdkImportName))
 
 		for _, ssmenu := range submenu.Menus {
 			module.AddSubCommand(subCommandType{

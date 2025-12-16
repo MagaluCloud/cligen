@@ -29,6 +29,7 @@ type menuItemType struct {
 	PositionalArgs        []string `json:"positional_args"`
 	ServiceSDKParamCreate []string `json:"service_sdk_param_create"`
 	ServiceSDKParam       string   `json:"service_sdk_param"`
+	params                []string `json:"-"`
 }
 
 type MenuItem interface {
@@ -52,11 +53,22 @@ type MenuItem interface {
 	AddPositionalArgs(positionalArgs []string)
 	AddServiceSDKParamCreate(serviceSDKParamCreate string)
 	SetServiceSDKParam(serviceSDKParam string)
+	AddParam(param string)
+	GetParams() []string
 	Save() error
 }
 
 func NewMenuItem() MenuItem {
 	return &menuItemType{}
+}
+
+func (m *menuItemType) AddParam(param string) {
+	m.params = append(m.params, param)
+}
+
+func (m *menuItemType) GetParams() []string {
+	m.params = append([]string{"ctx"}, m.params...)
+	return m.params
 }
 
 func (m *menuItemType) AddImport(importt string) {

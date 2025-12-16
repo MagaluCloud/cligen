@@ -60,26 +60,11 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 		menuItem.SetLongDescription(method.LongDescription)
 		menuItem.AddImport(fmt.Sprintf("%s \"%s\"", "flags", "github.com/magaluCloud/mgccli/cobra_utils/flags"))
 		for _, param := range method.Parameters {
-			fd := FlagsDefinition(param)
-			for _, item := range fd {
-				menuItem.AddCobraFlagsDefinition(item)
-			}
-			//
-			spc := ServiceSDKParamCreate(param, sdkName)
-			menuItem.AddServiceSDKParamCreate(spc)
-
-			cfc := CobraFlagsCreation(param, []string{}, true)
-			for _, item := range cfc {
-				menuItem.AddCobraFlagsCreation(item)
-			}
-
-			cfa := CobraFlagsAssign(param, []string{}, true, nameFromParent)
-			for _, item := range cfa {
-				menuItem.AddCobraFlagsAssign(item)
-			}
-
+			menuItem = ProcessParams(menu, method, menuItem, sdkName, param, []config.Parameter{}...)
 		}
-
+		menuItem = printResult(menuItem, method)
+		menuItem.SetServiceCall(fmt.Sprintf("%s.%s", moduleServiceName, method.Name))
+		menuItem.SetServiceSDKParam(strings.Join(menuItem.GetParams(), ","))
 		// menuItem.AddCobraFlagsAssign()
 		// menuItem.AddCobraStructInitialize()
 		// menuItem.AddCobraArrayParse()
@@ -98,55 +83,181 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 	}
 	return nil
 }
+func addPrintError() string {
+	return "\n\t\t\tif err != nil {\n\t\t\t\treturn err\n\t\t\t}\n\t\t\t"
+}
+func genResponseNameFromType(typ string) string {
+	if typ == "error" {
+		return "err"
+	}
+	if strings.Contains(typ, ".") {
+		parts := strings.Split(typ, ".")
+		return strings.ToLower(parts[len(parts)-1])
+	}
+	return strings.TrimPrefix(strings.ToLower(typ), "*")
+}
+func printResult(menuItem MenuItem, method *config.Method) MenuItem {
+	assignResult := make([]string, 0, len(method.Returns))
+	printRst := make([]string, 0, len(method.Returns))
+	hasNonError := false
 
-func CobraFlagsAssign(param config.Parameter, parentField []string, firstLevel bool, nameFromParent string) []string {
-	return []string{}
+	for _, response := range method.Returns {
+		if response.Name == "" {
+			response.Name = genResponseNameFromType(response.Type)
+		}
+		assignResult = append(assignResult, response.Name)
+
+		if response.Type == "error" {
+			printRst = append(printRst, addPrintError())
+			continue
+		}
+
+		hasNonError = true
+	}
+
+	if hasNonError {
+		printRst = append(printRst, "\t\t\traw, _ := cmd.Root().PersistentFlags().GetBool(\"raw\")")
+		menuItem.AddImport("\"github.com/magaluCloud/mgccli/beautiful\"")
+
+		for _, response := range method.Returns {
+			if response.Type != "error" {
+				if response.Name == "" {
+					response.Name = genResponseNameFromType(response.Type)
+				}
+				printRst = append(printRst, fmt.Sprintf("\t\t\tbeautiful.NewOutput(raw).PrintData(%s)", response.Name))
+			}
+		}
+	}
+
+	menuItem.SetAssignResult(strings.Join(assignResult, ", "))
+	menuItem.SetPrintResult(strings.Join(printRst, "\n"))
+
+	return menuItem
 }
 
-func CobraFlagsCreation(param config.Parameter, parentField []string, firstLevel bool) []string {
+func ProcessParams(menu *config.Menu, method *config.Method, menuItem MenuItem, sdkName string, param config.Parameter, parents ...config.Parameter) MenuItem {
 	if param.Name == "ctx" {
-		return nil
+		return menuItem
 	}
 
-	flagName := strutils.ToSnakeCasePreserveID(param.Name, "-")
-
-	if param.IsPrimitive {
-		if !param.IsOptional {
-			param.Description = fmt.Sprintf("%s (required)", param.Description)
+	if len(param.Struct) == 0 && param.IsPrimitive {
+		menuItem = ProcessPrimitiveParam(menu, method, menuItem, sdkName, param, parents...)
+		if len(parents) == 0 {
+			menuItem.AddParam(param.Name)
 		}
-		if len(parentField) > 0 {
-			flagName = fmt.Sprintf("%s.%s", strings.Join(parentField, "."), flagName)
-		}
-		return []string{fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", %s,\"%s\")", param.Name, translateTypeToCobraFlagCreate(param.Type), flagName, defaultByType(param.Type), param.Description)}
 	}
-
-	if param.IsArray {
-		if len(parentField) > 0 {
-			flagName = fmt.Sprintf("%s.%s", strings.Join(parentField, "."), flagName)
-		}
-		return []string{fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", %s,\"%s\")", param.Name, translateTypeToCobraFlagCreate(param.Type), flagName, defaultByType(param.Type), param.Description)}
-	}
-
-	if param.Struct != nil {
-		var results []string
-		if !firstLevel {
-			parentField = append(parentField, flagName)
-		}
+	if len(param.Struct) > 0 {
 		for _, sparam := range param.Struct {
-			var cfc []string
-			if firstLevel {
-				cfc = CobraFlagsCreation(sparam, []string{}, false)
-			} else {
-				cfc = CobraFlagsCreation(sparam, parentField, false)
-			}
-			for _, item := range cfc {
-				results = append(results, fmt.Sprintf("%s_%s", param.Name, item))
-			}
+			menuItem = ProcessParams(menu, method, menuItem, sdkName, sparam, append(parents, param)...)
 		}
-		return results
+		menuItem.AddParam(param.Name)
+		menuItem.AddServiceSDKParamCreate(ServiceSDKParamCreate(param, sdkName))
 	}
 
-	return nil
+	return menuItem
+}
+
+func parentsNamesDefinition(parents []config.Parameter) []string {
+	names := make([]string, len(parents))
+	for i, parent := range parents {
+		names[i] = parent.Name
+	}
+	return names
+}
+
+func ProcessPrimitiveParam(menu *config.Menu, method *config.Method, menuItem MenuItem, sdkName string, param config.Parameter, parents ...config.Parameter) MenuItem {
+	// Definition
+	varName := fmt.Sprintf("%sFlag", param.Name)
+	if len(parents) > 0 {
+		varName = fmt.Sprintf("%s_%s", strings.Join(parentsNamesDefinition(parents), "_"), varName)
+	}
+	menuItem.AddCobraFlagsDefinition(fmt.Sprintf("var %s *flags.%s", varName, translateTypeToCobraFlag(param.Type)))
+
+	if len(parents) == 0 && !param.IsOptional && !param.IsArray {
+		param.Description = fmt.Sprintf("%s (required)", param.Description)
+	}
+
+	// FlagCreation
+	flagName := strutils.ToSnakeCasePreserveID(param.Name, "-")
+	menuItem.AddCobraFlagsCreation(fmt.Sprintf("%s= flags.New%s(cmd, \"%s\", %s,\"%s\")", varName, translateTypeToCobraFlagCreate(param.Type), flagName, defaultByType(param.Type), param.Description))
+
+	// ServiceSDKParamCreate
+	if len(parents) == 0 {
+		typeName := getParamTypeName(param, sdkName)
+		menuItem.AddServiceSDKParamCreate(fmt.Sprintf("var %s %s", param.Name, typeName))
+	}
+
+	// CobraFlagsAssign
+	if len(parents) > 0 {
+		cfa := ""
+		if param.IsPrimitive && !param.IsArray {
+			varNameCfa := fmt.Sprintf("%s.%s", strings.Join(parentsNamesDefinition(parents), "_"), param.Name)
+
+			cfa = fmt.Sprintf(`if %s.IsChanged(){
+			%s = %s.Value
+			}`, varName, varNameCfa, varName)
+
+		}
+		if param.IsPrimitive && param.IsArray {
+			varNameCfa := fmt.Sprintf("%s.%s", strings.Join(parentsNamesDefinition(parents), "_"), param.Name)
+
+			cfa = fmt.Sprintf(`if %s.IsChanged(){
+			  %s = make([]%s, len(*%s.Value))
+			  for i, v := range *%s.Value {
+			    %s[i] = %s(v)
+			  }
+			}`, varName, varNameCfa, param.AliasType, varName, varName, varNameCfa, param.AliasType)
+		}
+		if !param.IsPrimitive && param.IsArray {
+			fmt.Println("asasd")
+		}
+		menuItem.AddCobraFlagsAssign(cfa)
+	}
+
+	if len(parents) == 0 {
+		cfa := ""
+		if param.IsPrimitive && !param.IsArray && param.IsOptional {
+			cfa = fmt.Sprintf(`if %s.IsChanged(){
+			%s = %s.Value
+			}`, varName, flagName, varName)
+		}
+
+		if param.IsPrimitive && !param.IsArray && !param.IsOptional {
+			cfa = fmt.Sprintf(`if len(args) > 0{
+			%s = args[0]
+			}`, varName)
+			cfa = fmt.Sprintf(`%s
+			if %s.IsChanged(){
+			%s = %s.Value
+			}else{
+			return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
+			}`, cfa, varName, flagName, varName, param.Name, flagName)
+			menuItem.AddImport("\"fmt\"")
+		}
+
+		if param.IsPrimitive && param.IsArray {
+			cfa = fmt.Sprintf(`if %s.IsChanged(){
+			  %s = make([]%s, len(*%s.Value))
+			  for i, v := range *%s.Value {
+			    %s[i] = %s(v)
+			  }
+			}`, varName, flagName, checkHasSdkName(param.AliasType, sdkName), varName, varName, flagName, checkHasSdkName(param.AliasType, sdkName))
+		}
+		if !param.IsPrimitive && param.IsArray {
+			fmt.Println("asasd")
+		}
+		menuItem.AddCobraFlagsAssign(cfa)
+	}
+
+	return menuItem
+}
+
+// fix in config gen
+func checkHasSdkName(name, sdkName string) string {
+	if strings.HasPrefix(name, sdkName) {
+		return name
+	}
+	return fmt.Sprintf("%s.%s", sdkName, name)
 }
 
 func ServiceSDKParamCreate(param config.Parameter, sdkName string) string {
@@ -182,33 +293,6 @@ func getParamTypeName(param config.Parameter, sdkName string) string {
 		return "[]" + param.AliasType
 	}
 	return param.AliasType
-}
-
-func FlagsDefinition(param config.Parameter) []string {
-	if param.Name == "ctx" {
-		return nil
-	}
-	if param.IsPrimitive {
-		return []string{fmt.Sprintf("var %sFlag *flags.%s", param.Name, translateTypeToCobraFlag(param.Type))}
-	}
-	if !param.IsPrimitive {
-		if !param.IsArray {
-			if len(param.Struct) > 0 {
-				var results []string
-				for _, sparam := range param.Struct {
-					fd := FlagsDefinition(sparam)
-					for _, item := range fd {
-						item = strings.Replace(item, sparam.Name, fmt.Sprintf("%s_%s", param.Name, sparam.Name), 1)
-						results = append(results, item)
-					}
-				}
-				return results
-			}
-		}
-
-	}
-
-	return nil
 }
 
 func defaultByType(paramType string) string {

@@ -3,6 +3,7 @@ package code
 import (
 	"fmt"
 
+	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code/gomod"
 	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code/menu"
 	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code/menu_item"
 	"github.com/magaluCloud/cligen/commands/gen_cli_code/gen_config/code/module"
@@ -16,6 +17,7 @@ func Run() {
 		panic(fmt.Errorf("erro ao carregar configuração: %w", err))
 	}
 
+	gomod.GenGoModFile(cfg)
 	root_gen.GenerateRootGen(cfg)
 	module.GenerateModule(cfg)
 	menu.GenerateMenu(cfg)

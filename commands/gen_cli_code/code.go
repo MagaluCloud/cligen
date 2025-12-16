@@ -10,10 +10,7 @@ import (
 )
 
 const (
-	genDir              = "base-cli-gen/cmd/gen"
-	importCobra         = "\"github.com/spf13/cobra\""
-	importSDK           = "sdk \"github.com/MagaluCloud/mgc-sdk-go/client\""
-	serviceParamPattern = "sdkCoreConfig sdk.CoreClient"
+	genDir = "base-cli-gen/cmd/gen"
 )
 
 func GenConfig() {

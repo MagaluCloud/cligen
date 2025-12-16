@@ -1,8 +1,7 @@
-package gen_cli_code
+package gomod
 
 import (
 	"bytes"
-	"log"
 	"os"
 	"path/filepath"
 	"text/template"
@@ -34,14 +33,9 @@ func (gmd *GoModData) WriteGoModFile(filePath string) error {
 	return os.WriteFile(filePath, buf.Bytes(), 0644)
 }
 
-func genGoModFile() {
-	config, err := config.LoadConfig()
-	if err != nil {
-		log.Fatalf("Erro ao carregar o arquivo de configuração: %v", err)
-	}
-
+func GenGoModFile(cfg *config.Config) {
 	gmd := GoModData{
-		Version: config.SDKTag,
+		Version: cfg.SDKTag,
 	}
 
 	gmd.WriteGoModFile(filepath.Join("base-cli-gen", "go.mod"))
