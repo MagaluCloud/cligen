@@ -7,6 +7,8 @@ package gen
 
 import (
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
+	"github.com/spf13/cobra"
+	sdk "github.com/MagaluCloud/mgc-sdk-go/client"
 {{range .Imports}}
 	{{.}}
 {{end}}

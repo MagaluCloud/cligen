@@ -22,5 +22,4 @@ func Run() {
 	module.GenerateModule(cfg)
 	menu.GenerateMenu(cfg)
 	menu_item.GenerateMenuItem(cfg)
-	fmt.Println(cfg.SDKTag)
 }

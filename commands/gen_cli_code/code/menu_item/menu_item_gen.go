@@ -17,10 +17,17 @@ var menuItemTemplate string
 var menuItemTmpl *template.Template
 
 const (
-	genDir = "base-cli-gen/cmd/gen"
+	genDir             = "base-cli-gen/cmd/gen"
+	_IN_DEBUG          = false
+	DEBUG_MENU_NAME    = "lbaas"
+	DEBUG_SUBMENU_NAME = "NetworkBackends"
+	DEBUG_METHOD_NAME  = "Get"
 )
 
 func init() {
+	if _IN_DEBUG {
+		fmt.Printf("\t\t\tWARNING!!! DEBUG MODE ENABLED\n%s\n%s\n%s\n", DEBUG_MENU_NAME, DEBUG_SUBMENU_NAME, DEBUG_METHOD_NAME)
+	}
 	var err error
 	menuItemTmpl, err = template.New("menu_item").Parse(menuItemTemplate)
 	if err != nil {
@@ -30,7 +37,13 @@ func init() {
 
 func GenerateMenuItem(cfg *config.Config) error {
 	for _, menu := range cfg.Menus {
+		if _IN_DEBUG && menu.Name != DEBUG_MENU_NAME {
+			continue
+		}
 		for _, submenu := range menu.Menus {
+			if _IN_DEBUG && submenu.Name != DEBUG_SUBMENU_NAME {
+				continue
+			}
 			GenMenuItem(cfg, submenu)
 		}
 	}
@@ -40,6 +53,9 @@ func GenerateMenuItem(cfg *config.Config) error {
 
 func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 	for _, method := range menu.Methods {
+		if _IN_DEBUG && method.Name != DEBUG_METHOD_NAME {
+			continue
+		}
 		parents := FindParents(cfg, menu.ParentMenuID)
 
 		parents = append(parents, strings.ToLower(menu.Name))
@@ -86,24 +102,20 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 func addPrintError() string {
 	return "\n\t\t\tif err != nil {\n\t\t\t\treturn err\n\t\t\t}\n\t\t\t"
 }
-func genResponseNameFromType(typ string) string {
+func genResponseNameFromType(typ string, i int) string {
 	if typ == "error" {
 		return "err"
 	}
-	if strings.Contains(typ, ".") {
-		parts := strings.Split(typ, ".")
-		return strings.ToLower(parts[len(parts)-1])
-	}
-	return strings.TrimPrefix(strings.ToLower(typ), "*")
+	return fmt.Sprintf("result%d", i)
 }
 func printResult(menuItem MenuItem, method *config.Method) MenuItem {
 	assignResult := make([]string, 0, len(method.Returns))
 	printRst := make([]string, 0, len(method.Returns))
 	hasNonError := false
 
-	for _, response := range method.Returns {
+	for i, response := range method.Returns {
 		if response.Name == "" {
-			response.Name = genResponseNameFromType(response.Type)
+			response.Name = genResponseNameFromType(response.Type, i)
 		}
 		assignResult = append(assignResult, response.Name)
 
@@ -119,10 +131,10 @@ func printResult(menuItem MenuItem, method *config.Method) MenuItem {
 		printRst = append(printRst, "\t\t\traw, _ := cmd.Root().PersistentFlags().GetBool(\"raw\")")
 		menuItem.AddImport("\"github.com/magaluCloud/mgccli/beautiful\"")
 
-		for _, response := range method.Returns {
+		for i, response := range method.Returns {
 			if response.Type != "error" {
 				if response.Name == "" {
-					response.Name = genResponseNameFromType(response.Type)
+					response.Name = genResponseNameFromType(response.Type, i)
 				}
 				printRst = append(printRst, fmt.Sprintf("\t\t\tbeautiful.NewOutput(raw).PrintData(%s)", response.Name))
 			}
@@ -143,15 +155,26 @@ func ProcessParams(menu *config.Menu, method *config.Method, menuItem MenuItem, 
 	if len(param.Struct) == 0 && param.IsPrimitive {
 		menuItem = ProcessPrimitiveParam(menu, method, menuItem, sdkName, param, parents...)
 		if len(parents) == 0 {
-			menuItem.AddParam(param.Name)
+			ptr := ""
+			if param.IsPointer {
+				ptr = "&"
+			}
+			menuItem.AddParam(ptr + param.Name)
 		}
 	}
 	if len(param.Struct) > 0 {
 		for _, sparam := range param.Struct {
 			menuItem = ProcessParams(menu, method, menuItem, sdkName, sparam, append(parents, param)...)
 		}
-		menuItem.AddParam(param.Name)
-		menuItem.AddServiceSDKParamCreate(ServiceSDKParamCreate(param, sdkName))
+		ptr := ""
+		if param.IsPointer {
+			ptr = "&"
+		}
+
+		if len(parents) == 0 {
+			menuItem.AddParam(ptr + param.Name)
+			menuItem.AddServiceSDKParamCreate(ServiceSDKParamCreate(param, sdkName))
+		}
 	}
 
 	return menuItem
@@ -191,17 +214,20 @@ func ProcessPrimitiveParam(menu *config.Menu, method *config.Method, menuItem Me
 	if len(parents) > 0 {
 		cfa := ""
 		if param.IsPrimitive && !param.IsArray {
-			varNameCfa := fmt.Sprintf("%s.%s", strings.Join(parentsNamesDefinition(parents), "_"), param.Name)
-
-			cfa = fmt.Sprintf(`if %s.IsChanged(){
-			%s = %s.Value
-			}`, varName, varNameCfa, varName)
+			varNameCfa := fmt.Sprintf("%s.%s", strings.Join(parentsNamesDefinition(parents), "."), param.Name)
+			pointer := ""
+			if !param.IsPointer {
+				pointer = "*"
+			}
+			cfa = fmt.Sprintf(`if %s.IsChanged(){//typeA
+			%s = %s%s.Value
+			}`, varName, varNameCfa, pointer, varName)
 
 		}
 		if param.IsPrimitive && param.IsArray {
-			varNameCfa := fmt.Sprintf("%s.%s", strings.Join(parentsNamesDefinition(parents), "_"), param.Name)
+			varNameCfa := fmt.Sprintf("%s.%s", strings.Join(parentsNamesDefinition(parents), "."), param.Name)
 
-			cfa = fmt.Sprintf(`if %s.IsChanged(){
+			cfa = fmt.Sprintf(`if %s.IsChanged(){//typeb
 			  %s = make([]%s, len(*%s.Value))
 			  for i, v := range *%s.Value {
 			    %s[i] = %s(v)
@@ -217,26 +243,37 @@ func ProcessPrimitiveParam(menu *config.Menu, method *config.Method, menuItem Me
 	if len(parents) == 0 {
 		cfa := ""
 		if param.IsPrimitive && !param.IsArray && param.IsOptional {
-			cfa = fmt.Sprintf(`if %s.IsChanged(){
-			%s = %s.Value
-			}`, varName, flagName, varName)
+			pointer := ""
+			if !param.IsPointer {
+				pointer = "*"
+			}
+			cfa = fmt.Sprintf(`if %s.IsChanged(){//typeC
+			%s = %s%s.Value
+			}`, varName, flagName, pointer, varName)
 		}
 
 		if param.IsPrimitive && !param.IsArray && !param.IsOptional {
 			cfa = fmt.Sprintf(`if len(args) > 0{
-			%s = args[0]
-			}`, varName)
+			cmd.Flags().Set("%s", args[0])
+			}`, flagName)
+
+			pointer := ""
+			if !param.IsPointer {
+				pointer = "*"
+			}
+
 			cfa = fmt.Sprintf(`%s
-			if %s.IsChanged(){
-			%s = %s.Value
+			if %s.IsChanged(){//typeD
+			%s = %s%s.Value
 			}else{
 			return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			}`, cfa, varName, flagName, varName, param.Name, flagName)
+			}`, cfa, varName, param.Name, pointer, varName, param.Name, flagName)
+
 			menuItem.AddImport("\"fmt\"")
 		}
 
 		if param.IsPrimitive && param.IsArray {
-			cfa = fmt.Sprintf(`if %s.IsChanged(){
+			cfa = fmt.Sprintf(`if %s.IsChanged(){//typeE
 			  %s = make([]%s, len(*%s.Value))
 			  for i, v := range *%s.Value {
 			    %s[i] = %s(v)

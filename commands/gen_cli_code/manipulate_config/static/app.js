@@ -294,11 +294,25 @@ function createMenuBlock(menu, menuIndex) {
     content.className = 'menu-content';
     // CSS cuida do display inicial (collapsed)
 
+    // Processar submenus primeiro
     if (menu.menus && menu.menus.length > 0) {
         menu.menus.forEach((submenu, submenuIndex) => {
             const submenuBlock = createSubmenuBlock(submenu, menuIndex, submenuIndex);
             content.appendChild(submenuBlock);
         });
+    }
+
+    // Processar métodos diretamente no menu (menus de nível superior podem ter methods)
+    if (menu.methods && menu.methods.length > 0) {
+        const methodsContainer = document.createElement('div');
+        methodsContainer.className = 'methods-container';
+
+        menu.methods.forEach((method, methodIndex) => {
+            const methodItem = createMethodItem(method, menuIndex, null, methodIndex, null);
+            methodsContainer.appendChild(methodItem);
+        });
+
+        content.appendChild(methodsContainer);
     }
 
     menuDiv.appendChild(content);
@@ -450,9 +464,16 @@ function createMethodItem(method, menuIndex, submenuIndex, methodIndex, parentSu
         // Encontrar menu e submenu pelos índices
         if (configData && configData.menus && configData.menus[menuIndex]) {
             const menu = configData.menus[menuIndex];
-            const submenu = menu?.menus?.[submenuIndex];
-            if (submenu) {
-                openEditModal('method', method, menuIndex, submenuIndex, methodIndex, menu.id, submenu.id);
+            // Se submenuIndex é null, o method está diretamente no menu
+            if (submenuIndex === null || submenuIndex === undefined) {
+                // Method está diretamente no menu de nível superior
+                // Usar o próprio menu como "submenu" para compatibilidade com o backend
+                openEditModal('method', method, menuIndex, null, methodIndex, menu.id, menu.id);
+            } else {
+                const submenu = menu?.menus?.[submenuIndex];
+                if (submenu) {
+                    openEditModal('method', method, menuIndex, submenuIndex, methodIndex, menu.id, submenu.id);
+                }
             }
         }
         return false;
@@ -670,12 +691,16 @@ function handleDrop(e) {
         // Reordenar métodos localmente
         const targetMethodIndex = this.dataset.index ? parseInt(this.dataset.index) : null;
         const targetMenuIndex = this.dataset.menuIndex ? parseInt(this.dataset.menuIndex) : null;
-        const targetSubmenuIndex = this.dataset.submenuIndex ? parseInt(this.dataset.submenuIndex) : null;
+        const targetSubmenuIndex = this.dataset.submenuIndex !== undefined ? (this.dataset.submenuIndex ? parseInt(this.dataset.submenuIndex) : null) : null;
         
-        if (targetMethodIndex !== null && targetMenuIndex !== null && targetSubmenuIndex !== null &&
-            draggedData.menuIndex !== null && draggedData.submenuIndex !== null && draggedData.index !== null) {
-            // Verificar se é o mesmo submenu (reordenação dentro do mesmo submenu)
-            if (draggedData.menuIndex === targetMenuIndex && draggedData.submenuIndex === targetSubmenuIndex) {
+        if (targetMethodIndex !== null && targetMenuIndex !== null &&
+            draggedData.menuIndex !== null && draggedData.index !== null) {
+            // Verificar se é o mesmo menu/submenu (reordenação dentro do mesmo container)
+            const sameMenu = draggedData.menuIndex === targetMenuIndex;
+            const sameSubmenu = (draggedData.submenuIndex === null || draggedData.submenuIndex === undefined) === (targetSubmenuIndex === null || targetSubmenuIndex === undefined) &&
+                                (draggedData.submenuIndex === targetSubmenuIndex || (draggedData.submenuIndex === null && targetSubmenuIndex === null));
+            
+            if (sameMenu && sameSubmenu) {
                 // Salvar estado antes de modificar
                 saveState();
                 reorderMethods(draggedData.menuIndex, draggedData.submenuIndex, draggedData.index, targetMethodIndex);
@@ -731,14 +756,30 @@ function handleContainerDrop(e) {
             moveElementToBackend(draggedData.id, draggedData.type, targetID, targetType);
         }
     } else if (isMethodsContainer && draggedData.type === 'method') {
-        // Reordenar métodos localmente - encontrar o submenu pelo container
+        // Reordenar métodos localmente - encontrar o container (menu ou submenu)
         const submenuBlock = container.closest('.submenu-block');
-        if (submenuBlock && draggedData.menuIndex !== null && draggedData.submenuIndex !== null && draggedData.index !== null) {
-            const targetMenuIndex = parseInt(submenuBlock.dataset.menuIndex);
-            const targetSubmenuIndex = parseInt(submenuBlock.dataset.index);
+        const menuBlock = container.closest('.menu-block');
+        
+        let targetMenuIndex = null;
+        let targetSubmenuIndex = null;
+        
+        if (submenuBlock) {
+            // Methods estão em um submenu
+            targetMenuIndex = parseInt(submenuBlock.dataset.menuIndex);
+            targetSubmenuIndex = parseInt(submenuBlock.dataset.index);
+        } else if (menuBlock) {
+            // Methods estão diretamente no menu de nível superior
+            targetMenuIndex = parseInt(menuBlock.dataset.index);
+            targetSubmenuIndex = null;
+        }
+        
+        if (targetMenuIndex !== null && draggedData.menuIndex !== null && draggedData.index !== null) {
+            // Verificar se é o mesmo container (menu ou submenu)
+            const sameMenu = draggedData.menuIndex === targetMenuIndex;
+            const sameSubmenu = (draggedData.submenuIndex === null || draggedData.submenuIndex === undefined) === (targetSubmenuIndex === null || targetSubmenuIndex === undefined) &&
+                                (draggedData.submenuIndex === targetSubmenuIndex || (draggedData.submenuIndex === null && targetSubmenuIndex === null));
             
-            // Verificar se é o mesmo submenu (reordenação dentro do mesmo submenu)
-            if (draggedData.menuIndex === targetMenuIndex && draggedData.submenuIndex === targetSubmenuIndex) {
+            if (sameMenu && sameSubmenu) {
                 // Encontrar o índice do método alvo baseado na posição do drop
                 const methods = container.querySelectorAll('.method-item');
                 let targetIndex = methods.length;
@@ -864,11 +905,22 @@ function reorderSubmenus(menuIndex, fromIndex, toIndex) {
 
 function reorderMethods(menuIndex, submenuIndex, fromIndex, toIndex) {
     const menu = configData.menus[menuIndex];
-    if (menu && menu.menus && menu.menus[submenuIndex]) {
-        const submenu = menu.menus[submenuIndex];
-        if (submenu && submenu.methods) {
-            const [moved] = submenu.methods.splice(fromIndex, 1);
-            submenu.methods.splice(toIndex, 0, moved);
+    if (!menu) return;
+    
+    // Se submenuIndex é null, o method está diretamente no menu
+    if (submenuIndex === null || submenuIndex === undefined) {
+        if (menu.methods) {
+            const [moved] = menu.methods.splice(fromIndex, 1);
+            menu.methods.splice(toIndex, 0, moved);
+        }
+    } else {
+        // Caso contrário, procurar no submenu
+        if (menu.menus && menu.menus[submenuIndex]) {
+            const submenu = menu.menus[submenuIndex];
+            if (submenu && submenu.methods) {
+                const [moved] = submenu.methods.splice(fromIndex, 1);
+                submenu.methods.splice(toIndex, 0, moved);
+            }
         }
     }
 }
@@ -1095,8 +1147,17 @@ function findMenuByIdInConfig(menus, id) {
 // Função auxiliar para encontrar método por menuId, submenuId e index
 function findMethodInConfig(menuId, submenuId, methodIndex) {
     const menu = findMenuByIdInConfig(configData.menus, menuId);
-    if (!menu || !menu.menus) return null;
+    if (!menu) return null;
     
+    // Se submenuId é igual a menuId ou null, o method está diretamente no menu
+    if (!submenuId || submenuId === menuId) {
+        if (!menu.methods) return null;
+        if (methodIndex < 0 || methodIndex >= menu.methods.length) return null;
+        return { menu, submenu: menu, method: menu.methods[methodIndex] };
+    }
+    
+    // Caso contrário, procurar no submenu
+    if (!menu.menus) return null;
     const submenu = menu.menus.find(sm => sm.id === submenuId);
     if (!submenu || !submenu.methods) return null;
     

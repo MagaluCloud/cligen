@@ -30,8 +30,8 @@ func StartServer(port string) error {
 		return fmt.Errorf("erro ao obter diretório base: %w", err)
 	}
 
-	staticDir := filepath.Join(baseDir, "commands", "gen_cli_code", "gen_config", "manipulate", "static")
-	templatesDir := filepath.Join(baseDir, "commands", "gen_cli_code", "gen_config", "manipulate", "templates")
+	staticDir := filepath.Join(baseDir, "commands", "gen_cli_code", "manipulate_config", "static")
+	templatesDir := filepath.Join(baseDir, "commands", "gen_cli_code", "manipulate_config", "templates")
 
 	// Servir arquivos estáticos (HTML, CSS, JS)
 	r.Static("/static", staticDir)
@@ -584,7 +584,7 @@ type updateMethodRequest struct {
 	CustomFile      string               `json:"custom_file,omitempty"`
 }
 
-// updateMethod atualiza um method
+// updateMethod atualiza um method em um submenu
 func updateMethod(c *gin.Context) {
 	menuID := c.Param("menuId")
 	submenuID := c.Param("submenuId")
@@ -614,7 +614,6 @@ func updateMethod(c *gin.Context) {
 	}
 
 	// Carregar config atual
-
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -623,7 +622,7 @@ func updateMethod(c *gin.Context) {
 		return
 	}
 
-	// Encontrar o menu e submenu
+	// Encontrar o menu
 	menu := findMenuByID(cfg.Menus, menuID)
 	if menu == nil {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -632,31 +631,37 @@ func updateMethod(c *gin.Context) {
 		return
 	}
 
-	var submenu *config.Menu
-	if menu.Menus != nil {
-		for _, sm := range menu.Menus {
-			if sm.ID == submenuID {
-				submenu = sm
-				break
+	// Se submenuID é igual a menuID, o method está diretamente no menu
+	var targetMenu *config.Menu
+	if submenuID == menuID {
+		targetMenu = menu
+	} else {
+		// Caso contrário, procurar no submenu
+		if menu.Menus != nil {
+			for _, sm := range menu.Menus {
+				if sm.ID == submenuID {
+					targetMenu = sm
+					break
+				}
 			}
 		}
 	}
 
-	if submenu == nil {
+	if targetMenu == nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "Submenu não encontrado",
 		})
 		return
 	}
 
-	if submenu.Methods == nil || methodIndex < 0 || methodIndex >= len(submenu.Methods) {
+	if targetMenu.Methods == nil || methodIndex < 0 || methodIndex >= len(targetMenu.Methods) {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "Método não encontrado",
 		})
 		return
 	}
 
-	method := submenu.Methods[methodIndex]
+	method := targetMenu.Methods[methodIndex]
 
 	// Atualizar campos
 	if req.Name != "" {

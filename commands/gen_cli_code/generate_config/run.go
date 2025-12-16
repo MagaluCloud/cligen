@@ -21,8 +21,7 @@ const (
 )
 
 var (
-	DIRS_TO_SKIP  = []string{"internal", "client", "cmd", "helpers", "docs"}
-	DIRS_TO_ALLOW = []string{} //"compute", "availabilityzones", "sshkeys", "iam"} // limpar aqui para gerar todos =)
+	DIRS_TO_SKIP = []string{"internal", "client", "cmd", "helpers", "docs"}
 )
 
 func Run() {
@@ -147,10 +146,36 @@ func Run() {
 		}
 
 	}
+	for _, menu := range cfg.Menus {
+		MoveToParent(cfg, menu)
+	}
 
 	err = cfg.SaveConfig()
 	if err != nil {
 		panic(fmt.Errorf("erro ao salvar configuração: %w", err))
+	}
+}
+
+func MoveToParent(cfg *config.Config, menu *config.Menu) {
+	if len(menu.Menus) == 1 {
+		subMenu := menu.Menus[0]
+
+		if len(subMenu.Methods) > 0 {
+			menu.Methods = append(menu.Methods, subMenu.Methods...)
+		}
+
+		if menu.SDKFile == "" && subMenu.SDKFile != "" {
+			menu.SDKFile = subMenu.SDKFile
+		}
+
+		if menu.SDKPackage == "" && subMenu.SDKPackage != "" {
+			menu.SDKPackage = subMenu.SDKPackage
+		}
+
+		if menu.ServiceInterface == "" && subMenu.ServiceInterface != "" {
+			menu.ServiceInterface = subMenu.ServiceInterface
+		}
+		menu.Menus = nil
 	}
 }
 
@@ -305,9 +330,6 @@ func ListDir(dir string) ([]string, error) {
 			if slices.Contains(DIRS_TO_SKIP, dirName) {
 				continue
 			}
-			if len(DIRS_TO_ALLOW) > 0 && !slices.Contains(DIRS_TO_ALLOW, dirName) {
-				continue
-			}
 			names = append(names, file.Name())
 		}
 	}
@@ -343,21 +365,23 @@ func RetrieveParameters(funcType *ast.FuncType, pkgs *packages.Package) *[]confi
 	}
 	params := make([]config.Parameter, 0)
 	for _, param := range funcType.Params.List {
-		returnType, aliasType, isPrimitive, isPointer, isArray, isOptional := RetrieveType(param.Type, param, pkgs)
+		for _, name := range param.Names {
+			returnType, aliasType, isPrimitive, isPointer, isArray, isOptional := RetrieveType(param.Type, param, pkgs)
 
-		params = append(params, config.Parameter{
-			Name:            RetrieveName(param.Names),
-			Type:            returnType,
-			Description:     "",
-			IsPrimitive:     isPrimitive,
-			IsPointer:       isPointer,
-			IsOptional:      isOptional,
-			IsArray:         isArray,
-			IsPositional:    false,
-			PositionalIndex: 0,
-			Struct:          analyzeStructType(param.Type, pkgs.Name, pkgs.Dir),
-			AliasType:       aliasType,
-		})
+			params = append(params, config.Parameter{
+				Name:            name.Name,
+				Type:            returnType,
+				Description:     "",
+				IsPrimitive:     isPrimitive,
+				IsPointer:       isPointer,
+				IsOptional:      isOptional,
+				IsArray:         isArray,
+				IsPositional:    false,
+				PositionalIndex: 0,
+				Struct:          analyzeStructType(param.Type, pkgs.Name, pkgs.Dir),
+				AliasType:       aliasType,
+			})
+		}
 	}
 
 	return &params
@@ -373,20 +397,22 @@ func RetrieveReturns(funcType *ast.FuncType, pkgs *packages.Package) *[]config.P
 	}
 	results := make([]config.Parameter, 0)
 	for _, resultItem := range funcType.Results.List {
-		returnType, aliasType, isPrimitive, isPointer, isArray, isOptional := RetrieveType(resultItem.Type, resultItem, pkgs)
-		results = append(results, config.Parameter{
-			Name:            RetrieveName(resultItem.Names),
-			Type:            returnType,
-			Description:     "",
-			IsPrimitive:     isPrimitive,
-			IsPointer:       isPointer,
-			IsOptional:      isOptional,
-			IsArray:         isArray,
-			IsPositional:    false,
-			PositionalIndex: 0,
-			Struct:          analyzeStructType(resultItem.Type, pkgs.Name, pkgs.Dir),
-			AliasType:       aliasType,
-		})
+		for _, name := range resultItem.Names {
+			returnType, aliasType, isPrimitive, isPointer, isArray, isOptional := RetrieveType(resultItem.Type, resultItem, pkgs)
+			results = append(results, config.Parameter{
+				Name:            name.Name,
+				Type:            returnType,
+				Description:     "",
+				IsPrimitive:     isPrimitive,
+				IsPointer:       isPointer,
+				IsOptional:      isOptional,
+				IsArray:         isArray,
+				IsPositional:    false,
+				PositionalIndex: 0,
+				Struct:          analyzeStructType(resultItem.Type, pkgs.Name, pkgs.Dir),
+				AliasType:       aliasType,
+			})
+		}
 	}
 
 	return &results
@@ -412,11 +438,4 @@ func RetrieveType(expr ast.Expr, param *ast.Field, pkgs *packages.Package) (type
 		}
 	}
 	return
-}
-
-func RetrieveName(names []*ast.Ident) string {
-	if len(names) == 0 {
-		return ""
-	}
-	return names[0].Name
 }

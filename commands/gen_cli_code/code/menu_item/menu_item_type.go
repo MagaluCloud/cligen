@@ -72,6 +72,9 @@ func (m *menuItemType) GetParams() []string {
 }
 
 func (m *menuItemType) AddImport(importt string) {
+	if slices.Contains(m.Imports, importt) {
+		return
+	}
 	m.Imports = append(m.Imports, importt)
 	slices.Sort(m.Imports)
 }
