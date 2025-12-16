@@ -145,3 +145,130 @@ type ApiKeyResult struct {
 	UUID string `json:"uuid,omitempty"`
 	Used bool   `json:"used,omitempty"`
 }
+
+type Clients struct {
+	UUID        string `json:"uuid,omitempty"`
+	ClientID    string `json:"client_id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	Status      string `json:"status,omitempty"`
+	Scopes      []struct {
+		UUID string `json:"uuid"`
+		Name string `json:"name"`
+	} `json:"scopes,omitempty"`
+	ScopesDefault []struct {
+		UUID string `json:"uuid"`
+		Name string `json:"name"`
+	} `json:"scopes_default,omitempty"`
+	TermOfUse                        string   `json:"client_term_url,omitempty"`
+	ClientPrivacyTermUrl             string   `json:"client_privacy_term_url,omitempty"`
+	Audience                         []string `json:"audience,omitempty"`
+	OidcAudience                     []string `json:"oidc_audience,omitempty"`
+	AlwaysRequireLogin               bool     `json:"always_require_login,omitempty"`
+	BackchannelLogoutSessionRequired bool     `json:"backchannel_logout_session_required,omitempty"`
+	BackchannelLogoutUri             string   `json:"backchannel_logout_uri,omitempty"`
+	RefreshTokenCustomExpiresEnabled bool     `json:"refresh_token_custom_expires_enabled,omitempty"`
+	RefreshTokenExp                  int      `json:"refresh_token_exp,omitempty"`
+	AccessTokenExp                   int      `json:"access_token_exp,omitempty"`
+	RedirectURIs                     []string `json:"redirect_uris,omitempty"`
+	Icon                             string   `json:"icon,omitempty"`
+}
+
+type CreateClientParams struct {
+	Name                             string
+	Description                      string
+	RedirectURIs                     string
+	BackchannelLogoutSessionEnabled  *bool
+	ClientTermsURL                   string
+	ClientPrivacyTermURL             string
+	Audiences                        *string
+	Email                            *string
+	Reason                           *string
+	Icon                             *string
+	AccessTokenExp                   *int
+	AlwaysRequireLogin               *bool
+	BackchannelLogoutURI             *string
+	OidcAudience                     *string
+	RefreshTokenCustomExpiresEnabled *bool
+	RefreshTokenExp                  *int
+	SupportURL                       *string
+	GrantTypes                       *string
+}
+
+type createClientScopes struct {
+	UUID     string `json:"id"`
+	Reason   string `json:"request_reason"`
+	Optional bool   `json:"optional"`
+}
+
+type CreateClient struct {
+	Name                             string               `json:"name" jsonschema:"description=Name of new client,example=Client Name" mgc:"positional"`
+	Description                      string               `json:"description" jsonschema:"description=Description of new client,example=Client description" mgc:"positional"`
+	Scopes                           []createClientScopes `json:"scopes" jsonschema:"description=List of scopes (separated by space),example=openid profile" mgc:"positional"`
+	RedirectURIs                     []string             `json:"redirect_uris" jsonschema:"description=Redirect URIs (separated by space)" mgc:"positional"`
+	Icon                             *string              `json:"icon,omitempty" jsonschema:"description=URL for client icon" mgc:"positional"`
+	AccessTokenExp                   *int                 `json:"access_token_exp,omitempty" jsonschema:"description=Access token expiration (in seconds),example=7200" mgc:"positional"`
+	AlwaysRequireLogin               *bool                `json:"always_require_login,omitempty" jsonschema:"description=Must ignore active Magalu ID session and always require login,example=false" mgc:"positional"`
+	ClientPrivacyTermUrl             string               `json:"client_privacy_term_url" jsonschema:"description=URL to privacy term" mgc:"positional"`
+	ClientTermUrl                    string               `json:"client_term_url" jsonschema:"description=URL to terms of use" mgc:"positional"`
+	Audience                         []string             `json:"audience,omitempty" jsonschema:"description=Client audiences (separated by space),example=public" mgc:"positional"`
+	BackchannelLogoutSessionEnabled  *bool                `json:"backchannel_logout_session_required,omitempty" jsonschema:"description=Client requires backchannel logout session,example=false" mgc:"positional"`
+	BackchannelLogoutUri             *string              `json:"backchannel_logout_uri,omitempty" jsonschema:"description=Backchannel logout URI" mgc:"positional"`
+	OidcAudience                     []string             `json:"oidc_audience,omitempty" jsonschema:"description=Audiences for ID token, should be the Client ID values" mgc:"positional"`
+	RefreshTokenCustomExpiresEnabled *bool                `json:"refresh_token_custom_expires_enabled,omitempty" jsonschema:"description=Use custom value for refresh token expiration,example=false" mgc:"positional"`
+	RefreshTokenExp                  *int                 `json:"refresh_token_exp,omitempty" jsonschema:"description=Custom refresh token expiration value (in seconds),example=15778476" mgc:"positional"`
+	Reason                           string               `json:"request_reason,omitempty" jsonschema:"description=Note to inform the reason for creating the client. Will help with the application approval process" mgc:"positional"`
+	SupportUrl                       *string              `json:"support_url,omitempty" jsonschema:"description=URL for client support" mgc:"positional"`
+	GrantTypes                       []string             `json:"grant_types,omitempty" jsonschema:"description=Grant types the client can request for token generation (separated by space)" mgc:"positional"`
+	Email                            *string              `json:"email,omitempty" jsonschema:"description=Email for client support" mgc:"positional"`
+}
+
+type UpdateClient struct {
+	Name                             *string  `json:"name" jsonschema:"description=Name of new client,example=Client Name" mgc:"positional"`
+	Description                      *string  `json:"description" jsonschema:"description=Description of new client,example=Client description" mgc:"positional"`
+	RedirectURIs                     []string `json:"redirect_uris" jsonschema:"description=Redirect URIs (separated by space)" mgc:"positional"`
+	Icon                             *string  `json:"icon,omitempty" jsonschema:"description=URL for client icon" mgc:"positional"`
+	AccessTokenExp                   *int     `json:"access_token_exp,omitempty" jsonschema:"description=Access token expiration (in seconds),example=7200" mgc:"positional"`
+	AlwaysRequireLogin               *bool    `json:"always_require_login,omitempty" jsonschema:"description=Must ignore active Magalu ID session and always require login,example=false" mgc:"positional"`
+	ClientPrivacyTermUrl             *string  `json:"client_privacy_term_url" jsonschema:"description=URL to privacy term" mgc:"positional"`
+	ClientTermUrl                    *string  `json:"client_term_url" jsonschema:"description=URL to terms of use" mgc:"positional"`
+	Audience                         []string `json:"audience,omitempty" jsonschema:"description=Client audiences (separated by space),example=public" mgc:"positional"`
+	OidcAudience                     []string `json:"oidc_audience,omitempty" jsonschema:"description=Audiences for ID token, should be the Client ID values" mgc:"positional"`
+	BackchannelLogoutSessionEnabled  *bool    `json:"backchannel_logout_session_required,omitempty" jsonschema:"description=Client requires backchannel logout session,example=false" mgc:"positional"`
+	BackchannelLogoutUri             *string  `json:"backchannel_logout_uri,omitempty" jsonschema:"description=Backchannel logout URI" mgc:"positional"`
+	RefreshTokenCustomExpiresEnabled *bool    `json:"refresh_token_custom_expires_enabled,omitempty" jsonschema:"description=Use custom value for refresh token expiration,example=false" mgc:"positional"`
+	RefreshTokenExp                  *int     `json:"refresh_token_exp,omitempty" jsonschema:"description=Custom refresh token expiration value (in seconds),example=15778476" mgc:"positional"`
+	Reason                           *string  `json:"request_reason,omitempty" jsonschema:"description=Note to inform the reason for creating the client. Will help with the application approval process" mgc:"positional"`
+	SupportUrl                       *string  `json:"support_url,omitempty" jsonschema:"description=URL for client support" mgc:"positional"`
+}
+
+type CreateClientResult struct {
+	UUID         string `json:"uuid,omitempty"`
+	ClientID     string `json:"client_id,omitempty"`
+	ClientSecret string `json:"client_secret,omitempty"`
+}
+
+type UpdateClientParams struct {
+	ID                               string
+	Name                             *string
+	Description                      *string
+	RedirectURIs                     *string
+	BackchannelLogoutSessionEnabled  *bool
+	ClientTermsURL                   *string
+	ClientPrivacyTermURL             *string
+	Audiences                        *string
+	Reason                           *string
+	Icon                             *string
+	AccessTokenExp                   *int
+	AlwaysRequireLogin               *bool
+	BackchannelLogoutURI             *string
+	OidcAudience                     *string
+	RefreshTokenCustomExpiresEnabled *bool
+	RefreshTokenExp                  *int
+	SupportURL                       *string
+}
+
+type UpdateClientResult struct {
+	UUID     string `json:"uuid,omitempty"`
+	ClientID string `json:"client_id,omitempty"`
+}

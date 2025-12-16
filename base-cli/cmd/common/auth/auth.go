@@ -56,9 +56,14 @@ type Auth interface {
 
 	ListTenants(ctx context.Context) ([]*Tenant, error)
 	ListApiKeys(ctx context.Context, showInvalidKeys bool) ([]*ApiKeys, error)
+	ListClients(ctx context.Context) ([]*Clients, error)
 
 	CreateApiKey(ctx context.Context, name, description, expiration string, scopes []string) (*ApiKeyResult, error)
+	CreateClient(ctx context.Context, opts CreateClientParams) (*CreateClientResult, error)
+
 	RevokeApiKey(ctx context.Context, ID string) error
+
+	UpdateClient(ctx context.Context, opts UpdateClientParams) (*UpdateClientResult, error)
 }
 
 type authValue struct {
@@ -631,4 +636,237 @@ func (a *authValue) RevokeApiKey(ctx context.Context, ID string) error {
 	}
 
 	return nil
+}
+
+func (a *authValue) ListClients(ctx context.Context) ([]*Clients, error) {
+	client, err := NewOAuthClient(a.service.config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create OAuth client: %w", err)
+	}
+
+	httpClient := client.AuthenticatedHttpClientFromContext(ctx)
+	if httpClient == nil {
+		return nil, fmt.Errorf("programming error: unable to get HTTP Client from context")
+	}
+
+	r, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodGet,
+		a.service.config.ClientsURLV2,
+		nil,
+	)
+	if err != nil {
+		return nil, err
+	}
+	r.Header.Set("Content-Type", "application/json")
+
+	resp, err := httpClient.Do(r)
+	if err != nil {
+		return nil, err
+	}
+
+	clients := []*Clients{}
+	if resp.StatusCode == http.StatusNoContent {
+		return clients, nil
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, cmdutils.NewHttpErrorFromResponse(resp, r)
+	}
+
+	defer resp.Body.Close()
+	if err = json.NewDecoder(resp.Body).Decode(&clients); err != nil {
+		return nil, err
+	}
+
+	return clients, nil
+}
+
+func (a *authValue) CreateClient(ctx context.Context, opts CreateClientParams) (*CreateClientResult, error) {
+	client, err := NewOAuthClient(a.service.config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create OAuth client: %w", err)
+	}
+
+	httpClient := client.AuthenticatedHttpClientFromContext(ctx)
+	if httpClient == nil {
+		return nil, fmt.Errorf("programming error: unable to get HTTP Client from context")
+	}
+
+	clientPayload := CreateClient{
+		Name:                             opts.Name,
+		Description:                      opts.Description,
+		ClientPrivacyTermUrl:             opts.ClientPrivacyTermURL,
+		ClientTermUrl:                    opts.ClientTermsURL,
+		BackchannelLogoutSessionEnabled:  opts.BackchannelLogoutSessionEnabled,
+		AccessTokenExp:                   opts.AccessTokenExp,
+		AlwaysRequireLogin:               opts.AlwaysRequireLogin,
+		RefreshTokenCustomExpiresEnabled: opts.RefreshTokenCustomExpiresEnabled,
+		RefreshTokenExp:                  opts.RefreshTokenExp,
+		Icon:                             opts.Icon,
+		BackchannelLogoutUri:             opts.BackchannelLogoutURI,
+		SupportUrl:                       opts.SupportURL,
+		Email:                            opts.Email,
+	}
+	clientPayload.RedirectURIs = stringToSlice(opts.RedirectURIs, " ", true)
+
+	if opts.Reason == nil {
+		opts.Reason = new(string)
+		*opts.Reason = "Created by MGCCLI"
+	}
+
+	// Scopes fixos
+	clientPayload.Scopes = []createClientScopes{{
+		UUID:     a.service.config.PublicClientsScopeIDs["openid"],
+		Reason:   *opts.Reason,
+		Optional: true,
+	}, {
+		UUID:     a.service.config.PublicClientsScopeIDs["profile"],
+		Reason:   *opts.Reason,
+		Optional: true,
+	}}
+
+	if opts.Audiences != nil {
+		clientPayload.Audience = stringToSlice(*opts.Audiences, " ", true)
+	}
+
+	if opts.OidcAudience != nil {
+		clientPayload.OidcAudience = stringToSlice(*opts.OidcAudience, " ", true)
+	}
+
+	if opts.GrantTypes != nil {
+		clientPayload.GrantTypes = stringToSlice(*opts.GrantTypes, " ", true)
+	}
+
+	if opts.AccessTokenExp == nil {
+		defaultAccessTokenExp := 7200
+		clientPayload.AccessTokenExp = &defaultAccessTokenExp
+	}
+
+	var buf bytes.Buffer
+	err = json.NewEncoder(&buf).Encode(clientPayload)
+	if err != nil {
+		return nil, err
+	}
+
+	r, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		a.service.config.PublicClientsURL,
+		&buf,
+	)
+	if err != nil {
+		return nil, err
+	}
+	r.Header.Set("Content-Type", "application/json")
+
+	resp, err := httpClient.Do(r)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusCreated {
+		return nil, cmdutils.NewHttpErrorFromResponse(resp, r)
+	}
+
+	defer resp.Body.Close()
+	var result CreateClientResult
+	if err = json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, err
+	}
+
+	return &result, nil
+}
+
+func (a *authValue) UpdateClient(ctx context.Context, opts UpdateClientParams) (*UpdateClientResult, error) {
+	client, err := NewOAuthClient(a.service.config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create OAuth client: %w", err)
+	}
+
+	httpClient := client.AuthenticatedHttpClientFromContext(ctx)
+	if httpClient == nil {
+		return nil, fmt.Errorf("programming error: unable to get HTTP Client from context")
+	}
+
+	clientPayload := UpdateClient{
+		Name:                             opts.Name,
+		Description:                      opts.Description,
+		Icon:                             opts.Icon,
+		ClientTermUrl:                    opts.ClientTermsURL,
+		ClientPrivacyTermUrl:             opts.ClientPrivacyTermURL,
+		AlwaysRequireLogin:               opts.AlwaysRequireLogin,
+		BackchannelLogoutSessionEnabled:  opts.BackchannelLogoutSessionEnabled,
+		BackchannelLogoutUri:             opts.BackchannelLogoutURI,
+		AccessTokenExp:                   opts.AccessTokenExp,
+		RefreshTokenCustomExpiresEnabled: opts.RefreshTokenCustomExpiresEnabled,
+		RefreshTokenExp:                  opts.RefreshTokenExp,
+		Reason:                           opts.Reason,
+		SupportUrl:                       opts.SupportURL,
+	}
+
+	if opts.RedirectURIs != nil {
+		clientPayload.RedirectURIs = stringToSlice(*opts.RedirectURIs, " ", true)
+	}
+
+	if opts.Audiences != nil {
+		clientPayload.Audience = stringToSlice(*opts.Audiences, " ", true)
+	}
+
+	if opts.OidcAudience != nil {
+		clientPayload.OidcAudience = stringToSlice(*opts.OidcAudience, " ", true)
+	}
+
+	var buf bytes.Buffer
+	err = json.NewEncoder(&buf).Encode(clientPayload)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/%s", a.service.config.PublicClientsURL, opts.ID)
+
+	r, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPatch,
+		url,
+		&buf,
+	)
+	if err != nil {
+		return nil, err
+	}
+	r.Header.Set("Content-Type", "application/json")
+
+	resp, err := httpClient.Do(r)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, cmdutils.NewHttpErrorFromResponse(resp, r)
+	}
+
+	defer resp.Body.Close()
+	var result UpdateClientResult
+	if err = json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, err
+	}
+
+	return &result, nil
+}
+
+func stringToSlice(s, sep string, shouldTrim bool) []string {
+	entries := strings.Split(s, sep)
+
+	result := make([]string, 0)
+	if shouldTrim {
+		for _, str := range entries {
+			newValue := strings.TrimSpace(str)
+			if newValue == "" {
+				continue
+			}
+			result = append(result, newValue)
+		}
+	}
+
+	return result
 }
