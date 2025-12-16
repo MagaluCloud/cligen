@@ -53,8 +53,8 @@ func CreateCommand(ctx context.Context) *cobra.Command {
 				ClientTermsURL:       opts.ClientTermsURL,
 				ClientPrivacyTermURL: opts.ClientPrivacyTermURL,
 				RedirectURIs:         opts.RedirectURIs,
-				AccessTokenExp:       &opts.AccessTokenExp,
-				RefreshTokenExp:      &opts.RefreshTokenExp,
+				AccessTokenExp:       opts.AccessTokenExp,
+				RefreshTokenExp:      opts.RefreshTokenExp,
 			}
 
 			NilIfNotChanged(cmd, BackchannelLogoutSessionEnabled, &params.BackchannelLogoutSessionEnabled, opts.BackchannelLogoutSessionEnabled)

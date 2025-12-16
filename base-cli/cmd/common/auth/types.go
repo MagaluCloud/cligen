@@ -185,12 +185,12 @@ type CreateClientParams struct {
 	Email                            *string
 	Reason                           *string
 	Icon                             *string
-	AccessTokenExp                   *int
+	AccessTokenExp                   int
 	AlwaysRequireLogin               *bool
 	BackchannelLogoutURI             *string
 	OidcAudience                     *string
 	RefreshTokenCustomExpiresEnabled *bool
-	RefreshTokenExp                  *int
+	RefreshTokenExp                  int
 	SupportURL                       *string
 	GrantTypes                       *string
 }
