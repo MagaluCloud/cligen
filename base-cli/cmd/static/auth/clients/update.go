@@ -1,8 +1,11 @@
 package clients
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
+	"net/http"
 
 	"github.com/charmbracelet/huh"
 	"github.com/magaluCloud/mgccli/beautiful"
@@ -32,10 +35,54 @@ type UpdateOptions struct {
 	SupportURL                       string
 }
 
+type UpdateClient struct {
+	Name                             *string  `json:"name" jsonschema:"description=Name of new client,example=Client Name" mgc:"positional"`
+	Description                      *string  `json:"description" jsonschema:"description=Description of new client,example=Client description" mgc:"positional"`
+	RedirectURIs                     []string `json:"redirect_uris" jsonschema:"description=Redirect URIs (separated by space)" mgc:"positional"`
+	Icon                             *string  `json:"icon,omitempty" jsonschema:"description=URL for client icon" mgc:"positional"`
+	AccessTokenExp                   *int     `json:"access_token_exp,omitempty" jsonschema:"description=Access token expiration (in seconds),example=7200" mgc:"positional"`
+	AlwaysRequireLogin               *bool    `json:"always_require_login,omitempty" jsonschema:"description=Must ignore active Magalu ID session and always require login,example=false" mgc:"positional"`
+	ClientPrivacyTermUrl             *string  `json:"client_privacy_term_url" jsonschema:"description=URL to privacy term" mgc:"positional"`
+	ClientTermUrl                    *string  `json:"client_term_url" jsonschema:"description=URL to terms of use" mgc:"positional"`
+	Audience                         []string `json:"audience,omitempty" jsonschema:"description=Client audiences (separated by space),example=public" mgc:"positional"`
+	OidcAudience                     []string `json:"oidc_audience,omitempty" jsonschema:"description=Audiences for ID token, should be the Client ID values" mgc:"positional"`
+	BackchannelLogoutSessionEnabled  *bool    `json:"backchannel_logout_session_required,omitempty" jsonschema:"description=Client requires backchannel logout session,example=false" mgc:"positional"`
+	BackchannelLogoutUri             *string  `json:"backchannel_logout_uri,omitempty" jsonschema:"description=Backchannel logout URI" mgc:"positional"`
+	RefreshTokenCustomExpiresEnabled *bool    `json:"refresh_token_custom_expires_enabled,omitempty" jsonschema:"description=Use custom value for refresh token expiration,example=false" mgc:"positional"`
+	RefreshTokenExp                  *int     `json:"refresh_token_exp,omitempty" jsonschema:"description=Custom refresh token expiration value (in seconds),example=15778476" mgc:"positional"`
+	Reason                           *string  `json:"request_reason,omitempty" jsonschema:"description=Note to inform the reason for creating the client. Will help with the application approval process" mgc:"positional"`
+	SupportUrl                       *string  `json:"support_url,omitempty" jsonschema:"description=URL for client support" mgc:"positional"`
+}
+
+type UpdateClientParams struct {
+	ID                               string
+	Name                             *string
+	Description                      *string
+	RedirectURIs                     *string
+	BackchannelLogoutSessionEnabled  *bool
+	ClientTermsURL                   *string
+	ClientPrivacyTermURL             *string
+	Audiences                        *string
+	Reason                           *string
+	Icon                             *string
+	AccessTokenExp                   *int
+	AlwaysRequireLogin               *bool
+	BackchannelLogoutURI             *string
+	OidcAudience                     *string
+	RefreshTokenCustomExpiresEnabled *bool
+	RefreshTokenExp                  *int
+	SupportURL                       *string
+}
+
+type UpdateClientResult struct {
+	UUID     string `json:"uuid,omitempty"`
+	ClientID string `json:"client_id,omitempty"`
+}
+
 // UpdateCommand cria o comando de atualizar as informações de um cliente
 func UpdateCommand(ctx context.Context) *cobra.Command {
 	var opts UpdateOptions
-	var params auth.UpdateClientParams
+	var params UpdateClientParams
 
 	manager := i18n.GetInstance()
 
@@ -47,7 +94,7 @@ func UpdateCommand(ctx context.Context) *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			raw, _ := cmd.Root().PersistentFlags().GetBool("raw")
 
-			params = auth.UpdateClientParams{
+			params = UpdateClientParams{
 				ID: opts.ID,
 			}
 
@@ -96,7 +143,7 @@ func UpdateCommand(ctx context.Context) *cobra.Command {
 }
 
 // runUpdate executa o processo de atualizar as informações de um cliente
-func runUpdate(ctx context.Context, opts auth.UpdateClientParams, rawMode bool) error {
+func runUpdate(ctx context.Context, opts UpdateClientParams, rawMode bool) error {
 	var confirm bool
 	huh.NewConfirm().Title(fmt.Sprintf("This operation may disable your client %s until updates are approved by the ID Magalu. Do you wish to continue?", opts.ID)).
 		Affirmative("Yes").
@@ -105,9 +152,7 @@ func runUpdate(ctx context.Context, opts auth.UpdateClientParams, rawMode bool) 
 		return nil
 	}
 
-	auth := ctx.Value(cmdutils.CTX_AUTH_KEY).(auth.Auth)
-
-	result, err := auth.UpdateClient(ctx, opts)
+	result, err := updateClient(ctx, opts)
 	if err != nil {
 		return fmt.Errorf("erro ao atualizar o cliente: %w", err)
 	}
@@ -115,4 +160,84 @@ func runUpdate(ctx context.Context, opts auth.UpdateClientParams, rawMode bool) 
 	beautiful.NewOutput(rawMode).PrintData(result)
 
 	return nil
+}
+
+func updateClient(ctx context.Context, opts UpdateClientParams) (*UpdateClientResult, error) {
+	authCtx := ctx.Value(cmdutils.CTX_AUTH_KEY).(auth.Auth)
+
+	config := authCtx.GetConfig()
+
+	client, err := auth.NewOAuthClient(config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create OAuth client: %w", err)
+	}
+
+	httpClient := client.AuthenticatedHttpClientFromContext(ctx)
+	if httpClient == nil {
+		return nil, fmt.Errorf("programming error: unable to get HTTP Client from context")
+	}
+
+	clientPayload := UpdateClient{
+		Name:                             opts.Name,
+		Description:                      opts.Description,
+		Icon:                             opts.Icon,
+		ClientTermUrl:                    opts.ClientTermsURL,
+		ClientPrivacyTermUrl:             opts.ClientPrivacyTermURL,
+		AlwaysRequireLogin:               opts.AlwaysRequireLogin,
+		BackchannelLogoutSessionEnabled:  opts.BackchannelLogoutSessionEnabled,
+		BackchannelLogoutUri:             opts.BackchannelLogoutURI,
+		AccessTokenExp:                   opts.AccessTokenExp,
+		RefreshTokenCustomExpiresEnabled: opts.RefreshTokenCustomExpiresEnabled,
+		RefreshTokenExp:                  opts.RefreshTokenExp,
+		Reason:                           opts.Reason,
+		SupportUrl:                       opts.SupportURL,
+	}
+
+	if opts.RedirectURIs != nil {
+		clientPayload.RedirectURIs = cmdutils.StringToSlice(*opts.RedirectURIs, " ", true)
+	}
+
+	if opts.Audiences != nil {
+		clientPayload.Audience = cmdutils.StringToSlice(*opts.Audiences, " ", true)
+	}
+
+	if opts.OidcAudience != nil {
+		clientPayload.OidcAudience = cmdutils.StringToSlice(*opts.OidcAudience, " ", true)
+	}
+
+	var buf bytes.Buffer
+	err = json.NewEncoder(&buf).Encode(clientPayload)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/%s", config.PublicClientsURL, opts.ID)
+
+	r, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPatch,
+		url,
+		&buf,
+	)
+	if err != nil {
+		return nil, err
+	}
+	r.Header.Set("Content-Type", "application/json")
+
+	resp, err := httpClient.Do(r)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, cmdutils.NewHttpErrorFromResponse(resp, r)
+	}
+
+	defer resp.Body.Close()
+	var result UpdateClientResult
+	if err = json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, err
+	}
+
+	return &result, nil
 }
