@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/charmbracelet/huh"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/magaluCloud/mgccli/cmd/common/structs"
 	"github.com/magaluCloud/mgccli/cmd/common/workspace"
@@ -562,24 +563,30 @@ func (a *authValue) processScopes(ctx context.Context, scopes []string) ([]Scope
 			return nil, fmt.Errorf("invalid scopes: %s", strings.Join(invalidScopes, ", "))
 		}
 	} else {
-		items := []cmdutils.Item{}
+		options := []huh.Option[string]{}
 		for title, id := range scopesTitleMap {
-			items = append(items, cmdutils.Item{
-				Title: title,
-				Value: id,
-			})
+			options = append(options, huh.NewOption(title, id))
 		}
 
-		opts, err := cmdutils.MultiSelect(items, "Selecionar scopes: ")
+		var selectedScopes []string
+
+		multiSelect := huh.NewMultiSelect[string]()
+		multiSelect.Title("Scopes:")
+		multiSelect.Description("enter: confirm | space: select | ctrl + a: select/unselect all | /: to filter")
+		multiSelect.Options(options...)
+		multiSelect.Height(14)
+		multiSelect.Filterable(true)
+		multiSelect.Value(&selectedScopes)
+		err = multiSelect.Run()
 		if err != nil {
-			return nil, err
+			return nil, cmdutils.NewCliError(err.Error())
 		}
 
-		if len(opts) == 0 {
+		if len(selectedScopes) == 0 {
 			return nil, fmt.Errorf("nenhum scope selecionado")
 		}
 
-		for _, scopeID := range opts {
+		for _, scopeID := range selectedScopes {
 			scopesCreateList = append(scopesCreateList, ScopesCreate{
 				ID: scopeID,
 			})
