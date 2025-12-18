@@ -21,7 +21,7 @@ const (
 )
 
 var (
-	DIRS_TO_SKIP = []string{"internal", "client", "cmd", "helpers", "docs"}
+	DIRS_TO_SKIP = []string{"internal", "client", "cmd", "helpers", "docs", "objectstorage"}
 )
 
 func Run() {
@@ -397,6 +397,7 @@ func RetrieveReturns(funcType *ast.FuncType, pkgs *packages.Package) *[]config.P
 	}
 	results := make([]config.Parameter, 0)
 	for _, resultItem := range funcType.Results.List {
+		doSkip := false
 		for _, name := range resultItem.Names {
 			returnType, aliasType, isPrimitive, isPointer, isArray, isOptional := RetrieveType(resultItem.Type, resultItem, pkgs)
 			results = append(results, config.Parameter{
@@ -412,7 +413,26 @@ func RetrieveReturns(funcType *ast.FuncType, pkgs *packages.Package) *[]config.P
 				Struct:          analyzeStructType(resultItem.Type, pkgs.Name, pkgs.Dir),
 				AliasType:       aliasType,
 			})
+			doSkip = true
 		}
+
+		if !doSkip && resultItem.Type != nil {
+			returnType, aliasType, isPrimitive, isPointer, isArray, isOptional := RetrieveType(resultItem.Type, resultItem, pkgs)
+			results = append(results, config.Parameter{
+				Name:            returnType,
+				Type:            returnType,
+				Description:     "",
+				IsPrimitive:     isPrimitive,
+				IsPointer:       isPointer,
+				IsOptional:      isOptional,
+				IsArray:         isArray,
+				IsPositional:    false,
+				PositionalIndex: 0,
+				Struct:          analyzeStructType(resultItem.Type, pkgs.Name, pkgs.Dir),
+				AliasType:       aliasType,
+			})
+		}
+
 	}
 
 	return &results

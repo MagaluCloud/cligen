@@ -16,7 +16,7 @@ import (
 
 func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServiceParam}}) {
 	{{range .CobraFlagsDefinition}}
-	{{.}} //CobraFlagsDefinition
+	var {{.Name}}Flag *flags.{{.FlagType}} //CobraFlagsDefinition
 	{{end}}
 	
 
@@ -27,7 +27,7 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 		RunE: func(cmd *cobra.Command, args []string) error{
 			
 			{{range .ServiceSDKParamCreate}}
-			{{.}}//ServiceSDKParamCreate
+			var {{.Name}} {{.ParamType}}//ServiceSDKParamCreate
 			{{end}}
 			
 			{{range .CobraStructInitialize}}
@@ -44,6 +44,10 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 			{{end}}
 
 			{{if .AssignResult}}{{.AssignResult}} := {{.ServiceCall}}({{.ServiceSDKParam}}){{end}}
+			{{if .ErrorResult}}
+			{{.ErrorResult}}
+			{{end}}
+			
 			{{.PrintResult}}
 			return nil
 		},
@@ -56,7 +60,3 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 	parent.AddCommand(cmd)
 
 }
-
-{{range .CobraArrayParse}}
-{{.}}
-{{end}}

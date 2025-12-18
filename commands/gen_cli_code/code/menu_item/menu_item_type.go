@@ -5,31 +5,48 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/magaluCloud/cligen/config"
 	"github.com/magaluCloud/cligen/file_utils"
 )
 
 type menuItemType struct {
-	SaveToFile            string   `json:"save_to_file_path"`
-	PackageName           string   `json:"package_name"`
-	Imports               []string `json:"imports"`
-	FunctionName          string   `json:"function_name"`
-	ServiceParam          string   `json:"service_param"`
-	UseName               string   `json:"use_name"`
-	ShortDescription      string   `json:"short_description"`
-	LongDescription       string   `json:"long_description"`
-	CobraFlagsDefinition  []string `json:"cobra_flags_definition"`
-	CobraFlagsCreation    []string `json:"cobra_flags_creation"`
-	CobraFlagsAssign      []string `json:"cobra_flags_assign"`
-	CobraStructInitialize []string `json:"cobra_struct_initialize"`
-	CobraArrayParse       []string `json:"cobra_array_parse"`
-	Confirmation          string   `json:"confirmation"`
-	AssignResult          string   `json:"assign_result"`
-	PrintResult           string   `json:"print_result"`
-	ServiceCall           string   `json:"service_call"`
-	PositionalArgs        []string `json:"positional_args"`
-	ServiceSDKParamCreate []string `json:"service_sdk_param_create"`
-	ServiceSDKParam       string   `json:"service_sdk_param"`
-	params                []string `json:"-"`
+	SaveToFile            string                  `json:"save_to_file_path"`
+	PackageName           string                  `json:"package_name"`
+	Imports               []string                `json:"imports"`
+	FunctionName          string                  `json:"function_name"`
+	ServiceParam          string                  `json:"service_param"`
+	UseName               string                  `json:"use_name"`
+	ShortDescription      string                  `json:"short_description"`
+	LongDescription       string                  `json:"long_description"`
+	CobraFlagsDefinition  []CobraFlagsDefinition  `json:"cobra_flags_definition"`
+	CobraFlagsCreation    []string                `json:"cobra_flags_creation"`
+	CobraFlagsAssign      []string                `json:"cobra_flags_assign"`
+	CobraStructInitialize []string                `json:"cobra_struct_initialize"`
+	Confirmation          string                  `json:"confirmation"`
+	AssignResult          string                  `json:"assign_result"`
+	PrintResult           string                  `json:"print_result"`
+	ServiceCall           string                  `json:"service_call"`
+	ErrorResult           string                  `json:"error_result"`
+	PositionalArgs        []string                `json:"positional_args"`
+	ServiceSDKParamCreate []ServiceSDKParamCreate `json:"service_sdk_param_create"`
+	ServiceSDKParam       string                  `json:"service_sdk_param"`
+	params                []string                `json:"-"`
+}
+
+type CobraFlagsDefinition struct {
+	ParamName   string
+	Name        string
+	FlagType    string
+	param       config.Parameter
+	parents     []string
+	cobraVar    string
+	cobraAssign string
+}
+
+type ServiceSDKParamCreate struct {
+	ParamName string
+	Name      string
+	ParamType string
 }
 
 type MenuItem interface {
@@ -41,17 +58,18 @@ type MenuItem interface {
 	SetShortDescription(shortDescription string)
 	SetLongDescription(longDescription string)
 	AddImport(importt string)
-	AddCobraFlagsDefinition(cobraFlagsDefinition string)
+	AddCobraFlagsDefinition(cobraFlagsDefinition CobraFlagsDefinition)
+	GetCobraFlagsDefinition() []CobraFlagsDefinition
+	AddServiceSDKParamCreate(serviceSDKParamCreate ServiceSDKParamCreate)
 	AddCobraFlagsCreation(cobraFlagsCreation string)
 	AddCobraFlagsAssign(cobraFlagsAssign string)
 	AddCobraStructInitialize(cobraStructInitialize string)
-	AddCobraArrayParse(cobraArrayParse []string)
 	SetConfirmation(confirmation string)
 	SetAssignResult(assignResult string)
 	SetPrintResult(printResult string)
 	SetServiceCall(serviceCall string)
 	AddPositionalArgs(positionalArgs []string)
-	AddServiceSDKParamCreate(serviceSDKParamCreate string)
+	SetErrorResult(errorResult string)
 	SetServiceSDKParam(serviceSDKParam string)
 	AddParam(param string)
 	GetParams() []string
@@ -62,12 +80,15 @@ func NewMenuItem() MenuItem {
 	return &menuItemType{}
 }
 
+func (m *menuItemType) SetErrorResult(errorResult string) {
+	m.ErrorResult = errorResult
+}
+
 func (m *menuItemType) AddParam(param string) {
 	m.params = append(m.params, param)
 }
 
 func (m *menuItemType) GetParams() []string {
-	m.params = append([]string{"ctx"}, m.params...)
 	return m.params
 }
 
@@ -92,12 +113,11 @@ func (m *menuItemType) AddPositionalArgs(positionalArgs []string) {
 	slices.Sort(m.PositionalArgs)
 }
 
-func (m *menuItemType) AddServiceSDKParamCreate(serviceSDKParamCreate string) {
-	if serviceSDKParamCreate == "" {
-		return
-	}
+func (m *menuItemType) AddServiceSDKParamCreate(serviceSDKParamCreate ServiceSDKParamCreate) {
 	m.ServiceSDKParamCreate = append(m.ServiceSDKParamCreate, serviceSDKParamCreate)
-	slices.Sort(m.ServiceSDKParamCreate)
+	slices.SortFunc(m.ServiceSDKParamCreate, func(a, b ServiceSDKParamCreate) int {
+		return strings.Compare(a.Name, b.Name)
+	})
 }
 
 func (m *menuItemType) Save() error {
@@ -131,12 +151,16 @@ func (m *menuItemType) SetLongDescription(longDescription string) {
 	m.LongDescription = longDescription
 }
 
-func (m *menuItemType) AddCobraFlagsDefinition(cobraFlagsDefinition string) {
-	if cobraFlagsDefinition == "" {
-		return
-	}
+func (m *menuItemType) AddCobraFlagsDefinition(cobraFlagsDefinition CobraFlagsDefinition) {
 	m.CobraFlagsDefinition = append(m.CobraFlagsDefinition, cobraFlagsDefinition)
-	slices.Sort(m.CobraFlagsDefinition)
+
+	slices.SortFunc(m.CobraFlagsDefinition, func(a, b CobraFlagsDefinition) int {
+		return strings.Compare(a.Name, b.Name)
+	})
+}
+
+func (m *menuItemType) GetCobraFlagsDefinition() []CobraFlagsDefinition {
+	return m.CobraFlagsDefinition
 }
 
 func (m *menuItemType) AddCobraFlagsCreation(cobraFlagsCreation string) {
@@ -161,11 +185,6 @@ func (m *menuItemType) AddCobraStructInitialize(cobraStructInitialize string) {
 	}
 	m.CobraStructInitialize = append(m.CobraStructInitialize, cobraStructInitialize)
 	slices.Sort(m.CobraStructInitialize)
-}
-
-func (m *menuItemType) AddCobraArrayParse(cobraArrayParse []string) {
-	m.CobraArrayParse = append(m.CobraArrayParse, cobraArrayParse...)
-	slices.Sort(m.CobraArrayParse)
 }
 
 func (m *menuItemType) SetConfirmation(confirmation string) {
