@@ -1221,3 +1221,13 @@ menus:
               level: 3
               description: List NAT gateways
               long_description: List all NAT gateways
+    - name: iam
+      enabled: true
+      level: 1
+      description: Manage IAM users, roles, and policies
+      long_description: Manage IAM users, roles, and policies
+      sdk_package: iam
+      cli_group: products
+      alias:
+        - iam
+        - identity

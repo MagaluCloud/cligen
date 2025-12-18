@@ -1,17 +1,19 @@
 package sdk_structure
 
 import (
+	"context"
+
 	"github.com/magaluCloud/cligen/config"
 )
 
-func GenCliSDKStructure(config *config.Config) (SDKStructure, error) {
+func GenCliSDKStructure(ctx context.Context, config *config.Config) (SDKStructure, error) {
 	sdkStructure := &SDKStructure{
 		Packages: make(map[string]Package),
 	}
 
 	for _, menu := range config.Menus {
 		if menu.Enabled {
-			processMenu(menu, sdkStructure)
+			processMenu(ctx, menu, sdkStructure)
 		}
 	}
 

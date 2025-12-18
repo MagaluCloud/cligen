@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"context"
 	"fmt"
 	"log"
 
@@ -18,7 +19,20 @@ func AllCommands() []*cobra.Command {
 		GenCLICmd(),
 		GenCLISDKStructureCmd(),
 		GenCLICodeCmd(),
+		WriteConfigCmd(),
 	}
+}
+
+// WriteConfigCmd retorna o comando para escrever a configuração
+func WriteConfigCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "write-config",
+		Short: "Escreve a configuração",
+		Run: func(cmd *cobra.Command, args []string) {
+			gen_cli_code.WriteConfig()
+		},
+	}
+
 }
 
 // GenCLICodeCmd retorna o comando para gerar o código da CLI
@@ -44,7 +58,8 @@ func GenCLISDKStructureCmd() *cobra.Command {
 				panic(fmt.Errorf("erro ao carregar configuração: %w", err))
 			}
 
-			sdkStructure, err := sdk_structure.GenCliSDKStructure(cfg)
+			ctx := context.Background()
+			sdkStructure, err := sdk_structure.GenCliSDKStructure(ctx, cfg)
 			if err != nil {
 				log.Fatalf("Erro ao gerar a estrutura do SDK: %v", err)
 			}
