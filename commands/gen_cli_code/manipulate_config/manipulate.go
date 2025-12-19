@@ -17,7 +17,7 @@ import (
 // StartServer inicia o servidor web para manipulação do config.json
 func StartServer(port string) error {
 	if port == "" {
-		port = "8080"
+		port = "9080"
 	}
 
 	// Configurar Gin em modo release para produção

@@ -60,29 +60,31 @@ func analyzeStructType(expr ast.Expr, packageName string, sdkDir string) map[str
 		return nil
 	}
 
-	structFields := extractTypeFieldsFromIdent(expr, packageName)
+	structFields := extractTypeFieldsFromIdent(expr, packageName, sdkDir)
 	if structFields != nil {
 		return structFields
 	}
 
 	structFields = findStructDefinition(typeName, sdkDir, packageName)
-	if structFields != nil {
-	}
-
 	return structFields
 }
 
-func extractTypeFieldsFromIdent(expr ast.Expr, packageName string) map[string]config.Parameter {
+func extractTypeFieldsFromIdent(expr ast.Expr, packageName string, sdkDir string) map[string]config.Parameter {
 	// Tratar ponteiros desembrulhando recursivamente
 	if starExpr, ok := expr.(*ast.StarExpr); ok {
-		return extractTypeFieldsFromIdent(starExpr.X, packageName)
+		return extractTypeFieldsFromIdent(starExpr.X, packageName, sdkDir)
+	}
+
+	// Tratar arrays desembrulhando recursivamente
+	if arrayExpr, ok := expr.(*ast.ArrayType); ok {
+		return extractTypeFieldsFromIdent(arrayExpr.Elt, packageName, sdkDir)
 	}
 
 	if ident, ok := expr.(*ast.Ident); ok {
 		if ident.Obj != nil {
 			if typeDecl, ok := ident.Obj.Decl.(*ast.TypeSpec); ok {
 				if structType, ok := typeDecl.Type.(*ast.StructType); ok {
-					return extractStructFields(structType, packageName, "")
+					return extractStructFields(structType, packageName, sdkDir)
 				}
 			}
 		}

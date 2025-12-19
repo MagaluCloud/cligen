@@ -18,7 +18,7 @@ func GenConfig() {
 }
 
 func Manipulate() {
-	manipulate_config.StartServer("8080")
+	manipulate_config.StartServer("9080")
 }
 
 func GenCliCode() {

@@ -10,43 +10,56 @@ import (
 )
 
 type menuItemType struct {
-	SaveToFile            string                  `json:"save_to_file_path"`
-	PackageName           string                  `json:"package_name"`
-	Imports               []string                `json:"imports"`
-	FunctionName          string                  `json:"function_name"`
-	ServiceParam          string                  `json:"service_param"`
-	UseName               string                  `json:"use_name"`
-	ShortDescription      string                  `json:"short_description"`
-	LongDescription       string                  `json:"long_description"`
-	CobraFlagsDefinition  []CobraFlagsDefinition  `json:"cobra_flags_definition"`
-	CobraFlagsCreation    []string                `json:"cobra_flags_creation"`
-	CobraFlagsAssign      []string                `json:"cobra_flags_assign"`
-	CobraStructInitialize []string                `json:"cobra_struct_initialize"`
-	Confirmation          string                  `json:"confirmation"`
-	AssignResult          string                  `json:"assign_result"`
-	PrintResult           string                  `json:"print_result"`
-	ServiceCall           string                  `json:"service_call"`
-	ErrorResult           string                  `json:"error_result"`
-	PositionalArgs        []string                `json:"positional_args"`
-	ServiceSDKParamCreate []ServiceSDKParamCreate `json:"service_sdk_param_create"`
-	ServiceSDKParam       string                  `json:"service_sdk_param"`
-	params                []string                `json:"-"`
+	SaveToFile            string                         `json:"save_to_file_path"`
+	PackageName           string                         `json:"package_name"`
+	Imports               []string                       `json:"imports"`
+	FunctionName          string                         `json:"function_name"`
+	ServiceParam          string                         `json:"service_param"`
+	UseName               string                         `json:"use_name"`
+	ShortDescription      string                         `json:"short_description"`
+	LongDescription       string                         `json:"long_description"`
+	CobraFlagsDefinition  []CobraFlagsDefinition         `json:"cobra_flags_definition"`
+	CobraFlagsCreation    []string                       `json:"cobra_flags_creation"`
+	CobraFlagsAssign      []string                       `json:"cobra_flags_assign"`
+	CobraStructInitialize []ServiceCobraStructInitialize `json:"cobra_struct_initialize"`
+	Confirmation          string                         `json:"confirmation"`
+	AssignResult          string                         `json:"assign_result"`
+	PrintResult           string                         `json:"print_result"`
+	ServiceCall           string                         `json:"service_call"`
+	ErrorResult           string                         `json:"error_result"`
+	PositionalArgs        []string                       `json:"positional_args"`
+	ServiceSDKParamCreate []ServiceSDKParamCreate        `json:"service_sdk_param_create"`
+	ServiceSDKParam       string                         `json:"service_sdk_param"`
+	params                []string                       `json:"-"`
 }
 
 type CobraFlagsDefinition struct {
-	ParamName   string
-	Name        string
-	FlagType    string
-	param       config.Parameter
-	parents     []string
-	cobraVar    string
-	cobraAssign string
+	ParamName         string
+	Name              string
+	FlagType          string
+	param             config.Parameter
+	parents           []string
+	cobraVar          string
+	cobraDefaultValue string
+	cobraType         string
+	cobraAssign       string
+	parentIsArray     bool
+	parentIsStruct    bool
+	arrayMake         bool
 }
 
 type ServiceSDKParamCreate struct {
 	ParamName string
 	Name      string
 	ParamType string
+}
+
+type ServiceCobraStructInitialize struct {
+	ParamName  string
+	Name       string
+	TypePrefix string
+	ParamType  string
+	TypeSuffix string
 }
 
 type MenuItem interface {
@@ -63,7 +76,8 @@ type MenuItem interface {
 	AddServiceSDKParamCreate(serviceSDKParamCreate ServiceSDKParamCreate)
 	AddCobraFlagsCreation(cobraFlagsCreation string)
 	AddCobraFlagsAssign(cobraFlagsAssign string)
-	AddCobraStructInitialize(cobraStructInitialize string)
+	AddCobraStructInitialize(cobraStructInitialize ServiceCobraStructInitialize)
+	GetCobraStructInitialize() []ServiceCobraStructInitialize
 	SetConfirmation(confirmation string)
 	SetAssignResult(assignResult string)
 	SetPrintResult(printResult string)
@@ -179,12 +193,15 @@ func (m *menuItemType) AddCobraFlagsAssign(cobraFlagsAssign string) {
 	slices.Sort(m.CobraFlagsAssign)
 }
 
-func (m *menuItemType) AddCobraStructInitialize(cobraStructInitialize string) {
-	if cobraStructInitialize == "" {
-		return
-	}
+func (m *menuItemType) AddCobraStructInitialize(cobraStructInitialize ServiceCobraStructInitialize) {
 	m.CobraStructInitialize = append(m.CobraStructInitialize, cobraStructInitialize)
-	slices.Sort(m.CobraStructInitialize)
+	slices.SortFunc(m.CobraStructInitialize, func(a, b ServiceCobraStructInitialize) int {
+		return strings.Compare(a.Name, b.Name)
+	})
+}
+
+func (m *menuItemType) GetCobraStructInitialize() []ServiceCobraStructInitialize {
+	return m.CobraStructInitialize
 }
 
 func (m *menuItemType) SetConfirmation(confirmation string) {

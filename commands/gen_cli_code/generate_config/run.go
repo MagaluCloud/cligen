@@ -21,7 +21,8 @@ const (
 )
 
 var (
-	DIRS_TO_SKIP = []string{"internal", "client", "cmd", "helpers", "docs", "objectstorage"}
+	DIRS_TO_SKIP = []string{"internal", "client", "cmd", "helpers", "docs", "objectstorage",
+		/*"audit", "blockstorage", "compute", "containerregistry", "dbaas", "iam", "kubernetes", "lbaas", "network", "profile", "availabilityzones", "sshkeys"*/}
 )
 
 func Run() {

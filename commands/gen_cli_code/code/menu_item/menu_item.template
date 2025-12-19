@@ -26,20 +26,20 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 		{{if .LongDescription}}Long:    `{{.LongDescription}}`,{{end}}
 		RunE: func(cmd *cobra.Command, args []string) error{
 			
-			{{range .ServiceSDKParamCreate}}
-			var {{.Name}} {{.ParamType}}//ServiceSDKParamCreate
+			{{range .ServiceSDKParamCreate}}//ServiceSDKParamCreate
+			var {{.Name}} {{.ParamType}}
 			{{end}}
 			
-			{{range .CobraStructInitialize}}
-			{{.}}//CobraStructInitialize
+			{{range .CobraStructInitialize}}//CobraStructInitialize
+			{{.Name}} = {{.TypePrefix}}{{.ParamType}}{{.TypeSuffix}}
 			{{end}}
 
 		
-			{{range .CobraFlagsAssign}}
-			{{.}}//CobraFlagsAssign
+			{{range .CobraFlagsAssign}}//CobraFlagsAssign
+			{{.}}
 			{{end}}
 
-			{{if .Confirmation}}
+			{{if .Confirmation}}//Confirmation
 			{{.Confirmation}}
 			{{end}}
 
@@ -48,12 +48,12 @@ func {{.FunctionName}}(ctx context.Context, parent *cobra.Command, {{.ServicePar
 			{{.ErrorResult}}
 			{{end}}
 			
-			{{.PrintResult}}
+			{{.PrintResult}}//PrintResult
 			return nil
 		},
 	}
 	
-	{{range .CobraFlagsCreation}}
+	{{range .CobraFlagsCreation}}//CobraFlagsCreation
 	{{.}}
 	{{end}}
 

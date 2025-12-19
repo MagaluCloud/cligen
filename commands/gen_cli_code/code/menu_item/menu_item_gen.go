@@ -18,7 +18,7 @@ var menuItemTmpl *template.Template
 
 const (
 	genDir             = "base-cli-gen/cmd/gen"
-	_IN_DEBUG          = true
+	_IN_DEBUG          = false
 	DEBUG_MENU_NAME    = "compute"
 	DEBUG_SUBMENU_NAME = "Instances"
 	DEBUG_METHOD_NAME  = "Create"
@@ -104,6 +104,7 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 
 func prepareName(name string) string {
 	name = strings.ReplaceAll(name, "*", "")
+	name = strings.ReplaceAll(name, "[]", "")
 	return name
 }
 
@@ -115,7 +116,20 @@ func ProcessCobraStructInitialize(menuItem MenuItem, param config.Parameter, sdk
 				parentControl = true
 				parents = append(parents, param)
 			}
-			menuItem.AddCobraStructInitialize(fmt.Sprintf("%s = &%s{}", genStructName(sparam, parents...), prepareName(sparam.Type)))
+
+			typePrefix := "&"
+			if sparam.IsArray {
+				typePrefix = "&[]"
+			}
+			sci := ServiceCobraStructInitialize{
+				ParamName:  sparam.Name,
+				Name:       genStructName(sparam, parents...),
+				TypePrefix: typePrefix,
+				TypeSuffix: "{}",
+				ParamType:  prepareName(sparam.Type),
+			}
+
+			menuItem.AddCobraStructInitialize(sci)
 			menuItem = ProcessCobraStructInitialize(menuItem, sparam, sdkName, parents...)
 		}
 	}
@@ -126,37 +140,69 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 		cfa := ""
 		if !flag.param.IsOptional {
 			cfa = fmt.Sprintf(`if len(args) > 0{
-			cmd.Flags().Set("%s", args[0])
+				cmd.Flags().Set("%s", args[0])
 			}
 			`, flag.cobraVar)
 
 		}
 		cfa = fmt.Sprintf("%sif %sFlag.IsChanged(){\n", cfa, flag.Name)
 
-		if !flag.param.IsArray {
+		if !flag.param.IsArray && !flag.parentIsArray {
 			pointer := ""
 			if !flag.param.IsPointer {
 				pointer = "*"
 			}
-			cfa = fmt.Sprintf("%s%s = %s%sFlag.Value\n}", cfa, flag.cobraAssign, pointer, flag.Name)
+			cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 		}
 
-		if flag.param.IsArray {
+		if flag.param.IsArray && !flag.parentIsArray {
 
-			cfa = fmt.Sprintf("%sfor _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-			cfa = fmt.Sprintf("%s*%s = append(*%s, v)\n", cfa, flag.cobraAssign, flag.cobraAssign)
-			cfa = fmt.Sprintf("%s}\n}", cfa)
+			if flag.param.IsPrimitive && flag.param.AliasType == "" {
+				cfa = fmt.Sprintf("%s				for _, v := range *%sFlag.Value {\n", cfa, flag.Name)
+				cfa = fmt.Sprintf("%s					*%s = append(*%s, v)//dd\n", cfa, flag.cobraAssign, flag.cobraAssign)
+				cfa = fmt.Sprintf("%s				}\n", cfa)
+			} else { //aqui ok!
+				cfa = fmt.Sprintf("%sfor _, v := range *%sFlag.Value {\n", cfa, flag.Name)
+				if !hasSDKPackage(flag.param.AliasType, sdkName) {
+					cfa = fmt.Sprintf("%s%s = append(%s, %s.%s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, sdkName, flag.param.AliasType)
+				} else {
+					cfa = fmt.Sprintf("%s%s = append(%s, %s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, flag.param.AliasType)
+				}
+				cfa = fmt.Sprintf("%s}\n", cfa)
+			}
+		}
+
+		if !flag.param.IsArray && flag.parentIsArray {
+			if flag.param.IsPrimitive && flag.param.AliasType == "" {
+				if flag.parentIsStruct && flag.arrayMake {
+					csi := menuItem.GetCobraStructInitialize()
+					for _, csi := range csi {
+						if csi.Name == removeSuffix(flag.cobraAssign, flag.param.Name) {
+							cfa = fmt.Sprintf("%s				for _, v := range *%sFlag.Value {\n", cfa, flag.Name)
+							cfa = fmt.Sprintf("%s					*%s = append(*%s,%s{%s: v})//kk\n", cfa, removeSuffix(flag.cobraAssign, flag.param.Name), removeSuffix(flag.cobraAssign, flag.param.Name), csi.ParamType, flag.ParamName)
+							cfa = fmt.Sprintf("%s				}\n", cfa)
+							break
+						}
+					}
+				}
+			}
 		}
 
 		if !flag.param.IsOptional {
-			cfa = fmt.Sprintf(`%s else {
+			cfa = fmt.Sprintf(`%s			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			}`, cfa, flag.Name, flag.param.Name)
+			`, cfa, flag.Name, flag.param.Name)
+			menuItem.AddImport("\"fmt\"")
 
 		}
+		cfa = fmt.Sprintf("%s			}\n", cfa)
 		menuItem.AddCobraFlagsAssign(cfa)
 	}
 	return menuItem
+}
+
+func removeSuffix(str string, suffix string) string {
+	return strings.TrimSuffix(str, "."+suffix)
 }
 
 func ProcessPrintResult(menuItem MenuItem, assignResult string) MenuItem {
@@ -196,7 +242,7 @@ func genStructName(param config.Parameter, parents ...config.Parameter) string {
 	return strings.Join(parts, ".")
 }
 
-func genFlagName(param config.Parameter, parents ...config.Parameter) string {
+func genFlagName(param config.Parameter, parents []config.Parameter) string {
 	if len(parents) == 0 {
 		return param.Name
 	}
@@ -216,7 +262,10 @@ func getParentsNames(parents []config.Parameter) []string {
 	return parts
 }
 
-func genCobraVarName(param config.Parameter, parents ...config.Parameter) string {
+func genCobraVarName(param config.Parameter, parents []config.Parameter) string {
+	if len(parents) == 0 {
+		return strutils.ToSnakeCasePreserveID(param.Name, "-")
+	}
 	par := parents[1:]
 	if len(par) == 0 {
 		return strutils.ToSnakeCasePreserveID(param.Name, "-")
@@ -230,7 +279,7 @@ func genCobraVarName(param config.Parameter, parents ...config.Parameter) string
 	return strings.Join(parts, ".")
 }
 
-func genCobraAssignName(param config.Parameter, parents ...config.Parameter) string {
+func genCobraAssignName(param config.Parameter, parents []config.Parameter) string {
 	if len(parents) == 0 {
 		return param.Name
 	}
@@ -246,13 +295,18 @@ func genCobraAssignName(param config.Parameter, parents ...config.Parameter) str
 func ProcessCobraFlagsDefinition(menuItem MenuItem, param config.Parameter, parents ...config.Parameter) MenuItem {
 	if param.Struct == nil {
 		cfd := CobraFlagsDefinition{
-			ParamName:   param.Name,
-			Name:        genFlagName(param, parents...),
-			FlagType:    translateTypeToCobraFlag(param),
-			param:       param,
-			parents:     getParentsNames(parents),
-			cobraVar:    genCobraVarName(param, parents...),
-			cobraAssign: genCobraAssignName(param, parents...),
+			ParamName:         param.Name,
+			Name:              genFlagName(param, parents),
+			FlagType:          translateTypeToCobraFlag(param, parents),
+			param:             param,
+			parents:           getParentsNames(parents),
+			cobraVar:          genCobraVarName(param, parents),
+			cobraAssign:       genCobraAssignName(param, parents),
+			cobraType:         translateTypeToCobraFlagCreate(param, parents),
+			cobraDefaultValue: defaultByType(param, parents),
+			parentIsArray:     len(parents) > 0 && parents[len(parents)-1].IsArray,
+			parentIsStruct:    len(parents) > 0 && len(parents[len(parents)-1].Struct) > 0,
+			arrayMake:         len(parents) > 0 && parents[len(parents)-1].IsArray && strings.HasPrefix(parents[len(parents)-1].Type, "*[]"),
 		}
 		menuItem.AddCobraFlagsDefinition(cfd)
 	} else {
@@ -264,27 +318,45 @@ func ProcessCobraFlagsDefinition(menuItem MenuItem, param config.Parameter, pare
 	return menuItem
 }
 
+func hasSDKPackage(paramType string, sdkName string) bool {
+	return strings.Contains(paramType, sdkName)
+}
+
 func ProcessServiceSDKParamCreate(menuItem MenuItem, param config.Parameter, sdkName string, parents ...config.Parameter) MenuItem {
 	var sspc ServiceSDKParamCreate
 	sspc.ParamName = param.Name
 	sspc.Name = param.Name
 
-	if param.IsPrimitive {
+	if param.IsPrimitive && param.AliasType == "" {
 		sspc.ParamType = param.Type
+	}
+	if param.IsPrimitive && param.AliasType != "" {
+		if !hasSDKPackage(param.AliasType, sdkName) {
+			sspc.ParamType = fmt.Sprintf("%s.%s", sdkName, param.AliasType)
+		} else {
+			sspc.ParamType = param.AliasType
+		}
 	}
 	if !param.IsPrimitive && param.Struct != nil {
 		sspc.ParamType = param.Type
 	}
 
+	if param.IsArray && !strings.HasPrefix(sspc.ParamType, "[]") {
+		sspc.ParamType = fmt.Sprintf("[]%s", sspc.ParamType)
+	}
 	menuItem.AddServiceSDKParamCreate(sspc)
 	menuItem.AddParam(sspc.Name)
 	return menuItem
 }
 
+func removeNewLine(str string) string {
+	return strings.ReplaceAll(str, "\n", "")
+}
+
 func ProcessCobraFlagsCreation(menuItem MenuItem, sdkName string) MenuItem {
 	for _, flag := range menuItem.GetCobraFlagsDefinition() {
 		menuItem.AddCobraFlagsCreation(
-			fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", %s,\"%s\")", flag.Name, translateTypeToCobraFlagCreate(flag.param.Type), flag.cobraVar, defaultByType(flag.param.Type), flag.param.Description),
+			fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", %s,\"%s\")", flag.Name, flag.cobraType, flag.cobraVar, flag.cobraDefaultValue, removeNewLine(flag.param.Description)),
 		)
 	}
 	return menuItem
@@ -600,8 +672,16 @@ func ProcessCobraFlagsCreation(menuItem MenuItem, sdkName string) MenuItem {
 // 	return param.AliasType
 // }
 
-func defaultByType(paramType string) string {
-	paramType = strings.TrimPrefix(paramType, "*")
+func defaultByType(param config.Parameter, parents []config.Parameter) string {
+	paramType := strings.TrimPrefix(param.Type, "*")
+	if param.IsArray {
+		return "[]string{}"
+	}
+	if len(parents) > 0 {
+		if parents[len(parents)-1].IsArray {
+			return "[]string{}"
+		}
+	}
 	switch paramType {
 	case "string":
 		return "\"\""
@@ -643,7 +723,17 @@ func defaultByType(paramType string) string {
 // 	return translateTypeToCobraFlag(field.Type)
 // }
 
-func translateTypeToCobraFlag(param config.Parameter) string {
+func translateTypeToCobraFlag(param config.Parameter, parents []config.Parameter) string {
+
+	if param.IsArray {
+		return "StrSliceFlag"
+	}
+
+	if len(parents) > 0 {
+		if parents[len(parents)-1].IsArray {
+			return "StrSliceFlag"
+		}
+	}
 
 	paramType := strings.ReplaceAll(param.Type, "*", "")
 	switch paramType {
@@ -690,8 +780,18 @@ func translateTypeToCobraFlag(param config.Parameter) string {
 // 	return translateTypeToCobraFlag(field.Type)
 // }
 
-func translateTypeToCobraFlagCreate(paramType string) string {
-	paramType = strings.TrimPrefix(paramType, "*")
+func translateTypeToCobraFlagCreate(param config.Parameter, parents []config.Parameter) string {
+	if param.IsArray {
+		return "StrSlice"
+	}
+
+	if len(parents) > 0 {
+		if parents[len(parents)-1].IsArray {
+			return "StrSlice"
+		}
+	}
+
+	paramType := strings.TrimPrefix(param.Type, "*")
 
 	switch paramType {
 	case "string":
