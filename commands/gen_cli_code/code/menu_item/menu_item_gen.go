@@ -427,31 +427,6 @@ func defaultByType(param config.Parameter, parents []config.Parameter) string {
 	}
 }
 
-func translateTypeToCobraFlagComplex(field config.Parameter) string {
-	typeName := cleanTypeName(field.Type)
-	if field.IsArray {
-		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
-	}
-	return fmt.Sprintf("JSONValue[%s]", typeName)
-}
-
-func cleanTypeName(typeName string) string {
-	typeName = strings.TrimPrefix(typeName, "*")
-	typeName = strings.TrimPrefix(typeName, "[]")
-	return typeName
-}
-
-func translateTypeToCobraFlagStruct(field, parentField config.Parameter) string {
-	typeName := cleanTypeName(parentField.Type)
-	if canUseSliceFlag(parentField) {
-		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
-	}
-	if canUseStrAsJson(parentField) {
-		return fmt.Sprintf("JSONValue[%s]", typeName)
-	}
-	return translateTypeToCobraFlag(field.Type)
-}
-
 func translateTypeToCobraFlag(param config.Parameter, parents []config.Parameter) string {
 
 	if param.IsArray {
@@ -490,42 +465,18 @@ func translateTypeToCobraFlag(param config.Parameter, parents []config.Parameter
 	}
 }
 
-func canUseSliceFlag(parentField config.Parameter) bool {
-	return parentField.IsArray && len(parentField.Struct) == 1
-}
-
-func canUseStrAsJson(parentField config.Parameter) bool {
-	return parentField.IsArray && len(parentField.Struct) > 1
-}
-
-func translateTypeToCobraFlagCreateComplex(field config.Parameter) string {
-	typeName := cleanTypeName(field.Type)
-	if field.IsArray {
-		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
-	}
-	return fmt.Sprintf("JSONValue[%s]", typeName)
-}
-
-func translateTypeToCobraFlagCreateStruct(field, parentField config.Parameter) string {
-	typeName := cleanTypeName(parentField.Type)
-	if canUseSliceFlag(parentField) {
-		return fmt.Sprintf("JSONArrayValue[%s]", typeName)
-	}
-	if canUseStrAsJson(parentField) {
-		return fmt.Sprintf("JSONValue[%s]", typeName)
-	}
-	return translateTypeToCobraFlag(field.Type)
-}
-
 func translateTypeToCobraFlagCreate(param config.Parameter, parents []config.Parameter) string {
-	if param.IsArray {
-		return "StrSlice"
-	}
 
 	if len(parents) > 0 {
+		// parent := parents[len(parents)-1]
+		// if parent.IsStruct {
 		if parents[len(parents)-1].IsArray {
-			return "StrSlice"
+			return fmt.Sprintf("JSONArrayValue[%s]", cleanTypeName(param.Type))
 		}
+		if !parents[len(parents)-1].IsArray {
+			return fmt.Sprintf("JSONValue[%s]", cleanTypeName(param.Type))
+		}
+		// }
 	}
 
 	paramType := strings.TrimPrefix(param.Type, "*")
@@ -551,6 +502,12 @@ func translateTypeToCobraFlagCreate(param config.Parameter, parents []config.Par
 
 		return "Str"
 	}
+}
+
+func cleanTypeName(typeName string) string {
+	typeName = strings.TrimPrefix(typeName, "*")
+	typeName = strings.TrimPrefix(typeName, "[]")
+	return typeName
 }
 
 // mover isso pra uma common
