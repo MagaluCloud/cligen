@@ -21,9 +21,9 @@ var _IN_DEBUG bool
 
 const (
 	genDir             = "base-cli-gen/cmd/gen"
-	DEBUG_MENU_NAME    = "lbaas"
-	DEBUG_SUBMENU_NAME = "NetworkBackends"
-	DEBUG_METHOD_NAME  = "Create"
+	DEBUG_MENU_NAME    = "blockstorage"
+	DEBUG_SUBMENU_NAME = "Volumes"
+	DEBUG_METHOD_NAME  = "Get"
 )
 
 func init() {
@@ -87,7 +87,6 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 			menuItem = ProcessCobraFlagsDefinition(menuItem, param)
 			menuItem = ProcessServiceSDKParamCreate(menuItem, param, sdkName)
 			menuItem = ProcessCobraStructInitialize(menuItem, param, sdkName)
-			// menuItem = ProcessCobraFlagsCreation(menuItem, param, sdkName)
 		}
 		menuItem = ProcessCobraFlagsAssign(menuItem, sdkName)
 		menuItem = ProcessCobraFlagsCreation(menuItem, sdkName)
@@ -150,68 +149,121 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 		}
 		cfa = fmt.Sprintf("%sif %sFlag.IsChanged(){\n", cfa, flag.Name)
 
-		if !flag.param.IsArray && !flag.parentIsArray && flag.param.IsPrimitive && flag.param.AliasType == "" {
-			pointer := ""
-			if !flag.param.IsPointer {
-				pointer = "*"
-			}
+		pointer := ""
+		if !flag.param.IsPointer && !flag.param.IsArray {
+			pointer = "*"
+		}
+
+		if flag.isComplex {
 			cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 		}
-		if !flag.param.IsArray && !flag.parentIsArray && flag.param.IsPrimitive && flag.param.AliasType != "" {
-			pointer := ""
-			if flag.param.IsPointer {
-				pointer = "*"
-			}
-			cfa = fmt.Sprintf("%s				%s%s = %s(*%sFlag.Value)\n\n", cfa, pointer, flag.cobraAssign, flag.param.AliasType, flag.Name)
-		}
-		if flag.param.IsArray && !flag.parentIsArray {
 
-			pointer := ""
-			if flag.param.IsPointer {
-				pointer = "*"
-			}
-
-			if flag.param.IsPrimitive && flag.param.AliasType == "" {
-				cfa = fmt.Sprintf("%s				for _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-				cfa = fmt.Sprintf("%s					%s%s = append(%s%s, v)//dd\n", cfa, pointer, flag.cobraAssign, pointer, flag.cobraAssign)
-				cfa = fmt.Sprintf("%s				}\n", cfa)
-			}
-			if !flag.param.IsPrimitive && flag.param.AliasType != "" {
-				cfa = fmt.Sprintf("%sfor _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-				if !hasSDKPackage(flag.param.AliasType, sdkName) {
-					cfa = fmt.Sprintf("%s%s = append(%s, %s.%s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, sdkName, flag.param.AliasType)
-				} else {
-					cfa = fmt.Sprintf("%s%s = append(%s, %s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, flag.param.AliasType)
-				}
-				cfa = fmt.Sprintf("%s}\n", cfa)
-			}
-			if !flag.param.IsPrimitive && flag.param.AliasType == "" {
-				cfa = fmt.Sprintf("%sfor _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-				if !hasSDKPackage(flag.param.Type, sdkName) {
-					cfa = fmt.Sprintf("%s%s = append(%s, %s.%s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, sdkName, flag.param.Type)
-				} else {
-					cfa = fmt.Sprintf("%s%s = append(%s, %s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, removeArrayFromString(flag.param.Type))
-				}
-				cfa = fmt.Sprintf("%s}\n", cfa)
-			}
-		}
-
-		if !flag.param.IsArray && flag.parentIsArray {
-			if flag.param.IsPrimitive && flag.param.AliasType == "" {
-				if flag.parentIsStruct && flag.arrayMake {
-					csi := menuItem.GetCobraStructInitialize()
-					for _, csi := range csi {
-						if csi.Name == removeSuffix(flag.cobraAssign, flag.param.Name) {
-							cfa = fmt.Sprintf("%s				for _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-							cfa = fmt.Sprintf("%s					*%s = append(*%s,%s{%s: v})//kk\n", cfa, removeSuffix(flag.cobraAssign, flag.param.Name), removeSuffix(flag.cobraAssign, flag.param.Name), csi.ParamType, flag.ParamName)
-							cfa = fmt.Sprintf("%s				}\n", cfa)
-							break
-						}
+		if !flag.isComplex {
+			switch flag.FlagType {
+			case "JSONArrayValue[string]":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "JSONValue[string]":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "StrSliceFlag":
+				if flag.param.AliasType != "" {
+					// expand = flags.StrSliceFlagToSlice[blockstorageSdk.ExpandSchedulers](expandFlag)
+					if hasSDKPackage(flag.param.AliasType, sdkName) {
+						cfa = fmt.Sprintf("%s				%s = flags.StrSliceFlagToSlice[%s](%sFlag)\n\n", cfa, flag.cobraAssign, flag.param.AliasType, flag.Name)
+					} else {
+						cfa = fmt.Sprintf("%s				%s = flags.StrSliceFlagToSlice[%s.%s](%sFlag)\n\n", cfa, flag.cobraAssign, sdkName, flag.param.AliasType, flag.Name)
 					}
+				} else if hasSDKPackage(flag.param.Type, sdkName) {
+					cfa = fmt.Sprintf("%s				%s = flags.StrSliceFlagToSlice[%s](%sFlag)\n\n", cfa, flag.cobraAssign, removeArrayFromString(flag.param.Type), flag.Name)
+				} else {
+					cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 				}
+			case "StrFlag":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "Int64Flag":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "BoolFlag":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "IntFlag":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "Float64Flag":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "StrMapFlag":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "TimeFlag":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			default:
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 			}
 		}
+		// aqui ruim
+		// if flag.isComplex {
+		// 	cfa = fmt.Sprintf("%s				%s = %sFlag.Value\n\n", cfa, flag.cobraAssign, flag.Name)
+		// } else {
 
+		// 	if !flag.param.IsArray && !flag.parentIsArray && flag.param.IsPrimitive && flag.param.AliasType == "" {
+		// 		pointer := ""
+		// 		if !flag.param.IsPointer {
+		// 			pointer = "*"
+		// 		}
+		// 		cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+		// 	}
+		// 	if !flag.param.IsArray && !flag.parentIsArray && flag.param.IsPrimitive && flag.param.AliasType != "" {
+		// 		pointer := ""
+		// 		if flag.param.IsPointer {
+		// 			pointer = "*"
+		// 		}
+		// 		cfa = fmt.Sprintf("%s				%s%s = %s(*%sFlag.Value)\n\n", cfa, pointer, flag.cobraAssign, flag.param.AliasType, flag.Name)
+		// 	}
+		// 	if flag.param.IsArray && !flag.parentIsArray {
+
+		// 		pointer := ""
+		// 		if flag.param.IsPointer {
+		// 			pointer = "*"
+		// 		}
+
+		// 		if flag.param.IsPrimitive && flag.param.AliasType == "" {
+		// 			cfa = fmt.Sprintf("%s				for _, v := range *%sFlag.Value {\n", cfa, flag.Name)
+		// 			cfa = fmt.Sprintf("%s					%s%s = append(%s%s, v)//dd\n", cfa, pointer, flag.cobraAssign, pointer, flag.cobraAssign)
+		// 			cfa = fmt.Sprintf("%s				}\n", cfa)
+		// 		}
+		// 		if !flag.param.IsPrimitive && flag.param.AliasType != "" {
+		// 			cfa = fmt.Sprintf("%sfor _, v := range *%sFlag.Value {\n", cfa, flag.Name)
+		// 			if !hasSDKPackage(flag.param.AliasType, sdkName) {
+		// 				cfa = fmt.Sprintf("%s%s = append(%s, %s.%s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, sdkName, flag.param.AliasType)
+		// 			} else {
+		// 				cfa = fmt.Sprintf("%s%s = append(%s, %s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, flag.param.AliasType)
+		// 			}
+		// 			cfa = fmt.Sprintf("%s}\n", cfa)
+		// 		}
+		// 		if !flag.param.IsPrimitive && flag.param.AliasType == "" {
+		// 			cfa = fmt.Sprintf("%sfor _, v := range *%sFlag.Value {\n", cfa, flag.Name)
+		// 			if !hasSDKPackage(flag.param.Type, sdkName) {
+		// 				cfa = fmt.Sprintf("%s%s = append(%s, %s.%s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, sdkName, flag.param.Type)
+		// 			} else {
+		// 				cfa = fmt.Sprintf("%s%s = append(%s, %s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, removeArrayFromString(flag.param.Type))
+		// 			}
+		// 			cfa = fmt.Sprintf("%s}\n", cfa)
+		// 		}
+		// 	}
+
+		// 	if !flag.param.IsArray && flag.parentIsArray {
+		// 		if flag.param.IsPrimitive && flag.param.AliasType == "" {
+		// 			if flag.parentIsStruct && flag.arrayMake {
+		// 				csi := menuItem.GetCobraStructInitialize()
+		// 				for _, csi := range csi {
+		// 					if csi.Name == removeSuffix(flag.cobraAssign, flag.param.Name) {
+		// 						cfa = fmt.Sprintf("%s				for _, v := range *%sFlag.Value {\n", cfa, flag.Name)
+		// 						cfa = fmt.Sprintf("%s					*%s = append(*%s,%s{%s: v})//kk\n", cfa, removeSuffix(flag.cobraAssign, flag.param.Name), removeSuffix(flag.cobraAssign, flag.param.Name), csi.ParamType, flag.ParamName)
+		// 						cfa = fmt.Sprintf("%s				}\n", cfa)
+		// 						break
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
+
+		// aqui bom:
 		if !flag.param.IsOptional {
 			cfa = fmt.Sprintf(`%s			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
@@ -219,6 +271,7 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 			menuItem.AddImport("\"fmt\"")
 
 		}
+
 		cfa = fmt.Sprintf("%s			}\n", cfa)
 		menuItem.AddCobraFlagsAssign(cfa)
 	}
@@ -331,12 +384,34 @@ func ProcessCobraFlagsDefinition(menuItem MenuItem, param config.Parameter, pare
 			parentIsArray:     len(parents) > 0 && parents[len(parents)-1].IsArray,
 			parentIsStruct:    len(parents) > 0 && len(parents[len(parents)-1].Struct) > 0,
 			arrayMake:         len(parents) > 0 && parents[len(parents)-1].IsArray && strings.HasPrefix(parents[len(parents)-1].Type, "*[]"),
+			isComplex:         false,
 		}
 		menuItem.AddCobraFlagsDefinition(cfd)
-	} else {
-		for _, sparam := range param.Struct {
-			menuItem = ProcessCobraFlagsDefinition(menuItem, sparam, append(parents, param)...)
+		return menuItem
+	}
+
+	parents = append(parents, param)
+	for _, sparam := range param.Struct {
+		if sparam.Struct != nil {
+			cfd := CobraFlagsDefinition{
+				ParamName:         sparam.Name,
+				Name:              genFlagName(sparam, parents),
+				FlagType:          complexType(sparam),
+				param:             sparam,
+				parents:           getParentsNames(parents),
+				cobraVar:          genCobraVarName(sparam, parents),
+				cobraAssign:       genCobraAssignName(sparam, parents),
+				cobraType:         complexType(sparam),
+				cobraDefaultValue: "",
+				parentIsArray:     len(parents) > 0 && parents[len(parents)-1].IsArray,
+				parentIsStruct:    len(parents) > 0 && len(parents[len(parents)-1].Struct) > 0,
+				arrayMake:         len(parents) > 0 && parents[len(parents)-1].IsArray && strings.HasPrefix(parents[len(parents)-1].Type, "*[]"),
+				isComplex:         true,
+			}
+			menuItem.AddCobraFlagsDefinition(cfd)
+			continue
 		}
+		menuItem = ProcessCobraFlagsDefinition(menuItem, sparam, parents...)
 	}
 
 	return menuItem
@@ -388,9 +463,15 @@ func removeNewLine(str string) string {
 func ProcessCobraFlagsCreation(menuItem MenuItem, sdkName string) MenuItem {
 	doImport := false
 	for _, flag := range menuItem.GetCobraFlagsDefinition() {
-		menuItem.AddCobraFlagsCreation(
-			fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", %s,\"%s\")", flag.Name, flag.cobraType, flag.cobraVar, flag.cobraDefaultValue, removeNewLine(flag.param.Description)),
-		)
+		if flag.cobraDefaultValue != "" {
+			menuItem.AddCobraFlagsCreation(
+				fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", %s,\"%s\")", flag.Name, flag.cobraType, flag.cobraVar, flag.cobraDefaultValue, removeNewLine(flag.param.Description)),
+			)
+		} else {
+			menuItem.AddCobraFlagsCreation(
+				fmt.Sprintf("%sFlag = flags.New%s(cmd, \"%s\", \"%s\")", flag.Name, flag.cobraType, flag.cobraVar, removeNewLine(flag.param.Description)),
+			)
+		}
 		doImport = true
 	}
 	if doImport {
@@ -427,8 +508,17 @@ func defaultByType(param config.Parameter, parents []config.Parameter) string {
 	}
 }
 
-func translateTypeToCobraFlag(param config.Parameter, parents []config.Parameter) string {
+func complexType(param config.Parameter) string {
+	if param.IsArray {
+		return fmt.Sprintf("JSONArrayValue[%s]", cleanTypeName(param.Type))
+	}
+	if !param.IsArray {
+		return fmt.Sprintf("JSONValue[%s]", cleanTypeName(param.Type))
+	}
+	return "StrFlag"
+}
 
+func translateTypeToCobraFlag(param config.Parameter, parents []config.Parameter) string {
 	if param.IsArray {
 		return "StrSliceFlag"
 	}
@@ -466,20 +556,14 @@ func translateTypeToCobraFlag(param config.Parameter, parents []config.Parameter
 }
 
 func translateTypeToCobraFlagCreate(param config.Parameter, parents []config.Parameter) string {
-
-	if len(parents) > 0 {
-		// parent := parents[len(parents)-1]
-		// if parent.IsStruct {
-		if parents[len(parents)-1].IsArray {
-			return fmt.Sprintf("JSONArrayValue[%s]", cleanTypeName(param.Type))
-		}
-		if !parents[len(parents)-1].IsArray {
-			return fmt.Sprintf("JSONValue[%s]", cleanTypeName(param.Type))
-		}
-		// }
-	}
-
 	paramType := strings.TrimPrefix(param.Type, "*")
+
+	if !param.IsPrimitive {
+		if param.IsArray {
+			return "StrSlice"
+		}
+		return "Str"
+	}
 
 	switch paramType {
 	case "string":

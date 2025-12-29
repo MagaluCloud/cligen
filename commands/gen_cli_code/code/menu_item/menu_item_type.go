@@ -46,6 +46,7 @@ type CobraFlagsDefinition struct {
 	parentIsArray     bool
 	parentIsStruct    bool
 	arrayMake         bool
+	isComplex         bool
 }
 
 type ServiceSDKParamCreate struct {
