@@ -21,9 +21,9 @@ var _IN_DEBUG bool
 
 const (
 	genDir             = "base-cli-gen/cmd/gen"
-	DEBUG_MENU_NAME    = "blockstorage"
-	DEBUG_SUBMENU_NAME = "Volumes"
-	DEBUG_METHOD_NAME  = "Get"
+	DEBUG_MENU_NAME    = "lbaas"
+	DEBUG_SUBMENU_NAME = "NetworkACLs"
+	DEBUG_METHOD_NAME  = "Replace"
 )
 
 func init() {
@@ -155,15 +155,21 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 		}
 
 		if flag.isComplex {
-			cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			switch {
+			case strings.HasPrefix(flag.FlagType, "JSONArrayValue"):
+				if !flag.param.IsPointer {
+					pointer = "*"
+				}
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case strings.HasPrefix(flag.FlagType, "JSONValue"):
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+
+			}
+			// cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 		}
 
 		if !flag.isComplex {
 			switch flag.FlagType {
-			case "JSONArrayValue[string]":
-				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
-			case "JSONValue[string]":
-				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 			case "StrSliceFlag":
 				if flag.param.AliasType != "" {
 					// expand = flags.StrSliceFlagToSlice[blockstorageSdk.ExpandSchedulers](expandFlag)
@@ -175,10 +181,34 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 				} else if hasSDKPackage(flag.param.Type, sdkName) {
 					cfa = fmt.Sprintf("%s				%s = flags.StrSliceFlagToSlice[%s](%sFlag)\n\n", cfa, flag.cobraAssign, removeArrayFromString(flag.param.Type), flag.Name)
 				} else {
+					if !flag.param.IsPointer {
+						pointer = "*"
+					}
 					cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 				}
 			case "StrFlag":
-				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+				ptrValue := ""
+				if flag.param.AliasType != "" {
+					if flag.param.IsPointer {
+						pointer = "*"
+						ptrValue = "&"
+					}
+					if hasSDKPackage(flag.param.AliasType, sdkName) {
+						cfa = fmt.Sprintf("%s				localVar := %s(%s%sFlag.Value)\n\n", cfa, flag.param.AliasType, pointer, flag.Name)
+						cfa = fmt.Sprintf("%s				%s = %slocalVar\n\n", cfa, flag.cobraAssign, ptrValue)
+					} else {
+						cfa = fmt.Sprintf("%s				localVar := %s.%s(%s%sFlag.Value)\n\n", cfa, sdkName, flag.param.AliasType, pointer, flag.Name)
+						cfa = fmt.Sprintf("%s				%s = %slocalVar\n\n", cfa, flag.cobraAssign, ptrValue)
+					}
+				} else if hasSDKPackage(flag.param.Type, sdkName) {
+					if flag.param.IsPointer {
+						pointer = "*"
+					}
+					cfa = fmt.Sprintf("%s				localVar := %s(%s%sFlag.Value)\n\n", cfa, flag.param.Type, pointer, flag.Name)
+					cfa = fmt.Sprintf("%s				%s = %slocalVar\n\n", cfa, flag.cobraAssign, ptrValue)
+				} else {
+					cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+				}
 			case "Int64Flag":
 				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 			case "BoolFlag":

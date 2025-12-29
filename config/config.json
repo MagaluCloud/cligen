@@ -25867,7 +25867,7 @@
                         },
                         "value": {
                           "name": "Value",
-                          "type": "dbaasSdk.any",
+                          "type": "any",
                           "description": "",
                           "is_primitive": false,
                           "is_pointer": false,
@@ -25978,7 +25978,7 @@
                     },
                     "value": {
                       "name": "Value",
-                      "type": "dbaasSdk.any",
+                      "type": "any",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
@@ -26058,7 +26058,7 @@
                     },
                     "value": {
                       "name": "Value",
-                      "type": "dbaasSdk.any",
+                      "type": "any",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
@@ -26166,7 +26166,7 @@
                   "struct": {
                     "value": {
                       "name": "Value",
-                      "type": "dbaasSdk.any",
+                      "type": "any",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
@@ -26218,7 +26218,7 @@
                     },
                     "value": {
                       "name": "Value",
-                      "type": "dbaasSdk.any",
+                      "type": "any",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
