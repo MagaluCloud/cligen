@@ -81,20 +81,56 @@ func GenGroupModule(menu *config.Menu) error {
 
 	for _, submenu := range menu.Menus {
 
-		moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(submenu.Name))
-		sdkImportName := fmt.Sprintf("%sSdk", moduleServiceName)
-		module.AddImport(fmt.Sprintf("%s \"%s\"", sdkImportName, submenu.SDKPackage))
+		if len(submenu.Menus) == 1 {
+			// vamos suprimir um nivel de menu
+			ssmenu := submenu.Menus[0]
+			moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(submenu.Name))
+			sdkImportName := fmt.Sprintf("%sSdk", moduleServiceName)
+			module.AddImport(fmt.Sprintf("%s \"%s\"", sdkImportName, submenu.SDKPackage))
 
-		module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, sdkImportName))
+			module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, sdkImportName))
 
-		for _, ssmenu := range submenu.Menus {
 			module.AddSubCommand(subCommandType{
-				PackageName:  strings.ToLower(ssmenu.Name),
-				FunctionName: strutils.FirstUpper(ssmenu.Name) + "Cmd",
+				PackageName:  strings.ToLower(submenu.Name),
+				FunctionName: strutils.FirstUpper(submenu.Name) + "Cmd",
 				ServiceCall:  fmt.Sprintf("%s.%s()", moduleServiceName, ssmenu.Name),
 			})
-			module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.Name), strings.ToLower(ssmenu.Name)))
+			module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.Name), strings.ToLower(submenu.Name)))
+
+			continue
 		}
+
+		// moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(submenu.Name))
+		// sdkImportName := fmt.Sprintf("%sSdk", moduleServiceName)
+		// module.AddImport(fmt.Sprintf("%s \"%s\"", sdkImportName, submenu.SDKPackage))
+
+		// module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, sdkImportName))
+
+		// if len(submenu.Menus) > 0 {
+		// 	for _, ssmenu := range submenu.Menus {
+		// 		module.AddSubCommand(subCommandType{
+		// 			PackageName:  strings.ToLower(ssmenu.Name),
+		// 			FunctionName: strutils.FirstUpper(ssmenu.Name) + "Cmd",
+		// 			ServiceCall:  fmt.Sprintf("%s.%s()", moduleServiceName, ssmenu.Name),
+		// 		})
+		// 		module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.Name), strings.ToLower(ssmenu.Name)))
+		// 	}
+		// 	continue
+		// }
+
+		// //get and extract name from file name
+		// packageName := submenu.Name
+		// if len(submenu.Methods) > 0 {
+		// 	fileName := strings.Split(submenu.Methods[0].SDKFile, "/")
+		// 	packageName = strings.TrimSuffix(strutils.FirstUpper(strings.ToLower(fileName[len(fileName)-1])), ".go")
+		// }
+
+		// module.AddSubCommand(subCommandType{
+		// 	PackageName:  strings.ToLower(submenu.Name),
+		// 	FunctionName: strutils.FirstUpper(submenu.Name) + "Cmd",
+		// 	ServiceCall:  fmt.Sprintf("%s.%s()", moduleServiceName, packageName),
+		// })
+		// module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.Name), strings.ToLower(submenu.Name)))
 	}
 	module.SetPackageName(strings.ToLower(menu.Name))
 	module.SetFunctionName(strutils.FirstUpper(menu.Name) + "Cmd")

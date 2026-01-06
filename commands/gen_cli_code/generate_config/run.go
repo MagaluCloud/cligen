@@ -147,9 +147,12 @@ func Run() {
 		}
 
 	}
-	for _, menu := range cfg.Menus {
-		MoveToParent(cfg, menu)
-	}
+	
+	// for _, menuItem := range cfg.Menus {
+	// 	copyOfMenuItem := menuItem
+	// 	MoveToParent(copyOfMenuItem)
+	// 	menuItem = copyOfMenuItem
+	// }
 
 	err = cfg.SaveConfig()
 	if err != nil {
@@ -157,26 +160,29 @@ func Run() {
 	}
 }
 
-func MoveToParent(cfg *config.Config, menu *config.Menu) {
+func MoveToParent(menu *config.Menu) {
 	if len(menu.Menus) == 1 {
-		subMenu := menu.Menus[0]
+		newMenu := menu.Menus[0]
+		newMenu.ParentMenuID = ""
+		menu = newMenu
+		// subMenu := menu.Menus[0]
 
-		if len(subMenu.Methods) > 0 {
-			menu.Methods = append(menu.Methods, subMenu.Methods...)
-		}
+		// if len(subMenu.Methods) > 0 {
+		// 	menu.Methods = append(menu.Methods, subMenu.Methods...)
+		// }
 
-		if menu.SDKFile == "" && subMenu.SDKFile != "" {
-			menu.SDKFile = subMenu.SDKFile
-		}
+		// if menu.SDKFile == "" && subMenu.SDKFile != "" {
+		// 	menu.SDKFile = subMenu.SDKFile
+		// }
 
-		if menu.SDKPackage == "" && subMenu.SDKPackage != "" {
-			menu.SDKPackage = subMenu.SDKPackage
-		}
+		// if menu.SDKPackage == "" && subMenu.SDKPackage != "" {
+		// 	menu.SDKPackage = subMenu.SDKPackage
+		// }
 
-		if menu.ServiceInterface == "" && subMenu.ServiceInterface != "" {
-			menu.ServiceInterface = subMenu.ServiceInterface
-		}
-		menu.Menus = nil
+		// if menu.ServiceInterface == "" && subMenu.ServiceInterface != "" {
+		// 	menu.ServiceInterface = subMenu.ServiceInterface
+		// }
+		// menu.Menus = nil
 	}
 }
 

@@ -19,6 +19,7 @@ type menuType struct {
 	LongDescription  string        `json:"long_description"`
 	Aliases          []string      `json:"aliases"`
 	GroupID          string        `json:"group_id"`
+	IsGrouped        bool          `json:"is_grouped"`
 	ServiceInit      []string      `json:"service_init"`
 	Commands         []CommandType `json:"commands"`
 }
@@ -32,6 +33,8 @@ type Menu interface {
 	SetPathSaveToFile(saveToFilePath string)
 	AddCommand(command CommandType)
 	AddImport(importPath string)
+	SetMenuAsGrouped(isGrouped bool)
+	IsMenuGrouped() bool
 	SetPackageName(packageName string)
 	SetFunctionName(functionName string)
 	SetUseName(useName string)
@@ -50,6 +53,14 @@ func NewMenu() Menu {
 		Commands: make([]CommandType, 0),
 		Imports:  make([]string, 0),
 	}
+}
+
+func (m *menuType) SetMenuAsGrouped(isGrouped bool) {
+	m.IsGrouped = isGrouped
+}
+
+func (m *menuType) IsMenuGrouped() bool {
+	return m.IsGrouped
 }
 
 func (m *menuType) SetPathSaveToFile(saveToFilePath string) {

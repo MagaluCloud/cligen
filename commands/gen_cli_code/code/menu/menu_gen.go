@@ -40,6 +40,7 @@ func GenerateMenu(cfg *config.Config) error {
 
 func GenMenu(cfg *config.Config, submenu *config.Menu) error {
 	menuData := NewMenu()
+
 	parents := FindParents(cfg, submenu.ParentMenuID)
 
 	parents = append(parents, strings.ToLower(submenu.Name))
@@ -48,7 +49,6 @@ func GenMenu(cfg *config.Config, submenu *config.Menu) error {
 
 	nameFromParent, sdkPackageFromParent := FindSDKPackageFromParents(cfg, submenu.ParentMenuID)
 	menuData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(submenu.ServiceInterface), nameFromParent, submenu.ServiceInterface))
-	menuData.AddImport(fmt.Sprintf("%sSdk \"%s\"", nameFromParent, sdkPackageFromParent))
 
 	menuData.SetPackageName(submenu.Name)
 	menuData.SetFunctionName(strutils.FirstUpper(submenu.Name))
@@ -58,7 +58,21 @@ func GenMenu(cfg *config.Config, submenu *config.Menu) error {
 	menuData.SetShortDescription(submenu.Description)
 	menuData.SetLongDescription(submenu.LongDescription)
 	menuData.SetGroupID(submenu.CliGroup)
+	if len(submenu.Menus) == 1 && len(submenu.Methods) == 0 {
+		ssmenu := submenu.Menus[0]
+		menuData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(ssmenu.ServiceInterface), submenu.Name, ssmenu.ServiceInterface))
+		menuData.AddImport(fmt.Sprintf("%sSdk \"%s\"", submenu.Name, submenu.SDKPackage))
+		menuData.AddCommand(CommandType{
+			FunctionName: fmt.Sprintf("%s.%sCmd", strings.ToLower(ssmenu.Name), strutils.FirstUpper(ssmenu.Name)),
+			ServiceCall:  strutils.FirstLower(ssmenu.ServiceInterface),
+		})
+		menuData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", parentsPath, strings.ToLower(ssmenu.Name)))
+		menuData.SetMenuAsGrouped(true)
 
+		menuData.Save()
+		return nil
+	}
+	menuData.AddImport(fmt.Sprintf("%sSdk \"%s\"", nameFromParent, sdkPackageFromParent))
 	for _, method := range submenu.Methods {
 		menuData.AddCommand(CommandType{
 			FunctionName: strutils.FirstUpper(method.Name),

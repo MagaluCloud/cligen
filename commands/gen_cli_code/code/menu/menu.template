@@ -15,6 +15,7 @@ import (
 )
 
 func {{.FunctionName}}Cmd(ctx context.Context, parent *cobra.Command, {{.ServiceParam}}) {
+	{{if not .IsGrouped}}
 	cmd := &cobra.Command{
 		Use:     "{{.UseName}}",
 		{{if .ShortDescription}}Short:   "{{.ShortDescription}}",{{end}}
@@ -24,7 +25,7 @@ func {{.FunctionName}}Cmd(ctx context.Context, parent *cobra.Command, {{.Service
 			{{range .Aliases}}"{{.}}",{{end}}
 		},{{end}}
 	}
-
+	
  	{{range .ServiceInit}}
     {{.}}
     {{end}}
@@ -34,4 +35,12 @@ func {{.FunctionName}}Cmd(ctx context.Context, parent *cobra.Command, {{.Service
 	{{end}}
 
 	parent.AddCommand(cmd)
+	{{end}}
+
+
+	{{if .IsGrouped}}
+	{{range .Commands}}
+	{{.FunctionName}}(ctx, parent, {{.ServiceCall}})
+	{{end}}
+	{{end}}
 }

@@ -7,7 +7,7 @@
   "show_logs": true,
   "menus": [
     {
-      "id": "418caaa2-d457-4413-b252-0ca2ea0e8246",
+      "id": "cacc22ea-237b-41ff-b925-0c055a8e9f9c",
       "name": "audit",
       "enabled": true,
       "description": "",
@@ -15,7 +15,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/audit",
       "menus": [
         {
-          "id": "ad8fbc78-c2a7-4061-a0c0-deecc366369f",
+          "id": "f9da404f-f4a6-42bc-9751-74df37b9eda4",
           "name": "Events",
           "enabled": true,
           "description": "",
@@ -502,10 +502,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/client.go",
-          "parent_menu_id": "418caaa2-d457-4413-b252-0ca2ea0e8246"
+          "parent_menu_id": "cacc22ea-237b-41ff-b925-0c055a8e9f9c"
         },
         {
-          "id": "e5c59497-b884-42ed-b953-19163d4cd857",
+          "id": "4fd91386-419e-4235-92af-a57a83023e1c",
           "name": "EventTypes",
           "enabled": true,
           "description": "",
@@ -692,12 +692,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/client.go",
-          "parent_menu_id": "418caaa2-d457-4413-b252-0ca2ea0e8246"
+          "parent_menu_id": "cacc22ea-237b-41ff-b925-0c055a8e9f9c"
         }
       ]
     },
     {
-      "id": "b762de3b-2e67-40ef-aed8-65d4a795520b",
+      "id": "1710aaad-4546-480f-907d-66bdfd94df34",
       "name": "blockstorage",
       "enabled": true,
       "description": "",
@@ -705,7 +705,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/blockstorage",
       "menus": [
         {
-          "id": "bbaebd99-ab28-41cd-b3f8-fc55b05651c5",
+          "id": "fba33559-f0c7-452b-a7b4-934a01b2d094",
           "name": "Volumes",
           "enabled": true,
           "description": "",
@@ -2808,10 +2808,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "b762de3b-2e67-40ef-aed8-65d4a795520b"
+          "parent_menu_id": "1710aaad-4546-480f-907d-66bdfd94df34"
         },
         {
-          "id": "92dafdd9-8506-49ea-8876-8bbd36f9b82e",
+          "id": "233d02eb-6291-4a5e-8c1a-49eb8e5a220b",
           "name": "VolumeTypes",
           "enabled": true,
           "description": "",
@@ -3406,10 +3406,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "b762de3b-2e67-40ef-aed8-65d4a795520b"
+          "parent_menu_id": "1710aaad-4546-480f-907d-66bdfd94df34"
         },
         {
-          "id": "11417db6-e94d-4303-804c-e578c68bbbf7",
+          "id": "61bf4a49-8a0c-4dca-9f7b-b54fd1db05a5",
           "name": "Snapshots",
           "enabled": true,
           "description": "",
@@ -4696,10 +4696,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "b762de3b-2e67-40ef-aed8-65d4a795520b"
+          "parent_menu_id": "1710aaad-4546-480f-907d-66bdfd94df34"
         },
         {
-          "id": "e32d1fe2-05d6-4638-be4a-cab163121c8d",
+          "id": "bbae8e65-46d2-4867-ae5d-bec8fe615777",
           "name": "Schedulers",
           "enabled": true,
           "description": "",
@@ -6010,12 +6010,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "b762de3b-2e67-40ef-aed8-65d4a795520b"
+          "parent_menu_id": "1710aaad-4546-480f-907d-66bdfd94df34"
         }
       ]
     },
     {
-      "id": "eaa0769d-1a78-4338-88d0-404f0ee2676b",
+      "id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596",
       "name": "compute",
       "enabled": true,
       "description": "",
@@ -6023,7 +6023,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/compute",
       "menus": [
         {
-          "id": "51dba50e-2648-4ba9-8f95-f00a13365d38",
+          "id": "175c4fe8-eb7e-4eb0-a09c-c67de23e8ad5",
           "name": "Instances",
           "enabled": true,
           "description": "",
@@ -8870,10 +8870,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "eaa0769d-1a78-4338-88d0-404f0ee2676b"
+          "parent_menu_id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596"
         },
         {
-          "id": "58839407-8fd3-4d7b-8cb4-29196c7001d1",
+          "id": "008e4ae9-e667-4869-9bd4-230ff5ee918d",
           "name": "Images",
           "enabled": true,
           "description": "",
@@ -9504,10 +9504,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "eaa0769d-1a78-4338-88d0-404f0ee2676b"
+          "parent_menu_id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596"
         },
         {
-          "id": "7372b0ac-a6ad-4e26-a2d2-0f8a8ac8ecda",
+          "id": "dea5dbf6-eda9-4136-8db2-5b6b2020dc05",
           "name": "InstanceTypes",
           "enabled": true,
           "description": "",
@@ -9990,10 +9990,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "eaa0769d-1a78-4338-88d0-404f0ee2676b"
+          "parent_menu_id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596"
         },
         {
-          "id": "d470fb49-9d4a-4500-bb9f-9018031a82fb",
+          "id": "d5f26292-d45f-40e5-b899-e4447d03a84c",
           "name": "Snapshots",
           "enabled": true,
           "description": "",
@@ -11462,12 +11462,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "eaa0769d-1a78-4338-88d0-404f0ee2676b"
+          "parent_menu_id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596"
         }
       ]
     },
     {
-      "id": "97894d4b-b634-43c2-9bf2-db046d6cd986",
+      "id": "94dc2d7c-9419-448c-aa61-e2247796b4a7",
       "name": "containerregistry",
       "enabled": true,
       "description": "",
@@ -11475,7 +11475,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/containerregistry",
       "menus": [
         {
-          "id": "847938d9-d467-41ba-9e7b-ad2c62841830",
+          "id": "fd27b5c4-c27c-4f9c-a59e-19830065082e",
           "name": "Credentials",
           "enabled": true,
           "description": "",
@@ -11648,10 +11648,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "97894d4b-b634-43c2-9bf2-db046d6cd986"
+          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
         },
         {
-          "id": "3000043d-175a-46ef-90b5-2218fdd29604",
+          "id": "e1741d2d-beb2-4e3c-836b-6a8d02b97610",
           "name": "Registries",
           "enabled": true,
           "description": "",
@@ -12180,10 +12180,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "97894d4b-b634-43c2-9bf2-db046d6cd986"
+          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
         },
         {
-          "id": "cf679c41-3883-4c18-9469-7f446bbf28a1",
+          "id": "d16ec076-613c-4ed8-a79e-6295f86dcbb9",
           "name": "Repositories",
           "enabled": true,
           "description": "",
@@ -12628,10 +12628,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "97894d4b-b634-43c2-9bf2-db046d6cd986"
+          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
         },
         {
-          "id": "d95d8d2a-4e83-4155-8ef1-9c0d63b6477c",
+          "id": "66d698d7-c1a9-4cb8-8b0e-af4c93f0e625",
           "name": "Images",
           "enabled": true,
           "description": "",
@@ -13344,10 +13344,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "97894d4b-b634-43c2-9bf2-db046d6cd986"
+          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
         },
         {
-          "id": "512db81b-b58e-47ad-b022-023eafcb8193",
+          "id": "8d22fb38-cbfd-4e94-b0d1-f6f8f6de63d5",
           "name": "ProxyCaches",
           "enabled": true,
           "description": "",
@@ -14454,12 +14454,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "97894d4b-b634-43c2-9bf2-db046d6cd986"
+          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
         }
       ]
     },
     {
-      "id": "24de8fd2-523d-419a-8afb-effa5112b4e7",
+      "id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8",
       "name": "dbaas",
       "enabled": true,
       "description": "",
@@ -14467,7 +14467,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/dbaas",
       "menus": [
         {
-          "id": "dbbcb99c-f05c-4b35-84ce-6ed6940c98a5",
+          "id": "75e09a18-cb4f-443f-92a8-3702fa00be31",
           "name": "Engines",
           "enabled": true,
           "description": "",
@@ -15226,10 +15226,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "24de8fd2-523d-419a-8afb-effa5112b4e7"
+          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
         },
         {
-          "id": "ad6a1bbb-210e-4fe9-90cf-1812d50e1064",
+          "id": "e2821896-07f0-4ecf-aaa7-dfa86574a6b2",
           "name": "InstanceTypes",
           "enabled": true,
           "description": "",
@@ -15976,10 +15976,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "24de8fd2-523d-419a-8afb-effa5112b4e7"
+          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
         },
         {
-          "id": "10274cd9-cd41-49bc-ae0f-067595526ffb",
+          "id": "53d75f5f-3a3f-4ac2-ba6e-46808226562d",
           "name": "Instances",
           "enabled": true,
           "description": "",
@@ -22566,10 +22566,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "24de8fd2-523d-419a-8afb-effa5112b4e7"
+          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
         },
         {
-          "id": "7c68e209-b3d7-49dd-b3ae-d5c3456d2b77",
+          "id": "64dc8f19-f8a5-430e-bdca-098fff7f61ba",
           "name": "Replicas",
           "enabled": true,
           "description": "",
@@ -24726,10 +24726,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "24de8fd2-523d-419a-8afb-effa5112b4e7"
+          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
         },
         {
-          "id": "8bfed638-44e2-48e4-9bc9-e33e6cd3dfbd",
+          "id": "69aac458-9754-490e-9e0d-b1d1d45839a8",
           "name": "ParametersGroup",
           "enabled": true,
           "description": "",
@@ -25616,10 +25616,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "24de8fd2-523d-419a-8afb-effa5112b4e7"
+          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
         },
         {
-          "id": "60d6c67e-c3bd-48ea-b0e8-b6f8d294607b",
+          "id": "3facf6e4-8f8d-4c1b-a922-cc31a046a437",
           "name": "Parameters",
           "enabled": true,
           "description": "",
@@ -25867,7 +25867,7 @@
                         },
                         "value": {
                           "name": "Value",
-                          "type": "any",
+                          "type": "dbaasSdk.any",
                           "description": "",
                           "is_primitive": false,
                           "is_pointer": false,
@@ -25978,7 +25978,7 @@
                     },
                     "value": {
                       "name": "Value",
-                      "type": "any",
+                      "type": "dbaasSdk.any",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
@@ -26058,7 +26058,7 @@
                     },
                     "value": {
                       "name": "Value",
-                      "type": "any",
+                      "type": "dbaasSdk.any",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
@@ -26166,7 +26166,7 @@
                   "struct": {
                     "value": {
                       "name": "Value",
-                      "type": "any",
+                      "type": "dbaasSdk.any",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
@@ -26218,7 +26218,7 @@
                     },
                     "value": {
                       "name": "Value",
-                      "type": "any",
+                      "type": "dbaasSdk.any",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
@@ -26304,10 +26304,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "24de8fd2-523d-419a-8afb-effa5112b4e7"
+          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
         },
         {
-          "id": "e1f34f51-6b5e-491d-86d0-bb998984e05b",
+          "id": "59d76f69-a45c-4c11-8df7-85ba16e12669",
           "name": "Clusters",
           "enabled": true,
           "description": "",
@@ -29322,10 +29322,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "24de8fd2-523d-419a-8afb-effa5112b4e7"
+          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
         },
         {
-          "id": "a2646ee5-0f93-48d5-a833-e0494736c3d3",
+          "id": "c5e71419-60c1-4e4f-a881-d4e6c4173bf9",
           "name": "NewReplicaService",
           "enabled": true,
           "description": "",
@@ -31482,12 +31482,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go",
-          "parent_menu_id": "24de8fd2-523d-419a-8afb-effa5112b4e7"
+          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
         }
       ]
     },
     {
-      "id": "6d3b2966-c0bf-47a2-986d-c503b4641f8f",
+      "id": "ed5c4624-bd19-4df1-9261-23a07bbf830b",
       "name": "iam",
       "enabled": true,
       "description": "",
@@ -31495,14 +31495,14 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/iam",
       "menus": [
         {
-          "id": "cfa62beb-d812-4286-89ec-bd0336719020",
+          "id": "e4d08c62-8ff1-4e3a-a681-05faf06c8271",
           "name": "Members",
           "enabled": true,
           "description": "",
           "long_description": "",
           "menus": [
             {
-              "id": "ed1033f1-5d94-4159-8390-4849920f90e7",
+              "id": "b1fee4ce-f761-464b-9e9c-993dcbfed507",
               "name": "Grants",
               "enabled": true,
               "description": "",
@@ -31781,7 +31781,7 @@
                 }
               ],
               "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go",
-              "parent_menu_id": "cfa62beb-d812-4286-89ec-bd0336719020"
+              "parent_menu_id": "e4d08c62-8ff1-4e3a-a681-05faf06c8271"
             }
           ],
           "service_interface": "MemberService",
@@ -32106,10 +32106,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "6d3b2966-c0bf-47a2-986d-c503b4641f8f"
+          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
         },
         {
-          "id": "6c9c23f6-2041-455a-8359-b21f447b6e9f",
+          "id": "35e578e6-444b-448a-a7a0-8133f226a6d2",
           "name": "Roles",
           "enabled": true,
           "description": "",
@@ -32720,10 +32720,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "6d3b2966-c0bf-47a2-986d-c503b4641f8f"
+          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
         },
         {
-          "id": "47de4d76-019e-4589-9772-662d637991f4",
+          "id": "074faad3-7d8b-452d-8ea1-daa49c9bc800",
           "name": "Permissions",
           "enabled": true,
           "description": "",
@@ -32840,10 +32840,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "6d3b2966-c0bf-47a2-986d-c503b4641f8f"
+          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
         },
         {
-          "id": "e6aca988-b3b1-46c6-a06b-3e6586887059",
+          "id": "6a9d54a8-a13d-4769-9360-f7c365ecaaee",
           "name": "AccessControl",
           "enabled": true,
           "description": "",
@@ -33246,10 +33246,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "6d3b2966-c0bf-47a2-986d-c503b4641f8f"
+          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
         },
         {
-          "id": "8c03e77f-0a18-4e54-853b-40dcd92a9771",
+          "id": "60f3e599-b134-4c34-8d41-f8d39e7ab4a6",
           "name": "ServiceAccounts",
           "enabled": true,
           "description": "",
@@ -34572,10 +34572,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "6d3b2966-c0bf-47a2-986d-c503b4641f8f"
+          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
         },
         {
-          "id": "c28ac9e2-fd00-4581-9432-00c2300ec604",
+          "id": "ae94abb9-f971-4c4d-b49e-11d3d34d7a68",
           "name": "Scopes",
           "enabled": true,
           "description": "",
@@ -34742,12 +34742,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "6d3b2966-c0bf-47a2-986d-c503b4641f8f"
+          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
         }
       ]
     },
     {
-      "id": "cdeb8667-097f-4d20-97e3-6de38b6ef152",
+      "id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6",
       "name": "kubernetes",
       "enabled": true,
       "description": "",
@@ -34755,7 +34755,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/kubernetes",
       "menus": [
         {
-          "id": "6451c4d9-d0db-4cf1-8294-3247a1efe97b",
+          "id": "6ee6b680-e67d-4644-bd74-de89fa7426a4",
           "name": "Clusters",
           "enabled": true,
           "description": "",
@@ -36988,10 +36988,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "cdeb8667-097f-4d20-97e3-6de38b6ef152"
+          "parent_menu_id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6"
         },
         {
-          "id": "7f4ff078-adc5-4891-8db8-acc2e1486b6c",
+          "id": "afa492f1-6673-4317-b67e-0d3c0cc06c5d",
           "name": "Flavors",
           "enabled": true,
           "description": "",
@@ -37256,10 +37256,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "cdeb8667-097f-4d20-97e3-6de38b6ef152"
+          "parent_menu_id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6"
         },
         {
-          "id": "23c9ad70-1c0a-486d-90ee-342e8cc444f3",
+          "id": "17be4cb6-8311-487e-9bf4-849a67cc859d",
           "name": "Nodepools",
           "enabled": true,
           "description": "",
@@ -39934,10 +39934,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "cdeb8667-097f-4d20-97e3-6de38b6ef152"
+          "parent_menu_id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6"
         },
         {
-          "id": "67285877-48b5-4946-b9fa-fc665122f179",
+          "id": "dd79a596-f1fe-4dab-ac99-90a351015657",
           "name": "Versions",
           "enabled": true,
           "description": "",
@@ -40016,12 +40016,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "cdeb8667-097f-4d20-97e3-6de38b6ef152"
+          "parent_menu_id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6"
         }
       ]
     },
     {
-      "id": "fe0384c2-a4e0-4153-9382-ae126cc8848b",
+      "id": "a95d8465-aee7-46ae-ae40-65483cd3eef5",
       "name": "lbaas",
       "enabled": true,
       "description": "",
@@ -40029,7 +40029,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/lbaas",
       "menus": [
         {
-          "id": "055e5ea2-1a5c-4438-a132-9298aa6f1492",
+          "id": "b678074a-17b2-4a38-8fd1-e63d9e235aaa",
           "name": "NetworkACLs",
           "enabled": true,
           "description": "",
@@ -40356,10 +40356,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "fe0384c2-a4e0-4153-9382-ae126cc8848b"
+          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
         },
         {
-          "id": "2a5a2b27-e543-4d95-a086-a638e2444164",
+          "id": "22b54c5c-5b66-4f40-ac63-e879f2cfe98d",
           "name": "NetworkBackends",
           "enabled": true,
           "description": "",
@@ -41752,10 +41752,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "fe0384c2-a4e0-4153-9382-ae126cc8848b"
+          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
         },
         {
-          "id": "80e311fd-570e-4b06-8ab0-c349c79c71db",
+          "id": "ad6f4fe2-9758-4c79-9196-cf5989e17b0b",
           "name": "NetworkBackendTargets",
           "enabled": true,
           "description": "",
@@ -42144,10 +42144,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "fe0384c2-a4e0-4153-9382-ae126cc8848b"
+          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
         },
         {
-          "id": "51fdd787-2473-4427-86d5-97535836eef0",
+          "id": "2b4eccee-6b9b-4000-9f79-9e1408ab25f2",
           "name": "NetworkCertificates",
           "enabled": true,
           "description": "",
@@ -43090,10 +43090,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "fe0384c2-a4e0-4153-9382-ae126cc8848b"
+          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
         },
         {
-          "id": "2a373c0c-f30f-4f40-b1b8-4e501374ed8a",
+          "id": "e6d87002-3f7b-47fa-b225-e38bb28f91c3",
           "name": "NetworkHealthChecks",
           "enabled": true,
           "description": "",
@@ -44588,10 +44588,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "fe0384c2-a4e0-4153-9382-ae126cc8848b"
+          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
         },
         {
-          "id": "0fc4ac3a-b254-4b25-b5d8-a04d1fae2037",
+          "id": "1e7e5cdf-2982-4a09-9ad6-edd917fe9732",
           "name": "NetworkListeners",
           "enabled": true,
           "description": "",
@@ -45702,10 +45702,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "fe0384c2-a4e0-4153-9382-ae126cc8848b"
+          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
         },
         {
-          "id": "82423961-a2f3-465a-b448-38119f2f5f33",
+          "id": "4aede83a-fa50-441f-a22e-8878be16b9b3",
           "name": "NetworkLoadBalancers",
           "enabled": true,
           "description": "",
@@ -49582,12 +49582,12 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "fe0384c2-a4e0-4153-9382-ae126cc8848b"
+          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
         }
       ]
     },
     {
-      "id": "d5959777-e6f7-464e-b1bf-0b33427cb887",
+      "id": "e7a7d447-23af-489d-800c-35e93b9591f0",
       "name": "network",
       "enabled": true,
       "description": "",
@@ -49595,7 +49595,7 @@
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/network",
       "menus": [
         {
-          "id": "ac9d9175-ed12-47cd-9e47-0a76e26081bf",
+          "id": "17d6dcff-f7e2-48b3-b013-31c9ac952986",
           "name": "VPCs",
           "enabled": true,
           "description": "",
@@ -51456,10 +51456,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "d5959777-e6f7-464e-b1bf-0b33427cb887"
+          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
         },
         {
-          "id": "13afd8fc-465d-4011-98bd-6f0d8eeb3b78",
+          "id": "b8b2eae9-b46e-4294-8203-abe8973f9798",
           "name": "Subnets",
           "enabled": true,
           "description": "",
@@ -51848,10 +51848,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "d5959777-e6f7-464e-b1bf-0b33427cb887"
+          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
         },
         {
-          "id": "e16b38df-5d5b-48f3-8c95-2fe2109c8316",
+          "id": "661d9760-6127-4788-98f1-c9fd8623780d",
           "name": "Ports",
           "enabled": true,
           "description": "",
@@ -52706,10 +52706,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "d5959777-e6f7-464e-b1bf-0b33427cb887"
+          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
         },
         {
-          "id": "82750121-86c1-449e-8bf6-7526698b27e4",
+          "id": "21568e4f-d4b3-4af2-8165-cd6f2ba73408",
           "name": "SecurityGroups",
           "enabled": true,
           "description": "",
@@ -53430,10 +53430,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "d5959777-e6f7-464e-b1bf-0b33427cb887"
+          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
         },
         {
-          "id": "0b9cb6ec-981d-490f-a9c9-06ee24693105",
+          "id": "479766e0-1b7c-49dd-84a1-6118f8ca6d52",
           "name": "Rules",
           "enabled": true,
           "description": "",
@@ -54068,10 +54068,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "d5959777-e6f7-464e-b1bf-0b33427cb887"
+          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
         },
         {
-          "id": "143984a9-f420-404b-9d12-f75a96542098",
+          "id": "fc6dff96-88b9-4f76-ba6f-b710910659ac",
           "name": "PublicIPs",
           "enabled": true,
           "description": "",
@@ -54628,10 +54628,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "d5959777-e6f7-464e-b1bf-0b33427cb887"
+          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
         },
         {
-          "id": "0cc48b53-82a9-4c95-9ca2-4bd438dcc2ac",
+          "id": "da4b4f67-71b6-4721-8c12-c0cdf364e33c",
           "name": "SubnetPools",
           "enabled": true,
           "description": "",
@@ -55290,10 +55290,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "d5959777-e6f7-464e-b1bf-0b33427cb887"
+          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
         },
         {
-          "id": "a3a3528a-2ee1-4be8-b9b0-ac4f7359001d",
+          "id": "0cdb9fc5-6c67-494c-8f7d-3c91b0e49350",
           "name": "NatGateways",
           "enabled": true,
           "description": "",
@@ -55834,584 +55834,103 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "d5959777-e6f7-464e-b1bf-0b33427cb887"
+          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
         }
       ]
     },
     {
-      "id": "6c076a29-32c0-468d-bb14-0c633688ebdb",
+      "id": "deae2023-605e-4a48-bb76-93970a7ed0f5",
       "name": "profile",
       "enabled": true,
       "description": "",
       "long_description": "",
       "menus": [
         {
-          "id": "1290e614-ddc9-4f6c-bb1a-f137127466db",
+          "id": "aa684a15-8a4a-46e4-b5fb-a484e91e2a33",
           "name": "sshkeys",
           "enabled": true,
           "description": "",
           "long_description": "",
           "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/sshkeys",
-          "service_interface": "KeyService",
-          "methods": [
+          "menus": [
             {
-              "name": "List",
-              "parameters": [
+              "id": "63e7c91f-153f-4029-b90e-fa74ed0bba8f",
+              "name": "Keys",
+              "enabled": true,
+              "description": "",
+              "long_description": "",
+              "service_interface": "KeyService",
+              "methods": [
                 {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "opts",
-                  "type": "sshkeysSdk.ListOptions",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "Limit": {
-                      "name": "Limit",
-                      "type": "*int",
+                  "name": "List",
+                  "parameters": [
+                    {
+                      "name": "ctx",
+                      "type": "context.Context",
                       "description": "",
                       "is_primitive": true,
-                      "is_pointer": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "opts",
+                      "type": "sshkeysSdk.ListOptions",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": false,
                       "is_optional": true,
                       "is_array": false,
                       "is_positional": false,
                       "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "Offset": {
-                      "name": "Offset",
-                      "type": "*int",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "Sort": {
-                      "name": "Sort",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "[]sshkeysSdk.SSHKey",
-                  "type": "[]sshkeysSdk.SSHKey",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": true,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "key": {
-                      "name": "Key",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "key_type": {
-                      "name": "KeyType",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
+                      "struct": {
+                        "Limit": {
+                          "name": "Limit",
+                          "type": "*int",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": true,
+                          "is_optional": true,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "Offset": {
+                          "name": "Offset",
+                          "type": "*int",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": true,
+                          "is_optional": true,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "Sort": {
+                          "name": "Sort",
+                          "type": "*string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": true,
+                          "is_optional": true,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
                       "alias_type": ""
                     }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
-            },
-            {
-              "name": "Create",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "req",
-                  "type": "sshkeysSdk.CreateSSHKeyRequest",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "key": {
-                      "name": "Key",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*sshkeysSdk.SSHKey",
-                  "type": "*sshkeysSdk.SSHKey",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "key": {
-                      "name": "Key",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "key_type": {
-                      "name": "KeyType",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
-            },
-            {
-              "name": "Get",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "keyID",
-                  "type": "string",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*sshkeysSdk.SSHKey",
-                  "type": "*sshkeysSdk.SSHKey",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "key": {
-                      "name": "Key",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "key_type": {
-                      "name": "KeyType",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
-            },
-            {
-              "name": "Delete",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "keyID",
-                  "type": "string",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*sshkeysSdk.SSHKey",
-                  "type": "*sshkeysSdk.SSHKey",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "key": {
-                      "name": "Key",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "key_type": {
-                      "name": "KeyType",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
-            }
-          ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/client.go",
-          "parent_menu_id": "6c076a29-32c0-468d-bb14-0c633688ebdb"
-        },
-        {
-          "id": "9d639b47-7770-44b7-9493-5d3d6d328d8f",
-          "name": "availabilityzones",
-          "enabled": true,
-          "description": "",
-          "long_description": "",
-          "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/availabilityzones",
-          "service_interface": "Service",
-          "methods": [
-            {
-              "name": "List",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "opts",
-                  "type": "availabilityzonesSdk.ListOptions",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "ShowBlocked": {
-                      "name": "ShowBlocked",
-                      "type": "bool",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "[]availabilityzonesSdk.Region",
-                  "type": "[]availabilityzonesSdk.Region",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": true,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "availability_zones": {
-                      "name": "AvailabilityZones",
-                      "type": "[]availabilityzonesSdk.AvailabilityZone",
+                  ],
+                  "returns": [
+                    {
+                      "name": "[]sshkeysSdk.SSHKey",
+                      "type": "[]sshkeysSdk.SSHKey",
                       "description": "",
                       "is_primitive": false,
                       "is_pointer": false,
@@ -56420,7 +55939,7 @@
                       "is_positional": false,
                       "positional_index": 0,
                       "struct": {
-                        "az_id": {
+                        "id": {
                           "name": "ID",
                           "type": "string",
                           "description": "",
@@ -56432,8 +55951,8 @@
                           "positional_index": 0,
                           "alias_type": ""
                         },
-                        "block_type": {
-                          "name": "BlockType",
+                        "key": {
+                          "name": "Key",
                           "type": "string",
                           "description": "",
                           "is_primitive": true,
@@ -56442,13 +55961,199 @@
                           "is_array": false,
                           "is_positional": false,
                           "positional_index": 0,
-                          "alias_type": "availabilityzonesSdk.BlockType"
+                          "alias_type": ""
+                        },
+                        "key_type": {
+                          "name": "KeyType",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "name": {
+                          "name": "Name",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
                         }
                       },
                       "alias_type": ""
                     },
-                    "region_id": {
-                      "name": "ID",
+                    {
+                      "name": "error",
+                      "type": "error",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  ],
+                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                },
+                {
+                  "name": "Create",
+                  "parameters": [
+                    {
+                      "name": "ctx",
+                      "type": "context.Context",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "req",
+                      "type": "sshkeysSdk.CreateSSHKeyRequest",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": false,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "struct": {
+                        "key": {
+                          "name": "Key",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "name": {
+                          "name": "Name",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
+                      "alias_type": ""
+                    }
+                  ],
+                  "returns": [
+                    {
+                      "name": "*sshkeysSdk.SSHKey",
+                      "type": "*sshkeysSdk.SSHKey",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "struct": {
+                        "id": {
+                          "name": "ID",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "key": {
+                          "name": "Key",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "key_type": {
+                          "name": "KeyType",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "name": {
+                          "name": "Name",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "error",
+                      "type": "error",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  ],
+                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                },
+                {
+                  "name": "Get",
+                  "parameters": [
+                    {
+                      "name": "ctx",
+                      "type": "context.Context",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "keyID",
                       "type": "string",
                       "description": "",
                       "is_primitive": true,
@@ -56459,27 +56164,342 @@
                       "positional_index": 0,
                       "alias_type": ""
                     }
-                  },
-                  "alias_type": ""
+                  ],
+                  "returns": [
+                    {
+                      "name": "*sshkeysSdk.SSHKey",
+                      "type": "*sshkeysSdk.SSHKey",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "struct": {
+                        "id": {
+                          "name": "ID",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "key": {
+                          "name": "Key",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "key_type": {
+                          "name": "KeyType",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "name": {
+                          "name": "Name",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "error",
+                      "type": "error",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  ],
+                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
                 },
                 {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
+                  "name": "Delete",
+                  "parameters": [
+                    {
+                      "name": "ctx",
+                      "type": "context.Context",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "keyID",
+                      "type": "string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  ],
+                  "returns": [
+                    {
+                      "name": "*sshkeysSdk.SSHKey",
+                      "type": "*sshkeysSdk.SSHKey",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "struct": {
+                        "id": {
+                          "name": "ID",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "key": {
+                          "name": "Key",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "key_type": {
+                          "name": "KeyType",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "name": {
+                          "name": "Name",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "error",
+                      "type": "error",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  ],
+                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/az.go"
+              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/client.go",
+              "parent_menu_id": "aa684a15-8a4a-46e4-b5fb-a484e91e2a33"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/client.go",
-          "parent_menu_id": "6c076a29-32c0-468d-bb14-0c633688ebdb"
+          "parent_menu_id": "deae2023-605e-4a48-bb76-93970a7ed0f5"
+        },
+        {
+          "id": "a4379015-4d4f-4b8c-ad7a-313314a6faaf",
+          "name": "availabilityzones",
+          "enabled": true,
+          "description": "",
+          "long_description": "",
+          "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/availabilityzones",
+          "menus": [
+            {
+              "id": "c4285039-4e3c-4ca9-b75f-8c45a26bfeae",
+              "name": "AvailabilityZones",
+              "enabled": true,
+              "description": "",
+              "long_description": "",
+              "service_interface": "Service",
+              "methods": [
+                {
+                  "name": "List",
+                  "parameters": [
+                    {
+                      "name": "ctx",
+                      "type": "context.Context",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "opts",
+                      "type": "availabilityzonesSdk.ListOptions",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": false,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "struct": {
+                        "ShowBlocked": {
+                          "name": "ShowBlocked",
+                          "type": "bool",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
+                      "alias_type": ""
+                    }
+                  ],
+                  "returns": [
+                    {
+                      "name": "[]availabilityzonesSdk.Region",
+                      "type": "[]availabilityzonesSdk.Region",
+                      "description": "",
+                      "is_primitive": false,
+                      "is_pointer": false,
+                      "is_optional": true,
+                      "is_array": true,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "struct": {
+                        "availability_zones": {
+                          "name": "AvailabilityZones",
+                          "type": "[]availabilityzonesSdk.AvailabilityZone",
+                          "description": "",
+                          "is_primitive": false,
+                          "is_pointer": false,
+                          "is_optional": true,
+                          "is_array": true,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "struct": {
+                            "az_id": {
+                              "name": "ID",
+                              "type": "string",
+                              "description": "",
+                              "is_primitive": true,
+                              "is_pointer": false,
+                              "is_optional": false,
+                              "is_array": false,
+                              "is_positional": false,
+                              "positional_index": 0,
+                              "alias_type": ""
+                            },
+                            "block_type": {
+                              "name": "BlockType",
+                              "type": "string",
+                              "description": "",
+                              "is_primitive": true,
+                              "is_pointer": false,
+                              "is_optional": false,
+                              "is_array": false,
+                              "is_positional": false,
+                              "positional_index": 0,
+                              "alias_type": "availabilityzonesSdk.BlockType"
+                            }
+                          },
+                          "alias_type": ""
+                        },
+                        "region_id": {
+                          "name": "ID",
+                          "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        }
+                      },
+                      "alias_type": ""
+                    },
+                    {
+                      "name": "error",
+                      "type": "error",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  ],
+                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/az.go"
+                }
+              ],
+              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/client.go",
+              "parent_menu_id": "a4379015-4d4f-4b8c-ad7a-313314a6faaf"
+            }
+          ],
+          "parent_menu_id": "deae2023-605e-4a48-bb76-93970a7ed0f5"
         }
       ],
       "is_group": true
