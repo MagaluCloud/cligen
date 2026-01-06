@@ -21,8 +21,8 @@ var _IN_DEBUG bool
 
 const (
 	genDir             = "base-cli-gen/cmd/gen"
-	DEBUG_MENU_NAME    = "kubernetes"
-	DEBUG_SUBMENU_NAME = "Clusters"
+	DEBUG_MENU_NAME    = "dbaas"
+	DEBUG_SUBMENU_NAME = "Parameters"
 	DEBUG_METHOD_NAME  = "Create"
 )
 
@@ -223,6 +223,8 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 			case "TimeFlag":
 				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
+			case "AnyFlag":
+				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 			default:
 				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 			}
@@ -402,6 +404,10 @@ func genCobraAssignName(param config.Parameter, parents []config.Parameter) stri
 }
 
 func ProcessCobraFlagsDefinition(menuItem MenuItem, param config.Parameter, parents ...config.Parameter) MenuItem {
+	if strings.Contains(param.Type, "any") {
+		param.Type = "any"
+		param.IsPrimitive = true
+	}
 	if param.Struct == nil {
 		cfd := CobraFlagsDefinition{
 			ParamName:         param.Name,
@@ -582,6 +588,8 @@ func translateTypeToCobraFlag(param config.Parameter, parents []config.Parameter
 		return "StrMapFlag"
 	case "time.Time":
 		return "TimeFlag"
+	case "any":
+		return "AnyFlag"
 	default:
 		return "StrFlag"
 	}
@@ -614,6 +622,8 @@ func translateTypeToCobraFlagCreate(param config.Parameter, parents []config.Par
 		return "StrMap"
 	case "time.Time":
 		return "Time"
+	case "any":
+		return "Any"
 	default:
 
 		return "Str"
