@@ -1,6 +1,9 @@
 package auth
 
 import (
+	apikey "github.com/magaluCloud/mgccli/cmd/static/auth/api_key"
+	"github.com/magaluCloud/mgccli/cmd/static/auth/clients"
+	"github.com/magaluCloud/mgccli/cmd/static/auth/tenant"
 	"github.com/magaluCloud/mgccli/i18n"
 
 	"github.com/spf13/cobra"
@@ -21,6 +24,10 @@ func AuthCmd(parent *cobra.Command) {
 	cmd.AddCommand(NewLoginCommand(parent.Context()))
 	cmd.AddCommand(NewLogoutCommand(parent.Context()))
 	cmd.AddCommand(NewAccessTokenCommand(parent.Context()))
+
+	cmd.AddCommand(tenant.TenantCommand(parent.Context()))
+	cmd.AddCommand(apikey.ApiKeyCommand(parent.Context()))
+	cmd.AddCommand(clients.ClientsCommand(parent.Context()))
 
 	parent.AddCommand(cmd)
 }
