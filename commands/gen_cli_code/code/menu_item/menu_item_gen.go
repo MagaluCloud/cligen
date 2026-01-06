@@ -21,9 +21,9 @@ var _IN_DEBUG bool
 
 const (
 	genDir             = "base-cli-gen/cmd/gen"
-	DEBUG_MENU_NAME    = "lbaas"
-	DEBUG_SUBMENU_NAME = "NetworkACLs"
-	DEBUG_METHOD_NAME  = "Replace"
+	DEBUG_MENU_NAME    = "kubernetes"
+	DEBUG_SUBMENU_NAME = "Clusters"
+	DEBUG_METHOD_NAME  = "Create"
 )
 
 func init() {
@@ -118,7 +118,9 @@ func ProcessCobraStructInitialize(menuItem MenuItem, param config.Parameter, sdk
 				parentControl = true
 				parents = append(parents, param)
 			}
-
+			if param.IsArray {
+				continue
+			}
 			typePrefix := "&"
 			if sparam.IsArray {
 				typePrefix = "&[]"

@@ -195,6 +195,9 @@ func (m *menuItemType) AddCobraFlagsAssign(cobraFlagsAssign string) {
 }
 
 func (m *menuItemType) AddCobraStructInitialize(cobraStructInitialize ServiceCobraStructInitialize) {
+	if slices.Contains(m.CobraStructInitialize, cobraStructInitialize) {
+		return
+	}
 	m.CobraStructInitialize = append(m.CobraStructInitialize, cobraStructInitialize)
 	slices.SortFunc(m.CobraStructInitialize, func(a, b ServiceCobraStructInitialize) int {
 		return strings.Compare(a.Name, b.Name)
