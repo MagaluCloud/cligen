@@ -229,75 +229,7 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 				cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
 			}
 		}
-		// aqui ruim
-		// if flag.isComplex {
-		// 	cfa = fmt.Sprintf("%s				%s = %sFlag.Value\n\n", cfa, flag.cobraAssign, flag.Name)
-		// } else {
 
-		// 	if !flag.param.IsArray && !flag.parentIsArray && flag.param.IsPrimitive && flag.param.AliasType == "" {
-		// 		pointer := ""
-		// 		if !flag.param.IsPointer {
-		// 			pointer = "*"
-		// 		}
-		// 		cfa = fmt.Sprintf("%s				%s = %s%sFlag.Value\n\n", cfa, flag.cobraAssign, pointer, flag.Name)
-		// 	}
-		// 	if !flag.param.IsArray && !flag.parentIsArray && flag.param.IsPrimitive && flag.param.AliasType != "" {
-		// 		pointer := ""
-		// 		if flag.param.IsPointer {
-		// 			pointer = "*"
-		// 		}
-		// 		cfa = fmt.Sprintf("%s				%s%s = %s(*%sFlag.Value)\n\n", cfa, pointer, flag.cobraAssign, flag.param.AliasType, flag.Name)
-		// 	}
-		// 	if flag.param.IsArray && !flag.parentIsArray {
-
-		// 		pointer := ""
-		// 		if flag.param.IsPointer {
-		// 			pointer = "*"
-		// 		}
-
-		// 		if flag.param.IsPrimitive && flag.param.AliasType == "" {
-		// 			cfa = fmt.Sprintf("%s				for _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-		// 			cfa = fmt.Sprintf("%s					%s%s = append(%s%s, v)//dd\n", cfa, pointer, flag.cobraAssign, pointer, flag.cobraAssign)
-		// 			cfa = fmt.Sprintf("%s				}\n", cfa)
-		// 		}
-		// 		if !flag.param.IsPrimitive && flag.param.AliasType != "" {
-		// 			cfa = fmt.Sprintf("%sfor _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-		// 			if !hasSDKPackage(flag.param.AliasType, sdkName) {
-		// 				cfa = fmt.Sprintf("%s%s = append(%s, %s.%s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, sdkName, flag.param.AliasType)
-		// 			} else {
-		// 				cfa = fmt.Sprintf("%s%s = append(%s, %s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, flag.param.AliasType)
-		// 			}
-		// 			cfa = fmt.Sprintf("%s}\n", cfa)
-		// 		}
-		// 		if !flag.param.IsPrimitive && flag.param.AliasType == "" {
-		// 			cfa = fmt.Sprintf("%sfor _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-		// 			if !hasSDKPackage(flag.param.Type, sdkName) {
-		// 				cfa = fmt.Sprintf("%s%s = append(%s, %s.%s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, sdkName, flag.param.Type)
-		// 			} else {
-		// 				cfa = fmt.Sprintf("%s%s = append(%s, %s(v))\n", cfa, flag.cobraAssign, flag.cobraAssign, removeArrayFromString(flag.param.Type))
-		// 			}
-		// 			cfa = fmt.Sprintf("%s}\n", cfa)
-		// 		}
-		// 	}
-
-		// 	if !flag.param.IsArray && flag.parentIsArray {
-		// 		if flag.param.IsPrimitive && flag.param.AliasType == "" {
-		// 			if flag.parentIsStruct && flag.arrayMake {
-		// 				csi := menuItem.GetCobraStructInitialize()
-		// 				for _, csi := range csi {
-		// 					if csi.Name == removeSuffix(flag.cobraAssign, flag.param.Name) {
-		// 						cfa = fmt.Sprintf("%s				for _, v := range *%sFlag.Value {\n", cfa, flag.Name)
-		// 						cfa = fmt.Sprintf("%s					*%s = append(*%s,%s{%s: v})//kk\n", cfa, removeSuffix(flag.cobraAssign, flag.param.Name), removeSuffix(flag.cobraAssign, flag.param.Name), csi.ParamType, flag.ParamName)
-		// 						cfa = fmt.Sprintf("%s				}\n", cfa)
-		// 						break
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
-
-		// aqui bom:
 		if !flag.param.IsOptional {
 			cfa = fmt.Sprintf(`%s			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")

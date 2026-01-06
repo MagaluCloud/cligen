@@ -1,21 +1,22 @@
 {
   "cli_version": "v1.0.0",
   "sdk_branch": "main",
-  "sdk_tag": "v1.2.2",
+  "sdk_tag": "v1.3.1",
   "tag_or_branch_or_latest": "tag",
   "show_git_error": false,
   "show_logs": true,
   "menus": [
     {
-      "id": "cacc22ea-237b-41ff-b925-0c055a8e9f9c",
+      "id": "cb1cca0a-1ed5-4d81-981a-caddedf6ad80",
       "name": "audit",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/audit",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "f9da404f-f4a6-42bc-9751-74df37b9eda4",
+          "id": "8e7deeed-7a90-4875-91b2-30151257e625",
           "name": "Events",
           "enabled": true,
           "description": "",
@@ -502,10 +503,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/client.go",
-          "parent_menu_id": "cacc22ea-237b-41ff-b925-0c055a8e9f9c"
+          "parent_menu_id": "cb1cca0a-1ed5-4d81-981a-caddedf6ad80"
         },
         {
-          "id": "4fd91386-419e-4235-92af-a57a83023e1c",
+          "id": "b3531e4b-d382-4c17-82d3-5c16c3b9eac7",
           "name": "EventTypes",
           "enabled": true,
           "description": "",
@@ -692,20 +693,21 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/client.go",
-          "parent_menu_id": "cacc22ea-237b-41ff-b925-0c055a8e9f9c"
+          "parent_menu_id": "cb1cca0a-1ed5-4d81-981a-caddedf6ad80"
         }
       ]
     },
     {
-      "id": "1710aaad-4546-480f-907d-66bdfd94df34",
+      "id": "00530333-fea2-44ca-bc7d-386624cdb2f9",
       "name": "blockstorage",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/blockstorage",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "fba33559-f0c7-452b-a7b4-934a01b2d094",
+          "id": "8d392ff4-fefc-49e7-9795-63ee63223b83",
           "name": "Volumes",
           "enabled": true,
           "description": "",
@@ -2808,10 +2810,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "1710aaad-4546-480f-907d-66bdfd94df34"
+          "parent_menu_id": "00530333-fea2-44ca-bc7d-386624cdb2f9"
         },
         {
-          "id": "233d02eb-6291-4a5e-8c1a-49eb8e5a220b",
+          "id": "5c7a2ab5-8fcf-49a1-ab75-372a80167f4c",
           "name": "VolumeTypes",
           "enabled": true,
           "description": "",
@@ -3406,10 +3408,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "1710aaad-4546-480f-907d-66bdfd94df34"
+          "parent_menu_id": "00530333-fea2-44ca-bc7d-386624cdb2f9"
         },
         {
-          "id": "61bf4a49-8a0c-4dca-9f7b-b54fd1db05a5",
+          "id": "00051ff0-a8af-4de8-889b-959261a1594b",
           "name": "Snapshots",
           "enabled": true,
           "description": "",
@@ -4696,10 +4698,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "1710aaad-4546-480f-907d-66bdfd94df34"
+          "parent_menu_id": "00530333-fea2-44ca-bc7d-386624cdb2f9"
         },
         {
-          "id": "bbae8e65-46d2-4867-ae5d-bec8fe615777",
+          "id": "c6dd9ca9-f092-4e68-95c7-745fdc0b3503",
           "name": "Schedulers",
           "enabled": true,
           "description": "",
@@ -6010,20 +6012,21 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "1710aaad-4546-480f-907d-66bdfd94df34"
+          "parent_menu_id": "00530333-fea2-44ca-bc7d-386624cdb2f9"
         }
       ]
     },
     {
-      "id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596",
+      "id": "c66449cb-bfa8-4225-8265-91bb5659b899",
       "name": "compute",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/compute",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "175c4fe8-eb7e-4eb0-a09c-c67de23e8ad5",
+          "id": "fb40c3d8-7fdd-4b0d-ad50-2cf3ee1e54d7",
           "name": "Instances",
           "enabled": true,
           "description": "",
@@ -8870,10 +8873,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596"
+          "parent_menu_id": "c66449cb-bfa8-4225-8265-91bb5659b899"
         },
         {
-          "id": "008e4ae9-e667-4869-9bd4-230ff5ee918d",
+          "id": "3eca2fdf-f960-4077-91ea-973e9e64b53c",
           "name": "Images",
           "enabled": true,
           "description": "",
@@ -9504,10 +9507,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596"
+          "parent_menu_id": "c66449cb-bfa8-4225-8265-91bb5659b899"
         },
         {
-          "id": "dea5dbf6-eda9-4136-8db2-5b6b2020dc05",
+          "id": "9d2cdccd-21cd-4985-bf36-bb7a8ab001d5",
           "name": "InstanceTypes",
           "enabled": true,
           "description": "",
@@ -9990,10 +9993,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596"
+          "parent_menu_id": "c66449cb-bfa8-4225-8265-91bb5659b899"
         },
         {
-          "id": "d5f26292-d45f-40e5-b899-e4447d03a84c",
+          "id": "b17d637b-ef07-49b0-8f8b-e13ff6c971c7",
           "name": "Snapshots",
           "enabled": true,
           "description": "",
@@ -11462,20 +11465,21 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "21d7bf95-e66f-46d4-82b3-4dc50bbec596"
+          "parent_menu_id": "c66449cb-bfa8-4225-8265-91bb5659b899"
         }
       ]
     },
     {
-      "id": "94dc2d7c-9419-448c-aa61-e2247796b4a7",
+      "id": "6400dd97-2635-4a59-8fe5-c601b17fe76d",
       "name": "containerregistry",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/containerregistry",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "fd27b5c4-c27c-4f9c-a59e-19830065082e",
+          "id": "acf0614b-02d0-482f-bcaf-251c56af769f",
           "name": "Credentials",
           "enabled": true,
           "description": "",
@@ -11648,10 +11652,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
+          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
         },
         {
-          "id": "e1741d2d-beb2-4e3c-836b-6a8d02b97610",
+          "id": "6a9b233e-56c8-46aa-be95-522c88cbec60",
           "name": "Registries",
           "enabled": true,
           "description": "",
@@ -12180,10 +12184,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
+          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
         },
         {
-          "id": "d16ec076-613c-4ed8-a79e-6295f86dcbb9",
+          "id": "bb1c8f46-6225-4892-90ab-b1a98342ae66",
           "name": "Repositories",
           "enabled": true,
           "description": "",
@@ -12628,10 +12632,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
+          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
         },
         {
-          "id": "66d698d7-c1a9-4cb8-8b0e-af4c93f0e625",
+          "id": "cfed13ed-a4dd-4d37-83f8-166b07c45edd",
           "name": "Images",
           "enabled": true,
           "description": "",
@@ -13344,10 +13348,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
+          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
         },
         {
-          "id": "8d22fb38-cbfd-4e94-b0d1-f6f8f6de63d5",
+          "id": "dfe5b209-a922-405b-804f-47f4b2421163",
           "name": "ProxyCaches",
           "enabled": true,
           "description": "",
@@ -14454,20 +14458,21 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "94dc2d7c-9419-448c-aa61-e2247796b4a7"
+          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
         }
       ]
     },
     {
-      "id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8",
+      "id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f",
       "name": "dbaas",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/dbaas",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "75e09a18-cb4f-443f-92a8-3702fa00be31",
+          "id": "034b0093-8679-4c55-b747-6cf00b7cdac2",
           "name": "Engines",
           "enabled": true,
           "description": "",
@@ -15226,10 +15231,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
+          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
         },
         {
-          "id": "e2821896-07f0-4ecf-aaa7-dfa86574a6b2",
+          "id": "11493e32-180c-4c0a-ad7c-406898fad78a",
           "name": "InstanceTypes",
           "enabled": true,
           "description": "",
@@ -15976,10 +15981,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
+          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
         },
         {
-          "id": "53d75f5f-3a3f-4ac2-ba6e-46808226562d",
+          "id": "76c02ebb-b8fe-4b4e-a080-8818708c538d",
           "name": "Instances",
           "enabled": true,
           "description": "",
@@ -22566,10 +22571,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
+          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
         },
         {
-          "id": "64dc8f19-f8a5-430e-bdca-098fff7f61ba",
+          "id": "33eb8cfc-6e23-4f73-bffe-2bcf2c2d2c9f",
           "name": "Replicas",
           "enabled": true,
           "description": "",
@@ -24726,10 +24731,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
+          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
         },
         {
-          "id": "69aac458-9754-490e-9e0d-b1d1d45839a8",
+          "id": "76c15437-3453-42ed-9ef4-d42b9fc41bba",
           "name": "ParametersGroup",
           "enabled": true,
           "description": "",
@@ -25616,10 +25621,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
+          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
         },
         {
-          "id": "3facf6e4-8f8d-4c1b-a922-cc31a046a437",
+          "id": "c36fdbbb-b858-4b23-9e39-02a661c51b49",
           "name": "Parameters",
           "enabled": true,
           "description": "",
@@ -26304,10 +26309,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
+          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
         },
         {
-          "id": "59d76f69-a45c-4c11-8df7-85ba16e12669",
+          "id": "fa675350-f637-4a5a-b93c-5694ec8b9195",
           "name": "Clusters",
           "enabled": true,
           "description": "",
@@ -29322,2187 +29327,28 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
-        },
-        {
-          "id": "c5e71419-60c1-4e4f-a881-d4e6c4173bf9",
-          "name": "NewReplicaService",
-          "enabled": true,
-          "description": "",
-          "long_description": "",
-          "service_interface": "ReplicaService",
-          "methods": [
-            {
-              "name": "List",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "opts",
-                  "type": "dbaasSdk.ListReplicaOptions",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "Limit": {
-                      "name": "Limit",
-                      "type": "*int",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "Offset": {
-                      "name": "Offset",
-                      "type": "*int",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "SourceID": {
-                      "name": "SourceID",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*dbaasSdk.ReplicasResponse",
-                  "type": "*dbaasSdk.ReplicasResponse",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "meta": {
-                      "name": "Meta",
-                      "type": "dbaasSdk.MetaResponse",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "filters": {
-                          "name": "Filters",
-                          "type": "[]dbaasSdk.FieldValueFilter",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": true,
-                          "is_array": true,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "field": {
-                              "name": "Field",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "value": {
-                              "name": "Value",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "page": {
-                          "name": "Page",
-                          "type": "dbaasSdk.PageResponse",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "count": {
-                              "name": "Count",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "limit": {
-                              "name": "Limit",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "max_limit": {
-                              "name": "MaxLimit",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "offset": {
-                              "name": "Offset",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "total": {
-                              "name": "Total",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    },
-                    "results": {
-                      "name": "Results",
-                      "type": "[]dbaasSdk.ReplicaDetailResponse",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": true,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "addresses": {
-                          "name": "Addresses",
-                          "type": "[]dbaasSdk.ReplicaAddressResponse",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": true,
-                          "is_array": true,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "access": {
-                              "name": "Access",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": "dbaasSdk.AddressAccess"
-                            },
-                            "address": {
-                              "name": "Address",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "type": {
-                              "name": "Type",
-                              "type": "*string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": true,
-                              "is_optional": true,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": "dbaasSdk.AddressType"
-                            }
-                          },
-                          "alias_type": ""
-                        },
-                        "created_at": {
-                          "name": "CreatedAt",
-                          "type": "time.Time",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "engine_id": {
-                          "name": "EngineID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "finished_at": {
-                          "name": "FinishedAt",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "generation": {
-                          "name": "Generation",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "id": {
-                          "name": "ID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "instance_type_id": {
-                          "name": "InstanceTypeID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "maintenance_scheduled_at": {
-                          "name": "MaintenanceScheduledAt",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "name": {
-                          "name": "Name",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "source_id": {
-                          "name": "SourceID",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "started_at": {
-                          "name": "StartedAt",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "status": {
-                          "name": "Status",
-                          "type": "dbaasSdk.InstanceStatus",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "updated_at": {
-                          "name": "UpdatedAt",
-                          "type": "*time.Time",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "volume": {
-                          "name": "Volume",
-                          "type": "dbaasSdk.Volume",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "size": {
-                              "name": "Size",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "type": {
-                              "name": "Type",
-                              "type": "string",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
-            },
-            {
-              "name": "ListAll",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "opts",
-                  "type": "dbaasSdk.ReplicaFilterOptions",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "SourceID": {
-                      "name": "SourceID",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "[]dbaasSdk.ReplicaDetailResponse",
-                  "type": "[]dbaasSdk.ReplicaDetailResponse",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": true,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "addresses": {
-                      "name": "Addresses",
-                      "type": "[]dbaasSdk.ReplicaAddressResponse",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": true,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "access": {
-                          "name": "Access",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressAccess"
-                        },
-                        "address": {
-                          "name": "Address",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressType"
-                        }
-                      },
-                      "alias_type": ""
-                    },
-                    "created_at": {
-                      "name": "CreatedAt",
-                      "type": "time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "engine_id": {
-                      "name": "EngineID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "finished_at": {
-                      "name": "FinishedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "generation": {
-                      "name": "Generation",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "instance_type_id": {
-                      "name": "InstanceTypeID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "maintenance_scheduled_at": {
-                      "name": "MaintenanceScheduledAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "source_id": {
-                      "name": "SourceID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "started_at": {
-                      "name": "StartedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "status": {
-                      "name": "Status",
-                      "type": "dbaasSdk.InstanceStatus",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "updated_at": {
-                      "name": "UpdatedAt",
-                      "type": "*time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "volume": {
-                      "name": "Volume",
-                      "type": "dbaasSdk.Volume",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "size": {
-                          "name": "Size",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
-            },
-            {
-              "name": "Get",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "id",
-                  "type": "string",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*dbaasSdk.ReplicaDetailResponse",
-                  "type": "*dbaasSdk.ReplicaDetailResponse",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "addresses": {
-                      "name": "Addresses",
-                      "type": "[]dbaasSdk.ReplicaAddressResponse",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": true,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "access": {
-                          "name": "Access",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressAccess"
-                        },
-                        "address": {
-                          "name": "Address",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressType"
-                        }
-                      },
-                      "alias_type": ""
-                    },
-                    "created_at": {
-                      "name": "CreatedAt",
-                      "type": "time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "engine_id": {
-                      "name": "EngineID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "finished_at": {
-                      "name": "FinishedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "generation": {
-                      "name": "Generation",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "instance_type_id": {
-                      "name": "InstanceTypeID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "maintenance_scheduled_at": {
-                      "name": "MaintenanceScheduledAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "source_id": {
-                      "name": "SourceID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "started_at": {
-                      "name": "StartedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "status": {
-                      "name": "Status",
-                      "type": "dbaasSdk.InstanceStatus",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "updated_at": {
-                      "name": "UpdatedAt",
-                      "type": "*time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "volume": {
-                      "name": "Volume",
-                      "type": "dbaasSdk.Volume",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "size": {
-                          "name": "Size",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
-            },
-            {
-              "name": "Create",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "req",
-                  "type": "dbaasSdk.ReplicaCreateRequest",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "instance_type_id": {
-                      "name": "InstanceTypeID",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "source_id": {
-                      "name": "SourceID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*dbaasSdk.ReplicaResponse",
-                  "type": "*dbaasSdk.ReplicaResponse",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
-            },
-            {
-              "name": "Delete",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "id",
-                  "type": "string",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
-            },
-            {
-              "name": "Resize",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "id",
-                  "type": "string",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "req",
-                  "type": "dbaasSdk.ReplicaResizeRequest",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "instance_type_id": {
-                      "name": "InstanceTypeID",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "volume": {
-                      "name": "Volume",
-                      "type": "*dbaasSdk.InstanceVolumeResizeRequest",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "size": {
-                          "name": "Size",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*dbaasSdk.ReplicaDetailResponse",
-                  "type": "*dbaasSdk.ReplicaDetailResponse",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "addresses": {
-                      "name": "Addresses",
-                      "type": "[]dbaasSdk.ReplicaAddressResponse",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": true,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "access": {
-                          "name": "Access",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressAccess"
-                        },
-                        "address": {
-                          "name": "Address",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressType"
-                        }
-                      },
-                      "alias_type": ""
-                    },
-                    "created_at": {
-                      "name": "CreatedAt",
-                      "type": "time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "engine_id": {
-                      "name": "EngineID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "finished_at": {
-                      "name": "FinishedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "generation": {
-                      "name": "Generation",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "instance_type_id": {
-                      "name": "InstanceTypeID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "maintenance_scheduled_at": {
-                      "name": "MaintenanceScheduledAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "source_id": {
-                      "name": "SourceID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "started_at": {
-                      "name": "StartedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "status": {
-                      "name": "Status",
-                      "type": "dbaasSdk.InstanceStatus",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "updated_at": {
-                      "name": "UpdatedAt",
-                      "type": "*time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "volume": {
-                      "name": "Volume",
-                      "type": "dbaasSdk.Volume",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "size": {
-                          "name": "Size",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
-            },
-            {
-              "name": "Start",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "id",
-                  "type": "string",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*dbaasSdk.ReplicaDetailResponse",
-                  "type": "*dbaasSdk.ReplicaDetailResponse",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "addresses": {
-                      "name": "Addresses",
-                      "type": "[]dbaasSdk.ReplicaAddressResponse",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": true,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "access": {
-                          "name": "Access",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressAccess"
-                        },
-                        "address": {
-                          "name": "Address",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressType"
-                        }
-                      },
-                      "alias_type": ""
-                    },
-                    "created_at": {
-                      "name": "CreatedAt",
-                      "type": "time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "engine_id": {
-                      "name": "EngineID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "finished_at": {
-                      "name": "FinishedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "generation": {
-                      "name": "Generation",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "instance_type_id": {
-                      "name": "InstanceTypeID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "maintenance_scheduled_at": {
-                      "name": "MaintenanceScheduledAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "source_id": {
-                      "name": "SourceID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "started_at": {
-                      "name": "StartedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "status": {
-                      "name": "Status",
-                      "type": "dbaasSdk.InstanceStatus",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "updated_at": {
-                      "name": "UpdatedAt",
-                      "type": "*time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "volume": {
-                      "name": "Volume",
-                      "type": "dbaasSdk.Volume",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "size": {
-                          "name": "Size",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
-            },
-            {
-              "name": "Stop",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "id",
-                  "type": "string",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "*dbaasSdk.ReplicaDetailResponse",
-                  "type": "*dbaasSdk.ReplicaDetailResponse",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": true,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "addresses": {
-                      "name": "Addresses",
-                      "type": "[]dbaasSdk.ReplicaAddressResponse",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": true,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "access": {
-                          "name": "Access",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressAccess"
-                        },
-                        "address": {
-                          "name": "Address",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "*string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": true,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": "dbaasSdk.AddressType"
-                        }
-                      },
-                      "alias_type": ""
-                    },
-                    "created_at": {
-                      "name": "CreatedAt",
-                      "type": "time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "engine_id": {
-                      "name": "EngineID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "finished_at": {
-                      "name": "FinishedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "generation": {
-                      "name": "Generation",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "instance_type_id": {
-                      "name": "InstanceTypeID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "maintenance_scheduled_at": {
-                      "name": "MaintenanceScheduledAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "source_id": {
-                      "name": "SourceID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "started_at": {
-                      "name": "StartedAt",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "status": {
-                      "name": "Status",
-                      "type": "dbaasSdk.InstanceStatus",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "updated_at": {
-                      "name": "UpdatedAt",
-                      "type": "*time.Time",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "volume": {
-                      "name": "Volume",
-                      "type": "dbaasSdk.Volume",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "size": {
-                          "name": "Size",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "type": {
-                          "name": "Type",
-                          "type": "string",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
-            }
-          ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go",
-          "parent_menu_id": "c7ee9d90-794e-4cd9-8c64-d663516bc6c8"
+          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
         }
       ]
     },
     {
-      "id": "ed5c4624-bd19-4df1-9261-23a07bbf830b",
+      "id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a",
       "name": "iam",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/iam",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "e4d08c62-8ff1-4e3a-a681-05faf06c8271",
+          "id": "76ba2bf7-7ad3-4cb1-8756-ab597b8c3c6a",
           "name": "Members",
           "enabled": true,
           "description": "",
           "long_description": "",
           "menus": [
             {
-              "id": "b1fee4ce-f761-464b-9e9c-993dcbfed507",
+              "id": "3be9d475-cc82-4ccd-a101-ff32fa1917ac",
               "name": "Grants",
               "enabled": true,
               "description": "",
@@ -31781,7 +29627,7 @@
                 }
               ],
               "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go",
-              "parent_menu_id": "e4d08c62-8ff1-4e3a-a681-05faf06c8271"
+              "parent_menu_id": "76ba2bf7-7ad3-4cb1-8756-ab597b8c3c6a"
             }
           ],
           "service_interface": "MemberService",
@@ -32106,10 +29952,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
+          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
         },
         {
-          "id": "35e578e6-444b-448a-a7a0-8133f226a6d2",
+          "id": "469d6f53-836f-4bf2-a256-bbd88e5c9325",
           "name": "Roles",
           "enabled": true,
           "description": "",
@@ -32720,10 +30566,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
+          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
         },
         {
-          "id": "074faad3-7d8b-452d-8ea1-daa49c9bc800",
+          "id": "5f521008-7390-4040-aabb-b612ddabeebd",
           "name": "Permissions",
           "enabled": true,
           "description": "",
@@ -32840,10 +30686,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
+          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
         },
         {
-          "id": "6a9d54a8-a13d-4769-9360-f7c365ecaaee",
+          "id": "b88f47da-fe39-4e86-9bed-453fcf532104",
           "name": "AccessControl",
           "enabled": true,
           "description": "",
@@ -33246,10 +31092,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
+          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
         },
         {
-          "id": "60f3e599-b134-4c34-8d41-f8d39e7ab4a6",
+          "id": "b107a23c-22d6-466a-91c2-f184f04d5ad3",
           "name": "ServiceAccounts",
           "enabled": true,
           "description": "",
@@ -34572,10 +32418,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
+          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
         },
         {
-          "id": "ae94abb9-f971-4c4d-b49e-11d3d34d7a68",
+          "id": "cb05bbf9-8ebb-4c66-ba94-7dc7ce8f936c",
           "name": "Scopes",
           "enabled": true,
           "description": "",
@@ -34742,20 +32588,21 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "ed5c4624-bd19-4df1-9261-23a07bbf830b"
+          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
         }
       ]
     },
     {
-      "id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6",
+      "id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57",
       "name": "kubernetes",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/kubernetes",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "6ee6b680-e67d-4644-bd74-de89fa7426a4",
+          "id": "ed149e2a-11dd-46d8-ae12-9b9f207beaba",
           "name": "Clusters",
           "enabled": true,
           "description": "",
@@ -36988,10 +34835,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6"
+          "parent_menu_id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57"
         },
         {
-          "id": "afa492f1-6673-4317-b67e-0d3c0cc06c5d",
+          "id": "299342eb-6871-41db-9701-421ebfc92f63",
           "name": "Flavors",
           "enabled": true,
           "description": "",
@@ -37256,10 +35103,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6"
+          "parent_menu_id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57"
         },
         {
-          "id": "17be4cb6-8311-487e-9bf4-849a67cc859d",
+          "id": "ca6d5a94-e387-4406-b5fc-5865f56924cb",
           "name": "Nodepools",
           "enabled": true,
           "description": "",
@@ -39934,10 +37781,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6"
+          "parent_menu_id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57"
         },
         {
-          "id": "dd79a596-f1fe-4dab-ac99-90a351015657",
+          "id": "37c46cf9-691d-4f87-9c70-246ef7549e93",
           "name": "Versions",
           "enabled": true,
           "description": "",
@@ -40016,20 +37863,21 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "73c37fde-354c-4ca5-bd16-a66c5f5b65a6"
+          "parent_menu_id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57"
         }
       ]
     },
     {
-      "id": "a95d8465-aee7-46ae-ae40-65483cd3eef5",
+      "id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2",
       "name": "lbaas",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/lbaas",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "b678074a-17b2-4a38-8fd1-e63d9e235aaa",
+          "id": "8388fdbd-ce91-46c9-a7e4-a0470a267d72",
           "name": "NetworkACLs",
           "enabled": true,
           "description": "",
@@ -40356,10 +38204,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
+          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
         },
         {
-          "id": "22b54c5c-5b66-4f40-ac63-e879f2cfe98d",
+          "id": "e614acb2-8205-4928-844f-a3e5642d031c",
           "name": "NetworkBackends",
           "enabled": true,
           "description": "",
@@ -41752,10 +39600,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
+          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
         },
         {
-          "id": "ad6f4fe2-9758-4c79-9196-cf5989e17b0b",
+          "id": "859b5cbb-228c-4efd-b15c-c1f085860b7d",
           "name": "NetworkBackendTargets",
           "enabled": true,
           "description": "",
@@ -42144,10 +39992,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
+          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
         },
         {
-          "id": "2b4eccee-6b9b-4000-9f79-9e1408ab25f2",
+          "id": "45bcf8f2-0706-4176-b3b1-5df6f5471dd2",
           "name": "NetworkCertificates",
           "enabled": true,
           "description": "",
@@ -43090,10 +40938,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
+          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
         },
         {
-          "id": "e6d87002-3f7b-47fa-b225-e38bb28f91c3",
+          "id": "d9e0579d-4814-4594-bebe-0d71b110fb15",
           "name": "NetworkHealthChecks",
           "enabled": true,
           "description": "",
@@ -44588,10 +42436,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
+          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
         },
         {
-          "id": "1e7e5cdf-2982-4a09-9ad6-edd917fe9732",
+          "id": "67f061fe-5150-4e47-866c-14e00432f3ce",
           "name": "NetworkListeners",
           "enabled": true,
           "description": "",
@@ -45702,10 +43550,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
+          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
         },
         {
-          "id": "4aede83a-fa50-441f-a22e-8878be16b9b3",
+          "id": "19f46612-dafe-4269-a6e8-faf87b6f58f3",
           "name": "NetworkLoadBalancers",
           "enabled": true,
           "description": "",
@@ -49582,20 +47430,21 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "a95d8465-aee7-46ae-ae40-65483cd3eef5"
+          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
         }
       ]
     },
     {
-      "id": "e7a7d447-23af-489d-800c-35e93b9591f0",
+      "id": "575378a1-b531-472b-bd6f-5da4cf75978e",
       "name": "network",
       "enabled": true,
       "description": "",
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/network",
+      "cli_group": "products",
       "menus": [
         {
-          "id": "17d6dcff-f7e2-48b3-b013-31c9ac952986",
+          "id": "a807e69f-c7dd-4e44-87ee-aefdd2f59db0",
           "name": "VPCs",
           "enabled": true,
           "description": "",
@@ -51456,10 +49305,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
+          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
         },
         {
-          "id": "b8b2eae9-b46e-4294-8203-abe8973f9798",
+          "id": "0980f0b1-a054-4625-bf4e-9a1130947f8d",
           "name": "Subnets",
           "enabled": true,
           "description": "",
@@ -51848,10 +49697,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
+          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
         },
         {
-          "id": "661d9760-6127-4788-98f1-c9fd8623780d",
+          "id": "017f6628-e560-410a-9d81-9a48852a3c68",
           "name": "Ports",
           "enabled": true,
           "description": "",
@@ -52706,10 +50555,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
+          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
         },
         {
-          "id": "21568e4f-d4b3-4af2-8165-cd6f2ba73408",
+          "id": "5b5c0353-6e93-4390-ae35-a42825e5ba5f",
           "name": "SecurityGroups",
           "enabled": true,
           "description": "",
@@ -53430,10 +51279,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
+          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
         },
         {
-          "id": "479766e0-1b7c-49dd-84a1-6118f8ca6d52",
+          "id": "2232712e-8a93-4ae0-9245-0a6cc9cf454f",
           "name": "Rules",
           "enabled": true,
           "description": "",
@@ -54068,10 +51917,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
+          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
         },
         {
-          "id": "fc6dff96-88b9-4f76-ba6f-b710910659ac",
+          "id": "8c0c6c65-9b49-44c0-9d71-768047d87a46",
           "name": "PublicIPs",
           "enabled": true,
           "description": "",
@@ -54628,10 +52477,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
+          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
         },
         {
-          "id": "da4b4f67-71b6-4721-8c12-c0cdf364e33c",
+          "id": "4ca97c0b-8f3e-4e1a-b97b-728ed177935b",
           "name": "SubnetPools",
           "enabled": true,
           "description": "",
@@ -55290,10 +53139,10 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
+          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
         },
         {
-          "id": "0cdb9fc5-6c67-494c-8f7d-3c91b0e49350",
+          "id": "4651cab1-3c28-4ad7-ac4f-9532e6c59362",
           "name": "NatGateways",
           "enabled": true,
           "description": "",
@@ -55834,19 +53683,20 @@
             }
           ],
           "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "e7a7d447-23af-489d-800c-35e93b9591f0"
+          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
         }
       ]
     },
     {
-      "id": "deae2023-605e-4a48-bb76-93970a7ed0f5",
+      "id": "d65063d2-9788-4c7f-b938-19e9ce2d777d",
       "name": "profile",
       "enabled": true,
       "description": "",
       "long_description": "",
+      "cli_group": "settings",
       "menus": [
         {
-          "id": "aa684a15-8a4a-46e4-b5fb-a484e91e2a33",
+          "id": "0a4fdd5c-c42c-4afe-8549-dbc8e96e02a1",
           "name": "sshkeys",
           "enabled": true,
           "description": "",
@@ -55854,7 +53704,7 @@
           "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/sshkeys",
           "menus": [
             {
-              "id": "63e7c91f-153f-4029-b90e-fa74ed0bba8f",
+              "id": "e970958f-2ade-43d0-a098-6ecfdb9716d2",
               "name": "Keys",
               "enabled": true,
               "description": "",
@@ -56351,13 +54201,13 @@
                 }
               ],
               "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/client.go",
-              "parent_menu_id": "aa684a15-8a4a-46e4-b5fb-a484e91e2a33"
+              "parent_menu_id": "0a4fdd5c-c42c-4afe-8549-dbc8e96e02a1"
             }
           ],
-          "parent_menu_id": "deae2023-605e-4a48-bb76-93970a7ed0f5"
+          "parent_menu_id": "d65063d2-9788-4c7f-b938-19e9ce2d777d"
         },
         {
-          "id": "a4379015-4d4f-4b8c-ad7a-313314a6faaf",
+          "id": "c8dd8703-186c-45ec-b627-d1ea12b333cc",
           "name": "availabilityzones",
           "enabled": true,
           "description": "",
@@ -56365,7 +54215,7 @@
           "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/availabilityzones",
           "menus": [
             {
-              "id": "c4285039-4e3c-4ca9-b75f-8c45a26bfeae",
+              "id": "b4328538-2507-4741-9ddf-fdb2cab34293",
               "name": "AvailabilityZones",
               "enabled": true,
               "description": "",
@@ -56496,10 +54346,10 @@
                 }
               ],
               "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/client.go",
-              "parent_menu_id": "a4379015-4d4f-4b8c-ad7a-313314a6faaf"
+              "parent_menu_id": "c8dd8703-186c-45ec-b627-d1ea12b333cc"
             }
           ],
-          "parent_menu_id": "deae2023-605e-4a48-bb76-93970a7ed0f5"
+          "parent_menu_id": "d65063d2-9788-4c7f-b938-19e9ce2d777d"
         }
       ],
       "is_group": true
