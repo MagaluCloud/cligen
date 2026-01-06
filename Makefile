@@ -93,7 +93,7 @@ tidy: ## Organiza go.mod e go.sum
 ##@ Execução
 # ==================================================================================== #
 .PHONY: generate-config
-generate-config:
+generate-config: build## Gerando configuração
 	@echo "$(INFO_COLOR)Gerando configuração...$(NO_COLOR)"
 	@./$(BINARY_NAME) generate-config
 	@echo "$(OK_COLOR)✓ Configuração gerada$(NO_COLOR)"

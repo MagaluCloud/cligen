@@ -21,17 +21,22 @@ const (
 )
 
 var (
-	DIRS_TO_SKIP = []string{"internal", "client", "cmd", "helpers", "docs", "objectstorage",
-		/*"audit", "blockstorage", "compute", "containerregistry", "dbaas", "iam", "kubernetes", "lbaas", "network", "profile", "availabilityzones", "sshkeys"*/}
+	DIRS_TO_SKIP = []string{"internal", "client", "cmd", "helpers", "docs", "objectstorage"}
 )
 
 func Run() {
+	IN_DEBUG := os.Getenv("IN_DEBUG") != ""
+	if IN_DEBUG {
+		fmt.Println("IN_DEBUG is set")
+	}
+
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		panic(fmt.Errorf("erro ao carregar configuração: %w", err))
 	}
-	cfg.Menus = nil
-
+	if IN_DEBUG {
+		cfg.Menus = nil
+	}
 	dirs, err := ListDir(SDK_DIR)
 	if err != nil {
 		panic(fmt.Errorf("erro ao listar diretório %s: %w", SDK_DIR, err))
@@ -60,6 +65,35 @@ func Run() {
 			continue
 		}
 
+		// ainda precisaremos deletar manualmente um menu que não é mais necessário
+		found := false
+		for _, mm := range cfg.Menus {
+			if mm.Name == pkgs[0].Name {
+				mm.Pkgs = pkgs[0]
+				mm.Fset = fset
+				mm.MapFile = make(map[string]*ast.File)
+				found = true
+				break
+			}
+			if mm.IsGroup {
+				for _, submenu := range mm.Menus {
+					if submenu.Name == pkgs[0].Name {
+						submenu.Pkgs = pkgs[0]
+						submenu.Fset = fset
+						submenu.MapFile = make(map[string]*ast.File)
+						found = true
+						break
+					}
+				}
+				if found {
+					break
+				}
+			}
+		}
+		if found {
+			continue
+		}
+
 		menu := &config.Menu{
 			ID:               GenerateRandomID(),
 			Name:             pkgs[0].Name,
@@ -80,21 +114,37 @@ func Run() {
 			Fset:             fset,
 			MapFile:          make(map[string]*ast.File),
 		}
-		cfg.Menus = append(cfg.Menus, menu)
+		cfg.Menus = appendIfNotExists(cfg.Menus, menu)
 	}
 
 	for _, menu := range cfg.Menus {
+		if menu.IsGroup {
+			for _, submenu := range menu.Menus {
+				for _, astFile := range submenu.Pkgs.Syntax {
+					fileName := submenu.Fset.File(astFile.Pos()).Name()
+					submenu.MapFile[fileName] = astFile
+				}
+			}
+			continue
+		}
 		for _, astFile := range menu.Pkgs.Syntax {
 			fileName := menu.Fset.File(astFile.Pos()).Name()
 			menu.MapFile[fileName] = astFile
 		}
 	}
 	for _, menu := range cfg.Menus {
+		if menu.IsGroup {
+			continue
+		}
 		// Primeiro nivel sempre virá de client.go
 		for _, filePath := range menu.Pkgs.GoFiles {
+			// Processar apenas arquivos client.go no primeiro nível
+			if !strings.HasSuffix(filePath, "client.go") {
+				continue
+			}
 			astFile, exists := menu.MapFile[filePath]
 			if !exists {
-				log.Printf("Arquivo AST não encontrado para %s", filePath)
+				log.Printf("Arquivo AST não encontrado para %s 2", filePath)
 				continue
 			}
 			ast.Inspect(astFile, func(n ast.Node) bool {
@@ -124,7 +174,7 @@ func Run() {
 									Fset:             menu.Fset,
 									MapFile:          menu.MapFile,
 								}
-								menu.Menus = append(menu.Menus, subMenu)
+								menu.Menus = appendIfNotExists(menu.Menus, subMenu)
 
 							}
 						}
@@ -147,12 +197,6 @@ func Run() {
 		}
 
 	}
-	
-	// for _, menuItem := range cfg.Menus {
-	// 	copyOfMenuItem := menuItem
-	// 	MoveToParent(copyOfMenuItem)
-	// 	menuItem = copyOfMenuItem
-	// }
 
 	err = cfg.SaveConfig()
 	if err != nil {
@@ -160,29 +204,20 @@ func Run() {
 	}
 }
 
+func appendIfNotExists(slice []*config.Menu, menu *config.Menu) []*config.Menu {
+	for _, m := range slice {
+		if m.Name == menu.Name {
+			return slice
+		}
+	}
+	return append(slice, menu)
+}
+
 func MoveToParent(menu *config.Menu) {
 	if len(menu.Menus) == 1 {
 		newMenu := menu.Menus[0]
 		newMenu.ParentMenuID = ""
 		menu = newMenu
-		// subMenu := menu.Menus[0]
-
-		// if len(subMenu.Methods) > 0 {
-		// 	menu.Methods = append(menu.Methods, subMenu.Methods...)
-		// }
-
-		// if menu.SDKFile == "" && subMenu.SDKFile != "" {
-		// 	menu.SDKFile = subMenu.SDKFile
-		// }
-
-		// if menu.SDKPackage == "" && subMenu.SDKPackage != "" {
-		// 	menu.SDKPackage = subMenu.SDKPackage
-		// }
-
-		// if menu.ServiceInterface == "" && subMenu.ServiceInterface != "" {
-		// 	menu.ServiceInterface = subMenu.ServiceInterface
-		// }
-		// menu.Menus = nil
 	}
 }
 
@@ -222,10 +257,13 @@ func Ident(count int) string {
 
 func ProcessMenu(cfg *config.Config, menu *config.Menu) {
 	doBreak := false
+	if menu.IsGroup || menu.Pkgs == nil {
+		return
+	}
 	for _, filePath := range menu.Pkgs.GoFiles {
 		astFile, exists := menu.MapFile[filePath]
 		if !exists {
-			log.Printf("Arquivo AST não encontrado para %s", filePath)
+			log.Printf("Arquivo AST não encontrado para %s 1", filePath)
 			continue
 		}
 		ast.Inspect(astFile, func(n ast.Node) bool {
@@ -262,7 +300,7 @@ func ProcessMenu(cfg *config.Config, menu *config.Menu) {
 											MapFile:          menu.MapFile,
 										}
 										ProcessMenu(cfg, subSubMenu)
-										menu.Menus = append(menu.Menus, subSubMenu)
+										menu.Menus = appendIfNotExists(menu.Menus, subSubMenu)
 										methodIsService = true
 									}
 								}
