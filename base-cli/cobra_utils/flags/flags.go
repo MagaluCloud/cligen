@@ -143,3 +143,16 @@ func StrSliceFlagToSlice[T any](flag *StrSliceFlag) []T {
 	}
 	return slice
 }
+
+func NilIfNotChanged[T any](
+	cmd *cobra.Command,
+	flag string,
+	target **T,
+	value T,
+) {
+	if !cmd.Flags().Changed(flag) {
+		*target = nil
+	} else {
+		*target = &value
+	}
+}
