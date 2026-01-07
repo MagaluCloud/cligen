@@ -1,4 +1,4 @@
-package sdk_structure
+package generate_config
 
 import (
 	"fmt"
@@ -6,7 +6,14 @@ import (
 	"strings"
 )
 
-// getTypeString converte um ast.Expr para string representando o tipo
+var primitiveTypes = []string{
+	"bool", "byte", "complex64", "complex128", "error", "float32", "float64",
+	"int", "int8", "int16", "int32", "int64", "rune", "string", "uint",
+	"uint8", "uint16", "uint32", "uint64", "uintptr", "string", "time", "context",
+}
+var serviceSuffixes = []string{"Service", "API", "Client"}
+var serviceKeywords = []string{"service", "api", "client"}
+
 func getTypeString(expr ast.Expr) (string, bool) {
 	switch t := expr.(type) {
 	case *ast.Ident:
@@ -27,70 +34,50 @@ func getTypeString(expr ast.Expr) (string, bool) {
 	}
 }
 
-// resolveUnderlyingType resolve o tipo subjacente de um alias de tipo
-// Por exemplo, se temos "type InstanceStatus string", retorna "string"
 func resolveUnderlyingType(ident *ast.Ident) string {
-	// Verificar se o identificador tem uma definição
 	if ident.Obj == nil {
 		return ""
 	}
 
-	// Verificar se a definição é uma declaração de tipo
 	typeSpec, ok := ident.Obj.Decl.(*ast.TypeSpec)
 	if !ok {
 		return ""
 	}
-
-	// Obter o tipo subjacente
 	underlyingType, _ := getTypeString(typeSpec.Type)
 	return underlyingType
 }
-
-// getTypeStringWithPackage converte um ast.Expr para string representando o tipo, incluindo o pacote quando necessário
 func getTypeStringWithPackage(expr ast.Expr, packageName string) (string, string, bool) {
 	switch t := expr.(type) {
 	case *ast.Ident:
-		// Verificar se é um tipo primitivo
 		if isPrimitiveType(t.Name) {
 			return t.Name, "", true
 		}
 
-		// Verificar se é um alias para um tipo primitivo
 		underlyingType := resolveUnderlyingType(t)
 		if underlyingType != "" && isPrimitiveType(underlyingType) {
-			// É um alias para um tipo primitivo, usar o tipo primitivo
 			return underlyingType, t.Name, true
 		}
 
-		// Se não for primitivo, adicionar o pacote
 		return packageName + "Sdk." + t.Name, "", false
 	case *ast.StarExpr:
 		subType, aliasType, isPrimitive := getTypeStringWithPackage(t.X, packageName)
 		return "*" + subType, aliasType, isPrimitive
 	case *ast.ArrayType:
-		// Para arrays, verificar se o tipo do elemento é primitivo
 		elementType, aliasType, isPrimitive := getTypeStringWithPackage(t.Elt, packageName)
-		// Se o elemento é um tipo primitivo, não adicionar o packageName
 		if isPrimitive {
 			return "[]" + elementType, aliasType, isPrimitive
 		}
-		// Se o elemento já tem o packageName, usar como está
 		if strings.Contains(elementType, ".") {
 			return "[]" + elementType, aliasType, isPrimitive
 		}
-		// Caso contrário, adicionar o packageName
 		return "[]" + packageName + "." + elementType, aliasType, isPrimitive
 	case *ast.MapType:
-		// Para maps, analisar chave e valor
 		keyType, keyAliasType, keyPrimitive := getTypeStringWithPackage(t.Key, packageName)
 		valueType, valueAliasType, valuePrimitive := getTypeStringWithPackage(t.Value, packageName)
-		// Map é considerado primitivo se ambos chave e valor são primitivos
 		isPrimitive := keyPrimitive && valuePrimitive
 		return fmt.Sprintf("map[%s]%s", keyType, valueType), keyAliasType + valueAliasType, isPrimitive
 	case *ast.ChanType:
-		// Para channels, analisar o tipo do elemento
 		elementType, elementAliasType, elementPrimitive := getTypeStringWithPackage(t.Value, packageName)
-		// Channel é considerado primitivo se o elemento é primitivo
 		var chanType string
 		switch t.Dir {
 		case ast.SEND:
@@ -102,11 +89,8 @@ func getTypeStringWithPackage(expr ast.Expr, packageName string) (string, string
 		}
 		return chanType + " " + elementType, elementAliasType, elementPrimitive
 	case *ast.FuncType:
-		// Para function types, gerar uma representação simplificada
-		// Function types são considerados não primitivos
 		return "func()", "", false
 	case *ast.SelectorExpr:
-		// SelectorExpr já tem o pacote qualificado (ex: context.Context)
 		elementType, elementAliasType, isPrimitive := getTypeStringWithPackage(t.X, packageName)
 		return elementType + "." + t.Sel.Name, elementAliasType, isPrimitive
 	case *ast.InterfaceType:
@@ -116,7 +100,6 @@ func getTypeStringWithPackage(expr ast.Expr, packageName string) (string, string
 	}
 }
 
-// isPrimitiveType verifica se um tipo é primitivo do Go
 func isPrimitiveType(typeName string) bool {
 	if strings.Contains(typeName, ".") {
 		typeName = strings.Split(typeName, ".")[len(strings.Split(typeName, "."))-1]
