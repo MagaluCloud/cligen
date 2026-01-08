@@ -155,6 +155,8 @@
     "cli.auth.object_storage.buckets.create.cli_list_links": "Lista todos os links disponíveis para este comando (\"json\", \"table\" ou \"yaml\")",
     "cli.auth.object_storage.buckets.acl.short": "Comandos relacionados a ACL",
     "cli.auth.object_storage.buckets.acl.get.short": "Exibir a ACL do bucket especificado",
-    "cli.auth.object_storage.buckets.acl.set.short": "Definir informações de permissão para o bucket especificado"
+    "cli.auth.object_storage.buckets.acl.set.short": "Definir informações de permissão para o bucket especificado",
+    "cli.auth.object_storage.objects.short": "Operações de objetos para a API de Object Storage",
+    "cli.auth.object_storage.objects.long": "Gerencie objetos armazenados em buckets do Object Storage. Este comando permite realizar operações como upload, download, cópia, movimentação, remoção e listagem de objetos, além de manipular permissões, versões, bloqueios de objetos, sincronização de diretórios e geração de URLs públicas ou pré-assinadas."
   }
 }
