@@ -157,6 +157,9 @@
     "cli.auth.object_storage.buckets.acl.get.short": "Get the ACL for the specified bucket",
     "cli.auth.object_storage.buckets.acl.set.short": "Set permission information for the specified bucket",
     "cli.auth.object_storage.objects.short": "Object operations for Object Storage API",
-    "cli.auth.object_storage.objects.long": "Manage objects stored in Object Storage buckets. This command allows performing operations such as uploading, downloading, copying, moving, deleting, and listing objects, as well as handling permissions, object versions, object locking, directory synchronization, and generating public or pre-signed URLs."
+    "cli.auth.object_storage.objects.long": "Manage objects stored in Object Storage buckets. This command allows performing operations such as uploading, downloading, copying, moving, deleting, and listing objects, as well as handling permissions, object versions, object locking, directory synchronization, and generating public or pre-signed URLs.",
+    "cli.auth.object_storage.objects.delete.short": "Delete an object from a bucket",
+    "cli.auth.object_storage.objects.dst": "Path of the object to be deleted (required)",
+    "cli.auth.object_storage.objects.delete.obj_version": "Version of the object to be deleted"
   }
 }

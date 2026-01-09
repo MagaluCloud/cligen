@@ -18,6 +18,7 @@ func ObjectsCommand(ctx context.Context, objectService objSdk.ObjectService) *co
 	}
 
 	cmd.AddCommand(ListCommand(ctx, objectService))
+	cmd.AddCommand(DeleteCommand(ctx, objectService))
 
 	return cmd
 }
