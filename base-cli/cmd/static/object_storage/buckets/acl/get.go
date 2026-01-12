@@ -10,6 +10,7 @@ import (
 	"github.com/magaluCloud/mgccli/beautiful"
 	configPkg "github.com/magaluCloud/mgccli/cmd/common/config"
 	"github.com/magaluCloud/mgccli/cmd/static/object_storage/buckets/common"
+	osCommon "github.com/magaluCloud/mgccli/cmd/static/object_storage/common"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/magaluCloud/mgccli/i18n"
 	"github.com/spf13/cobra"
@@ -85,7 +86,7 @@ func runGet(ctx context.Context, args []string, opts getOptions, rawMode bool) e
 		return fmt.Errorf("erro ao pegar a região: %w", err)
 	}
 
-	host, err := common.BuildHost(bucketName, region.Value.(string))
+	host, err := osCommon.BuildHost(bucketName, region.Value.(string))
 	if err != nil {
 		return err
 	}

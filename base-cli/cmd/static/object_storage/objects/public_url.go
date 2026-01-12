@@ -1,4 +1,4 @@
-package buckets
+package objects
 
 import (
 	"context"
@@ -20,14 +20,13 @@ type publicURLReturn struct {
 	URL string `json:"url"`
 }
 
-// PublicURLCommand cria o comando de exibir a URL pública
 func PublicURLCommand(ctx context.Context) *cobra.Command {
 	manager := i18n.GetInstance()
 	var opts publicURLOptions
 
 	cmd := &cobra.Command{
 		Use:   "public-url [dst]",
-		Short: manager.T("cli.auth.object_storage.buckets.public_url.short"),
+		Short: manager.T("cli.auth.object_storage.objects.public_url.short"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			raw, _ := cmd.Root().PersistentFlags().GetBool("raw")
 
@@ -35,21 +34,20 @@ func PublicURLCommand(ctx context.Context) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVar(&opts.Dst, "dst", "", manager.T("cli.auth.object_storage.buckets.public_url.dst"))
+	cmd.Flags().StringVar(&opts.Dst, "dst", "", manager.T("cli.auth.object_storage.objects.dst"))
 
 	return cmd
 }
 
-// runPublicURL executa o processo de exibir a URL pública
 func runPublicURL(ctx context.Context, args []string, opts publicURLOptions, rawMode bool) error {
-	bucketName := opts.Dst
+	path := opts.Dst
 
 	if len(args) > 0 {
-		bucketName = args[0]
+		path = args[0]
 	}
 
-	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --dst")
+	if path == "" {
+		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o caminho do objeto como argumento ou usar a flag --dst")
 
 		return nil
 	}
@@ -61,7 +59,7 @@ func runPublicURL(ctx context.Context, args []string, opts publicURLOptions, raw
 		return fmt.Errorf("erro ao pegar a configuração da região: %w", err)
 	}
 
-	bucketURL, err := common.BuildHost(bucketName, region.Value.(string))
+	bucketURL, err := common.BuildHost(path, region.Value.(string))
 	if err != nil {
 		return err
 	}

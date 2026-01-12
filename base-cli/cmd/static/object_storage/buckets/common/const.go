@@ -1,8 +1,6 @@
 package common
 
 const (
-	TemplateURL = "https://{{region}}.magaluobjects.com"
-
 	contentMD5Header = "Content-Md5"
 
 	// ContentSHAKey is the SHA256 of request body

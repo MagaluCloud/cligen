@@ -10,6 +10,8 @@ type location struct {
 	Path string
 }
 
+const TemplateURL = "https://{{region}}.magaluobjects.com"
+
 func BuildHost(bucketName string, region string) (string, error) {
 	baseURL := strings.ReplaceAll(TemplateURL, "{{region}}", region)
 

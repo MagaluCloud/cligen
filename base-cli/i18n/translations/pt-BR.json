@@ -163,6 +163,7 @@
     "cli.auth.object_storage.objects.delete.obj_version": "Versão do objeto a ser excluída",
     "cli.auth.object_storage.objects.object_lock.short": "Comandos de bloqueio de objetos",
     "cli.auth.object_storage.objects.object_lock.set.short": "Definir um timestamp de retenção para bloquear novos objetos até uma data específica",
-    "cli.auth.object_storage.objects.object_lock.retain_until_date": "Timestamp no formato ISO 8601 (yyyy-MM-ddTHH:mm:ssZ)"
+    "cli.auth.object_storage.objects.object_lock.retain_until_date": "Timestamp no formato ISO 8601 (yyyy-MM-ddTHH:mm:ssZ)",
+    "cli.auth.object_storage.objects.public_url.short": "Obter URL pública do objeto"
   }
 }
