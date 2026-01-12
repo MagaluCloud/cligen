@@ -8,6 +8,7 @@ import (
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/charmbracelet/huh"
 	"github.com/magaluCloud/mgccli/beautiful"
+	"github.com/magaluCloud/mgccli/cmd/static/object_storage/objects/common"
 	"github.com/magaluCloud/mgccli/i18n"
 	"github.com/spf13/cobra"
 )
@@ -27,7 +28,7 @@ func DeleteCommand(ctx context.Context, objectService objSdk.ObjectService) *cob
 		RunE: func(cmd *cobra.Command, args []string) error {
 			raw, _ := cmd.Root().PersistentFlags().GetBool("raw")
 
-			return deleteList(ctx, objectService, args, opts, raw)
+			return runDelete(ctx, objectService, args, opts, raw)
 		},
 	}
 
@@ -37,7 +38,7 @@ func DeleteCommand(ctx context.Context, objectService objSdk.ObjectService) *cob
 	return cmd
 }
 
-func deleteList(ctx context.Context, objectService objSdk.ObjectService, args []string, opts deleteOptions, rawMode bool) error {
+func runDelete(ctx context.Context, objectService objSdk.ObjectService, args []string, opts deleteOptions, rawMode bool) error {
 	if objectService == nil {
 		return nil
 	}
@@ -66,7 +67,7 @@ func deleteList(ctx context.Context, objectService objSdk.ObjectService, args []
 		return nil
 	}
 
-	bucketName, objectKey := ParseBucketNameAndObjectKey(path)
+	bucketName, objectKey := common.ParseBucketNameAndObjectKey(path)
 
 	var deleteOptions *objSdk.DeleteOptions
 
