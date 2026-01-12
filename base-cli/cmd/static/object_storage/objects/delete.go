@@ -33,7 +33,7 @@ func DeleteCommand(ctx context.Context, objectService objSdk.ObjectService) *cob
 	}
 
 	cmd.Flags().StringVar(&opts.Dst, "dst", "", manager.T("cli.auth.object_storage.objects.dst"))
-	cmd.Flags().StringVar(&opts.ObjVersion, "obj-version", "", manager.T("cli.auth.object_storage.objects.delete.obj_version"))
+	cmd.Flags().StringVar(&opts.ObjVersion, "obj-version", "", manager.T("cli.auth.object_storage.objects.obj_version"))
 
 	return cmd
 }

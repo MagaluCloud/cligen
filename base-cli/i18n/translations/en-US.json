@@ -160,10 +160,12 @@
     "cli.auth.object_storage.objects.long": "Manage objects stored in Object Storage buckets. This command allows performing operations such as uploading, downloading, copying, moving, deleting, and listing objects, as well as handling permissions, object versions, object locking, directory synchronization, and generating public or pre-signed URLs.",
     "cli.auth.object_storage.objects.delete.short": "Delete an object from a bucket",
     "cli.auth.object_storage.objects.dst": "Path of the object (required)",
-    "cli.auth.object_storage.objects.delete.obj_version": "Version of the object to be deleted",
+    "cli.auth.object_storage.objects.obj_version": "Version of the object",
     "cli.auth.object_storage.objects.object_lock.short": "Object locking commands",
     "cli.auth.object_storage.objects.object_lock.set.short": "Set a retention timestamp to lock new objects until a specific date",
     "cli.auth.object_storage.objects.object_lock.retain_until_date": "Timestamp in ISO 8601 format (yyyy-MM-ddTHH:mm:ssZ)",
-    "cli.auth.object_storage.objects.public_url.short": "Get object public URL"
+    "cli.auth.object_storage.objects.public_url.short": "Get object public URL",
+    "cli.auth.object_storage.objects.download.short": "Download an object from a bucket",
+    "cli.auth.object_storage.objects.download.dst": "Path and file name to be saved (relative or absolute). If not specified, it defaults to the current working directory"
   }
 }

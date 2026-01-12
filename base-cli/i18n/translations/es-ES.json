@@ -160,10 +160,12 @@
     "cli.auth.object_storage.objects.long": "Administre objetos almacenados en buckets de Object Storage. Este comando permite realizar operaciones como carga, descarga, copia, movimiento, eliminación y listado de objetos, además de gestionar permisos, versiones, bloqueos de objetos, sincronización de directorios y generación de URLs públicas o prefirmadas.",
     "cli.auth.object_storage.objects.delete.short": "Eliminar un objeto de un bucket",
     "cli.auth.object_storage.objects.dst": "Ruta del objeto (required)",
-    "cli.auth.object_storage.objects.delete.obj_version": "Versión del objeto a ser eliminada",
+    "cli.auth.object_storage.objects.obj_version": "Versión del objeto",
     "cli.auth.object_storage.objects.object_lock.short": "Comandos de bloqueo de objetos",
     "cli.auth.object_storage.objects.object_lock.set.short": "Definir un timestamp de retención para bloquear nuevos objetos hasta una fecha específica",
     "cli.auth.object_storage.objects.object_lock.retain_until_date": "Timestamp en formato ISO 8601 (yyyy-MM-ddTHH:mm:ssZ)",
-    "cli.auth.object_storage.objects.public_url.short": "Obtener URL pública del objeto"
+    "cli.auth.object_storage.objects.public_url.short": "Obtener URL pública del objeto",
+    "cli.auth.object_storage.objects.download.short": "Descargar un objeto de un bucket",
+    "cli.auth.object_storage.objects.download.dst": "Ruta y nombre del archivo a guardar (relativa o absoluta). Si no se especifica, se utilizará el directorio de trabajo actual"
   }
 }
