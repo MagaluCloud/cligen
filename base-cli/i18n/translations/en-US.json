@@ -167,6 +167,7 @@
     "cli.auth.object_storage.objects.public_url.short": "Get object public URL",
     "cli.auth.object_storage.objects.download.short": "Download an object from a bucket",
     "cli.auth.object_storage.objects.download.dst": "Path and file name to be saved (relative or absolute). If not specified, it defaults to the current working directory",
-    "cli.auth.object_storage.objects.object_lock.get.short": "Get object locking configuration for the specified object"
+    "cli.auth.object_storage.objects.object_lock.get.short": "Get object locking configuration for the specified object",
+    "cli.auth.object_storage.objects.head.short": "Get object metadata"
   }
 }
