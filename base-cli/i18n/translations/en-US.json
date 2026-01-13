@@ -171,6 +171,7 @@
     "cli.auth.object_storage.objects.head.short": "Get object metadata",
     "cli.auth.object_storage.objects.presign.short": "Generate a pre-signed URL for accessing an object",
     "cli.auth.object_storage.objects.presign.method": "One of \"GET\" or \"PUT\" (default = \"GET\")",
-    "cli.auth.object_storage.objects.presign.expires_in": "Expiration time for the pre-signed URL. Valid time units are 'ns', 'us' (or 'µs'), 'ms', 's', 'm', and 'h' (default = 5m)"
+    "cli.auth.object_storage.objects.presign.expires_in": "Expiration time for the pre-signed URL. Valid time units are 'ns', 'us' (or 'µs'), 'ms', 's', 'm', and 'h' (default = 5m)",
+    "cli.auth.object_storage.objects.versions.short": "Retrieve all versions of an object"
   }
 }
