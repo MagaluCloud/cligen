@@ -166,6 +166,7 @@
     "cli.auth.object_storage.objects.object_lock.retain_until_date": "Timestamp en formato ISO 8601 (yyyy-MM-ddTHH:mm:ssZ)",
     "cli.auth.object_storage.objects.public_url.short": "Obtener URL pública del objeto",
     "cli.auth.object_storage.objects.download.short": "Descargar un objeto de un bucket",
-    "cli.auth.object_storage.objects.download.dst": "Ruta y nombre del archivo a guardar (relativa o absoluta). Si no se especifica, se utilizará el directorio de trabajo actual"
+    "cli.auth.object_storage.objects.download.dst": "Ruta y nombre del archivo a guardar (relativa o absoluta). Si no se especifica, se utilizará el directorio de trabajo actual",
+    "cli.auth.object_storage.objects.object_lock.get.short": "Obtener la configuración de bloqueo de objetos para el objeto especificado"
   }
 }

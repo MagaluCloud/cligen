@@ -17,6 +17,7 @@ func ObjectLockCommand(ctx context.Context, objectService objSdk.ObjectService) 
 	}
 
 	cmd.AddCommand(SetCommand(ctx, objectService))
+	cmd.AddCommand(GetCommand(ctx, objectService))
 
 	return cmd
 }
