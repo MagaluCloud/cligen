@@ -22,6 +22,7 @@ func ObjectsCommand(ctx context.Context, objectService objSdk.ObjectService) *co
 	cmd.AddCommand(DeleteCommand(ctx, objectService))
 	cmd.AddCommand(DownloadCommand(ctx, objectService))
 	cmd.AddCommand(HeadCommand(ctx, objectService))
+	cmd.AddCommand(PresignCommand(ctx, objectService))
 	cmd.AddCommand(PublicURLCommand(ctx))
 
 	cmd.AddCommand(objectlock.ObjectLockCommand(ctx, objectService))

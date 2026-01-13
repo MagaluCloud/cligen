@@ -168,6 +168,9 @@
     "cli.auth.object_storage.objects.download.short": "Baixar um objeto de um bucket",
     "cli.auth.object_storage.objects.download.dst": "Caminho e nome do arquivo a ser salvo (relativo ou absoluto). Se não for especificado, o diretório atual será utilizado",
     "cli.auth.object_storage.objects.object_lock.get.short": "Obter a configuração de bloqueio de objeto para o objeto especificado",
-    "cli.auth.object_storage.objects.head.short": "Obter metadados do objeto"
+    "cli.auth.object_storage.objects.head.short": "Obter metadados do objeto",
+    "cli.auth.object_storage.objects.presign.short": "Gerar uma URL pré-assinada para acessar um objeto",
+    "cli.auth.object_storage.objects.presign.method": "Um dos valores \"GET\" ou \"PUT\" (default = \"GET\")",
+    "cli.auth.object_storage.objects.presign.expires_in": "Tempo de expiração da URL pré-assinada. As unidades de tempo válidas são 'ns', 'us' (ou 'µs'), 'ms', 's', 'm' e 'h' (default = 5m)"
   }
 }
