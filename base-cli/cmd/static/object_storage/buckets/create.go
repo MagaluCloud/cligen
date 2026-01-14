@@ -8,7 +8,7 @@ import (
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	bws "github.com/geffersonFerraz/brazilian-words-sorter"
 	"github.com/magaluCloud/mgccli/beautiful"
-	"github.com/magaluCloud/mgccli/cmd/static/object_storage/buckets/common"
+	"github.com/magaluCloud/mgccli/cmd/static/object_storage/common"
 	cobrautils "github.com/magaluCloud/mgccli/cobra_utils/flags"
 	"github.com/magaluCloud/mgccli/i18n"
 	"github.com/spf13/cobra"

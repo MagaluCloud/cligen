@@ -12,7 +12,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/magaluCloud/mgccli/beautiful"
 	configPkg "github.com/magaluCloud/mgccli/cmd/common/config"
-	"github.com/magaluCloud/mgccli/cmd/static/object_storage/common"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 )
 
@@ -52,7 +51,7 @@ func SetACL(ctx context.Context, bucketName string, opts Options) error {
 		return fmt.Errorf("erro ao pegar a região: %w", err)
 	}
 
-	host, err := common.BuildHost(bucketName, region.Value.(string))
+	host, err := BuildHost(bucketName, region.Value.(string))
 	if err != nil {
 		return err
 	}

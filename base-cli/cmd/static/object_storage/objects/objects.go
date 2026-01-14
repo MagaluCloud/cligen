@@ -4,6 +4,7 @@ import (
 	"context"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
+	"github.com/magaluCloud/mgccli/cmd/static/object_storage/objects/acl"
 	objectlock "github.com/magaluCloud/mgccli/cmd/static/object_storage/objects/object_lock"
 	"github.com/magaluCloud/mgccli/i18n"
 	"github.com/spf13/cobra"
@@ -27,6 +28,7 @@ func ObjectsCommand(ctx context.Context, objectService objSdk.ObjectService) *co
 	cmd.AddCommand(PublicURLCommand(ctx))
 
 	cmd.AddCommand(objectlock.ObjectLockCommand(ctx, objectService))
+	cmd.AddCommand(acl.AclCommand(ctx))
 
 	return cmd
 }

@@ -177,6 +177,9 @@
     "cli.auth.object_storage.objects.list.dst": "Caminho do bucket de onde listar os objetos (required)",
     "cli.auth.object_storage.objects.list.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes",
     "cli.auth.object_storage.objects.list.recursive": "Listar pastas e subpastas",
-    "cli.auth.object_storage.objects.list.max-items": "Limite de itens a serem listados (default = 1000)"
+    "cli.auth.object_storage.objects.list.max-items": "Limite de itens a serem listados (default = 1000)",
+    "cli.auth.object_storage.objects.acl.short": "Operações relacionadas a ACL",
+    "cli.auth.object_storage.objects.acl.get.short": "Obter informações de ACL para o objeto especificado",
+    "cli.auth.object_storage.objects.acl.set.short": "Definir informações de ACL para o objeto especificado"
   }
 }

@@ -26,7 +26,6 @@ type setParams struct {
 	PublicRead *bool
 }
 
-// SetCommand cria o comando de definir o ACL do bucket
 func SetCommand(ctx context.Context) *cobra.Command {
 	manager := i18n.GetInstance()
 	var flags setFlags
@@ -34,7 +33,7 @@ func SetCommand(ctx context.Context) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "set [dst]",
-		Short: manager.T("cli.auth.object_storage.buckets.acl.set.short"),
+		Short: manager.T("cli.auth.object_storage.objects.acl.set.short"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if flags.GrantWrite == "help" {
 				common.PrintGrantWriteHelp()
@@ -53,7 +52,7 @@ func SetCommand(ctx context.Context) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVar(&flags.Dst, "dst", "", manager.T("cli.auth.object_storage.buckets.dst"))
+	cmd.Flags().StringVar(&flags.Dst, "dst", "", manager.T("cli.auth.object_storage.objects.dst"))
 	cmd.Flags().StringVar(&flags.GrantWrite, "grant-write", "", manager.T("cli.auth.object_storage.buckets.acl.grant_write"))
 	cmd.Flags().BoolVar(&flags.Private, "private", false, manager.T("cli.auth.object_storage.buckets.acl.private"))
 	cmd.Flags().BoolVar(&flags.PublicRead, "public-read", false, manager.T("cli.auth.object_storage.buckets.acl.public_read"))
@@ -61,16 +60,15 @@ func SetCommand(ctx context.Context) *cobra.Command {
 	return cmd
 }
 
-// runSet executa o processo de retornar o ACL do bucket
 func runSet(ctx context.Context, args []string, opts setParams, rawMode bool) error {
-	bucketName := opts.Dst
+	path := opts.Dst
 
 	if len(args) > 0 {
-		bucketName = args[0]
+		path = args[0]
 	}
 
-	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --dst")
+	if path == "" {
+		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o caminho do objeto como argumento ou usar a flag --dst")
 
 		return nil
 	}
@@ -85,7 +83,7 @@ func runSet(ctx context.Context, args []string, opts setParams, rawMode bool) er
 		return fmt.Errorf("needs to pass either grant permissions or canned info")
 	}
 
-	err := common.SetACL(ctx, bucketName, aclOptions)
+	err := common.SetACL(ctx, path, aclOptions)
 	if err != nil {
 		return err
 	}

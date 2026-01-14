@@ -44,14 +44,13 @@ type Grantee struct {
 	URI         string `xml:"URI"`
 }
 
-// GetCommand cria o comando de retornar o ACL do bucket
 func GetCommand(ctx context.Context) *cobra.Command {
 	manager := i18n.GetInstance()
 	var opts getOptions
 
 	cmd := &cobra.Command{
 		Use:   "get [dst]",
-		Short: manager.T("cli.auth.object_storage.buckets.acl.get.short"),
+		Short: manager.T("cli.auth.object_storage.objects.acl.get.short"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			raw, _ := cmd.Root().PersistentFlags().GetBool("raw")
 
@@ -59,21 +58,20 @@ func GetCommand(ctx context.Context) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVar(&opts.Dst, "dst", "", manager.T("cli.auth.object_storage.buckets.dst"))
+	cmd.Flags().StringVar(&opts.Dst, "dst", "", manager.T("cli.auth.object_storage.objects.dst"))
 
 	return cmd
 }
 
-// runGet executa o processo de o ACL do bucket
 func runGet(ctx context.Context, args []string, opts getOptions, rawMode bool) error {
-	bucketName := opts.Dst
+	path := opts.Dst
 
 	if len(args) > 0 {
-		bucketName = args[0]
+		path = args[0]
 	}
 
-	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --dst")
+	if path == "" {
+		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o caminho do objeto como argumento ou usar a flag --dst")
 
 		return nil
 	}
@@ -85,7 +83,7 @@ func runGet(ctx context.Context, args []string, opts getOptions, rawMode bool) e
 		return fmt.Errorf("erro ao pegar a região: %w", err)
 	}
 
-	host, err := common.BuildHost(bucketName, region.Value.(string))
+	host, err := common.BuildHost(path, region.Value.(string))
 	if err != nil {
 		return err
 	}
