@@ -172,6 +172,11 @@
     "cli.auth.object_storage.objects.presign.short": "Gerar uma URL pré-assinada para acessar um objeto",
     "cli.auth.object_storage.objects.presign.method": "Um dos valores \"GET\" ou \"PUT\" (default = \"GET\")",
     "cli.auth.object_storage.objects.presign.expires_in": "Tempo de expiração da URL pré-assinada. As unidades de tempo válidas são 'ns', 'us' (ou 'µs'), 'ms', 's', 'm' e 'h' (default = 5m)",
-    "cli.auth.object_storage.objects.versions.short": "Recuperar todas as versões de um objeto"
+    "cli.auth.object_storage.objects.versions.short": "Recuperar todas as versões de um objeto",
+    "cli.auth.object_storage.objects.list.short": "Listar todos os objetos de um bucket",
+    "cli.auth.object_storage.objects.list.dst": "Caminho do bucket de onde listar os objetos (required)",
+    "cli.auth.object_storage.objects.list.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes",
+    "cli.auth.object_storage.objects.list.recursive": "Listar pastas e subpastas",
+    "cli.auth.object_storage.objects.list.max-items": "Limite de itens a serem listados (default = 1000)"
   }
 }
