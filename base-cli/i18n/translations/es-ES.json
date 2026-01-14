@@ -180,6 +180,10 @@
     "cli.auth.object_storage.objects.list.max-items": "Límite de elementos a listar (default = 1000)",
     "cli.auth.object_storage.objects.acl.short": "Operaciones relacionadas con ACL",
     "cli.auth.object_storage.objects.acl.get.short": "Obtener información de ACL para el objeto especificado",
-    "cli.auth.object_storage.objects.acl.set.short": "Definir información de ACL para el objeto especificado"
+    "cli.auth.object_storage.objects.acl.set.short": "Definir información de ACL para el objeto especificado",
+    "cli.auth.object_storage.objects.upload.short": "Subir un archivo a un bucket",
+    "cli.auth.object_storage.objects.upload.dst": "Ruta completa de destino en el bucket con el nombre de archivo deseado (required)",
+    "cli.auth.object_storage.objects.upload.src": "Ruta del archivo de origen a ser subido (required)",
+    "cli.auth.object_storage.objects.upload.storage_class": "Tipo de storage en el que se almacenará el objeto (\"cold_instant\" o \"standard\". Default = \"standard\")"
   }
 }
