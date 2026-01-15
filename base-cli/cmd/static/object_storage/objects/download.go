@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path"
-	"path/filepath"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/magaluCloud/mgccli/beautiful"
@@ -77,7 +75,7 @@ func runDownload(ctx context.Context, objectService objSdk.ObjectService, args [
 		return fmt.Errorf("failed to get object content: %w", err)
 	}
 
-	dst, err := getDownloadFileDst(opts.Dst, objectKey)
+	dst, err := common.GetFileDst(opts.Dst, objectKey)
 	if err != nil {
 		return err
 	}
@@ -108,24 +106,4 @@ func runDownload(ctx context.Context, objectService objSdk.ObjectService, args [
 	})
 
 	return nil
-}
-
-func getDownloadFileDst(dst string, objectKey string) (string, error) {
-	fileName := path.Base(objectKey)
-
-	if dst == "" {
-		cwd, err := os.Getwd()
-		if err != nil {
-			return "", fmt.Errorf("failed to get current working directory: %w", err)
-		}
-
-		return filepath.Join(cwd, fileName), nil
-	}
-
-	info, err := os.Stat(dst)
-	if (err == nil && info.IsDir()) || dst[len(dst)-1] == os.PathSeparator {
-		dst = filepath.Join(dst, fileName)
-	}
-
-	return dst, nil
 }

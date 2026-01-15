@@ -188,6 +188,9 @@
     "cli.auth.object_storage.objects.copy.short": "Copy an object from a bucket to another bucket",
     "cli.auth.object_storage.objects.copy.dst": "Full destination path in the bucket with desired filename (required)",
     "cli.auth.object_storage.objects.copy.src": "Path of the object in a bucket to be copied (required)",
-    "cli.auth.object_storage.objects.copy.storage_class": "Copy objects to other storage classes (\"cold_instant\" or \"standard\")"
+    "cli.auth.object_storage.objects.copy.storage_class": "Copy objects to other storage classes (\"cold_instant\" or \"standard\")",
+    "cli.auth.object_storage.objects.move.short": "Move one object from source to destination",
+    "cli.auth.object_storage.objects.move.dst": "Destination where the file will be moved to. Can be a local or remote path (e.g. s3://bucket/test.txt) (required)",
+    "cli.auth.object_storage.objects.move.src": "Source file to be moved. Can be a local or remote path (e.g. s3://bucket/test.txt) (required)"
   }
 }

@@ -81,7 +81,7 @@ func runUpload(ctx context.Context, objectService objSdk.ObjectService, args []s
 		contentType = http.DetectContentType(fileBytes)
 	}
 
-	err = objectService.Upload(ctx, bucketName, objectKey, fileBytes, contentType, opts.StorageClass)
+	err = objectService.Upload(ctx, bucketName, objectKey, fileBytes, contentType, &opts.StorageClass)
 	if err != nil {
 		return err
 	}
