@@ -184,6 +184,10 @@
     "cli.auth.object_storage.objects.upload.short": "Subir un archivo a un bucket",
     "cli.auth.object_storage.objects.upload.dst": "Ruta completa de destino en el bucket con el nombre de archivo deseado (required)",
     "cli.auth.object_storage.objects.upload.src": "Ruta del archivo de origen a ser subido (required)",
-    "cli.auth.object_storage.objects.upload.storage_class": "Tipo de storage en el que se almacenará el objeto (\"cold_instant\" o \"standard\". Default = \"standard\")"
+    "cli.auth.object_storage.objects.upload.storage_class": "Tipo de storage en el que se almacenará el objeto (\"cold_instant\" o \"standard\". Default = \"standard\")",
+    "cli.auth.object_storage.objects.copy.short": "Copiar un objeto de un bucket a otro bucket",
+    "cli.auth.object_storage.objects.copy.dst": "Ruta completa de destino en el bucket con el nombre de archivo deseado (required)",
+    "cli.auth.object_storage.objects.copy.src": "Ruta del objeto en un bucket a ser copiado (required)",
+    "cli.auth.object_storage.objects.copy.storage_class": "Copiar objetos a otras clases de storage (\"cold_instant\" or \"standard\")"
   }
 }
