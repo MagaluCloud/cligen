@@ -191,6 +191,10 @@
     "cli.auth.object_storage.objects.copy.storage_class": "Copiar objetos para outras classes de storage (\"cold_instant\" or \"standard\")",
     "cli.auth.object_storage.objects.move.short": "Move um objeto da origem para o destino",
     "cli.auth.object_storage.objects.move.dst": "Destino onde o arquivo será movido. Pode ser um caminho local ou remoto (ex: s3://bucket/test.txt) (required)",
-    "cli.auth.object_storage.objects.move.src": "Arquivo de origem a ser movido. Pode ser um caminho local ou remoto (ex: s3://bucket/test.txt) (required)"
+    "cli.auth.object_storage.objects.move.src": "Arquivo de origem a ser movido. Pode ser um caminho local ou remoto (ex: s3://bucket/test.txt) (required)",
+    "cli.auth.object_storage.objects.delete_all.short": "Remove todos os objetos de um bucket",
+    "cli.auth.object_storage.objects.delete_all.dst": "Nome do bucket do qual os objetos serão removidos (required)",
+    "cli.auth.object_storage.objects.delete_all.batch_size": "Limite de itens por lote de remoção (intervalo: 1 - 1000) (default = 1000)",
+    "cli.auth.object_storage.objects.delete_all.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes"
   }
 }
