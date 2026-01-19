@@ -195,6 +195,10 @@
     "cli.auth.object_storage.objects.delete_all.short": "Delete all objects from a bucket",
     "cli.auth.object_storage.objects.delete_all.dst": "Name of the bucket to delete objects from (required)",
     "cli.auth.object_storage.objects.delete_all.batch_size": "Limit of items per deletion batch (range: 1 - 1000) (default = 1000)",
-    "cli.auth.object_storage.objects.delete_all.filter": "File name pattern to include or exclude. Use --filter=help for more details"
+    "cli.auth.object_storage.objects.delete_all.filter": "File name pattern to include or exclude. Use --filter=help for more details",
+    "cli.auth.object_storage.objects.download_all.short": "Download all objects from a bucket",
+    "cli.auth.object_storage.objects.download_all.src": "Path of the objects to be downloaded (required)",
+    "cli.auth.object_storage.objects.download_all.dst": "Path to save the files",
+    "cli.auth.object_storage.objects.download_all.filter": "File name pattern to include or exclude. Use --filter=help for more details"
   }
 }

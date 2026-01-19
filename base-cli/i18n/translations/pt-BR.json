@@ -195,6 +195,10 @@
     "cli.auth.object_storage.objects.delete_all.short": "Remove todos os objetos de um bucket",
     "cli.auth.object_storage.objects.delete_all.dst": "Nome do bucket do qual os objetos serão removidos (required)",
     "cli.auth.object_storage.objects.delete_all.batch_size": "Limite de itens por lote de remoção (intervalo: 1 - 1000) (default = 1000)",
-    "cli.auth.object_storage.objects.delete_all.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes"
+    "cli.auth.object_storage.objects.delete_all.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes",
+    "cli.auth.object_storage.objects.download_all.short": "Faz o download de todos os objetos de um bucket",
+    "cli.auth.object_storage.objects.download_all.src": "Caminho dos objetos a serem baixados (required)",
+    "cli.auth.object_storage.objects.download_all.dst": "Caminho para salvar os arquivos",
+    "cli.auth.object_storage.objects.download_all.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes"
   }
 }

@@ -9,6 +9,7 @@ import (
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/charmbracelet/huh"
 	"github.com/magaluCloud/mgccli/beautiful"
+	"github.com/magaluCloud/mgccli/cmd/static/object_storage/objects/common"
 	"github.com/magaluCloud/mgccli/i18n"
 	"github.com/spf13/cobra"
 )
@@ -28,7 +29,7 @@ func DeleteAllCommand(ctx context.Context, objectService objSdk.ObjectService) *
 		Short: manager.T("cli.auth.object_storage.objects.delete_all.short"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if opts.Filter == "help" {
-				printDeleteFilterHelp()
+				common.PrintFilterHelp()
 				return nil
 			}
 
@@ -71,7 +72,7 @@ func runDeleteAll(ctx context.Context, objectService objSdk.ObjectService, args 
 	}
 
 	if opts.Filter != "" {
-		var filter *[]objSdk.ObjectDeleteFilter
+		var filter *[]objSdk.FilterOptions
 		if err := json.Unmarshal([]byte(opts.Filter), &filter); err != nil {
 			return fmt.Errorf("--filter JSON inválido: %w", err)
 		}
@@ -105,12 +106,4 @@ func runDeleteAll(ctx context.Context, objectService objSdk.ObjectService, args 
 	}
 
 	return nil
-}
-
-func printDeleteFilterHelp() {
-	fmt.Fprintln(os.Stderr, "Filter format:")
-
-	beautiful.NewOutput(false).PrintData([]objSdk.ObjectListFilter{
-		{Include: "string", Exclude: "string"},
-	})
 }

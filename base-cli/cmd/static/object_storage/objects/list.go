@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 	"time"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
@@ -38,7 +37,7 @@ func ListCommand(ctx context.Context, objectService objSdk.ObjectService) *cobra
 		Short: manager.T("cli.auth.object_storage.objects.list.short"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if opts.Filter == "help" {
-				printFilterHelp()
+				common.PrintFilterHelp()
 				return nil
 			}
 
@@ -91,7 +90,7 @@ func runList(ctx context.Context, objectService objSdk.ObjectService, args []str
 	}
 
 	if opts.Filter != "" {
-		var filter *[]objSdk.ObjectListFilter
+		var filter *[]objSdk.FilterOptions
 		if err := json.Unmarshal([]byte(opts.Filter), &filter); err != nil {
 			return fmt.Errorf("--filter JSON inválido: %w", err)
 		}
@@ -127,12 +126,4 @@ func runList(ctx context.Context, objectService objSdk.ObjectService, args []str
 	beautiful.NewOutput(rawMode).PrintData(results)
 
 	return nil
-}
-
-func printFilterHelp() {
-	fmt.Fprintln(os.Stderr, "Filter format:")
-
-	beautiful.NewOutput(false).PrintData([]objSdk.ObjectListFilter{
-		{Include: "string", Exclude: "string"},
-	})
 }
