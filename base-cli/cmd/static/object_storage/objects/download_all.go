@@ -100,8 +100,6 @@ func runDownloadAll(ctx context.Context, objectService objSdk.ObjectService, arg
 	}
 
 	if downloadAllResult.ErrorCount > 0 {
-		fmt.Println(downloadAllResult.Errors)
-
 		beautiful.NewOutput(rawMode).PrintError("não foi possível fazer o download de alguns objetos")
 	} else {
 		fmt.Fprintln(os.Stderr, "✓ Download realizado com sucesso!")

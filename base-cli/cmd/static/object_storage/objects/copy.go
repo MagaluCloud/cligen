@@ -35,7 +35,7 @@ func CopyCommand(ctx context.Context, objectService objSdk.ObjectService) *cobra
 
 	cmd.Flags().StringVar(&opts.Dst, "dst", "", manager.T("cli.auth.object_storage.objects.copy.dst"))
 	cmd.Flags().StringVar(&opts.Src, "src", "", manager.T("cli.auth.object_storage.objects.copy.src"))
-	cmd.Flags().StringVar(&opts.StorageClass, "storage-class", "standard", manager.T("cli.auth.object_storage.objects.copy.storage_class"))
+	cmd.Flags().StringVar(&opts.StorageClass, "storage-class", "", manager.T("cli.auth.object_storage.objects.copy.storage_class"))
 	cmd.Flags().StringVar(&opts.ObjVersion, "obj-version", "", manager.T("cli.auth.object_storage.objects.obj_version"))
 
 	return cmd

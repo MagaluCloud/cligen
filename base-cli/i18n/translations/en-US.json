@@ -199,6 +199,11 @@
     "cli.auth.object_storage.objects.download_all.short": "Download all objects from a bucket",
     "cli.auth.object_storage.objects.download_all.src": "Path of the objects to be downloaded (required)",
     "cli.auth.object_storage.objects.download_all.dst": "Path to save the files",
-    "cli.auth.object_storage.objects.download_all.filter": "File name pattern to include or exclude. Use --filter=help for more details"
+    "cli.auth.object_storage.objects.download_all.filter": "File name pattern to include or exclude. Use --filter=help for more details",
+    "cli.auth.object_storage.objects.copy_all.short": "Copy all objects from a bucket to another bucket",
+    "cli.auth.object_storage.objects.copy_all.src": "Path of the objects in a bucket to be copied (required)",
+    "cli.auth.object_storage.objects.copy_all.dst": "Full destination path in the bucket (required)",
+    "cli.auth.object_storage.objects.copy_all.storage_class": "Copy objects to another storage class ('cold_instant' or 'standard')",
+    "cli.auth.object_storage.objects.copy_all.filter": "File name pattern to include or exclude. Use --filter=help for more details"
   }
 }

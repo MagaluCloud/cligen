@@ -199,6 +199,11 @@
     "cli.auth.object_storage.objects.download_all.short": "Faz o download de todos os objetos de um bucket",
     "cli.auth.object_storage.objects.download_all.src": "Caminho dos objetos a serem baixados (required)",
     "cli.auth.object_storage.objects.download_all.dst": "Caminho para salvar os arquivos",
-    "cli.auth.object_storage.objects.download_all.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes"
+    "cli.auth.object_storage.objects.download_all.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes",
+    "cli.auth.object_storage.objects.copy_all.short": "Copia todos os objetos de um bucket para outro bucket",
+    "cli.auth.object_storage.objects.copy_all.src": "Caminho dos objetos em um bucket a serem copiados (required)",
+    "cli.auth.object_storage.objects.copy_all.dst": "Caminho completo de destino no bucket (required)",
+    "cli.auth.object_storage.objects.copy_all.storage_class": "Copia os objetos para outra classe de armazenamento ('cold_instant' ou 'standard')",
+    "cli.auth.object_storage.objects.copy_all.filter": "Expressão regular (regex) do nome do arquivo para incluir ou excluir. Use --filter=help para mais detalhes"
   }
 }
