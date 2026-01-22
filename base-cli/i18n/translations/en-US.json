@@ -208,6 +208,12 @@
     "cli.auth.object_storage.objects.move_dir.short": "Move objects from a source to a destination",
     "cli.auth.object_storage.objects.move_dir.dst": "Destination where the files will be moved. Can be a local or remote path (e.g. s3://bucket/test.txt) (required)",
     "cli.auth.object_storage.objects.move_dir.src": "Source files to be moved. Can be a local or remote path (e.g. s3://bucket/test.txt) (required)",
-    "cli.auth.object_storage.objects.move_dir.batch_size": "Limit of items per batch to process (range: 1 - 1000) (default = 1000)"
+    "cli.auth.object_storage.objects.move_dir.batch_size": "Limit of items per batch to process (range: 1 - 1000) (default = 1000)",
+    "cli.auth.object_storage.objects.upload_dir.short": "Upload a directory to a bucket",
+    "cli.auth.object_storage.objects.upload_dir.dst": "Full destination path in the bucket (required)",
+    "cli.auth.object_storage.objects.upload_dir.src": "Source directory path to be uploaded (required)",
+    "cli.auth.object_storage.objects.upload_dir.storage_class": "Type of storage in which to store objects ('cold_instant' or 'standard')",
+    "cli.auth.object_storage.objects.upload_dir.filter": "File name pattern to include or exclude. Use --filter=help for more details",
+    "cli.auth.object_storage.objects.upload_dir.shallow": "Do not upload subdirectories"
   }
 }

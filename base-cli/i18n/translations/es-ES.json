@@ -208,6 +208,12 @@
     "cli.auth.object_storage.objects.move_dir.short": "Mueve objetos desde una fuente a un destino",
     "cli.auth.object_storage.objects.move_dir.dst": "Destino al que se moverán los archivos. Puede ser una ruta local o remota (ej: s3://bucket/test.txt) (required)",
     "cli.auth.object_storage.objects.move_dir.src": "Archivos de origen que serán movidos. Puede ser una ruta local o remota (ej: s3://bucket/test.txt) (required)",
-    "cli.auth.object_storage.objects.move_dir.batch_size": "Límite de elementos por lote a procesar (rango: 1 - 1000) (default = 1000)"
+    "cli.auth.object_storage.objects.move_dir.batch_size": "Límite de elementos por lote a procesar (rango: 1 - 1000) (default = 1000)",
+    "cli.auth.object_storage.objects.upload_dir.short": "Subir un directorio a un bucket",
+    "cli.auth.object_storage.objects.upload_dir.dst": "Ruta completa de destino en el bucket (required)",
+    "cli.auth.object_storage.objects.upload_dir.src": "Ruta del directorio de origen para subir (required)",
+    "cli.auth.object_storage.objects.upload_dir.storage_class": "Tipo de almacenamiento en el que se guardarán los objetos ('cold_instant' o 'standard')",
+    "cli.auth.object_storage.objects.upload_dir.filter": "Expresión regular (regex) para incluir o excluir. Use --filter=help para más detalles",
+    "cli.auth.object_storage.objects.upload_dir.shallow": "No subir subdirectorios"
   }
 }

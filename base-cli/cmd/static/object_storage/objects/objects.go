@@ -28,6 +28,7 @@ func ObjectsCommand(ctx context.Context, objectService objSdk.ObjectService) *co
 	cmd.AddCommand(PresignCommand(ctx, objectService))
 	cmd.AddCommand(VersionsCommand(ctx, objectService))
 	cmd.AddCommand(UploadCommand(ctx, objectService))
+	cmd.AddCommand(UploadDirCommand(ctx, objectService))
 	cmd.AddCommand(CopyCommand(ctx, objectService))
 	cmd.AddCommand(CopyAllCommand(ctx, objectService))
 	cmd.AddCommand(MoveCommand(ctx, objectService))
