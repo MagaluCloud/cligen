@@ -31,6 +31,7 @@ func ObjectsCommand(ctx context.Context, objectService objSdk.ObjectService) *co
 	cmd.AddCommand(CopyCommand(ctx, objectService))
 	cmd.AddCommand(CopyAllCommand(ctx, objectService))
 	cmd.AddCommand(MoveCommand(ctx, objectService))
+	cmd.AddCommand(MoveDirCommand(ctx, objectService))
 	cmd.AddCommand(PublicURLCommand(ctx))
 
 	cmd.AddCommand(objectlock.ObjectLockCommand(ctx, objectService))

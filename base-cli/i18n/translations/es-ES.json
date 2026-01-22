@@ -204,6 +204,10 @@
     "cli.auth.object_storage.objects.copy_all.src": "Ruta de los objetos en un bucket que serán copiados (required)",
     "cli.auth.object_storage.objects.copy_all.dst": "Ruta completa de destino en el bucket (required)",
     "cli.auth.object_storage.objects.copy_all.storage_class": "Copia los objetos a otra clase de almacenamiento ('cold_instant' o 'standard')",
-    "cli.auth.object_storage.objects.copy_all.filter": "Expresión regular (regex) del nombre del archivo para incluir o excluir. Use --filter=help para más detalles"
+    "cli.auth.object_storage.objects.copy_all.filter": "Expresión regular (regex) del nombre del archivo para incluir o excluir. Use --filter=help para más detalles",
+    "cli.auth.object_storage.objects.move_dir.short": "Mueve objetos desde una fuente a un destino",
+    "cli.auth.object_storage.objects.move_dir.dst": "Destino al que se moverán los archivos. Puede ser una ruta local o remota (ej: s3://bucket/test.txt) (required)",
+    "cli.auth.object_storage.objects.move_dir.src": "Archivos de origen que serán movidos. Puede ser una ruta local o remota (ej: s3://bucket/test.txt) (required)",
+    "cli.auth.object_storage.objects.move_dir.batch_size": "Límite de elementos por lote a procesar (rango: 1 - 1000) (default = 1000)"
   }
 }
