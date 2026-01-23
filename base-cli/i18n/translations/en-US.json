@@ -214,6 +214,11 @@
     "cli.auth.object_storage.objects.upload_dir.src": "Source directory path to be uploaded (required)",
     "cli.auth.object_storage.objects.upload_dir.storage_class": "Type of storage in which to store objects ('cold_instant' or 'standard')",
     "cli.auth.object_storage.objects.upload_dir.filter": "File name pattern to include or exclude. Use --filter=help for more details",
-    "cli.auth.object_storage.objects.upload_dir.shallow": "Do not upload subdirectories"
+    "cli.auth.object_storage.objects.upload_dir.shallow": "Do not upload subdirectories",
+    "cli.auth.object_storage.objects.sync.short": "Synchronizes a local path with a bucket",
+    "cli.auth.object_storage.objects.sync.bucket": "Bucket path to synchronize with (required)",
+    "cli.auth.object_storage.objects.sync.local": "Local path to synchronize from (required)",
+    "cli.auth.object_storage.objects.sync.delete": "Delete objects in the bucket that are not present locally",
+    "cli.auth.object_storage.objects.sync.batch_size": "Limit of items per deletion batch (range: 1 - 1000) (Default = 1000)"
   }
 }

@@ -214,6 +214,11 @@
     "cli.auth.object_storage.objects.upload_dir.src": "Ruta del directorio de origen para subir (required)",
     "cli.auth.object_storage.objects.upload_dir.storage_class": "Tipo de almacenamiento en el que se guardarán los objetos ('cold_instant' o 'standard')",
     "cli.auth.object_storage.objects.upload_dir.filter": "Expresión regular (regex) para incluir o excluir. Use --filter=help para más detalles",
-    "cli.auth.object_storage.objects.upload_dir.shallow": "No subir subdirectorios"
+    "cli.auth.object_storage.objects.upload_dir.shallow": "No subir subdirectorios",
+    "cli.auth.object_storage.objects.sync.short": "Sincroniza una ruta local con un bucket",
+    "cli.auth.object_storage.objects.sync.bucket": "Ruta del bucket para sincronización (required)",
+    "cli.auth.object_storage.objects.sync.local": "Ruta local a sincronizar (required)",
+    "cli.auth.object_storage.objects.sync.delete": "Elimina objetos del bucket que no existen localmente",
+    "cli.auth.object_storage.objects.sync.batch_size": "Límite de elementos por lote de eliminación (rango: 1 - 1000) (Default = 1000)"
   }
 }

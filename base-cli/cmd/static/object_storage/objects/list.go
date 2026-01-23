@@ -16,7 +16,6 @@ import (
 type listOptions struct {
 	Dst       string
 	Filter    string
-	MaxItems  int
 	Recursive bool
 }
 
@@ -50,7 +49,6 @@ func ListCommand(ctx context.Context, objectService objSdk.ObjectService) *cobra
 	cmd.Flags().StringVar(&opts.Dst, "dst", "", manager.T("cli.auth.object_storage.objects.list.dst"))
 	cmd.Flags().StringVar(&opts.Filter, "filter", "", manager.T("cli.auth.object_storage.objects.list.filter"))
 	cmd.Flags().BoolVar(&opts.Recursive, "recursive", false, manager.T("cli.auth.object_storage.objects.list.recursive"))
-	cmd.Flags().IntVar(&opts.MaxItems, "max-items", 1000, manager.T("cli.auth.object_storage.objects.list.max-items"))
 
 	return cmd
 }
@@ -78,9 +76,11 @@ func runList(ctx context.Context, objectService objSdk.ObjectService, args []str
 		delimiter = "/"
 	}
 
+	limit := 99999999
+
 	listOpts := objSdk.ObjectListOptions{
 		Delimiter: delimiter,
-		Limit:     &opts.MaxItems,
+		Limit:     &limit,
 	}
 
 	bucketName, objectKey := common.ParseBucketNameAndObjectKey(path)
