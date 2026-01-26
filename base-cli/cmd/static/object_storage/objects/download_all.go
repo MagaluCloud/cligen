@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/signal"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/magaluCloud/mgccli/beautiful"
@@ -92,10 +93,27 @@ func runDownloadAll(ctx context.Context, objectService objSdk.ObjectService, arg
 		dst = cwd
 	}
 
-	fmt.Println("Downloading...")
+	progress := beautiful.NewPTermProgress(nil, nil)
+	defer progress.Finish()
+
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt)
+	defer signal.Stop(sigCh)
+
+	go func() {
+		<-sigCh
+		cancel()
+	}()
+
+	ctx = objSdk.WithProgress(ctx, progress)
 
 	downloadAllResult, err := objectService.DownloadAll(ctx, bucketName, dst, &downloadOpts)
 	if err != nil {
+		progress.Finish()
+		cancel()
 		return err
 	}
 

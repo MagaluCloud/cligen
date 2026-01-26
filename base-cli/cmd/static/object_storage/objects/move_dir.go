@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"os/signal"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/magaluCloud/mgccli/beautiful"
@@ -83,20 +84,30 @@ func runMoveDir(ctx context.Context, objectService objSdk.ObjectService, args []
 		ObjectKey:  objectKeyDst,
 	}
 
-	fmt.Fprintln(os.Stderr, "Movendo...")
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt)
+	defer signal.Stop(sigCh)
+
+	go func() {
+		<-sigCh
+		cancel()
+	}()
 
 	if srcIsRemote && dstIsRemote {
-		err := moveDirRemote(ctx, objectService, srcConfig, dstConfig, opts.BatchSize)
+		err := moveDirRemote(ctx, cancel, objectService, srcConfig, dstConfig, opts.BatchSize)
 		if err != nil {
 			return err
 		}
 	} else if srcIsRemote {
-		err := moveDirRemoteLocal(ctx, objectService, srcConfig, dst, opts.BatchSize)
+		err := moveDirRemoteLocal(ctx, cancel, objectService, srcConfig, dst, opts.BatchSize)
 		if err != nil {
 			return err
 		}
 	} else {
-		err := moveDirLocalRemote(ctx, objectService, src, dstConfig, opts.BatchSize)
+		err := moveDirLocalRemote(ctx, cancel, objectService, src, dstConfig, opts.BatchSize)
 		if err != nil {
 			return err
 		}
@@ -107,11 +118,18 @@ func runMoveDir(ctx context.Context, objectService objSdk.ObjectService, args []
 	return nil
 }
 
-func moveDirRemote(ctx context.Context, objectService objSdk.ObjectService, src objSdk.CopyPath, dst objSdk.CopyPath, batchSize int) error {
+func moveDirRemote(ctx context.Context, cancel context.CancelFunc, objectService objSdk.ObjectService, src objSdk.CopyPath, dst objSdk.CopyPath, batchSize int) error {
+	titleCopy := "Copiando objetos"
+	copyProgress := beautiful.NewPTermProgress(nil, &titleCopy)
+
+	ctx = objSdk.WithProgress(ctx, copyProgress)
+
 	_, err := objectService.CopyAll(ctx, src, dst, &objSdk.CopyAllOptions{
 		BatchSize: batchSize,
 	})
 	if err != nil {
+		copyProgress.Finish()
+		cancel()
 		return fmt.Errorf("erro ao copiar os objetos para o destino: %w", err)
 	}
 
@@ -121,18 +139,35 @@ func moveDirRemote(ctx context.Context, objectService objSdk.ObjectService, src 
 		deleteAllOpts.ObjectKey = src.ObjectKey
 	}
 
+	titleDelete := "Removendo objetos de origem"
+	deleteProgress := beautiful.NewPTermProgress(nil, &titleDelete)
+
+	ctx = objSdk.WithProgress(ctx, deleteProgress)
+
 	_, err = objectService.DeleteAll(ctx, src.BucketName, deleteAllOpts)
 	if err != nil {
+		deleteProgress.Finish()
+		cancel()
 		return fmt.Errorf("erro ao deletar os objetos de origem: %w", err)
 	}
 
 	return nil
 }
 
-func moveDirLocalRemote(ctx context.Context, objectService objSdk.ObjectService, src string, dst objSdk.CopyPath, batchSize int) error {
+func moveDirLocalRemote(ctx context.Context, cancel context.CancelFunc, objectService objSdk.ObjectService, src string, dst objSdk.CopyPath, batchSize int) error {
+	title := "Enviando arquivos"
+	progress := beautiful.NewPTermProgress(nil, &title)
+
+	ctx = objSdk.WithProgress(ctx, progress)
+
 	_, err := objectService.UploadDir(ctx, dst.BucketName, dst.ObjectKey, src, &objSdk.UploadDirOptions{
 		BatchSize: batchSize,
 	})
+	if err != nil {
+		progress.Finish()
+		cancel()
+		return err
+	}
 
 	err = os.RemoveAll(src)
 	if err != nil {
@@ -142,20 +177,34 @@ func moveDirLocalRemote(ctx context.Context, objectService objSdk.ObjectService,
 	return nil
 }
 
-func moveDirRemoteLocal(ctx context.Context, objectService objSdk.ObjectService, src objSdk.CopyPath, dst string, batchSize int) error {
+func moveDirRemoteLocal(ctx context.Context, cancel context.CancelFunc, objectService objSdk.ObjectService, src objSdk.CopyPath, dst string, batchSize int) error {
+	titleDownload := "Baixando arquivos"
+	downloadProgress := beautiful.NewPTermProgress(nil, &titleDownload)
+
+	ctx = objSdk.WithProgress(ctx, downloadProgress)
+
 	_, err := objectService.DownloadAll(ctx, src.BucketName, dst, &objSdk.DownloadAllOptions{
 		Prefix:    src.ObjectKey,
 		BatchSize: batchSize,
 	})
 	if err != nil {
+		downloadProgress.Finish()
+		cancel()
 		return fmt.Errorf("erro ao fazer o download dos objetos de origem %w", err)
 	}
+
+	titleDelete := "Removendo objetos de origem"
+	deleteProgress := beautiful.NewPTermProgress(nil, &titleDelete)
+
+	ctx = objSdk.WithProgress(ctx, deleteProgress)
 
 	_, err = objectService.DeleteAll(ctx, src.BucketName, &objSdk.DeleteAllOptions{
 		ObjectKey: src.ObjectKey,
 		BatchSize: &batchSize,
 	})
 	if err != nil {
+		deleteProgress.Finish()
+		cancel()
 		return fmt.Errorf("erro ao deletar os objetos de origem: %w", err)
 	}
 

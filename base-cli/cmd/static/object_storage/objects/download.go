@@ -70,6 +70,8 @@ func runDownload(ctx context.Context, objectService objSdk.ObjectService, args [
 		downloadOptions = &objSdk.DownloadStreamOptions{VersionID: opts.ObjVersion}
 	}
 
+	fmt.Println("Downloading...")
+
 	objectReader, err := objectService.DownloadStream(ctx, bucketName, objectKey, downloadOptions)
 	if err != nil {
 		return fmt.Errorf("failed to get object content: %w", err)

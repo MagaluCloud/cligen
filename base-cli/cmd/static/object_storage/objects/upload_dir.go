@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/signal"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/magaluCloud/mgccli/beautiful"
@@ -97,14 +98,35 @@ func runUploadDir(ctx context.Context, objectService objSdk.ObjectService, args 
 		uploadOpts.Filter = filter
 	}
 
-	fmt.Println("Uploading...")
+	progress := beautiful.NewPTermProgress(nil, nil)
+	defer progress.Finish()
 
-	_, err := objectService.UploadDir(ctx, bucketName, objectKey, src, &uploadOpts)
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt)
+	defer signal.Stop(sigCh)
+
+	go func() {
+		<-sigCh
+		cancel()
+	}()
+
+	ctx = objSdk.WithProgress(ctx, progress)
+
+	result, err := objectService.UploadDir(ctx, bucketName, objectKey, src, &uploadOpts)
 	if err != nil {
+		progress.Finish()
+		cancel()
 		return err
 	}
 
-	fmt.Fprintln(os.Stderr, "✓ Upload realizado com sucesso!")
+	if result.ErrorCount > 0 {
+		beautiful.NewOutput(rawMode).PrintError("não foi possível fazer o upload de alguns objetos")
+	} else {
+		fmt.Fprintln(os.Stderr, "✓ Upload realizado com sucesso!")
+	}
 
 	return nil
 }

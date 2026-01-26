@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/signal"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/charmbracelet/huh"
@@ -92,10 +93,27 @@ func runDeleteAll(ctx context.Context, objectService objSdk.ObjectService, args 
 		return nil
 	}
 
-	fmt.Fprintln(os.Stderr, "Deleting...")
+	progress := beautiful.NewPTermProgress(nil, nil)
+	defer progress.Finish()
+
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt)
+	defer signal.Stop(sigCh)
+
+	go func() {
+		<-sigCh
+		cancel()
+	}()
+
+	ctx = objSdk.WithProgress(ctx, progress)
 
 	deletionResult, err := objectService.DeleteAll(ctx, bucketName, &deleteOpts)
 	if err != nil {
+		progress.Finish()
+		cancel()
 		return err
 	}
 

@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"strings"
 
@@ -133,16 +134,43 @@ func runSync(ctx context.Context, objectService objSdk.ObjectService, args []str
 		}
 	}
 
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt)
+	defer signal.Stop(sigCh)
+
+	go func() {
+		<-sigCh
+		cancel(nil)
+	}()
+
+	progress := beautiful.NewPTermProgress(
+		nil,
+		nil,
+	)
+
+	progressCtx := objSdk.WithProgress(ctx, progress)
+
+	total := int64(len(filesToUpload) + len(filesToDelete))
+
+	progress.Start(total)
+	defer progress.Finish()
+
 	for i := 0; i < len(filesToUpload); i += opts.BatchSize {
 		end := min(i+opts.BatchSize, len(filesToUpload))
 
 		batch := filesToUpload[i:end]
 		for _, filePath := range batch {
 			if err := uploadFile(ctx, objectService, bucketName, local, filePath); err != nil {
+				progress.Finish()
+				cancel(nil)
 				fmt.Fprintf(os.Stderr, "Erro ao fazer upload de %s: %v\n", filePath, err)
 				continue
 			}
 			filesUploaded++
+
+			if p := objSdk.GetProgress(progressCtx); p != nil {
+				p.Add(1)
+			}
 		}
 	}
 
@@ -152,10 +180,16 @@ func runSync(ctx context.Context, objectService objSdk.ObjectService, args []str
 		batch := filesToDelete[i:end]
 		for _, filePath := range batch {
 			if err := objectService.Delete(ctx, bucketName, filePath, nil); err != nil {
+				progress.Finish()
+				cancel(nil)
 				fmt.Fprintf(os.Stderr, "Erro ao deletar %s: %v\n", filePath, err)
 				continue
 			}
 			filesDeleted++
+
+			if p := objSdk.GetProgress(progressCtx); p != nil {
+				p.Add(1)
+			}
 		}
 	}
 

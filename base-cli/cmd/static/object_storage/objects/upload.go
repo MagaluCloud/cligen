@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"os/signal"
+	"path/filepath"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/magaluCloud/mgccli/beautiful"
@@ -81,8 +83,36 @@ func runUpload(ctx context.Context, objectService objSdk.ObjectService, args []s
 		contentType = http.DetectContentType(fileBytes)
 	}
 
+	size := int64(len(fileBytes))
+
+	title := "Uploading " + filepath.Base(src)
+
+	progress := beautiful.NewPTermProgress(
+		&size,
+		&title,
+	)
+	defer progress.Finish()
+
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt)
+	defer signal.Stop(sigCh)
+
+	go func() {
+		<-sigCh
+		cancel()
+	}()
+
+	ctx = objSdk.WithProgress(ctx, progress)
+
+	progress.Start(size)
+
 	err = objectService.Upload(ctx, bucketName, objectKey, fileBytes, contentType, &opts.StorageClass)
 	if err != nil {
+		progress.Finish()
+		cancel()
 		return err
 	}
 

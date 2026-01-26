@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/signal"
 
 	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/magaluCloud/mgccli/beautiful"
@@ -89,7 +90,22 @@ func runCopyAll(ctx context.Context, objectService objSdk.ObjectService, args []
 		copyOpts.Filter = filter
 	}
 
-	fmt.Println("Copiando...")
+	progress := beautiful.NewPTermProgress(nil, nil)
+	defer progress.Finish()
+
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt)
+	defer signal.Stop(sigCh)
+
+	go func() {
+		<-sigCh
+		cancel()
+	}()
+
+	ctx = objSdk.WithProgress(ctx, progress)
 
 	bucketNameSrc, objectKeySrc := common.ParseBucketNameAndObjectKey(src)
 	bucketNameDst, objectKeyDst := common.ParseBucketNameAndObjectKey(dst)
@@ -106,6 +122,8 @@ func runCopyAll(ctx context.Context, objectService objSdk.ObjectService, args []
 		&copyOpts,
 	)
 	if err != nil {
+		progress.Finish()
+		cancel()
 		return err
 	}
 
