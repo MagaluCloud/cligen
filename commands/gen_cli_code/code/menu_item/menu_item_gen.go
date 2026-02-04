@@ -111,6 +111,17 @@ func prepareName(name string) string {
 }
 
 func ProcessCobraStructInitialize(menuItem MenuItem, param config.Parameter, sdkName string, parents ...config.Parameter) MenuItem {
+	if param.IsPointer && !param.IsPrimitive && param.Struct != nil && !param.IsArray {
+		sci := ServiceCobraStructInitialize{
+			ParamName:  param.Name,
+			Name:       genStructName(param, parents...),
+			TypePrefix: "&",
+			TypeSuffix: "{}",
+			ParamType:  prepareName(param.Type),
+		}
+		menuItem.AddCobraStructInitialize(sci)
+	}
+
 	parentControl := false
 	for _, sparam := range param.Struct {
 		if sparam.IsPointer && !sparam.IsPrimitive {
