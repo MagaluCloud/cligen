@@ -37820,7 +37820,7 @@
                     "IncludeDeprecated": {
                       "name": "IncludeDeprecated",
                       "type": "bool",
-                      "description": "",
+                      "description": "Include deprecated version (default = false)",
                       "is_primitive": true,
                       "is_pointer": false,
                       "is_optional": true,
