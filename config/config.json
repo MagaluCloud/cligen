@@ -1,7 +1,7 @@
 {
   "cli_version": "v1.0.0",
   "sdk_branch": "main",
-  "sdk_tag": "v1.3.1",
+  "sdk_tag": "v1.5.0",
   "tag_or_branch_or_latest": "tag",
   "show_git_error": false,
   "show_logs": true,
@@ -37804,6 +37804,32 @@
                   "is_array": false,
                   "is_positional": false,
                   "positional_index": 0,
+                  "alias_type": ""
+                },
+                {
+                  "name": "opts",
+                  "type": "*kubernetesSdk.VersionListOptions",
+                  "description": "",
+                  "is_primitive": false,
+                  "is_pointer": true,
+                  "is_optional": true,
+                  "is_array": false,
+                  "is_positional": false,
+                  "positional_index": 0,
+                  "struct": {
+                    "IncludeDeprecated": {
+                      "name": "IncludeDeprecated",
+                      "type": "bool",
+                      "description": "Include deprecated version (default = false)",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  },
                   "alias_type": ""
                 }
               ],
