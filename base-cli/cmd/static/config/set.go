@@ -8,24 +8,45 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type SetOptions struct {
+	Key   string
+	Value string
+}
+
 func Set(config config.Config) *cobra.Command {
+	var opts SetOptions
+
 	cmd := &cobra.Command{
-		Use:   "set [config] [value]",
+		Use:   "set [key] [value]",
 		Short: "Definir configurações",
 		Long:  `Definir configurações`,
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(args) < 2 {
-				fmt.Println("Erro: configuração e valor não especificados")
+			key := opts.Key
+			value := opts.Value
+
+			if len(args) > 0 {
+				key = args[0]
+			}
+			if len(args) > 1 {
+				value = args[1]
+			}
+
+			if key == "" || value == "" {
+				fmt.Println("Erro: chave e/ou valor não especificados")
 				return
 			}
 
-			err := config.Set(args[0], args[1])
+			err := config.Set(key, value)
 			if err != nil {
 				fmt.Println("Erro ao definir configuração:", err)
 				return
 			}
-			fmt.Printf("%s: %v\n", color.BlueString(args[0]), color.YellowString(args[1]))
+			fmt.Printf("%s: %v\n", color.BlueString(key), color.YellowString(value))
 		},
 	}
+
+	cmd.Flags().StringVar(&opts.Key, "key", "", "Nome da configuração desejada (required)")
+	cmd.Flags().StringVar(&opts.Value, "value", "", "Valor da configuração desejada (required)")
+
 	return cmd
 }
