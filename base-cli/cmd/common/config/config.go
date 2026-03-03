@@ -190,13 +190,6 @@ func (c *config) Set(name string, value any) error {
 		return err
 	}
 
-	if item.Validator != nil {
-		err = validator.NewValidator(value, *item.Validator).Validate()
-		if err != nil {
-			return err
-		}
-	}
-
 	switch item.Type {
 	case "string":
 		item.Value = anyToString(value)
@@ -214,6 +207,13 @@ func (c *config) Set(name string, value any) error {
 		item.Value = val
 	default:
 		return fmt.Errorf("unsupported type for config %s", name)
+	}
+
+	if item.Validator != nil {
+		err = validator.NewValidator(item.Value, *item.Validator).Validate()
+		if err != nil {
+			return err
+		}
 	}
 
 	err = structs.Set(&c.configYaml, keyToName(name), value)
