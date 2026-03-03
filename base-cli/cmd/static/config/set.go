@@ -1,9 +1,7 @@
 package config
 
 import (
-	"fmt"
-
-	"github.com/fatih/color"
+	"github.com/magaluCloud/mgccli/beautiful"
 	"github.com/magaluCloud/mgccli/cmd/common/config"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/spf13/cobra"
@@ -47,7 +45,7 @@ func Set(config config.Config) *cobra.Command {
 				return cmdutils.NewCliError(err.Error())
 			}
 
-			fmt.Printf("%s: %v\n", color.BlueString(key), color.YellowString(value))
+			beautiful.NewOutput(false).PrintData(map[string]any{key: value})
 
 			return nil
 		},
