@@ -5,6 +5,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/magaluCloud/mgccli/cmd/common/config"
+	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +21,7 @@ func Set(config config.Config) *cobra.Command {
 		Use:   "set [key] [value]",
 		Short: "Definir configurações",
 		Long:  `Definir configurações`,
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			key := opts.Key
 			value := opts.Value
 
@@ -31,22 +32,29 @@ func Set(config config.Config) *cobra.Command {
 				value = args[1]
 			}
 
-			if key == "" || value == "" {
-				fmt.Println("Erro: chave e/ou valor não especificados")
-				return
+			if key == "" && value == "" {
+				return cmdutils.NewCliError("missing required flags: --key=string, --value=any")
+			}
+			if key == "" {
+				return cmdutils.NewCliError("missing required flag: --key=string")
+			}
+			if value == "" {
+				return cmdutils.NewCliError("missing required flag: --value=any")
 			}
 
 			err := config.Set(key, value)
 			if err != nil {
-				fmt.Println("Erro ao definir configuração:", err)
-				return
+				return cmdutils.NewCliError(err.Error())
 			}
+
 			fmt.Printf("%s: %v\n", color.BlueString(key), color.YellowString(value))
+
+			return nil
 		},
 	}
 
-	cmd.Flags().StringVar(&opts.Key, "key", "", "Nome da configuração desejada (required)")
-	cmd.Flags().StringVar(&opts.Value, "value", "", "Valor da configuração desejada (required)")
+	cmd.Flags().StringVar(&opts.Key, "key", "", "Name of the desired config (required)")
+	cmd.Flags().StringVar(&opts.Value, "value", "", "Value of the desired config (exactly one of: string, integer or boolean) (required)")
 
 	return cmd
 }
