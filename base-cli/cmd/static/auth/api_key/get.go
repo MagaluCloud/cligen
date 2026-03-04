@@ -81,7 +81,7 @@ func runGet(ctx context.Context, args []string, opts GetOptions, rawMode bool) e
 				scopes = append(scopes, authPkg.Scope{
 					Name:  scope.Name,
 					Title: scope.Title,
-					ID:    scope.UUID,
+					UUID:  scope.UUID,
 				})
 			}
 

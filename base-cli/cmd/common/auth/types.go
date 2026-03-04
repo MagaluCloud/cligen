@@ -81,5 +81,5 @@ type TokenExchangeResult struct {
 type Scope struct {
 	Name  string `json:"name"`
 	Title string `json:"title"`
-	ID    string `json:"id"`
+	UUID  string `json:"uuid"`
 }
