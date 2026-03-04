@@ -190,23 +190,13 @@ func (c *config) Set(name string, value any) error {
 		return err
 	}
 
-	switch item.Type {
-	case "string":
-		item.Value = anyToString(value)
-	case "int":
-		val, err := strconv.Atoi(anyToString(value))
+	if value != nil {
+		updatedValue, err := formattedValue(name, item.Type, value)
 		if err != nil {
 			return err
 		}
-		item.Value = val
-	case "bool":
-		val, err := strconv.ParseBool(anyToString(value))
-		if err != nil {
-			return err
-		}
-		item.Value = val
-	default:
-		return fmt.Errorf("unsupported type for config %s", name)
+
+		item.Value = updatedValue
 	}
 
 	if item.Validator != nil {
@@ -255,4 +245,25 @@ func nameToKey(name string) string {
 // key-to-name -> key_to_name
 func keyToName(key string) string {
 	return strings.ToLower(strings.ReplaceAll(key, "-", "_"))
+}
+
+func formattedValue(configName string, configType string, value any) (any, error) {
+	switch configType {
+	case "string":
+		return anyToString(value), nil
+	case "int":
+		val, err := strconv.Atoi(anyToString(value))
+		if err != nil {
+			return nil, err
+		}
+		return val, nil
+	case "bool":
+		val, err := strconv.ParseBool(anyToString(value))
+		if err != nil {
+			return nil, err
+		}
+		return val, nil
+	default:
+		return nil, fmt.Errorf("unsupported type for config %s", configName)
+	}
 }
