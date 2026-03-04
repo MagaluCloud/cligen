@@ -219,8 +219,8 @@ func processScopes(ctx context.Context, scopes []string) ([]ScopesCreate, error)
 			for _, product := range company.APIProducts {
 				for _, scope := range product.Scopes {
 					scopeName := product.Name + " [" + scope.Name + "]" + " - " + scope.Title
-					scopesTitleMap[scopeName] = scope.UUID
-					scopesNameMap[strings.ToLower(scope.Name)] = scope.UUID
+					scopesTitleMap[scopeName] = scope.ID
+					scopesNameMap[strings.ToLower(scope.Name)] = scope.ID
 				}
 			}
 		}
