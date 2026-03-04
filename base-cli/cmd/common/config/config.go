@@ -25,22 +25,22 @@ type Config interface {
 }
 
 type ConfigItem struct {
-	Name        string
-	Value       any
-	Type        string
-	Description string
-	Validator   *string
-	Default     any
-	Scope       string
+	Name        string  `json:"name"`
+	Value       any     `json:"value"`
+	Type        string  `json:"type"`
+	Description string  `json:"description"`
+	Validator   *string `json:"validator,omitempty"`
+	Default     any     `json:"default"`
+	Scope       string  `json:"scope"`
 }
 
 type ConfigSchema struct {
-	Name        string
-	Type        string
-	Description string
-	Validator   *string
-	Default     any
-	Scope       string
+	Name        string  `json:"name"`
+	Type        string  `json:"type"`
+	Description string  `json:"description"`
+	Validator   *string `json:"validator,omitempty"`
+	Default     any     `json:"default"`
+	Scope       string  `json:"scope"`
 }
 
 type CliConfig struct {
