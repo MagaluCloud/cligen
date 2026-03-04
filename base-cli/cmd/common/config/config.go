@@ -16,6 +16,7 @@ import (
 
 type Config interface {
 	Get(name string) (*ConfigItem, error)
+	GetSchema(name string) (*ConfigSchema, error)
 	Set(name string, value any) error
 	Delete(name string) error
 	List() (map[string]*ConfigItem, error)
@@ -26,6 +27,15 @@ type Config interface {
 type ConfigItem struct {
 	Name        string
 	Value       any
+	Type        string
+	Description string
+	Validator   *string
+	Default     any
+	Scope       string
+}
+
+type ConfigSchema struct {
+	Name        string
 	Type        string
 	Description string
 	Validator   *string
@@ -235,6 +245,22 @@ func (c *config) Write() error {
 
 func (c *config) List() (map[string]*ConfigItem, error) {
 	return c.cliConfig.Items, nil
+}
+
+func (c *config) GetSchema(name string) (*ConfigSchema, error) {
+	config := c.cliConfig.Items[name]
+	if config == nil {
+		return nil, fmt.Errorf(`config "%s" not found`, name)
+	}
+
+	return &ConfigSchema{
+		Name:        config.Name,
+		Type:        config.Type,
+		Description: config.Description,
+		Validator:   config.Validator,
+		Default:     config.Default,
+		Scope:       config.Scope,
+	}, nil
 }
 
 // name_to_key -> name-to-key
