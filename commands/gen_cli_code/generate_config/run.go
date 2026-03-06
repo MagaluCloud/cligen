@@ -13,6 +13,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/magaluCloud/cligen/config"
+	"github.com/magaluCloud/cligen/file_utils"
 	strutils "github.com/magaluCloud/cligen/str_utils"
 	"golang.org/x/tools/go/packages"
 )
@@ -169,7 +170,7 @@ func Run() {
 									Menus:            nil,
 									ServiceInterface: returnType.(*ast.Ident).Name,
 									Methods:          nil,
-									SDKFile:          filePath,
+									SDKFile:          file_utils.ToRelativePath(filePath),
 									CustomFile:       "",
 									IsGroup:          false,
 									ParentMenuID:     menu.ID,
@@ -295,7 +296,7 @@ func ProcessMenu(cfg *config.Config, menu *config.Menu) {
 											Menus:            nil,
 											ServiceInterface: result.Type.(*ast.Ident).Name,
 											Methods:          nil,
-											SDKFile:          filePath,
+											SDKFile:          file_utils.ToRelativePath(filePath),
 											CustomFile:       "",
 											IsGroup:          false,
 											ParentMenuID:     menu.ID,
@@ -324,7 +325,7 @@ func ProcessMenu(cfg *config.Config, menu *config.Menu) {
 										Confirmation:    nil,
 										IsService:       false,
 										ServiceImport:   "",
-										SDKFile:         filePath,
+										SDKFile:         file_utils.ToRelativePath(filePath),
 										CustomFile:      "",
 									}
 

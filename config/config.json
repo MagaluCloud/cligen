@@ -201,7 +201,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/audit/events.go"
+              "sdk_file": "cligen/tmp-sdk/audit/events.go"
             },
             {
               "name": "ListAll",
@@ -501,10 +501,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/audit/events.go"
+              "sdk_file": "cligen/tmp-sdk/audit/events.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/audit/client.go",
+          "sdk_file": "cligen/tmp-sdk/audit/client.go",
           "parent_menu_id": "8afaab9f-5d50-4f66-b9e0-4e7b399db774"
         },
         {
@@ -608,7 +608,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/audit/types.go"
+              "sdk_file": "cligen/tmp-sdk/audit/types.go"
             },
             {
               "name": "ListAll",
@@ -692,10 +692,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/audit/types.go"
+              "sdk_file": "cligen/tmp-sdk/audit/types.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/audit/client.go",
+          "sdk_file": "cligen/tmp-sdk/audit/client.go",
           "parent_menu_id": "8afaab9f-5d50-4f66-b9e0-4e7b399db774"
         }
       ]
@@ -1321,7 +1321,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "ListAll",
@@ -1799,7 +1799,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Create",
@@ -1981,7 +1981,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Get",
@@ -2445,7 +2445,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Delete",
@@ -2489,7 +2489,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Rename",
@@ -2545,7 +2545,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Extend",
@@ -2615,7 +2615,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Retype",
@@ -2711,7 +2711,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Attach",
@@ -2767,7 +2767,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Detach",
@@ -2811,10 +2811,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/client.go",
+          "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
           "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
         },
         {
@@ -3180,7 +3180,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volume_types.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volume_types.go"
             },
             {
               "name": "ListAll",
@@ -3410,10 +3410,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/volume_types.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volume_types.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/client.go",
+          "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
           "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
         },
         {
@@ -3829,7 +3829,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "ListAll",
@@ -4109,7 +4109,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Create",
@@ -4279,7 +4279,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Get",
@@ -4545,7 +4545,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Delete",
@@ -4589,7 +4589,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Rename",
@@ -4645,7 +4645,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Copy",
@@ -4701,10 +4701,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/client.go",
+          "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
           "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
         },
         {
@@ -5100,7 +5100,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "ListAll",
@@ -5360,7 +5360,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "Create",
@@ -5534,7 +5534,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "Get",
@@ -5780,7 +5780,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "Delete",
@@ -5824,7 +5824,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "AttachVolume",
@@ -5920,7 +5920,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "DetachVolume",
@@ -6016,10 +6016,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/blockstorage/client.go",
+          "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
           "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
         }
       ]
@@ -6697,7 +6697,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "ListAll",
@@ -7239,7 +7239,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Create",
@@ -7549,7 +7549,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Get",
@@ -8065,7 +8065,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Delete",
@@ -8121,7 +8121,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Rename",
@@ -8177,7 +8177,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Retype",
@@ -8273,7 +8273,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Start",
@@ -8317,7 +8317,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Stop",
@@ -8361,7 +8361,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Suspend",
@@ -8405,7 +8405,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "GetFirstWindowsPassword",
@@ -8525,7 +8525,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "AttachNetworkInterface",
@@ -8661,7 +8661,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "DetachNetworkInterface",
@@ -8797,7 +8797,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "InitLog",
@@ -8879,10 +8879,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/client.go",
+          "sdk_file": "cligen/tmp-sdk/compute/client.go",
           "parent_menu_id": "14a11d42-c6a4-4294-89a1-2269229911dd"
         },
         {
@@ -9260,7 +9260,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/images.go"
+              "sdk_file": "cligen/tmp-sdk/compute/images.go"
             },
             {
               "name": "ListAll",
@@ -9514,10 +9514,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/images.go"
+              "sdk_file": "cligen/tmp-sdk/compute/images.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/client.go",
+          "sdk_file": "cligen/tmp-sdk/compute/client.go",
           "parent_menu_id": "14a11d42-c6a4-4294-89a1-2269229911dd"
         },
         {
@@ -9821,7 +9821,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/types.go"
+              "sdk_file": "cligen/tmp-sdk/compute/types.go"
             },
             {
               "name": "ListAll",
@@ -10001,10 +10001,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/types.go"
+              "sdk_file": "cligen/tmp-sdk/compute/types.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/client.go",
+          "sdk_file": "cligen/tmp-sdk/compute/client.go",
           "parent_menu_id": "14a11d42-c6a4-4294-89a1-2269229911dd"
         },
         {
@@ -10398,7 +10398,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "ListAll",
@@ -10668,7 +10668,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Create",
@@ -10776,7 +10776,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Get",
@@ -11032,7 +11032,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Delete",
@@ -11076,7 +11076,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Rename",
@@ -11132,7 +11132,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Restore",
@@ -11404,7 +11404,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Copy",
@@ -11474,10 +11474,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/compute/client.go",
+          "sdk_file": "cligen/tmp-sdk/compute/client.go",
           "parent_menu_id": "14a11d42-c6a4-4294-89a1-2269229911dd"
         }
       ]
@@ -11581,7 +11581,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/credentials.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/credentials.go"
             },
             {
               "name": "ResetPassword",
@@ -11663,10 +11663,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/credentials.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/credentials.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/client.go",
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
           "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         },
         {
@@ -11832,7 +11832,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             },
             {
               "name": "List",
@@ -11926,7 +11926,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             },
             {
               "name": "ListAll",
@@ -12070,7 +12070,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             },
             {
               "name": "Get",
@@ -12200,7 +12200,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             },
             {
               "name": "Delete",
@@ -12244,10 +12244,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/client.go",
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
           "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         },
         {
@@ -12363,7 +12363,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/repositories.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/repositories.go"
             },
             {
               "name": "ListAll",
@@ -12507,7 +12507,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/repositories.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/repositories.go"
             },
             {
               "name": "Get",
@@ -12637,7 +12637,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/repositories.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/repositories.go"
             },
             {
               "name": "Delete",
@@ -12693,10 +12693,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/repositories.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/repositories.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/client.go",
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
           "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         },
         {
@@ -12836,7 +12836,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/images.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/images.go"
             },
             {
               "name": "ListAll",
@@ -13102,7 +13102,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/images.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/images.go"
             },
             {
               "name": "Delete",
@@ -13170,7 +13170,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/images.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/images.go"
             },
             {
               "name": "Get",
@@ -13410,10 +13410,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/images.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/images.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/client.go",
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
           "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         },
         {
@@ -13617,7 +13617,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "ListAll",
@@ -13761,7 +13761,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "Create",
@@ -13917,7 +13917,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "Delete",
@@ -13961,7 +13961,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "Update",
@@ -14165,7 +14165,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "Get",
@@ -14307,7 +14307,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "ListStatus",
@@ -14389,7 +14389,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "CreateStatus",
@@ -14521,10 +14521,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/containerregistry/client.go",
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
           "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         }
       ]
@@ -14830,7 +14830,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/engines.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/engines.go"
             },
             {
               "name": "ListAll",
@@ -14950,7 +14950,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/engines.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/engines.go"
             },
             {
               "name": "Get",
@@ -15056,7 +15056,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/engines.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/engines.go"
             },
             {
               "name": "ListEngineParameters",
@@ -15296,10 +15296,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/engines.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/engines.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
           "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
@@ -15677,7 +15677,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instance_types.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instance_types.go"
             },
             {
               "name": "ListAll",
@@ -15881,7 +15881,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instance_types.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instance_types.go"
             },
             {
               "name": "Get",
@@ -16047,10 +16047,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instance_types.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instance_types.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
           "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
@@ -16942,7 +16942,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "ListAll",
@@ -17660,7 +17660,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Get",
@@ -18306,7 +18306,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Create",
@@ -18536,7 +18536,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Delete",
@@ -18580,7 +18580,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Update",
@@ -19262,7 +19262,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Resize",
@@ -19946,7 +19946,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Start",
@@ -20566,7 +20566,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Stop",
@@ -21186,7 +21186,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "ListSnapshots",
@@ -21616,7 +21616,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "ListAllSnapshots",
@@ -21882,7 +21882,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "CreateSnapshot",
@@ -21990,7 +21990,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "GetSnapshot",
@@ -22230,7 +22230,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "UpdateSnapshot",
@@ -22508,7 +22508,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "DeleteSnapshot",
@@ -22564,7 +22564,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "RestoreSnapshot",
@@ -22746,10 +22746,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
           "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
@@ -23227,7 +23227,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "ListAll",
@@ -23531,7 +23531,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Get",
@@ -23821,7 +23821,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Create",
@@ -23929,7 +23929,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Delete",
@@ -23973,7 +23973,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Resize",
@@ -24327,7 +24327,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Start",
@@ -24617,7 +24617,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Stop",
@@ -24907,10 +24907,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
           "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
@@ -25228,7 +25228,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "ListAll",
@@ -25372,7 +25372,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "Create",
@@ -25480,7 +25480,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "Get",
@@ -25598,7 +25598,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "Update",
@@ -25754,7 +25754,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "Delete",
@@ -25798,10 +25798,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
           "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
@@ -26083,7 +26083,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             },
             {
               "name": "ListAll",
@@ -26191,7 +26191,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             },
             {
               "name": "Create",
@@ -26299,7 +26299,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             },
             {
               "name": "Update",
@@ -26431,7 +26431,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             },
             {
               "name": "Delete",
@@ -26487,10 +26487,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
           "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
@@ -27100,7 +27100,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "ListAll",
@@ -27536,7 +27536,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Create",
@@ -27754,7 +27754,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Get",
@@ -28092,7 +28092,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Update",
@@ -28492,7 +28492,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Resize",
@@ -28894,7 +28894,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Delete",
@@ -28938,7 +28938,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Start",
@@ -29276,7 +29276,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Stop",
@@ -29614,10 +29614,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/dbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
           "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         }
       ]
@@ -29729,7 +29729,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/members.go"
+                  "sdk_file": "cligen/tmp-sdk/iam/members.go"
                 },
                 {
                   "name": "Add",
@@ -29823,7 +29823,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/members.go"
+                  "sdk_file": "cligen/tmp-sdk/iam/members.go"
                 },
                 {
                   "name": "BatchUpdate",
@@ -29917,10 +29917,10 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/members.go"
+                  "sdk_file": "cligen/tmp-sdk/iam/members.go"
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/members.go",
+              "sdk_file": "cligen/tmp-sdk/iam/members.go",
               "parent_menu_id": "ec1ca293-d70c-4b0d-bd48-96044481daa7"
             }
           ],
@@ -30042,7 +30042,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/members.go"
+              "sdk_file": "cligen/tmp-sdk/iam/members.go"
             },
             {
               "name": "Create",
@@ -30198,7 +30198,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/members.go"
+              "sdk_file": "cligen/tmp-sdk/iam/members.go"
             },
             {
               "name": "Delete",
@@ -30242,10 +30242,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/members.go"
+              "sdk_file": "cligen/tmp-sdk/iam/members.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/client.go",
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
           "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
@@ -30349,7 +30349,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "Create",
@@ -30493,7 +30493,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "Delete",
@@ -30537,7 +30537,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "Permissions",
@@ -30643,7 +30643,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "EditPermissions",
@@ -30775,7 +30775,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "Members",
@@ -30857,10 +30857,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/client.go",
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
           "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
@@ -30978,10 +30978,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/permissions.go"
+              "sdk_file": "cligen/tmp-sdk/iam/permissions.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/client.go",
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
           "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
@@ -31097,7 +31097,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/access_control.go"
+              "sdk_file": "cligen/tmp-sdk/iam/access_control.go"
             },
             {
               "name": "Create",
@@ -31241,7 +31241,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/access_control.go"
+              "sdk_file": "cligen/tmp-sdk/iam/access_control.go"
             },
             {
               "name": "Update",
@@ -31385,10 +31385,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/access_control.go"
+              "sdk_file": "cligen/tmp-sdk/iam/access_control.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/client.go",
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
           "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
@@ -31530,7 +31530,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "Create",
@@ -31712,7 +31712,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "Delete",
@@ -31756,7 +31756,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "Edit",
@@ -31938,7 +31938,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "APIKeys",
@@ -32140,7 +32140,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "CreateAPIKey",
@@ -32392,7 +32392,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "RevokeAPIKey",
@@ -32448,7 +32448,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "EditAPIKey",
@@ -32712,10 +32712,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/client.go",
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
           "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
@@ -32883,10 +32883,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/scopes.go"
+              "sdk_file": "cligen/tmp-sdk/iam/scopes.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/iam/client.go",
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
           "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         }
       ]
@@ -33250,7 +33250,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "Create",
@@ -33666,7 +33666,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "Get",
@@ -34862,7 +34862,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "Delete",
@@ -34906,7 +34906,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "Update",
@@ -35002,7 +35002,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "GetKubeConfig",
@@ -35132,10 +35132,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/client.go",
+          "sdk_file": "cligen/tmp-sdk/kubernetes/client.go",
           "parent_menu_id": "9851b3d2-5d61-461e-aa76-47c53b46f620"
         },
         {
@@ -35401,10 +35401,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/flavor.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/flavor.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/client.go",
+          "sdk_file": "cligen/tmp-sdk/kubernetes/client.go",
           "parent_menu_id": "9851b3d2-5d61-461e-aa76-47c53b46f620"
         },
         {
@@ -35988,7 +35988,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "List",
@@ -36478,7 +36478,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "Create",
@@ -37080,7 +37080,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "Get",
@@ -37520,7 +37520,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "Update",
@@ -38024,7 +38024,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "Delete",
@@ -38080,10 +38080,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/client.go",
+          "sdk_file": "cligen/tmp-sdk/kubernetes/client.go",
           "parent_menu_id": "9851b3d2-5d61-461e-aa76-47c53b46f620"
         },
         {
@@ -38189,10 +38189,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/version.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/version.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/kubernetes/client.go",
+          "sdk_file": "cligen/tmp-sdk/kubernetes/client.go",
           "parent_menu_id": "9851b3d2-5d61-461e-aa76-47c53b46f620"
         }
       ]
@@ -38344,7 +38344,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_acls.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_acls.go"
             },
             {
               "name": "Delete",
@@ -38400,7 +38400,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_acls.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_acls.go"
             },
             {
               "name": "Replace",
@@ -38532,10 +38532,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_acls.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_acls.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
           "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
@@ -38761,7 +38761,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "Delete",
@@ -38817,7 +38817,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "Get",
@@ -39093,7 +39093,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "List",
@@ -39547,7 +39547,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "ListAll",
@@ -39811,7 +39811,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "Update",
@@ -39929,10 +39929,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
           "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
@@ -40098,7 +40098,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend_targets.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend_targets.go"
             },
             {
               "name": "Replace",
@@ -40254,7 +40254,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend_targets.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend_targets.go"
             },
             {
               "name": "Delete",
@@ -40322,10 +40322,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_backend_targets.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend_targets.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
           "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
@@ -40527,7 +40527,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "Delete",
@@ -40583,7 +40583,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "Get",
@@ -40725,7 +40725,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "List",
@@ -41045,7 +41045,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "ListAll",
@@ -41175,7 +41175,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "Update",
@@ -41269,10 +41269,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
           "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
@@ -41654,7 +41654,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "Delete",
@@ -41710,7 +41710,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "Get",
@@ -41948,7 +41948,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "List",
@@ -42364,7 +42364,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "ListAll",
@@ -42590,7 +42590,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "Update",
@@ -42768,10 +42768,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
           "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
@@ -43033,7 +43033,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "Delete",
@@ -43089,7 +43089,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "Get",
@@ -43267,7 +43267,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "List",
@@ -43623,7 +43623,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "ListAll",
@@ -43789,7 +43789,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "Update",
@@ -43883,10 +43883,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
           "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
@@ -44554,7 +44554,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "Delete",
@@ -44624,7 +44624,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "Get",
@@ -45584,7 +45584,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "List",
@@ -46722,7 +46722,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "ListAll",
@@ -47670,7 +47670,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "Update",
@@ -47764,10 +47764,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/lbaas/client.go",
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
           "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         }
       ]
@@ -47991,7 +47991,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "Get",
@@ -48205,7 +48205,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "Create",
@@ -48287,7 +48287,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "Delete",
@@ -48331,7 +48331,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "Rename",
@@ -48387,7 +48387,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "ListPorts",
@@ -48855,7 +48855,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "CreatePort",
@@ -49023,7 +49023,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "ListPublicIPs",
@@ -49225,7 +49225,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "CreatePublicIP",
@@ -49307,7 +49307,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "ListSubnets",
@@ -49485,7 +49485,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "CreateSubnet",
@@ -49653,10 +49653,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/client.go",
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
           "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
@@ -49906,7 +49906,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnets.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnets.go"
             },
             {
               "name": "Delete",
@@ -49950,7 +49950,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnets.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnets.go"
             },
             {
               "name": "Update",
@@ -50046,10 +50046,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnets.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnets.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/client.go",
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
           "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
@@ -50363,7 +50363,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "Get",
@@ -50679,7 +50679,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "Delete",
@@ -50723,7 +50723,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "Update",
@@ -50793,7 +50793,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "AttachSecurityGroup",
@@ -50849,7 +50849,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "DetachSecurityGroup",
@@ -50905,10 +50905,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/client.go",
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
           "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
@@ -51108,7 +51108,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/security_groups.go"
+              "sdk_file": "cligen/tmp-sdk/network/security_groups.go"
             },
             {
               "name": "Get",
@@ -51492,7 +51492,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/security_groups.go"
+              "sdk_file": "cligen/tmp-sdk/network/security_groups.go"
             },
             {
               "name": "Create",
@@ -51586,7 +51586,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/security_groups.go"
+              "sdk_file": "cligen/tmp-sdk/network/security_groups.go"
             },
             {
               "name": "Delete",
@@ -51630,10 +51630,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/security_groups.go"
+              "sdk_file": "cligen/tmp-sdk/network/security_groups.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/client.go",
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
           "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
@@ -51857,7 +51857,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/rules.go"
+              "sdk_file": "cligen/tmp-sdk/network/rules.go"
             },
             {
               "name": "Get",
@@ -52071,7 +52071,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/rules.go"
+              "sdk_file": "cligen/tmp-sdk/network/rules.go"
             },
             {
               "name": "Create",
@@ -52225,7 +52225,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/rules.go"
+              "sdk_file": "cligen/tmp-sdk/network/rules.go"
             },
             {
               "name": "Delete",
@@ -52269,10 +52269,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/rules.go"
+              "sdk_file": "cligen/tmp-sdk/network/rules.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/client.go",
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
           "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
@@ -52472,7 +52472,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             },
             {
               "name": "Get",
@@ -52674,7 +52674,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             },
             {
               "name": "Delete",
@@ -52718,7 +52718,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             },
             {
               "name": "AttachToPort",
@@ -52774,7 +52774,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             },
             {
               "name": "DetachFromPort",
@@ -52830,10 +52830,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/client.go",
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
           "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
@@ -53011,7 +53011,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "Get",
@@ -53165,7 +53165,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "Create",
@@ -53271,7 +53271,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "Delete",
@@ -53315,7 +53315,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "BookCIDR",
@@ -53423,7 +53423,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "UnbookCIDR",
@@ -53493,10 +53493,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/client.go",
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
           "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
@@ -53612,7 +53612,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/nat_gateways.go"
+              "sdk_file": "cligen/tmp-sdk/network/nat_gateways.go"
             },
             {
               "name": "Delete",
@@ -53656,7 +53656,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/nat_gateways.go"
+              "sdk_file": "cligen/tmp-sdk/network/nat_gateways.go"
             },
             {
               "name": "Get",
@@ -53822,7 +53822,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/nat_gateways.go"
+              "sdk_file": "cligen/tmp-sdk/network/nat_gateways.go"
             },
             {
               "name": "List",
@@ -54038,10 +54038,10 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/nat_gateways.go"
+              "sdk_file": "cligen/tmp-sdk/network/nat_gateways.go"
             }
           ],
-          "sdk_file": "/home/n.stefhany/Documentos/Aplicações/cligen/tmp-sdk/network/client.go",
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
           "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         }
       ]
