@@ -54067,7 +54067,7 @@
             {
               "id": "e970958f-2ade-43d0-a098-6ecfdb9716d2",
               "sdk_name": "Keys",
-              "cli_name": "keys",
+              "cli_name": "ssh-keys",
               "enabled": true,
               "description": "",
               "long_description": "",
