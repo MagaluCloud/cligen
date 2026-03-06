@@ -184,7 +184,8 @@ func getBaseDir() (string, error) {
 
 // createMenuRequest representa a requisição para criar um novo menu
 type createMenuRequest struct {
-	Name        string `json:"name" binding:"required"`
+	SDKName     string `json:"sdk_name" binding:"required"`
+	CliName     string `json:"cli_name" binding:"required"`
 	SDKPackage  string `json:"sdk_package"`
 	Description string `json:"description"`
 	Enabled     bool   `json:"enabled"`
@@ -212,7 +213,8 @@ func createMenu(c *gin.Context) {
 	// Criar novo menu
 	newMenu := &config.Menu{
 		ID:          uuid.New().String(),
-		Name:        req.Name,
+		SDKName:     req.SDKName,
+		CliName:     req.CliName,
 		SDKPackage:  req.SDKPackage,
 		Description: req.Description,
 		Enabled:     req.Enabled,
@@ -471,7 +473,8 @@ func updateParentMenuIDRecursive(menu *config.Menu, parentID string) {
 
 // updateMenuRequest representa a requisição para atualizar um menu/submenu
 type updateMenuRequest struct {
-	Name             string   `json:"name,omitempty"`
+	SDKName          string   `json:"sdk_name,omitempty"`
+	CliName          string   `json:"cli_name,omitempty"`
 	Enabled          *bool    `json:"enabled,omitempty"`
 	Description      string   `json:"description,omitempty"`
 	LongDescription  string   `json:"long_description,omitempty"`
@@ -503,8 +506,8 @@ func updateMenu(c *gin.Context) {
 	}
 
 	// Debug: log do request recebido
-	fmt.Printf("UpdateMenu - ID: %s, Name: %s, Enabled: %v, IsGroup: %v\n",
-		id, req.Name, req.Enabled, req.IsGroup)
+	fmt.Printf("UpdateMenu - ID: %s, SDKName: %s, CliName: %s, Enabled: %v, IsGroup: %v\n",
+		id, req.SDKName, req.CliName, req.Enabled, req.IsGroup)
 
 	// Carregar config atual
 
@@ -526,8 +529,11 @@ func updateMenu(c *gin.Context) {
 	}
 
 	// Atualizar campos - sempre atualizar, mesmo que sejam valores vazios/false
-	if req.Name != "" {
-		menu.Name = req.Name
+	if req.SDKName != "" {
+		menu.SDKName = req.SDKName
+	}
+	if req.CliName != "" {
+		menu.CliName = req.CliName
 	}
 	// Enabled sempre atualizar se fornecido
 	if req.Enabled != nil {
@@ -559,8 +565,8 @@ func updateMenu(c *gin.Context) {
 	}
 
 	// Log para debug - verificar se o campo foi atualizado
-	fmt.Printf("Menu após atualização - ID: %s, Name: %s, Enabled: %v, IsGroup: %v\n",
-		menu.ID, menu.Name, menu.Enabled, menu.IsGroup)
+	fmt.Printf("Menu após atualização - ID: %s, SDKName: %s, CliName: %s, Enabled: %v, IsGroup: %v\n",
+		menu.ID, menu.SDKName, menu.CliName, menu.Enabled, menu.IsGroup)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Menu atualizado com sucesso",

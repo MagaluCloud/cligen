@@ -41,11 +41,11 @@ func init() {
 
 func GenerateMenuItem(cfg *config.Config) error {
 	for _, menu := range cfg.Menus {
-		if _IN_DEBUG && menu.Name != DEBUG_MENU_NAME {
+		if _IN_DEBUG && menu.SDKName != DEBUG_MENU_NAME {
 			continue
 		}
 		for _, submenu := range menu.Menus {
-			if _IN_DEBUG && submenu.Name != DEBUG_SUBMENU_NAME {
+			if _IN_DEBUG && submenu.SDKName != DEBUG_SUBMENU_NAME {
 				continue
 			}
 			GenMenuItem(cfg, submenu)
@@ -62,18 +62,18 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 		}
 		parents := FindParents(cfg, menu.ParentMenuID)
 
-		parents = append(parents, strings.ToLower(menu.Name))
+		parents = append(parents, strings.ToLower(menu.SDKName))
 		parentsPath := strings.Join(parents, "/")
 		nameFromParent, sdkPackageFromParent := FindSDKPackageFromParents(cfg, menu.ParentMenuID)
 
 		menuItem := NewMenuItem()
 		sdkName := fmt.Sprintf("%sSdk", strings.ToLower(nameFromParent))
 
-		moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(menu.Name))
+		moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(menu.SDKName))
 		menuItem.SetServiceParam(fmt.Sprintf("%s %s.%s", moduleServiceName, sdkName, menu.ServiceInterface))
 		menuItem.AddImport(fmt.Sprintf("%s \"%s\"", sdkName, sdkPackageFromParent))
 		menuItem.SetPathSaveToFile(filepath.Join(genDir, parentsPath, fmt.Sprintf("%s.go", strings.ToLower(method.Name))))
-		menuItem.SetPackageName(strings.ToLower(menu.Name))
+		menuItem.SetPackageName(strings.ToLower(menu.SDKName))
 		menuItem.SetFunctionName(strutils.FirstUpper(method.Name))
 		menuItem.SetUseName(strutils.ToSnakeCasePreserveID(method.Name, "-"))
 		menuItem.SetShortDescription(method.Description)
@@ -584,7 +584,7 @@ func FindParents(cfg *config.Config, menuID string) []string {
 	parents := []string{}
 	menu := FindMenuByID(cfg.Menus, menuID)
 	if menu != nil {
-		parents = append(parents, strings.ToLower(menu.Name))
+		parents = append(parents, strings.ToLower(menu.SDKName))
 		if menu.ParentMenuID != "" {
 			parents = append(FindParents(cfg, menu.ParentMenuID), parents...)
 		}
@@ -613,7 +613,7 @@ func FindSDKPackageFromParents(cfg *config.Config, menuID string) (name string, 
 		return "", ""
 	}
 	if menu.SDKPackage != "" {
-		return menu.Name, menu.SDKPackage
+		return menu.SDKName, menu.SDKPackage
 	}
 	if menu.ParentMenuID != "" {
 		return FindSDKPackageFromParents(cfg, menu.ParentMenuID)

@@ -45,25 +45,25 @@ func GenerateModule(cfg *config.Config) error {
 
 func GenModule(menu *config.Menu) error {
 	module := NewModule()
-	moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(menu.Name))
+	moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(menu.SDKName))
 
 	sdkImportName := fmt.Sprintf("%sSdk", moduleServiceName)
 	module.AddImport(fmt.Sprintf("%s \"%s\"", sdkImportName, menu.SDKPackage))
-	module.SetPathSaveToFile(filepath.Join(genDir, strings.ToLower(menu.Name), fmt.Sprintf("%s.go", strings.ToLower(menu.Name))))
+	module.SetPathSaveToFile(filepath.Join(genDir, strings.ToLower(menu.SDKName), fmt.Sprintf("%s.go", strings.ToLower(menu.SDKName))))
 
 	module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, sdkImportName))
 
 	for _, submenu := range menu.Menus {
 		module.AddSubCommand(subCommandType{
-			PackageName:  strings.ToLower(submenu.Name),
-			FunctionName: strutils.FirstUpper(submenu.Name) + "Cmd",
-			ServiceCall:  fmt.Sprintf("%s.%s()", moduleServiceName, submenu.Name),
+			PackageName:  strings.ToLower(submenu.SDKName),
+			FunctionName: strutils.FirstUpper(submenu.SDKName) + "Cmd",
+			ServiceCall:  fmt.Sprintf("%s.%s()", moduleServiceName, submenu.SDKName),
 		})
-		module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.Name), strings.ToLower(submenu.Name)))
+		module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.SDKName), strings.ToLower(submenu.SDKName)))
 	}
-	module.SetPackageName(strings.ToLower(menu.Name))
-	module.SetFunctionName(strutils.FirstUpper(menu.Name) + "Cmd")
-	module.SetUseName(menu.Name)
+	module.SetPackageName(strings.ToLower(menu.SDKName))
+	module.SetFunctionName(strutils.FirstUpper(menu.SDKName) + "Cmd")
+	module.SetUseName(menu.CliName)
 	module.SetShortDescription(menu.Description)
 	module.SetLongDescription(menu.LongDescription)
 	module.AddAliases(menu.Alias...)
@@ -77,33 +77,33 @@ func GenModule(menu *config.Menu) error {
 
 func GenGroupModule(menu *config.Menu) error {
 	module := NewModule()
-	module.SetPathSaveToFile(filepath.Join(genDir, strings.ToLower(menu.Name), fmt.Sprintf("%s.go", strings.ToLower(menu.Name))))
+	module.SetPathSaveToFile(filepath.Join(genDir, strings.ToLower(menu.SDKName), fmt.Sprintf("%s.go", strings.ToLower(menu.SDKName))))
 
 	for _, submenu := range menu.Menus {
 
 		if len(submenu.Menus) == 1 {
 			// vamos suprimir um nivel de menu
 			ssmenu := submenu.Menus[0]
-			moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(submenu.Name))
+			moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(submenu.SDKName))
 			sdkImportName := fmt.Sprintf("%sSdk", moduleServiceName)
 			module.AddImport(fmt.Sprintf("%s \"%s\"", sdkImportName, submenu.SDKPackage))
 
 			module.AddServiceInit(fmt.Sprintf("%s := %s.New(&sdkCoreConfig)", moduleServiceName, sdkImportName))
 
 			module.AddSubCommand(subCommandType{
-				PackageName:  strings.ToLower(submenu.Name),
-				FunctionName: strutils.FirstUpper(submenu.Name) + "Cmd",
-				ServiceCall:  fmt.Sprintf("%s.%s()", moduleServiceName, ssmenu.Name),
+				PackageName:  strings.ToLower(submenu.SDKName),
+				FunctionName: strutils.FirstUpper(submenu.SDKName) + "Cmd",
+				ServiceCall:  fmt.Sprintf("%s.%s()", moduleServiceName, ssmenu.SDKName),
 			})
-			module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.Name), strings.ToLower(submenu.Name)))
+			module.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", strings.ToLower(menu.SDKName), strings.ToLower(submenu.SDKName)))
 
 			continue
 		}
 
 	}
-	module.SetPackageName(strings.ToLower(menu.Name))
-	module.SetFunctionName(strutils.FirstUpper(menu.Name) + "Cmd")
-	module.SetUseName(menu.Name)
+	module.SetPackageName(strings.ToLower(menu.SDKName))
+	module.SetFunctionName(strutils.FirstUpper(menu.SDKName) + "Cmd")
+	module.SetUseName(menu.CliName)
 	module.SetShortDescription(menu.Description)
 	module.SetLongDescription(menu.LongDescription)
 	module.AddAliases(menu.Alias...)

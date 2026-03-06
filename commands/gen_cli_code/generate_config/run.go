@@ -13,6 +13,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/magaluCloud/cligen/config"
+	strutils "github.com/magaluCloud/cligen/str_utils"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -68,7 +69,7 @@ func Run() {
 		// ainda precisaremos deletar manualmente um menu que não é mais necessário
 		found := false
 		for _, mm := range cfg.Menus {
-			if mm.Name == pkgs[0].Name {
+			if mm.SDKName == pkgs[0].Name {
 				mm.Pkgs = pkgs[0]
 				mm.Fset = fset
 				mm.MapFile = make(map[string]*ast.File)
@@ -77,7 +78,7 @@ func Run() {
 			}
 			if mm.IsGroup {
 				for _, submenu := range mm.Menus {
-					if submenu.Name == pkgs[0].Name {
+					if submenu.SDKName == pkgs[0].Name {
 						submenu.Pkgs = pkgs[0]
 						submenu.Fset = fset
 						submenu.MapFile = make(map[string]*ast.File)
@@ -96,7 +97,8 @@ func Run() {
 
 		menu := &config.Menu{
 			ID:               GenerateRandomID(),
-			Name:             pkgs[0].Name,
+			SDKName:          pkgs[0].Name,
+			CliName:          strutils.ToSnakeCasePreserveID(pkgs[0].Name, "-"),
 			Enabled:          true,
 			Description:      "",
 			LongDescription:  "",
@@ -156,7 +158,8 @@ func Run() {
 							if IsServiceFunction(returnType) {
 								subMenu := &config.Menu{
 									ID:               GenerateRandomID(),
-									Name:             funcDecl.Name.Name,
+									SDKName:          funcDecl.Name.Name,
+									CliName:          strutils.ToSnakeCasePreserveID(funcDecl.Name.Name, "-"),
 									Enabled:          true,
 									Description:      "",
 									LongDescription:  "",
@@ -187,11 +190,11 @@ func Run() {
 
 	for _, menu := range cfg.Menus {
 		if cfg.ShowLogs {
-			fmt.Printf("%sMenu: %s\n", Ident(ParentMenuCount(cfg, menu.ParentMenuID, nil)), menu.Name)
+			fmt.Printf("%sMenu: %s\n", Ident(ParentMenuCount(cfg, menu.ParentMenuID, nil)), menu.SDKName)
 		}
 		for _, subMenu := range menu.Menus {
 			if cfg.ShowLogs {
-				fmt.Printf("%sSubMenu: %s\n", Ident(ParentMenuCount(cfg, subMenu.ParentMenuID, nil)), subMenu.Name)
+				fmt.Printf("%sSubMenu: %s\n", Ident(ParentMenuCount(cfg, subMenu.ParentMenuID, nil)), subMenu.SDKName)
 			}
 			ProcessMenu(cfg, subMenu)
 		}
@@ -206,7 +209,7 @@ func Run() {
 
 func appendIfNotExists(slice []*config.Menu, menu *config.Menu) []*config.Menu {
 	for _, m := range slice {
-		if m.Name == menu.Name {
+		if m.SDKName == menu.SDKName {
 			return slice
 		}
 	}
@@ -281,7 +284,8 @@ func ProcessMenu(cfg *config.Config, menu *config.Menu) {
 										}
 										subSubMenu := &config.Menu{
 											ID:               GenerateRandomID(),
-											Name:             method.Names[0].Name,
+											SDKName:          method.Names[0].Name,
+											CliName:          strutils.ToSnakeCasePreserveID(method.Names[0].Name, "-"),
 											Enabled:          true,
 											Description:      "",
 											LongDescription:  "",

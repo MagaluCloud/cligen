@@ -4,7 +4,6 @@ import (
 	_ "embed"
 	"fmt"
 	"path/filepath"
-	"strings"
 	"text/template"
 
 	"github.com/magaluCloud/cligen/config"
@@ -33,10 +32,10 @@ func GenerateRootGen(cfg *config.Config) error {
 	if len(cfg.Menus) > 0 {
 		for _, menu := range cfg.Menus {
 			rootGen.AddSubCommand(SubCommandType{
-				PackageName:  menu.Name,
-				FunctionName: strutils.FirstUpper(menu.Name) + "Cmd",
+				PackageName:  menu.SDKName,
+				FunctionName: strutils.FirstUpper(menu.SDKName) + "Cmd",
 			})
-			rootGen.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s\"", strings.ToLower(menu.Name)))
+			rootGen.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s\"", menu.SDKName))
 		}
 	}
 

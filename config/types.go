@@ -21,7 +21,8 @@ type Config struct {
 // Menu representa um menu principal
 type Menu struct {
 	ID               string               `json:"id,omitempty"`
-	Name             string               `json:"name,omitempty"`
+	SDKName          string               `json:"sdk_name,omitempty"`
+	CliName          string               `json:"cli_name,omitempty"`
 	Enabled          bool                 `json:"enabled,omitempty"`
 	Description      string               `json:"description"`
 	LongDescription  string               `json:"long_description"`
