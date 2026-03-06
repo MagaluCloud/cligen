@@ -244,7 +244,7 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 		if !flag.param.IsOptional {
 			cfa = fmt.Sprintf(`%s			} else {
 				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			`, cfa, flag.Name, flag.param.Name)
+			`, cfa, flag.Name, flag.cobraVar)
 			menuItem.AddImport("\"fmt\"")
 
 		}
