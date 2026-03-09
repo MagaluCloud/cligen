@@ -54478,7 +54478,7 @@
                       "is_pointer": false,
                       "is_optional": false,
                       "is_array": false,
-                      "is_positional": false,
+                      "is_positional": true,
                       "positional_index": 0,
                       "alias_type": ""
                     }
