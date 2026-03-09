@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/magaluCloud/mgccli/beautiful"
 	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/magaluCloud/mgccli/i18n"
@@ -51,14 +50,12 @@ func runDelete(ctx context.Context, args []string, opts deleteOptions, rawMode b
 	}
 
 	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --dst")
-
-		return nil
+		return cmdutils.NewCliError("missing required flag: --dst=string")
 	}
 
 	err = bucketService.DeleteCORS(ctx, bucketName)
 	if err != nil {
-		return fmt.Errorf("erro ao deletar a configuração do CORS: %w", err)
+		return cmdutils.NewCliError(err.Error())
 	}
 
 	fmt.Fprintln(os.Stderr, "✓ Deletado com sucesso!")

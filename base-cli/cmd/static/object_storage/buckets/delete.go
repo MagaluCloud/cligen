@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/charmbracelet/huh"
-	"github.com/magaluCloud/mgccli/beautiful"
 	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/magaluCloud/mgccli/i18n"
@@ -56,9 +55,7 @@ func runDelete(ctx context.Context, args []string, opts deleteOptions, rawMode b
 	}
 
 	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --bucket")
-
-		return nil
+		return cmdutils.NewCliError("missing required flag: --bucket=string")
 	}
 
 	var input string
@@ -74,7 +71,7 @@ func runDelete(ctx context.Context, args []string, opts deleteOptions, rawMode b
 
 	err = bucketService.Delete(ctx, bucketName, opts.Recursive)
 	if err != nil {
-		return fmt.Errorf("erro ao deletar o bucket: %w", err)
+		return cmdutils.NewCliError(err.Error())
 	}
 
 	fmt.Fprintln(os.Stderr, "✓ Deletado com sucesso!")

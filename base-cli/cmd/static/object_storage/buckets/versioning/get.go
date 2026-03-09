@@ -2,7 +2,6 @@ package versioning
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/magaluCloud/mgccli/beautiful"
 	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
@@ -50,14 +49,12 @@ func runGet(ctx context.Context, args []string, opts getOptions, rawMode bool) e
 	}
 
 	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --bucket")
-
-		return nil
+		return cmdutils.NewCliError("missing required flag: --bucket=string")
 	}
 
 	info, err := bucketService.GetVersioningStatus(ctx, bucketName)
 	if err != nil {
-		return fmt.Errorf("erro ao pegar as informações de versionamento: %w", err)
+		return cmdutils.NewCliError(err.Error())
 	}
 
 	beautiful.NewOutput(rawMode).PrintData(info)

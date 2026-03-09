@@ -108,13 +108,13 @@ func runCreate(ctx context.Context, opts createParams, rawMode bool) error {
 	}
 
 	if opts.Name == nil {
-		return fmt.Errorf("missing required flag: --bucket=string")
+		return cmdutils.NewCliError("missing required flag: --bucket=string")
 	}
 	if opts.NameIsPrefix == nil {
-		return fmt.Errorf("missing required flag: --bucket-is-prefix=bool")
+		return cmdutils.NewCliError("missing required flag: --bucket-is-prefix=bool")
 	}
 	if opts.EnableVersioning == nil {
-		return fmt.Errorf("missing required flag: --enable-versioning=bool")
+		return cmdutils.NewCliError("missing required flag: --enable-versioning=bool")
 	}
 
 	if *opts.NameIsPrefix {
@@ -125,7 +125,7 @@ func runCreate(ctx context.Context, opts createParams, rawMode bool) error {
 
 	err = bucketService.Create(ctx, *opts.Name)
 	if err != nil {
-		return fmt.Errorf("erro ao criar o bucket: %w", err)
+		return cmdutils.NewCliError(fmt.Sprintf("erro ao criar o bucket: %s", err.Error()))
 	}
 
 	if *opts.EnableVersioning {
@@ -133,14 +133,14 @@ func runCreate(ctx context.Context, opts createParams, rawMode bool) error {
 		if err != nil {
 			_ = bucketService.Delete(ctx, *opts.Name, true)
 
-			return fmt.Errorf("erro ao habilitar o versionamento do bucket: %w", err)
+			return cmdutils.NewCliError(fmt.Sprintf("erro ao habilitar o versionamento do bucket: %s", err.Error()))
 		}
 	} else {
 		err := bucketService.SuspendVersioning(ctx, *opts.Name)
 		if err != nil {
 			_ = bucketService.Delete(ctx, *opts.Name, true)
 
-			return fmt.Errorf("erro ao suspender o versionamento do bucket: %w", err)
+			return cmdutils.NewCliError(fmt.Sprintf("erro ao suspender o versionamento do bucket: %s", err.Error()))
 		}
 	}
 
@@ -158,7 +158,7 @@ func runCreate(ctx context.Context, opts createParams, rawMode bool) error {
 	if opts.GrantWrite != nil && *opts.GrantWrite != "" {
 		err := json.Unmarshal([]byte(*opts.GrantWrite), &grantsFormatted)
 		if err != nil {
-			return fmt.Errorf("invalid --grant-write JSON: %w", err)
+			return cmdutils.NewCliError(fmt.Sprintf("invalid --grant-write JSON: %s", err.Error()))
 		}
 	}
 

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/magaluCloud/mgccli/beautiful"
 	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/magaluCloud/mgccli/i18n"
@@ -51,13 +50,12 @@ func runUnset(ctx context.Context, args []string, opts unsetOptions, rawMode boo
 	}
 
 	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --dst")
-		return nil
+		return cmdutils.NewCliError("missing required flag: --dst=string")
 	}
 
 	err = bucketService.UnlockBucket(ctx, bucketName)
 	if err != nil {
-		return fmt.Errorf("erro ao desbloquear: %w", err)
+		return cmdutils.NewCliError(err.Error())
 	}
 
 	fmt.Fprintln(os.Stderr, "✓ Desbloqueado com sucesso!")

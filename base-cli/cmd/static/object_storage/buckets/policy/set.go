@@ -63,9 +63,7 @@ func runSet(ctx context.Context, args []string, opts setOptions, rawMode bool) e
 	}
 
 	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --dst")
-
-		return nil
+		return cmdutils.NewCliError("missing required flag: --dst=string")
 	}
 
 	policyData, err := resolvePolicyInput(opts.Policy)
@@ -75,12 +73,12 @@ func runSet(ctx context.Context, args []string, opts setOptions, rawMode bool) e
 
 	var policy *objSdk.Policy
 	if err := json.Unmarshal([]byte(policyData), &policy); err != nil {
-		return fmt.Errorf("--policy JSON inválido: %w", err)
+		return cmdutils.NewCliError(fmt.Errorf("--policy JSON inválido: %w", err).Error())
 	}
 
 	err = bucketService.SetPolicy(ctx, bucketName, policy)
 	if err != nil {
-		return fmt.Errorf("erro ao setar a política: %w", err)
+		return cmdutils.NewCliError(err.Error())
 	}
 
 	beautiful.NewOutput(rawMode).PrintData(policy)

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/magaluCloud/mgccli/beautiful"
 	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
 	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	cobrautils "github.com/magaluCloud/mgccli/cobra_utils/flags"
@@ -68,13 +67,11 @@ func runSet(ctx context.Context, args []string, opts SetParams, rawMode bool) er
 	}
 
 	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --dst")
-		return nil
+		return cmdutils.NewCliError("missing required flag: --dst=string")
 	}
 
 	if opts.Days == nil && opts.Years == nil {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o parâmetro 'days' ou 'years'")
-		return nil
+		return cmdutils.NewCliError("either --days or --years must be provided")
 	}
 
 	validity := opts.Days
@@ -90,7 +87,7 @@ func runSet(ctx context.Context, args []string, opts SetParams, rawMode bool) er
 
 	err = bucketService.LockBucket(ctx, bucketName, uint(*validity), unit)
 	if err != nil {
-		return fmt.Errorf("erro ao bloquear: %w", err)
+		return cmdutils.NewCliError(err.Error())
 	}
 
 	fmt.Fprintln(os.Stderr, "✓ Bloqueado com sucesso!")

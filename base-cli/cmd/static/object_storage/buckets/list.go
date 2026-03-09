@@ -2,7 +2,6 @@ package buckets
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/magaluCloud/mgccli/beautiful"
 	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
@@ -44,7 +43,7 @@ func runList(ctx context.Context, rawMode bool) error {
 
 	buckets, err := bucketService.List(ctx)
 	if err != nil {
-		return fmt.Errorf("erro ao listar os buckets: %w", err)
+		return cmdutils.NewCliError(err.Error())
 	}
 
 	result := []bucketResponse{}

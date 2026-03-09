@@ -51,14 +51,12 @@ func runGet(ctx context.Context, args []string, opts getOptions, rawMode bool) e
 	}
 
 	if bucketName == "" {
-		beautiful.NewOutput(rawMode).PrintError("é necessário fornecer o nome do bucket como argumento ou usar a flag --dst")
-
-		return nil
+		return cmdutils.NewCliError("missing required flag: --dst=string")
 	}
 
 	policy, err := bucketService.GetPolicy(ctx, bucketName)
 	if err != nil {
-		return fmt.Errorf("erro ao exibir a política: %w", err)
+		return cmdutils.NewCliError(err.Error())
 	}
 
 	if policy == nil {
