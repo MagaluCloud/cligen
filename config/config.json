@@ -54215,7 +54215,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                  "sdk_file": "cligen/tmp-sdk/sshkeys/keys.go"
                 },
                 {
                   "name": "Create",
@@ -54347,7 +54347,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                  "sdk_file": "cligen/tmp-sdk/sshkeys/keys.go"
                 },
                 {
                   "name": "Get",
@@ -54372,7 +54372,7 @@
                       "is_pointer": false,
                       "is_optional": false,
                       "is_array": false,
-                      "is_positional": false,
+                      "is_positional": true,
                       "positional_index": 0,
                       "alias_type": ""
                     }
@@ -54453,7 +54453,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                  "sdk_file": "cligen/tmp-sdk/sshkeys/keys.go"
                 },
                 {
                   "name": "Delete",
@@ -54559,10 +54559,10 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                  "sdk_file": "cligen/tmp-sdk/sshkeys/keys.go"
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/client.go",
+              "sdk_file": "cligen/tmp-sdk/sshkeys/client.go",
               "parent_menu_id": "0a4fdd5c-c42c-4afe-8549-dbc8e96e02a1"
             }
           ],
@@ -54706,10 +54706,10 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/az.go"
+                  "sdk_file": "cligen/tmp-sdk/availabilityzones/az.go"
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/client.go",
+              "sdk_file": "cligen/tmp-sdk/availabilityzones/client.go",
               "parent_menu_id": "c8dd8703-186c-45ec-b627-d1ea12b333cc"
             }
           ],
