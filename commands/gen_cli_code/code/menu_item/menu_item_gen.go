@@ -275,10 +275,9 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 
 		if !flag.param.IsOptional {
 			cfa = fmt.Sprintf(`%s			} else {
-				return fmt.Errorf("missing required flag: --%s")
+				return cmdutils.NewCliError("missing required flag: --%s")
 			`, cfa, flag.cobraVar)
-			menuItem.AddImport("\"fmt\"")
-
+			menuItem.AddImport("cmdutils \"github.com/magaluCloud/mgccli/cmd_utils\"")
 		}
 
 		cfa = fmt.Sprintf("%s			}\n", cfa)
