@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	bws "github.com/geffersonFerraz/brazilian-words-sorter"
 	"github.com/magaluCloud/mgccli/beautiful"
+	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
 	"github.com/magaluCloud/mgccli/cmd/static/object_storage/buckets/common"
+	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	cobrautils "github.com/magaluCloud/mgccli/cobra_utils/flags"
 	"github.com/magaluCloud/mgccli/i18n"
 	"github.com/spf13/cobra"
@@ -44,7 +45,7 @@ type result struct {
 }
 
 // CreateCommand cria o comando de criar um novo bucket
-func CreateCommand(ctx context.Context, bucketService objSdk.BucketService) *cobra.Command {
+func CreateCommand(ctx context.Context) *cobra.Command {
 	manager := i18n.GetInstance()
 
 	var flags createFlags
@@ -71,7 +72,7 @@ func CreateCommand(ctx context.Context, bucketService objSdk.BucketService) *cob
 			cobrautils.NilIfNotChanged(cmd, "private", &params.Private, flags.Private)
 			cobrautils.NilIfNotChanged(cmd, "public-read", &params.PublicRead, flags.PublicRead)
 
-			return runCreate(ctx, bucketService, params, raw)
+			return runCreate(ctx, params, raw)
 		},
 	}
 
@@ -87,7 +88,13 @@ func CreateCommand(ctx context.Context, bucketService objSdk.BucketService) *cob
 }
 
 // runCreate executa o processo de criar um novo bucket
-func runCreate(ctx context.Context, bucketService objSdk.BucketService, opts createParams, rawMode bool) error {
+func runCreate(ctx context.Context, opts createParams, rawMode bool) error {
+	objectStorageService, err := objectstorage.NewObjectStorage(ctx)
+	if err != nil {
+		return cmdutils.NewCliError(err.Error())
+	}
+	bucketService := objectStorageService.GetBucketService()
+
 	if opts.CliListLinks {
 		beautiful.NewOutput(rawMode).PrintTable(
 			[]string{"Description", "Command"},
@@ -110,17 +117,13 @@ func runCreate(ctx context.Context, bucketService objSdk.BucketService, opts cre
 		return fmt.Errorf("missing required flag: --enable-versioning=bool")
 	}
 
-	if bucketService == nil {
-		return nil
-	}
-
 	if *opts.NameIsPrefix {
 		bwords := bws.BrazilianWords(3, "-")
 		name := fmt.Sprintf("%s-%s", *opts.Name, bwords.Sort())
 		opts.Name = &name
 	}
 
-	err := bucketService.Create(ctx, *opts.Name)
+	err = bucketService.Create(ctx, *opts.Name)
 	if err != nil {
 		return fmt.Errorf("erro ao criar o bucket: %w", err)
 	}

@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/magaluCloud/mgccli/beautiful"
+	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
+	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	"github.com/magaluCloud/mgccli/i18n"
 	"github.com/spf13/cobra"
 )
@@ -16,7 +17,7 @@ type suspendOptions struct {
 }
 
 // SuspendCommand cria o comando de suspender o versionamento do bucket
-func SuspendCommand(ctx context.Context, bucketService objSdk.BucketService) *cobra.Command {
+func SuspendCommand(ctx context.Context) *cobra.Command {
 	manager := i18n.GetInstance()
 	var opts suspendOptions
 
@@ -26,7 +27,7 @@ func SuspendCommand(ctx context.Context, bucketService objSdk.BucketService) *co
 		RunE: func(cmd *cobra.Command, args []string) error {
 			raw, _ := cmd.Root().PersistentFlags().GetBool("raw")
 
-			return runSuspend(ctx, bucketService, args, opts, raw)
+			return runSuspend(ctx, args, opts, raw)
 		},
 	}
 
@@ -36,10 +37,12 @@ func SuspendCommand(ctx context.Context, bucketService objSdk.BucketService) *co
 }
 
 // runSuspend executa o processo de suspender o versionamento do bucket
-func runSuspend(ctx context.Context, bucketService objSdk.BucketService, args []string, opts suspendOptions, rawMode bool) error {
-	if bucketService == nil {
-		return nil
+func runSuspend(ctx context.Context, args []string, opts suspendOptions, rawMode bool) error {
+	objectStorageService, err := objectstorage.NewObjectStorage(ctx)
+	if err != nil {
+		return cmdutils.NewCliError(err.Error())
 	}
+	bucketService := objectStorageService.GetBucketService()
 
 	bucketName := opts.Bucket
 
@@ -53,7 +56,7 @@ func runSuspend(ctx context.Context, bucketService objSdk.BucketService, args []
 		return nil
 	}
 
-	err := bucketService.SuspendVersioning(ctx, bucketName)
+	err = bucketService.SuspendVersioning(ctx, bucketName)
 	if err != nil {
 		return fmt.Errorf("erro ao suspender o versionamento: %w", err)
 	}

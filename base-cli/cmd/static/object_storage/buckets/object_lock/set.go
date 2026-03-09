@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	objSdk "github.com/MagaluCloud/mgc-sdk-go/objectstorage"
 	"github.com/magaluCloud/mgccli/beautiful"
+	objectstorage "github.com/magaluCloud/mgccli/cmd/common/object_storage"
+	cmdutils "github.com/magaluCloud/mgccli/cmd_utils"
 	cobrautils "github.com/magaluCloud/mgccli/cobra_utils/flags"
 	"github.com/magaluCloud/mgccli/i18n"
 	"github.com/spf13/cobra"
@@ -25,7 +26,7 @@ type SetParams struct {
 }
 
 // SetCommand cria o comando de setar o bloqueio de objetos
-func SetCommand(ctx context.Context, bucketService objSdk.BucketService) *cobra.Command {
+func SetCommand(ctx context.Context) *cobra.Command {
 	manager := i18n.GetInstance()
 	var flags SetFlags
 	var params SetParams
@@ -41,7 +42,7 @@ func SetCommand(ctx context.Context, bucketService objSdk.BucketService) *cobra.
 			cobrautils.NilIfNotChanged(cmd, "days", &params.Days, flags.Days)
 			cobrautils.NilIfNotChanged(cmd, "years", &params.Years, flags.Years)
 
-			return runSet(ctx, bucketService, args, params, raw)
+			return runSet(ctx, args, params, raw)
 		},
 	}
 
@@ -53,10 +54,12 @@ func SetCommand(ctx context.Context, bucketService objSdk.BucketService) *cobra.
 }
 
 // runSet executa o processo de setar o bloqueio de objetos
-func runSet(ctx context.Context, bucketService objSdk.BucketService, args []string, opts SetParams, rawMode bool) error {
-	if bucketService == nil {
-		return nil
+func runSet(ctx context.Context, args []string, opts SetParams, rawMode bool) error {
+	objectStorageService, err := objectstorage.NewObjectStorage(ctx)
+	if err != nil {
+		return cmdutils.NewCliError(err.Error())
 	}
+	bucketService := objectStorageService.GetBucketService()
 
 	bucketName := opts.Dst
 
@@ -85,7 +88,7 @@ func runSet(ctx context.Context, bucketService objSdk.BucketService, args []stri
 		unit = "years"
 	}
 
-	err := bucketService.LockBucket(ctx, bucketName, uint(*validity), unit)
+	err = bucketService.LockBucket(ctx, bucketName, uint(*validity), unit)
 	if err != nil {
 		return fmt.Errorf("erro ao bloquear: %w", err)
 	}
