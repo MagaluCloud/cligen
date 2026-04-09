@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.title}}</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -46,7 +48,7 @@
                     <input type="hidden" id="editMenuId" name="menu_id">
                     <input type="hidden" id="editSubmenuId" name="submenu_id">
                     <input type="hidden" id="editMethodIndex" name="method_index">
-                    
+
                     <div id="editFormFields"></div>
                 </form>
             </div>
@@ -67,16 +69,22 @@
             <div class="modal-body">
                 <form id="createMenuForm">
                     <div class="form-group">
-                        <label for="menuName">Nome do Menu *</label>
-                        <input type="text" id="menuName" name="name" required placeholder="ex: novomenu">
+                        <label for="menuSDKName">Nome do SDK*</label>
+                        <input type="text" id="menuSDKName" name="sdk_name" required placeholder="ex: novomenu">
+                    </div>
+                    <div class="form-group">
+                        <label for="menuCliName">Nome do comando*</label>
+                        <input type="text" id="menuCliName" name="cli_name" required placeholder="ex: novo-menu">
                     </div>
                     <div class="form-group">
                         <label for="menuSDKPackage">SDK Package</label>
-                        <input type="text" id="menuSDKPackage" name="sdk_package" placeholder="ex: github.com/MagaluCloud/mgc-sdk-go/novomenu">
+                        <input type="text" id="menuSDKPackage" name="sdk_package"
+                            placeholder="ex: github.com/MagaluCloud/mgc-sdk-go/novomenu">
                     </div>
                     <div class="form-group">
                         <label for="menuDescription">Descrição</label>
-                        <textarea id="menuDescription" name="description" rows="3" placeholder="Descrição do menu"></textarea>
+                        <textarea id="menuDescription" name="description" rows="3"
+                            placeholder="Descrição do menu"></textarea>
                     </div>
                     <div class="form-group">
                         <label>
@@ -95,5 +103,5 @@
 
     <script src="/static/app.js"></script>
 </body>
-</html>
 
+</html>

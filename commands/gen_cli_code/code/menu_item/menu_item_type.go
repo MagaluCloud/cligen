@@ -125,7 +125,6 @@ func (m *menuItemType) SetPathSaveToFile(saveToFilePath string) {
 
 func (m *menuItemType) AddPositionalArgs(positionalArgs []string) {
 	m.PositionalArgs = append(m.PositionalArgs, positionalArgs...)
-	slices.Sort(m.PositionalArgs)
 }
 
 func (m *menuItemType) AddServiceSDKParamCreate(serviceSDKParamCreate ServiceSDKParamCreate) {

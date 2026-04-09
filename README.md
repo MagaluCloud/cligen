@@ -210,7 +210,8 @@ A configuração suporta uma estrutura hierárquica rica com os seguintes campos
 
 **Menu:**
 - **id**: Identificador único do menu (gerado automaticamente)
-- **name**: Nome do comando
+- **sdk_name**: Nome original da entidade (pacote ou método) no SDK
+- **cli_name**: Nome do comando na CLI
 - **enabled**: Se o menu está habilitado (padrão: true)
 - **description**: Descrição curta do comando
 - **long_description**: Descrição detalhada do comando

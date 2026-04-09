@@ -24,3 +24,17 @@ func WriteTemplateToFile[T any](tmpl *template.Template, data T, filePath string
 
 	return nil
 }
+
+func ToRelativePath(absPath string) string {
+	wd, err := os.Getwd()
+	if err != nil {
+		return absPath
+	}
+
+	rel, err := filepath.Rel(filepath.Dir(wd), absPath)
+	if err != nil {
+		return absPath
+	}
+
+	return rel
+}

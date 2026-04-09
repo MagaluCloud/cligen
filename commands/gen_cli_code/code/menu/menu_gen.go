@@ -43,16 +43,16 @@ func GenMenu(cfg *config.Config, submenu *config.Menu) error {
 
 	parents := FindParents(cfg, submenu.ParentMenuID)
 
-	parents = append(parents, strings.ToLower(submenu.Name))
+	parents = append(parents, strings.ToLower(submenu.SDKName))
 	parentsPath := strings.Join(parents, "/")
-	menuData.SetPathSaveToFile(filepath.Join(genDir, parentsPath, fmt.Sprintf("%s.go", strings.ToLower(submenu.Name))))
+	menuData.SetPathSaveToFile(filepath.Join(genDir, parentsPath, fmt.Sprintf("%s.go", strings.ToLower(submenu.SDKName))))
 
 	nameFromParent, sdkPackageFromParent := FindSDKPackageFromParents(cfg, submenu.ParentMenuID)
 	menuData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(submenu.ServiceInterface), nameFromParent, submenu.ServiceInterface))
 
-	menuData.SetPackageName(submenu.Name)
-	menuData.SetFunctionName(strutils.FirstUpper(submenu.Name))
-	menuData.SetUseName(submenu.Name)
+	menuData.SetPackageName(submenu.SDKName)
+	menuData.SetFunctionName(strutils.FirstUpper(submenu.SDKName))
+	menuData.SetUseName(submenu.CliName)
 	menuData.SetAliases(submenu.Alias...)
 	menuData.AddImport(importCobra)
 	menuData.SetShortDescription(submenu.Description)
@@ -62,13 +62,13 @@ func GenMenu(cfg *config.Config, submenu *config.Menu) error {
 		ssmenu := submenu.Menus[0]
 
 		subMenuData := menuData
-		subMenuData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(ssmenu.ServiceInterface), submenu.Name, ssmenu.ServiceInterface))
-		subMenuData.AddImport(fmt.Sprintf("%sSdk \"%s\"", submenu.Name, submenu.SDKPackage))
+		subMenuData.SetServiceParam(fmt.Sprintf("%s %sSdk.%s", strutils.FirstLower(ssmenu.ServiceInterface), submenu.SDKName, ssmenu.ServiceInterface))
+		subMenuData.AddImport(fmt.Sprintf("%sSdk \"%s\"", submenu.SDKName, submenu.SDKPackage))
 		subMenuData.AddCommand(CommandType{
-			FunctionName: fmt.Sprintf("%s.%sCmd", strings.ToLower(ssmenu.Name), strutils.FirstUpper(ssmenu.Name)),
+			FunctionName: fmt.Sprintf("%s.%sCmd", strings.ToLower(ssmenu.SDKName), strutils.FirstUpper(ssmenu.SDKName)),
 			ServiceCall:  strutils.FirstLower(ssmenu.ServiceInterface),
 		})
-		subMenuData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", parentsPath, strings.ToLower(ssmenu.Name)))
+		subMenuData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", parentsPath, strings.ToLower(ssmenu.SDKName)))
 		subMenuData.SetMenuAsGrouped(true)
 
 		GenMenu(cfg, ssmenu)
@@ -84,8 +84,8 @@ func GenMenu(cfg *config.Config, submenu *config.Menu) error {
 		})
 	}
 	for _, ssmenu := range submenu.Menus {
-		menuData.AddServiceInit(fmt.Sprintf("%s.%sCmd(ctx, cmd, %s.%s())", strings.ToLower(ssmenu.Name), ssmenu.Name, strutils.FirstLower(submenu.ServiceInterface), ssmenu.Name))
-		menuData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", parentsPath, strings.ToLower(ssmenu.Name)))
+		menuData.AddServiceInit(fmt.Sprintf("%s.%sCmd(ctx, cmd, %s.%s())", strings.ToLower(ssmenu.SDKName), ssmenu.SDKName, strutils.FirstLower(submenu.ServiceInterface), ssmenu.SDKName))
+		menuData.AddImport(fmt.Sprintf("\"github.com/magaluCloud/mgccli/cmd/gen/%s/%s\"", parentsPath, strings.ToLower(ssmenu.SDKName)))
 		GenMenu(cfg, ssmenu)
 	}
 	menuData.Save()
@@ -97,7 +97,7 @@ func FindParents(cfg *config.Config, menuID string) []string {
 	parents := []string{}
 	menu := FindMenuByID(cfg.Menus, menuID)
 	if menu != nil {
-		parents = append(parents, strings.ToLower(menu.Name))
+		parents = append(parents, strings.ToLower(menu.SDKName))
 		if menu.ParentMenuID != "" {
 			parents = append(FindParents(cfg, menu.ParentMenuID), parents...)
 		}
@@ -126,7 +126,7 @@ func FindSDKPackageFromParents(cfg *config.Config, menuID string) (name string, 
 		return "", ""
 	}
 	if menu.SDKPackage != "" {
-		return menu.Name, menu.SDKPackage
+		return menu.SDKName, menu.SDKPackage
 	}
 	if menu.ParentMenuID != "" {
 		return FindSDKPackageFromParents(cfg, menu.ParentMenuID)

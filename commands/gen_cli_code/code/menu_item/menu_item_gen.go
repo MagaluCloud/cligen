@@ -1,10 +1,12 @@
 package menu_item
 
 import (
+	"cmp"
 	_ "embed"
 	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"text/template"
 
@@ -41,11 +43,11 @@ func init() {
 
 func GenerateMenuItem(cfg *config.Config) error {
 	for _, menu := range cfg.Menus {
-		if _IN_DEBUG && menu.Name != DEBUG_MENU_NAME {
+		if _IN_DEBUG && menu.SDKName != DEBUG_MENU_NAME {
 			continue
 		}
 		for _, submenu := range menu.Menus {
-			if _IN_DEBUG && submenu.Name != DEBUG_SUBMENU_NAME {
+			if _IN_DEBUG && submenu.SDKName != DEBUG_SUBMENU_NAME {
 				continue
 			}
 			GenMenuItem(cfg, submenu)
@@ -62,18 +64,18 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 		}
 		parents := FindParents(cfg, menu.ParentMenuID)
 
-		parents = append(parents, strings.ToLower(menu.Name))
+		parents = append(parents, strings.ToLower(menu.SDKName))
 		parentsPath := strings.Join(parents, "/")
 		nameFromParent, sdkPackageFromParent := FindSDKPackageFromParents(cfg, menu.ParentMenuID)
 
 		menuItem := NewMenuItem()
 		sdkName := fmt.Sprintf("%sSdk", strings.ToLower(nameFromParent))
 
-		moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(menu.Name))
+		moduleServiceName := fmt.Sprintf("%sService", strings.ToLower(menu.SDKName))
 		menuItem.SetServiceParam(fmt.Sprintf("%s %s.%s", moduleServiceName, sdkName, menu.ServiceInterface))
 		menuItem.AddImport(fmt.Sprintf("%s \"%s\"", sdkName, sdkPackageFromParent))
 		menuItem.SetPathSaveToFile(filepath.Join(genDir, parentsPath, fmt.Sprintf("%s.go", strings.ToLower(method.Name))))
-		menuItem.SetPackageName(strings.ToLower(menu.Name))
+		menuItem.SetPackageName(strings.ToLower(menu.SDKName))
 		menuItem.SetFunctionName(strutils.FirstUpper(method.Name))
 		menuItem.SetUseName(strutils.ToSnakeCasePreserveID(method.Name, "-"))
 		menuItem.SetShortDescription(method.Description)
@@ -88,6 +90,7 @@ func GenMenuItem(cfg *config.Config, menu *config.Menu) error {
 			menuItem = ProcessServiceSDKParamCreate(menuItem, param, sdkName)
 			menuItem = ProcessCobraStructInitialize(menuItem, param, sdkName)
 		}
+		menuItem = ProcessPositionalArgs(menuItem, method.Parameters)
 		menuItem = ProcessCobraFlagsAssign(menuItem, sdkName)
 		menuItem = ProcessCobraFlagsCreation(menuItem, sdkName)
 		assignResult, menuItem := ProcessAssignResult(menuItem, method, sdkName)
@@ -108,6 +111,36 @@ func prepareName(name string) string {
 	name = strings.ReplaceAll(name, "*", "")
 	name = strings.ReplaceAll(name, "[]", "")
 	return name
+}
+
+func ProcessPositionalArgs(menuItem MenuItem, params []config.Parameter) MenuItem {
+	var positionalParams []config.Parameter
+
+	for _, p := range params {
+		if p.Struct == nil && p.IsPositional {
+			positionalParams = append(positionalParams, p)
+		}
+		if p.Struct != nil {
+			for _, sparam := range p.Struct {
+				if sparam.IsPositional {
+					positionalParams = append(positionalParams, sparam)
+				}
+			}
+		}
+	}
+
+	slices.SortFunc(positionalParams, func(a, b config.Parameter) int {
+		return cmp.Compare(a.PositionalIndex, b.PositionalIndex)
+	})
+
+	var positionalNames []string
+	for _, p := range positionalParams {
+		positionalNames = append(positionalNames, strutils.ToSnakeCasePreserveID(p.Name, "-"))
+	}
+
+	menuItem.AddPositionalArgs(positionalNames)
+
+	return menuItem
 }
 
 func ProcessCobraStructInitialize(menuItem MenuItem, param config.Parameter, sdkName string, parents ...config.Parameter) MenuItem {
@@ -153,12 +186,11 @@ func ProcessCobraStructInitialize(menuItem MenuItem, param config.Parameter, sdk
 func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 	for _, flag := range menuItem.GetCobraFlagsDefinition() {
 		cfa := ""
-		if !flag.param.IsOptional {
-			cfa = fmt.Sprintf(`if len(args) > 0{
-				cmd.Flags().Set("%s", args[0])
+		if !flag.param.IsOptional && flag.param.IsPositional {
+			cfa = fmt.Sprintf(`if len(args) > %d{
+				cmd.Flags().Set("%s", args[%d])
 			}
-			`, flag.cobraVar)
-
+			`, flag.param.PositionalIndex, flag.cobraVar, flag.param.PositionalIndex)
 		}
 		cfa = fmt.Sprintf("%sif %sFlag.IsChanged(){\n", cfa, flag.Name)
 
@@ -243,10 +275,9 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 
 		if !flag.param.IsOptional {
 			cfa = fmt.Sprintf(`%s			} else {
-				return fmt.Errorf("é necessário fornecer o %s como argumento ou usar a flag --%s")
-			`, cfa, flag.Name, flag.param.Name)
-			menuItem.AddImport("\"fmt\"")
-
+				return cmdutils.NewCliError("missing required flag: --%s")
+			`, cfa, flag.cobraVar)
+			menuItem.AddImport("cmdutils \"github.com/magaluCloud/mgccli/cmd_utils\"")
 		}
 
 		cfa = fmt.Sprintf("%s			}\n", cfa)
@@ -584,7 +615,7 @@ func FindParents(cfg *config.Config, menuID string) []string {
 	parents := []string{}
 	menu := FindMenuByID(cfg.Menus, menuID)
 	if menu != nil {
-		parents = append(parents, strings.ToLower(menu.Name))
+		parents = append(parents, strings.ToLower(menu.SDKName))
 		if menu.ParentMenuID != "" {
 			parents = append(FindParents(cfg, menu.ParentMenuID), parents...)
 		}
@@ -613,7 +644,7 @@ func FindSDKPackageFromParents(cfg *config.Config, menuID string) (name string, 
 		return "", ""
 	}
 	if menu.SDKPackage != "" {
-		return menu.Name, menu.SDKPackage
+		return menu.SDKName, menu.SDKPackage
 	}
 	if menu.ParentMenuID != "" {
 		return FindSDKPackageFromParents(cfg, menu.ParentMenuID)

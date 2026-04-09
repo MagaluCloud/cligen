@@ -4,11 +4,12 @@
   "sdk_tag": "v1.5.0",
   "tag_or_branch_or_latest": "tag",
   "show_git_error": false,
-  "show_logs": true,
+  "show_logs": false,
   "menus": [
     {
-      "id": "cb1cca0a-1ed5-4d81-981a-caddedf6ad80",
-      "name": "audit",
+      "id": "8afaab9f-5d50-4f66-b9e0-4e7b399db774",
+      "sdk_name": "audit",
+      "cli_name": "audit",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -16,8 +17,9 @@
       "cli_group": "products",
       "menus": [
         {
-          "id": "8e7deeed-7a90-4875-91b2-30151257e625",
-          "name": "Events",
+          "id": "cc12cb7a-e835-4a7a-a8b4-04238d088680",
+          "sdk_name": "Events",
+          "cli_name": "events",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -199,7 +201,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/events.go"
+              "sdk_file": "cligen/tmp-sdk/audit/events.go"
             },
             {
               "name": "ListAll",
@@ -499,15 +501,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/events.go"
+              "sdk_file": "cligen/tmp-sdk/audit/events.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/client.go",
-          "parent_menu_id": "cb1cca0a-1ed5-4d81-981a-caddedf6ad80"
+          "sdk_file": "cligen/tmp-sdk/audit/client.go",
+          "parent_menu_id": "8afaab9f-5d50-4f66-b9e0-4e7b399db774"
         },
         {
-          "id": "b3531e4b-d382-4c17-82d3-5c16c3b9eac7",
-          "name": "EventTypes",
+          "id": "47f4cfd1-8fb8-4e94-ac08-df3b7f293730",
+          "sdk_name": "EventTypes",
+          "cli_name": "event-types",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -605,7 +608,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/types.go"
+              "sdk_file": "cligen/tmp-sdk/audit/types.go"
             },
             {
               "name": "ListAll",
@@ -689,17 +692,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/types.go"
+              "sdk_file": "cligen/tmp-sdk/audit/types.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/audit/client.go",
-          "parent_menu_id": "cb1cca0a-1ed5-4d81-981a-caddedf6ad80"
+          "sdk_file": "cligen/tmp-sdk/audit/client.go",
+          "parent_menu_id": "8afaab9f-5d50-4f66-b9e0-4e7b399db774"
         }
       ]
     },
     {
-      "id": "00530333-fea2-44ca-bc7d-386624cdb2f9",
-      "name": "blockstorage",
+      "id": "1ff94259-2622-48f5-b20b-acb685d242b7",
+      "sdk_name": "blockstorage",
+      "cli_name": "block-storage",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -713,8 +717,9 @@
       ],
       "menus": [
         {
-          "id": "8d392ff4-fefc-49e7-9795-63ee63223b83",
-          "name": "Volumes",
+          "id": "766963bc-7849-473a-8082-af2c1a721120",
+          "sdk_name": "Volumes",
+          "cli_name": "volumes",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -1322,7 +1327,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "ListAll",
@@ -1800,7 +1805,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Create",
@@ -1982,7 +1987,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Get",
@@ -2446,7 +2451,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Delete",
@@ -2490,7 +2495,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Rename",
@@ -2546,7 +2551,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Extend",
@@ -2616,7 +2621,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Retype",
@@ -2712,7 +2717,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Attach",
@@ -2768,7 +2773,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             },
             {
               "name": "Detach",
@@ -2812,15 +2817,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volumes.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volumes.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "00530333-fea2-44ca-bc7d-386624cdb2f9"
+          "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
+          "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
         },
         {
-          "id": "5c7a2ab5-8fcf-49a1-ab75-372a80167f4c",
-          "name": "VolumeTypes",
+          "id": "b29e65df-0860-45ff-ac2b-e83e85f7ca29",
+          "sdk_name": "VolumeTypes",
+          "cli_name": "volume-types",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -3180,7 +3186,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volume_types.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volume_types.go"
             },
             {
               "name": "ListAll",
@@ -3410,15 +3416,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/volume_types.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/volume_types.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "00530333-fea2-44ca-bc7d-386624cdb2f9"
+          "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
+          "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
         },
         {
-          "id": "00051ff0-a8af-4de8-889b-959261a1594b",
-          "name": "Snapshots",
+          "id": "73e93315-1171-4f80-a1ab-2952166de4dc",
+          "sdk_name": "Snapshots",
+          "cli_name": "snapshots",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -3828,7 +3835,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "ListAll",
@@ -4108,7 +4115,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Create",
@@ -4278,7 +4285,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Get",
@@ -4544,7 +4551,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Delete",
@@ -4588,7 +4595,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Rename",
@@ -4644,7 +4651,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             },
             {
               "name": "Copy",
@@ -4700,15 +4707,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/snapshots.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "00530333-fea2-44ca-bc7d-386624cdb2f9"
+          "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
+          "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
         },
         {
-          "id": "c6dd9ca9-f092-4e68-95c7-745fdc0b3503",
-          "name": "Schedulers",
+          "id": "36d19626-de54-41e4-bff2-c60a16918212",
+          "sdk_name": "Schedulers",
+          "cli_name": "schedulers",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -5098,7 +5106,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "ListAll",
@@ -5358,7 +5366,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "Create",
@@ -5532,7 +5540,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "Get",
@@ -5778,7 +5786,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "Delete",
@@ -5822,7 +5830,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "AttachVolume",
@@ -5918,7 +5926,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             },
             {
               "name": "DetachVolume",
@@ -6014,17 +6022,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/schedulers.go"
+              "sdk_file": "cligen/tmp-sdk/blockstorage/schedulers.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "00530333-fea2-44ca-bc7d-386624cdb2f9"
+          "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
+          "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
         }
       ]
     },
     {
-      "id": "c66449cb-bfa8-4225-8265-91bb5659b899",
-      "name": "compute",
+      "id": "14a11d42-c6a4-4294-89a1-2269229911dd",
+      "sdk_name": "compute",
+      "cli_name": "virtual-machine",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -6039,8 +6048,9 @@
       ],
       "menus": [
         {
-          "id": "fb40c3d8-7fdd-4b0d-ad50-2cf3ee1e54d7",
-          "name": "Instances",
+          "id": "b9ccef71-0953-450e-9427-80c57b682dc0",
+          "sdk_name": "Instances",
+          "cli_name": "instances",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -6700,7 +6710,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "ListAll",
@@ -7242,7 +7252,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Create",
@@ -7552,7 +7562,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Get",
@@ -8068,7 +8078,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Delete",
@@ -8124,7 +8134,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Rename",
@@ -8180,7 +8190,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Retype",
@@ -8276,7 +8286,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Start",
@@ -8320,7 +8330,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Stop",
@@ -8364,7 +8374,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "Suspend",
@@ -8408,7 +8418,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "GetFirstWindowsPassword",
@@ -8528,7 +8538,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "AttachNetworkInterface",
@@ -8664,7 +8674,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "DetachNetworkInterface",
@@ -8800,7 +8810,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             },
             {
               "name": "InitLog",
@@ -8882,15 +8892,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/instances.go"
+              "sdk_file": "cligen/tmp-sdk/compute/instances.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "c66449cb-bfa8-4225-8265-91bb5659b899"
+          "sdk_file": "cligen/tmp-sdk/compute/client.go",
+          "parent_menu_id": "14a11d42-c6a4-4294-89a1-2269229911dd"
         },
         {
-          "id": "3eca2fdf-f960-4077-91ea-973e9e64b53c",
-          "name": "Images",
+          "id": "2153bc4a-1bbc-4e05-9a14-a0f4f117b3b6",
+          "sdk_name": "Images",
+          "cli_name": "images",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -9262,7 +9273,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/images.go"
+              "sdk_file": "cligen/tmp-sdk/compute/images.go"
             },
             {
               "name": "ListAll",
@@ -9516,15 +9527,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/images.go"
+              "sdk_file": "cligen/tmp-sdk/compute/images.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "c66449cb-bfa8-4225-8265-91bb5659b899"
+          "sdk_file": "cligen/tmp-sdk/compute/client.go",
+          "parent_menu_id": "14a11d42-c6a4-4294-89a1-2269229911dd"
         },
         {
-          "id": "9d2cdccd-21cd-4985-bf36-bb7a8ab001d5",
-          "name": "InstanceTypes",
+          "id": "de51d8e6-c60b-4f66-bf92-c76e2f970353",
+          "sdk_name": "InstanceTypes",
+          "cli_name": "machine-types",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -9822,7 +9834,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/types.go"
+              "sdk_file": "cligen/tmp-sdk/compute/types.go"
             },
             {
               "name": "ListAll",
@@ -10002,15 +10014,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/types.go"
+              "sdk_file": "cligen/tmp-sdk/compute/types.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "c66449cb-bfa8-4225-8265-91bb5659b899"
+          "sdk_file": "cligen/tmp-sdk/compute/client.go",
+          "parent_menu_id": "14a11d42-c6a4-4294-89a1-2269229911dd"
         },
         {
-          "id": "b17d637b-ef07-49b0-8f8b-e13ff6c971c7",
-          "name": "Snapshots",
+          "id": "de497131-58a3-49b0-9094-1364f826f9c5",
+          "sdk_name": "Snapshots",
+          "cli_name": "snapshots",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -10398,7 +10411,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "ListAll",
@@ -10668,7 +10681,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Create",
@@ -10776,7 +10789,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Get",
@@ -11032,7 +11045,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Delete",
@@ -11076,7 +11089,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Rename",
@@ -11132,7 +11145,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Restore",
@@ -11404,7 +11417,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             },
             {
               "name": "Copy",
@@ -11474,17 +11487,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/snapshots.go"
+              "sdk_file": "cligen/tmp-sdk/compute/snapshots.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/compute/client.go",
-          "parent_menu_id": "c66449cb-bfa8-4225-8265-91bb5659b899"
+          "sdk_file": "cligen/tmp-sdk/compute/client.go",
+          "parent_menu_id": "14a11d42-c6a4-4294-89a1-2269229911dd"
         }
       ]
     },
     {
-      "id": "6400dd97-2635-4a59-8fe5-c601b17fe76d",
-      "name": "containerregistry",
+      "id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2",
+      "sdk_name": "containerregistry",
+      "cli_name": "container-registry",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -11496,8 +11510,9 @@
       ],
       "menus": [
         {
-          "id": "acf0614b-02d0-482f-bcaf-251c56af769f",
-          "name": "Credentials",
+          "id": "01ed57c1-0878-43e3-989d-71be3356df03",
+          "sdk_name": "Credentials",
+          "cli_name": "credentials",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -11583,7 +11598,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/credentials.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/credentials.go"
             },
             {
               "name": "ResetPassword",
@@ -11665,15 +11680,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/credentials.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/credentials.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
+          "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         },
         {
-          "id": "6a9b233e-56c8-46aa-be95-522c88cbec60",
-          "name": "Registries",
+          "id": "fbdd87cb-d52d-46d3-bd94-49350d50b8cf",
+          "sdk_name": "Registries",
+          "cli_name": "registries",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -11712,6 +11728,18 @@
                       "is_primitive": true,
                       "is_pointer": false,
                       "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    "proxy_cache_id": {
+                      "name": "ProxyCacheID",
+                      "type": "*string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
                       "is_array": false,
                       "is_positional": false,
                       "positional_index": 0,
@@ -11769,6 +11797,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "proxy_cache_id": {
+                      "name": "ProxyCacheID",
+                      "type": "*string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "storage_usage_bytes": {
                       "name": "Storage",
                       "type": "int",
@@ -11809,7 +11849,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             },
             {
               "name": "List",
@@ -11903,7 +11943,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             },
             {
               "name": "ListAll",
@@ -11995,6 +12035,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "proxy_cache_id": {
+                      "name": "ProxyCacheID",
+                      "type": "*string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "storage_usage_bytes": {
                       "name": "Storage",
                       "type": "int",
@@ -12035,7 +12087,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             },
             {
               "name": "Get",
@@ -12113,6 +12165,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "proxy_cache_id": {
+                      "name": "ProxyCacheID",
+                      "type": "*string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "storage_usage_bytes": {
                       "name": "Storage",
                       "type": "int",
@@ -12153,7 +12217,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             },
             {
               "name": "Delete",
@@ -12197,15 +12261,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/registries.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/registries.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
+          "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         },
         {
-          "id": "bb1c8f46-6225-4892-90ab-b1a98342ae66",
-          "name": "Repositories",
+          "id": "3f2d8895-7eb2-4884-b081-3823a62e35c2",
+          "sdk_name": "Repositories",
+          "cli_name": "repositories",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -12315,7 +12380,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/repositories.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/repositories.go"
             },
             {
               "name": "ListAll",
@@ -12459,7 +12524,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/repositories.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/repositories.go"
             },
             {
               "name": "Get",
@@ -12589,7 +12654,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/repositories.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/repositories.go"
             },
             {
               "name": "Delete",
@@ -12645,15 +12710,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/repositories.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/repositories.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
+          "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         },
         {
-          "id": "cfed13ed-a4dd-4d37-83f8-166b07c45edd",
-          "name": "Images",
+          "id": "9fe57c19-4885-4ed3-91a2-40150efc82db",
+          "sdk_name": "Images",
+          "cli_name": "images",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -12787,7 +12853,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/images.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/images.go"
             },
             {
               "name": "ListAll",
@@ -13053,7 +13119,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/images.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/images.go"
             },
             {
               "name": "Delete",
@@ -13121,7 +13187,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/images.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/images.go"
             },
             {
               "name": "Get",
@@ -13361,15 +13427,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/images.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/images.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
+          "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         },
         {
-          "id": "dfe5b209-a922-405b-804f-47f4b2421163",
-          "name": "ProxyCaches",
+          "id": "309833e5-9272-4faf-9f5f-a212ad434832",
+          "sdk_name": "ProxyCaches",
+          "cli_name": "proxy-caches",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -13567,7 +13634,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "ListAll",
@@ -13711,7 +13778,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "Create",
@@ -13867,7 +13934,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "Delete",
@@ -13911,7 +13978,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "Update",
@@ -14115,7 +14182,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "Get",
@@ -14257,7 +14324,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "ListStatus",
@@ -14339,7 +14406,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             },
             {
               "name": "CreateStatus",
@@ -14471,17 +14538,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/proxy_caches.go"
+              "sdk_file": "cligen/tmp-sdk/containerregistry/proxy_caches.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/containerregistry/client.go",
-          "parent_menu_id": "6400dd97-2635-4a59-8fe5-c601b17fe76d"
+          "sdk_file": "cligen/tmp-sdk/containerregistry/client.go",
+          "parent_menu_id": "2e80236c-e6e3-4ac3-bbf0-f3dc200f13b2"
         }
       ]
     },
     {
-      "id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f",
-      "name": "dbaas",
+      "id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99",
+      "sdk_name": "dbaas",
+      "cli_name": "dbaas",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -14493,8 +14561,9 @@
       ],
       "menus": [
         {
-          "id": "034b0093-8679-4c55-b747-6cf00b7cdac2",
-          "name": "Engines",
+          "id": "716712fa-4686-43a0-80a7-0b7cfcc86ff5",
+          "sdk_name": "Engines",
+          "cli_name": "engines",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -14782,7 +14851,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/engines.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/engines.go"
             },
             {
               "name": "ListAll",
@@ -14902,7 +14971,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/engines.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/engines.go"
             },
             {
               "name": "Get",
@@ -15008,7 +15077,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/engines.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/engines.go"
             },
             {
               "name": "ListEngineParameters",
@@ -15248,15 +15317,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/engines.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/engines.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
+          "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
-          "id": "11493e32-180c-4c0a-ad7c-406898fad78a",
-          "name": "InstanceTypes",
+          "id": "9c05fc06-e35d-440f-8f5b-1332bbd4830d",
+          "sdk_name": "InstanceTypes",
+          "cli_name": "instance-types",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -15628,7 +15698,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instance_types.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instance_types.go"
             },
             {
               "name": "ListAll",
@@ -15832,7 +15902,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instance_types.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instance_types.go"
             },
             {
               "name": "Get",
@@ -15998,15 +16068,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instance_types.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instance_types.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
+          "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
-          "id": "76c02ebb-b8fe-4b4e-a080-8818708c538d",
-          "name": "Instances",
+          "id": "01479b5f-3024-4c68-bc49-45f4b26873f1",
+          "sdk_name": "Instances",
+          "cli_name": "instances",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -16424,6 +16495,18 @@
                         "datastore_id": {
                           "name": "DatastoreID",
                           "type": "string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
+                        "deletion_protected": {
+                          "name": "DeletionProtected",
+                          "type": "bool",
                           "description": "",
                           "is_primitive": true,
                           "is_pointer": false,
@@ -16880,7 +16963,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "ListAll",
@@ -17142,6 +17225,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -17586,7 +17681,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Get",
@@ -17776,6 +17871,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -18220,7 +18327,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Create",
@@ -18275,6 +18382,18 @@
                     "backup_start_at": {
                       "name": "BackupStartAt",
                       "type": "*string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "*bool",
                       "description": "",
                       "is_primitive": true,
                       "is_pointer": true,
@@ -18438,7 +18557,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Delete",
@@ -18482,7 +18601,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Update",
@@ -18537,6 +18656,18 @@
                     "backup_start_at": {
                       "name": "BackupStartAt",
                       "type": "*string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "*bool",
                       "description": "",
                       "is_primitive": true,
                       "is_pointer": true,
@@ -18687,6 +18818,18 @@
                     "datastore_id": {
                       "name": "DatastoreID",
                       "type": "string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
                       "description": "",
                       "is_primitive": true,
                       "is_pointer": false,
@@ -19140,7 +19283,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Resize",
@@ -19368,6 +19511,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -19812,7 +19967,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Start",
@@ -19976,6 +20131,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -20420,7 +20587,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "Stop",
@@ -20584,6 +20751,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -21028,7 +21207,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "ListSnapshots",
@@ -21458,7 +21637,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "ListAllSnapshots",
@@ -21724,7 +21903,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "CreateSnapshot",
@@ -21832,7 +22011,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "GetSnapshot",
@@ -22072,7 +22251,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "UpdateSnapshot",
@@ -22350,7 +22529,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "DeleteSnapshot",
@@ -22406,7 +22585,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             },
             {
               "name": "RestoreSnapshot",
@@ -22588,15 +22767,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/instances.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/instances.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
+          "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
-          "id": "33eb8cfc-6e23-4f73-bffe-2bcf2c2d2c9f",
-          "name": "Replicas",
+          "id": "7a39fa86-83de-4e5a-ab05-f028415e86b5",
+          "sdk_name": "Replicas",
+          "cli_name": "replicas",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -23068,7 +23248,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "ListAll",
@@ -23372,7 +23552,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Get",
@@ -23662,7 +23842,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Create",
@@ -23770,7 +23950,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Delete",
@@ -23814,7 +23994,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Resize",
@@ -24168,7 +24348,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Start",
@@ -24458,7 +24638,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             },
             {
               "name": "Stop",
@@ -24748,15 +24928,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/replicas.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/replicas.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
+          "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
-          "id": "76c15437-3453-42ed-9ef4-d42b9fc41bba",
-          "name": "ParametersGroup",
+          "id": "32ca96cf-eb53-478d-9cd3-7590f555459b",
+          "sdk_name": "ParametersGroup",
+          "cli_name": "parameter-groups",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -25068,7 +25249,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "ListAll",
@@ -25212,7 +25393,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "Create",
@@ -25320,7 +25501,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "Get",
@@ -25438,7 +25619,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "Update",
@@ -25594,7 +25775,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             },
             {
               "name": "Delete",
@@ -25638,15 +25819,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters_group.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters_group.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
+          "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
-          "id": "c36fdbbb-b858-4b23-9e39-02a661c51b49",
-          "name": "Parameters",
+          "id": "9a8815c8-1fdf-49fc-adcf-0ca1ee2dd0dc",
+          "sdk_name": "Parameters",
+          "cli_name": "parameters",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -25922,7 +26104,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             },
             {
               "name": "ListAll",
@@ -26030,7 +26212,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             },
             {
               "name": "Create",
@@ -26138,7 +26320,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             },
             {
               "name": "Update",
@@ -26270,7 +26452,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             },
             {
               "name": "Delete",
@@ -26326,15 +26508,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/parameters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/parameters.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
+          "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         },
         {
-          "id": "fa675350-f637-4a5a-b93c-5694ec8b9195",
-          "name": "Clusters",
+          "id": "0f32585f-5877-4962-9e9f-ddf1fba91994",
+          "sdk_name": "Clusters",
+          "cli_name": "clusters",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -26761,6 +26944,18 @@
                           "positional_index": 0,
                           "alias_type": ""
                         },
+                        "deletion_protected": {
+                          "name": "DeletionProtected",
+                          "type": "bool",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": false,
+                          "is_optional": false,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
+                        },
                         "engine_id": {
                           "name": "EngineID",
                           "type": "string",
@@ -26926,7 +27121,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "ListAll",
@@ -27188,6 +27383,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -27350,7 +27557,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Create",
@@ -27393,6 +27600,18 @@
                     "backup_start_at": {
                       "name": "BackupStartAt",
                       "type": "*string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "*bool",
                       "description": "",
                       "is_primitive": true,
                       "is_pointer": true,
@@ -27556,7 +27775,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Get",
@@ -27720,6 +27939,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -27882,7 +28113,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Update",
@@ -27937,6 +28168,18 @@
                     "backup_start_at": {
                       "name": "BackupStartAt",
                       "type": "*string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "*bool",
                       "description": "",
                       "is_primitive": true,
                       "is_pointer": true,
@@ -28096,6 +28339,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -28258,7 +28513,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Resize",
@@ -28486,6 +28741,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -28648,7 +28915,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Delete",
@@ -28692,7 +28959,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Start",
@@ -28856,6 +29123,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -29018,7 +29297,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             },
             {
               "name": "Stop",
@@ -29182,6 +29461,18 @@
                       "positional_index": 0,
                       "alias_type": ""
                     },
+                    "deletion_protected": {
+                      "name": "DeletionProtected",
+                      "type": "bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
                     "engine_id": {
                       "name": "EngineID",
                       "type": "string",
@@ -29344,17 +29635,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/clusters.go"
+              "sdk_file": "cligen/tmp-sdk/dbaas/clusters.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/dbaas/client.go",
-          "parent_menu_id": "74e5b16c-bc72-4a5a-9447-b2d4ea0f8c8f"
+          "sdk_file": "cligen/tmp-sdk/dbaas/client.go",
+          "parent_menu_id": "1c649679-94d6-4ca8-beb1-07d4f1a05c99"
         }
       ]
     },
     {
-      "id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a",
-      "name": "iam",
+      "id": "f65a7dcf-5412-4408-b896-df347a701fd3",
+      "sdk_name": "iam",
+      "cli_name": "iam",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -29362,15 +29654,17 @@
       "cli_group": "products",
       "menus": [
         {
-          "id": "76ba2bf7-7ad3-4cb1-8756-ab597b8c3c6a",
-          "name": "Members",
+          "id": "ec1ca293-d70c-4b0d-bd48-96044481daa7",
+          "sdk_name": "Members",
+          "cli_name": "members",
           "enabled": true,
           "description": "",
           "long_description": "",
           "menus": [
             {
-              "id": "3be9d475-cc82-4ccd-a101-ff32fa1917ac",
-              "name": "Grants",
+              "id": "d11adf36-3158-4ae4-81e2-5b3211447d26",
+              "sdk_name": "Grants",
+              "cli_name": "grants",
               "enabled": true,
               "description": "",
               "long_description": "",
@@ -29456,7 +29750,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go"
+                  "sdk_file": "cligen/tmp-sdk/iam/members.go"
                 },
                 {
                   "name": "Add",
@@ -29550,7 +29844,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go"
+                  "sdk_file": "cligen/tmp-sdk/iam/members.go"
                 },
                 {
                   "name": "BatchUpdate",
@@ -29644,11 +29938,11 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go"
+                  "sdk_file": "cligen/tmp-sdk/iam/members.go"
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go",
-              "parent_menu_id": "76ba2bf7-7ad3-4cb1-8756-ab597b8c3c6a"
+              "sdk_file": "cligen/tmp-sdk/iam/members.go",
+              "parent_menu_id": "ec1ca293-d70c-4b0d-bd48-96044481daa7"
             }
           ],
           "service_interface": "MemberService",
@@ -29769,7 +30063,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go"
+              "sdk_file": "cligen/tmp-sdk/iam/members.go"
             },
             {
               "name": "Create",
@@ -29925,7 +30219,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go"
+              "sdk_file": "cligen/tmp-sdk/iam/members.go"
             },
             {
               "name": "Delete",
@@ -29969,15 +30263,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/members.go"
+              "sdk_file": "cligen/tmp-sdk/iam/members.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
+          "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
-          "id": "469d6f53-836f-4bf2-a256-bbd88e5c9325",
-          "name": "Roles",
+          "id": "991905fd-2214-4556-a3d2-13c39a8c1d19",
+          "sdk_name": "Roles",
+          "cli_name": "roles",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -30075,7 +30370,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "Create",
@@ -30219,7 +30514,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "Delete",
@@ -30263,7 +30558,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "Permissions",
@@ -30369,7 +30664,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "EditPermissions",
@@ -30501,7 +30796,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             },
             {
               "name": "Members",
@@ -30583,15 +30878,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/roles.go"
+              "sdk_file": "cligen/tmp-sdk/iam/roles.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
+          "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
-          "id": "5f521008-7390-4040-aabb-b612ddabeebd",
-          "name": "Permissions",
+          "id": "bd14d780-a8b8-42e9-ab51-0b3ee6df6d1c",
+          "sdk_name": "Permissions",
+          "cli_name": "permissions",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -30703,15 +30999,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/permissions.go"
+              "sdk_file": "cligen/tmp-sdk/iam/permissions.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
+          "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
-          "id": "b88f47da-fe39-4e86-9bed-453fcf532104",
-          "name": "AccessControl",
+          "id": "49e5c862-50c6-4cb7-bfc3-45921769e3f8",
+          "sdk_name": "AccessControl",
+          "cli_name": "access-control",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -30821,7 +31118,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/access_control.go"
+              "sdk_file": "cligen/tmp-sdk/iam/access_control.go"
             },
             {
               "name": "Create",
@@ -30965,7 +31262,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/access_control.go"
+              "sdk_file": "cligen/tmp-sdk/iam/access_control.go"
             },
             {
               "name": "Update",
@@ -31109,15 +31406,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/access_control.go"
+              "sdk_file": "cligen/tmp-sdk/iam/access_control.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
+          "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
-          "id": "b107a23c-22d6-466a-91c2-f184f04d5ad3",
-          "name": "ServiceAccounts",
+          "id": "bafdc15e-a2df-4726-a4b0-075be52a1b99",
+          "sdk_name": "ServiceAccounts",
+          "cli_name": "service-accounts",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -31253,7 +31551,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "Create",
@@ -31435,7 +31733,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "Delete",
@@ -31479,7 +31777,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "Edit",
@@ -31661,7 +31959,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "APIKeys",
@@ -31863,7 +32161,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "CreateAPIKey",
@@ -32115,7 +32413,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "RevokeAPIKey",
@@ -32171,7 +32469,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             },
             {
               "name": "EditAPIKey",
@@ -32435,15 +32733,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/service_accounts.go"
+              "sdk_file": "cligen/tmp-sdk/iam/service_accounts.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
+          "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         },
         {
-          "id": "cb05bbf9-8ebb-4c66-ba94-7dc7ce8f936c",
-          "name": "Scopes",
+          "id": "1cb205d2-be1a-4769-80b0-6bb98b169c66",
+          "sdk_name": "Scopes",
+          "cli_name": "scopes",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -32605,17 +32904,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/scopes.go"
+              "sdk_file": "cligen/tmp-sdk/iam/scopes.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/iam/client.go",
-          "parent_menu_id": "16cbed8f-ebc9-400f-85c4-49db6db56c7a"
+          "sdk_file": "cligen/tmp-sdk/iam/client.go",
+          "parent_menu_id": "f65a7dcf-5412-4408-b896-df347a701fd3"
         }
       ]
     },
     {
-      "id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57",
-      "name": "kubernetes",
+      "id": "9851b3d2-5d61-461e-aa76-47c53b46f620",
+      "sdk_name": "kubernetes",
+      "cli_name": "kubernetes",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -32628,8 +32928,9 @@
       ],
       "menus": [
         {
-          "id": "ed149e2a-11dd-46d8-ae12-9b9f207beaba",
-          "name": "Clusters",
+          "id": "c82c4753-de02-46a4-a450-ab729d6b58a5",
+          "sdk_name": "Clusters",
+          "cli_name": "cluster",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -32975,7 +33276,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "Create",
@@ -33391,7 +33692,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "Get",
@@ -34587,7 +34888,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "Delete",
@@ -34631,7 +34932,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "Update",
@@ -34727,7 +35028,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             },
             {
               "name": "GetKubeConfig",
@@ -34857,15 +35158,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/cluster.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/cluster.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57"
+          "sdk_file": "cligen/tmp-sdk/kubernetes/client.go",
+          "parent_menu_id": "9851b3d2-5d61-461e-aa76-47c53b46f620"
         },
         {
-          "id": "299342eb-6871-41db-9701-421ebfc92f63",
-          "name": "Flavors",
+          "id": "81681973-cccc-4cca-8515-9efa432d1531",
+          "sdk_name": "Flavors",
+          "cli_name": "flavor",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -35125,15 +35427,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/flavor.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/flavor.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57"
+          "sdk_file": "cligen/tmp-sdk/kubernetes/client.go",
+          "parent_menu_id": "9851b3d2-5d61-461e-aa76-47c53b46f620"
         },
         {
-          "id": "ca6d5a94-e387-4406-b5fc-5865f56924cb",
-          "name": "Nodepools",
+          "id": "02b3e26c-9efe-4c9a-9e04-96aeb7302123",
+          "sdk_name": "Nodepools",
+          "cli_name": "nodepool",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -35711,7 +36014,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "List",
@@ -36201,7 +36504,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "Create",
@@ -36803,7 +37106,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "Get",
@@ -37243,7 +37546,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "Update",
@@ -37747,7 +38050,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             },
             {
               "name": "Delete",
@@ -37803,15 +38106,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/nodepool.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/nodepool.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57"
+          "sdk_file": "cligen/tmp-sdk/kubernetes/client.go",
+          "parent_menu_id": "9851b3d2-5d61-461e-aa76-47c53b46f620"
         },
         {
-          "id": "37c46cf9-691d-4f87-9c70-246ef7549e93",
-          "name": "Versions",
+          "id": "dda21bf9-3f48-4cff-ae3b-579cd9aa1009",
+          "sdk_name": "Versions",
+          "cli_name": "version",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -37846,10 +38150,10 @@
                     "IncludeDeprecated": {
                       "name": "IncludeDeprecated",
                       "type": "bool",
-                      "description": "Include deprecated version (default = false)",
+                      "description": "",
                       "is_primitive": true,
                       "is_pointer": false,
-                      "is_optional": true,
+                      "is_optional": false,
                       "is_array": false,
                       "is_positional": false,
                       "positional_index": 0,
@@ -37911,17 +38215,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/version.go"
+              "sdk_file": "cligen/tmp-sdk/kubernetes/version.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/kubernetes/client.go",
-          "parent_menu_id": "1067b3cf-30ce-4642-a4d8-f81256ebaa57"
+          "sdk_file": "cligen/tmp-sdk/kubernetes/client.go",
+          "parent_menu_id": "9851b3d2-5d61-461e-aa76-47c53b46f620"
         }
       ]
     },
     {
-      "id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2",
-      "name": "lbaas",
+      "id": "fac6147e-914b-468e-8891-5a64aab51503",
+      "sdk_name": "lbaas",
+      "cli_name": "load-balancer",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -37933,8 +38238,9 @@
       ],
       "menus": [
         {
-          "id": "8388fdbd-ce91-46c9-a7e4-a0470a267d72",
-          "name": "NetworkACLs",
+          "id": "c3ec904a-08d3-4416-83ed-53ceb8668157",
+          "sdk_name": "NetworkACLs",
+          "cli_name": "network-acls",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -38068,7 +38374,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_acls.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_acls.go"
             },
             {
               "name": "Delete",
@@ -38124,7 +38430,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_acls.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_acls.go"
             },
             {
               "name": "Replace",
@@ -38256,15 +38562,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_acls.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_acls.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
+          "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
-          "id": "e614acb2-8205-4928-844f-a3e5642d031c",
-          "name": "NetworkBackends",
+          "id": "091d7195-73c6-40a0-963a-30ce671303fe",
+          "sdk_name": "NetworkBackends",
+          "cli_name": "network-backends",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -38484,7 +38791,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "Delete",
@@ -38540,7 +38847,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "Get",
@@ -38816,7 +39123,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "List",
@@ -39270,7 +39577,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "ListAll",
@@ -39534,7 +39841,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             },
             {
               "name": "Update",
@@ -39652,15 +39959,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
+          "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
-          "id": "859b5cbb-228c-4efd-b15c-c1f085860b7d",
-          "name": "NetworkBackendTargets",
+          "id": "d230fc8c-e83f-4830-9ab0-d1e9cac1789b",
+          "sdk_name": "NetworkBackendTargets",
+          "cli_name": "network-backend-targets",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -39820,7 +40128,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend_targets.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend_targets.go"
             },
             {
               "name": "Replace",
@@ -39976,7 +40284,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend_targets.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend_targets.go"
             },
             {
               "name": "Delete",
@@ -40044,15 +40352,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_backend_targets.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_backend_targets.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
+          "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
-          "id": "45bcf8f2-0706-4176-b3b1-5df6f5471dd2",
-          "name": "NetworkCertificates",
+          "id": "9976b808-7922-4557-a086-e29e13420284",
+          "sdk_name": "NetworkCertificates",
+          "cli_name": "network-certificates",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -40248,7 +40557,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "Delete",
@@ -40304,7 +40613,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "Get",
@@ -40446,7 +40755,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "List",
@@ -40766,7 +41075,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "ListAll",
@@ -40896,7 +41205,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             },
             {
               "name": "Update",
@@ -40990,15 +41299,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_certificates.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_certificates.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
+          "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
-          "id": "d9e0579d-4814-4594-bebe-0d71b110fb15",
-          "name": "NetworkHealthChecks",
+          "id": "89a8d91e-b7a0-4269-9268-58cf7c59188d",
+          "sdk_name": "NetworkHealthChecks",
+          "cli_name": "network-healthchecks",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -41374,7 +41684,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "Delete",
@@ -41430,7 +41740,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "Get",
@@ -41668,7 +41978,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "List",
@@ -42084,7 +42394,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "ListAll",
@@ -42310,7 +42620,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             },
             {
               "name": "Update",
@@ -42488,15 +42798,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_healthchecks.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_healthchecks.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
+          "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
-          "id": "67f061fe-5150-4e47-866c-14e00432f3ce",
-          "name": "NetworkListeners",
+          "id": "553b54a7-2e05-41a9-9f1f-fdedbaa1f675",
+          "sdk_name": "NetworkListeners",
+          "cli_name": "network-listeners",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -42752,7 +43063,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "Delete",
@@ -42808,7 +43119,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "Get",
@@ -42986,7 +43297,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "List",
@@ -43342,7 +43653,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "ListAll",
@@ -43508,7 +43819,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             },
             {
               "name": "Update",
@@ -43602,15 +43913,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_listners.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_listners.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
+          "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         },
         {
-          "id": "19f46612-dafe-4269-a6e8-faf87b6f58f3",
-          "name": "NetworkLoadBalancers",
+          "id": "c01b213c-fed2-45f5-9e80-0d5a7c0f5956",
+          "sdk_name": "NetworkLoadBalancers",
+          "cli_name": "network-loadbalancers",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -44272,7 +44584,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "Delete",
@@ -44342,7 +44654,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "Get",
@@ -45302,7 +45614,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "List",
@@ -46440,7 +46752,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "ListAll",
@@ -47388,7 +47700,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             },
             {
               "name": "Update",
@@ -47482,17 +47794,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/network_loadbalancers.go"
+              "sdk_file": "cligen/tmp-sdk/lbaas/network_loadbalancers.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/lbaas/client.go",
-          "parent_menu_id": "225bb9f1-264f-4e0a-9ba5-1d349a2311d2"
+          "sdk_file": "cligen/tmp-sdk/lbaas/client.go",
+          "parent_menu_id": "fac6147e-914b-468e-8891-5a64aab51503"
         }
       ]
     },
     {
-      "id": "575378a1-b531-472b-bd6f-5da4cf75978e",
-      "name": "network",
+      "id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9",
+      "sdk_name": "network",
+      "cli_name": "network",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -47500,8 +47813,9 @@
       "cli_group": "products",
       "menus": [
         {
-          "id": "a807e69f-c7dd-4e44-87ee-aefdd2f59db0",
-          "name": "VPCs",
+          "id": "0812e8fa-b9f5-4880-945f-7006930cb21a",
+          "sdk_name": "VPCs",
+          "cli_name": "vpcs",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -47707,7 +48021,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "Get",
@@ -47921,7 +48235,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "Create",
@@ -48003,7 +48317,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "Delete",
@@ -48047,7 +48361,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "Rename",
@@ -48103,7 +48417,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "ListPorts",
@@ -48571,7 +48885,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "CreatePort",
@@ -48626,6 +48940,18 @@
                     "has_sg": {
                       "name": "HasSG",
                       "type": "*bool",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    "ip_address": {
+                      "name": "IPAddress",
+                      "type": "*string",
                       "description": "",
                       "is_primitive": true,
                       "is_pointer": true,
@@ -48727,7 +49053,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "ListPublicIPs",
@@ -48929,7 +49255,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "CreatePublicIP",
@@ -49011,7 +49337,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "ListSubnets",
@@ -49189,7 +49515,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             },
             {
               "name": "CreateSubnet",
@@ -49357,15 +49683,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/vpcs.go"
+              "sdk_file": "cligen/tmp-sdk/network/vpcs.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
+          "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
-          "id": "0980f0b1-a054-4625-bf4e-9a1130947f8d",
-          "name": "Subnets",
+          "id": "2f23d4e3-1930-4bd3-b5be-2c64b8d984d2",
+          "sdk_name": "Subnets",
+          "cli_name": "subnets",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -49609,7 +49936,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnets.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnets.go"
             },
             {
               "name": "Delete",
@@ -49653,7 +49980,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnets.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnets.go"
             },
             {
               "name": "Update",
@@ -49749,15 +50076,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnets.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnets.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
+          "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
-          "id": "017f6628-e560-410a-9d81-9a48852a3c68",
-          "name": "Ports",
+          "id": "276da068-1f75-4f08-9fe5-15957c6a7146",
+          "sdk_name": "Ports",
+          "cli_name": "ports",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -50065,7 +50393,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "Get",
@@ -50381,7 +50709,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "Delete",
@@ -50425,7 +50753,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "Update",
@@ -50495,7 +50823,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "AttachSecurityGroup",
@@ -50551,7 +50879,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             },
             {
               "name": "DetachSecurityGroup",
@@ -50607,15 +50935,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/ports.go"
+              "sdk_file": "cligen/tmp-sdk/network/ports.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
+          "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
-          "id": "5b5c0353-6e93-4390-ae35-a42825e5ba5f",
-          "name": "SecurityGroups",
+          "id": "6f1d9dd5-1571-47a3-9403-af8f97930278",
+          "sdk_name": "SecurityGroups",
+          "cli_name": "security-groups",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -50809,7 +51138,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/security_groups.go"
+              "sdk_file": "cligen/tmp-sdk/network/security_groups.go"
             },
             {
               "name": "Get",
@@ -51193,7 +51522,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/security_groups.go"
+              "sdk_file": "cligen/tmp-sdk/network/security_groups.go"
             },
             {
               "name": "Create",
@@ -51287,7 +51616,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/security_groups.go"
+              "sdk_file": "cligen/tmp-sdk/network/security_groups.go"
             },
             {
               "name": "Delete",
@@ -51331,15 +51660,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/security_groups.go"
+              "sdk_file": "cligen/tmp-sdk/network/security_groups.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
+          "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
-          "id": "2232712e-8a93-4ae0-9245-0a6cc9cf454f",
-          "name": "Rules",
+          "id": "60500e62-6851-41ab-907f-c7f5194fa4ea",
+          "sdk_name": "Rules",
+          "cli_name": "rules",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -51557,7 +51887,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/rules.go"
+              "sdk_file": "cligen/tmp-sdk/network/rules.go"
             },
             {
               "name": "Get",
@@ -51771,7 +52101,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/rules.go"
+              "sdk_file": "cligen/tmp-sdk/network/rules.go"
             },
             {
               "name": "Create",
@@ -51925,7 +52255,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/rules.go"
+              "sdk_file": "cligen/tmp-sdk/network/rules.go"
             },
             {
               "name": "Delete",
@@ -51969,15 +52299,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/rules.go"
+              "sdk_file": "cligen/tmp-sdk/network/rules.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
+          "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
-          "id": "8c0c6c65-9b49-44c0-9d71-768047d87a46",
-          "name": "PublicIPs",
+          "id": "2fd3ce76-5051-4240-9180-4e2622499d4e",
+          "sdk_name": "PublicIPs",
+          "cli_name": "public-ips",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -52171,7 +52502,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             },
             {
               "name": "Get",
@@ -52373,7 +52704,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             },
             {
               "name": "Delete",
@@ -52417,7 +52748,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             },
             {
               "name": "AttachToPort",
@@ -52473,7 +52804,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             },
             {
               "name": "DetachFromPort",
@@ -52529,15 +52860,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/public_ips.go"
+              "sdk_file": "cligen/tmp-sdk/network/public_ips.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
+          "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
-          "id": "4ca97c0b-8f3e-4e1a-b97b-728ed177935b",
-          "name": "SubnetPools",
+          "id": "eb1379d9-689d-4b5c-a7c8-32461d247fb9",
+          "sdk_name": "SubnetPools",
+          "cli_name": "subnetpools",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -52709,7 +53041,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "Get",
@@ -52863,7 +53195,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "Create",
@@ -52969,7 +53301,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "Delete",
@@ -53013,7 +53345,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "BookCIDR",
@@ -53121,7 +53453,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             },
             {
               "name": "UnbookCIDR",
@@ -53191,15 +53523,16 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/subnetpools.go"
+              "sdk_file": "cligen/tmp-sdk/network/subnetpools.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
+          "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         },
         {
-          "id": "4651cab1-3c28-4ad7-ac4f-9532e6c59362",
-          "name": "NatGateways",
+          "id": "f0a0a314-45ab-4bfc-90b7-bde0ed164152",
+          "sdk_name": "NatGateways",
+          "cli_name": "nat-gateways",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -53309,7 +53642,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/nat_gateways.go"
+              "sdk_file": "cligen/tmp-sdk/network/nat_gateways.go"
             },
             {
               "name": "Delete",
@@ -53353,7 +53686,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/nat_gateways.go"
+              "sdk_file": "cligen/tmp-sdk/network/nat_gateways.go"
             },
             {
               "name": "Get",
@@ -53519,7 +53852,7 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/nat_gateways.go"
+              "sdk_file": "cligen/tmp-sdk/network/nat_gateways.go"
             },
             {
               "name": "List",
@@ -53735,17 +54068,18 @@
                   "alias_type": ""
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/nat_gateways.go"
+              "sdk_file": "cligen/tmp-sdk/network/nat_gateways.go"
             }
           ],
-          "sdk_file": "/home/gfz/git/cligen/tmp-sdk/network/client.go",
-          "parent_menu_id": "575378a1-b531-472b-bd6f-5da4cf75978e"
+          "sdk_file": "cligen/tmp-sdk/network/client.go",
+          "parent_menu_id": "ed74f48f-64d6-4c4e-b011-8795d68bf0c9"
         }
       ]
     },
     {
       "id": "d65063d2-9788-4c7f-b938-19e9ce2d777d",
-      "name": "profile",
+      "sdk_name": "profile",
+      "cli_name": "profile",
       "enabled": true,
       "description": "",
       "long_description": "",
@@ -53753,7 +54087,8 @@
       "menus": [
         {
           "id": "0a4fdd5c-c42c-4afe-8549-dbc8e96e02a1",
-          "name": "sshkeys",
+          "sdk_name": "sshkeys",
+          "cli_name": "ssh-keys",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -53761,7 +54096,8 @@
           "menus": [
             {
               "id": "e970958f-2ade-43d0-a098-6ecfdb9716d2",
-              "name": "Keys",
+              "sdk_name": "Keys",
+              "cli_name": "ssh-keys",
               "enabled": true,
               "description": "",
               "long_description": "",
@@ -53909,7 +54245,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                  "sdk_file": "cligen/tmp-sdk/sshkeys/keys.go"
                 },
                 {
                   "name": "Create",
@@ -54041,7 +54377,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                  "sdk_file": "cligen/tmp-sdk/sshkeys/keys.go"
                 },
                 {
                   "name": "Get",
@@ -54066,7 +54402,7 @@
                       "is_pointer": false,
                       "is_optional": false,
                       "is_array": false,
-                      "is_positional": false,
+                      "is_positional": true,
                       "positional_index": 0,
                       "alias_type": ""
                     }
@@ -54147,7 +54483,7 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                  "sdk_file": "cligen/tmp-sdk/sshkeys/keys.go"
                 },
                 {
                   "name": "Delete",
@@ -54172,7 +54508,7 @@
                       "is_pointer": false,
                       "is_optional": false,
                       "is_array": false,
-                      "is_positional": false,
+                      "is_positional": true,
                       "positional_index": 0,
                       "alias_type": ""
                     }
@@ -54253,10 +54589,10 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/keys.go"
+                  "sdk_file": "cligen/tmp-sdk/sshkeys/keys.go"
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/sshkeys/client.go",
+              "sdk_file": "cligen/tmp-sdk/sshkeys/client.go",
               "parent_menu_id": "0a4fdd5c-c42c-4afe-8549-dbc8e96e02a1"
             }
           ],
@@ -54264,7 +54600,8 @@
         },
         {
           "id": "c8dd8703-186c-45ec-b627-d1ea12b333cc",
-          "name": "availabilityzones",
+          "sdk_name": "availabilityzones",
+          "cli_name": "availability-zones",
           "enabled": true,
           "description": "",
           "long_description": "",
@@ -54272,7 +54609,8 @@
           "menus": [
             {
               "id": "b4328538-2507-4741-9ddf-fdb2cab34293",
-              "name": "AvailabilityZones",
+              "sdk_name": "AvailabilityZones",
+              "cli_name": "availability-zones",
               "enabled": true,
               "description": "",
               "long_description": "",
@@ -54398,10 +54736,10 @@
                       "alias_type": ""
                     }
                   ],
-                  "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/az.go"
+                  "sdk_file": "cligen/tmp-sdk/availabilityzones/az.go"
                 }
               ],
-              "sdk_file": "/home/gfz/git/cligen/tmp-sdk/availabilityzones/client.go",
+              "sdk_file": "cligen/tmp-sdk/availabilityzones/client.go",
               "parent_menu_id": "c8dd8703-186c-45ec-b627-d1ea12b333cc"
             }
           ],
