@@ -705,6 +705,12 @@
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/blockstorage",
       "cli_group": "products",
+      "alias": [
+        "bs",
+        "blocks",
+        "blst",
+        "block"
+      ],
       "menus": [
         {
           "id": "8d392ff4-fefc-49e7-9795-63ee63223b83",
@@ -6024,6 +6030,13 @@
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/compute",
       "cli_group": "products",
+      "alias": [
+        "vms",
+        "vm",
+        "virtual-machines",
+        "machines",
+        "vmachine"
+      ],
       "menus": [
         {
           "id": "fb40c3d8-7fdd-4b0d-ad50-2cf3ee1e54d7",
@@ -11477,6 +11490,10 @@
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/containerregistry",
       "cli_group": "products",
+      "alias": [
+        "cr",
+        "registry"
+      ],
       "menus": [
         {
           "id": "acf0614b-02d0-482f-bcaf-251c56af769f",
@@ -14470,6 +14487,10 @@
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/dbaas",
       "cli_group": "products",
+      "alias": [
+        "database",
+        "db"
+      ],
       "menus": [
         {
           "id": "034b0093-8679-4c55-b747-6cf00b7cdac2",
@@ -32600,6 +32621,11 @@
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/kubernetes",
       "cli_group": "products",
+      "alias": [
+        "k8s",
+        "kube",
+        "kub"
+      ],
       "menus": [
         {
           "id": "ed149e2a-11dd-46d8-ae12-9b9f207beaba",
@@ -37901,6 +37927,10 @@
       "long_description": "",
       "sdk_package": "github.com/MagaluCloud/mgc-sdk-go/lbaas",
       "cli_group": "products",
+      "alias": [
+        "lb",
+        "lbaas"
+      ],
       "menus": [
         {
           "id": "8388fdbd-ce91-46c9-a7e4-a0470a267d72",
