@@ -17,7 +17,8 @@ var goModTemplate string
 var goModTmpl = template.Must(template.New("goMod").Parse(goModTemplate))
 
 type GoModData struct {
-	Version string
+	Version  string
+	IsBranch bool
 }
 
 // WriteToFile escreve os dados no arquivo
@@ -35,7 +36,12 @@ func (gmd *GoModData) WriteGoModFile(filePath string) error {
 
 func GenGoModFile(cfg *config.Config) {
 	gmd := GoModData{
-		Version: cfg.SDKTag,
+		Version:  cfg.SDKTag,
+		IsBranch: cfg.TagOrBranchOrLatest == "branch",
+	}
+
+	if gmd.IsBranch {
+		gmd.Version = "v0.0.0"
 	}
 
 	gmd.WriteGoModFile(filepath.Join("base-cli-gen", "go.mod"))

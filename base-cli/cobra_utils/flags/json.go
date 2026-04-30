@@ -19,6 +19,7 @@ type JSONValue[T any] struct {
 
 // Set faz o parse do JSON recebido na flag para o tipo T
 func (j *JSONValue[T]) Set(val string) error {
+	j.Value = new(T)
 	if err := json.Unmarshal([]byte(val), j.Value); err != nil {
 		return fmt.Errorf("invalid JSON for flag: %w", err)
 	}
@@ -43,13 +44,13 @@ func (j *JSONValue[T]) Type() string {
 }
 
 func NewJSONValue[T any](cmd *cobra.Command, name string, usage string) *JSONValue[T] {
-	var value *JSONValue[T] = new(JSONValue[T])
-	cmd.Flags().Var(value, name, usage)
-	return &JSONValue[T]{baseFlag: baseFlag{cmd, name}, Value: value.Value}
+	f := &JSONValue[T]{baseFlag: baseFlag{cmd, name}, Value: nil}
+	cmd.Flags().Var(f, name, usage)
+	return f
 }
 
 func NewJSONValueP[T any](cmd *cobra.Command, name string, shorthand string, usage string) *JSONValue[T] {
-	var value *JSONValue[T] = new(JSONValue[T])
-	cmd.Flags().VarP(value, name, shorthand, usage)
-	return &JSONValue[T]{baseFlag: baseFlag{cmd, name}, Value: value.Value}
+	f := &JSONValue[T]{baseFlag: baseFlag{cmd, name}, Value: nil}
+	cmd.Flags().VarP(f, name, shorthand, usage)
+	return f
 }

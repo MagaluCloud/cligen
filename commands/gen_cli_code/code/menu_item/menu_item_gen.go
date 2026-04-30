@@ -157,7 +157,7 @@ func ProcessCobraStructInitialize(menuItem MenuItem, param config.Parameter, sdk
 
 	parentControl := false
 	for _, sparam := range param.Struct {
-		if sparam.IsPointer && !sparam.IsPrimitive {
+		if sparam.IsPointer && !sparam.IsPrimitive && !sparam.IsOptional {
 			if !parentControl {
 				parentControl = true
 				parents = append(parents, param)
@@ -216,15 +216,22 @@ func ProcessCobraFlagsAssign(menuItem MenuItem, sdkName string) MenuItem {
 		if !flag.isComplex {
 			switch flag.FlagType {
 			case "StrSliceFlag":
+				ptrValue := ""
+				if flag.param.IsPointer {
+					ptrValue = "&"
+				}
 				if flag.param.AliasType != "" {
 					// expand = flags.StrSliceFlagToSlice[blockstorageSdk.ExpandSchedulers](expandFlag)
 					if hasSDKPackage(flag.param.AliasType, sdkName) {
-						cfa = fmt.Sprintf("%s				%s = flags.StrSliceFlagToSlice[%s](%sFlag)\n\n", cfa, flag.cobraAssign, flag.param.AliasType, flag.Name)
+						cfa = fmt.Sprintf("%s				localVar := flags.StrSliceFlagToSlice[%s](%sFlag)\n", cfa, flag.param.AliasType, flag.Name)
+						cfa = fmt.Sprintf("%s				%s = %slocalVar\n\n", cfa, flag.cobraAssign, ptrValue)
 					} else {
-						cfa = fmt.Sprintf("%s				%s = flags.StrSliceFlagToSlice[%s.%s](%sFlag)\n\n", cfa, flag.cobraAssign, sdkName, flag.param.AliasType, flag.Name)
+						cfa = fmt.Sprintf("%s				localVar := flags.StrSliceFlagToSlice[%s.%s](%sFlag)\n", cfa, sdkName, flag.param.AliasType, flag.Name)
+						cfa = fmt.Sprintf("%s				%s = %slocalVar\n\n", cfa, flag.cobraAssign, ptrValue)
 					}
 				} else if hasSDKPackage(flag.param.Type, sdkName) {
-					cfa = fmt.Sprintf("%s				%s = flags.StrSliceFlagToSlice[%s](%sFlag)\n\n", cfa, flag.cobraAssign, removeArrayFromString(flag.param.Type), flag.Name)
+					cfa = fmt.Sprintf("%s				localVar := flags.StrSliceFlagToSlice[%s](%sFlag)\n", cfa, removeArrayFromString(flag.param.Type), flag.Name)
+					cfa = fmt.Sprintf("%s				%s = %slocalVar\n\n", cfa, flag.cobraAssign, ptrValue)
 				} else {
 					if !flag.param.IsPointer {
 						pointer = "*"

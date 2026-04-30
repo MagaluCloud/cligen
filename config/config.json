@@ -1,8 +1,8 @@
 {
   "cli_version": "v1.0.0",
-  "sdk_branch": "main",
+  "sdk_branch": "feat/block-storage-v2",
   "sdk_tag": "v1.5.0",
-  "tag_or_branch_or_latest": "tag",
+  "tag_or_branch_or_latest": "branch",
   "show_git_error": false,
   "show_logs": false,
   "menus": [
@@ -701,7 +701,7 @@
       ]
     },
     {
-      "id": "1ff94259-2622-48f5-b20b-acb685d242b7",
+      "id": "0422f688-fab2-4705-97c7-17f173863565",
       "sdk_name": "blockstorage",
       "cli_name": "block-storage",
       "enabled": true,
@@ -711,7 +711,7 @@
       "cli_group": "products",
       "menus": [
         {
-          "id": "766963bc-7849-473a-8082-af2c1a721120",
+          "id": "01538b7a-5f07-4947-bb46-94e32cb5649e",
           "sdk_name": "Volumes",
           "cli_name": "volumes",
           "enabled": true,
@@ -747,11 +747,11 @@
                   "struct": {
                     "Expand": {
                       "name": "Expand",
-                      "type": "[]string",
+                      "type": "*[]string",
                       "description": "",
                       "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
+                      "is_pointer": true,
+                      "is_optional": true,
                       "is_array": true,
                       "is_positional": false,
                       "positional_index": 0,
@@ -760,6 +760,18 @@
                     "Limit": {
                       "name": "Limit",
                       "type": "*int",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": true,
+                      "is_optional": true,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    },
+                    "Name": {
+                      "name": "Name",
+                      "type": "*string",
                       "description": "",
                       "is_primitive": true,
                       "is_pointer": true,
@@ -1027,6 +1039,18 @@
                                   "alias_type": ""
                                 }
                               },
+                              "alias_type": ""
+                            },
+                            "serial": {
+                              "name": "Serial",
+                              "type": "*string",
+                              "description": "",
+                              "is_primitive": true,
+                              "is_pointer": true,
+                              "is_optional": true,
+                              "is_array": false,
+                              "is_positional": false,
+                              "positional_index": 0,
                               "alias_type": ""
                             }
                           },
@@ -1509,6 +1533,18 @@
                             }
                           },
                           "alias_type": ""
+                        },
+                        "serial": {
+                          "name": "Serial",
+                          "type": "*string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": true,
+                          "is_optional": true,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
+                          "alias_type": ""
                         }
                       },
                       "alias_type": ""
@@ -1957,15 +1993,29 @@
               ],
               "returns": [
                 {
-                  "name": "string",
-                  "type": "string",
+                  "name": "*blockstorageSdk.CreateVolumeResponse",
+                  "type": "*blockstorageSdk.CreateVolumeResponse",
                   "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
+                  "is_primitive": false,
+                  "is_pointer": true,
+                  "is_optional": true,
                   "is_array": false,
                   "is_positional": false,
                   "positional_index": 0,
+                  "struct": {
+                    "id": {
+                      "name": "ID",
+                      "type": "string",
+                      "description": "",
+                      "is_primitive": true,
+                      "is_pointer": false,
+                      "is_optional": false,
+                      "is_array": false,
+                      "is_positional": false,
+                      "positional_index": 0,
+                      "alias_type": ""
+                    }
+                  },
                   "alias_type": ""
                 },
                 {
@@ -2154,6 +2204,18 @@
                               "alias_type": ""
                             }
                           },
+                          "alias_type": ""
+                        },
+                        "serial": {
+                          "name": "Serial",
+                          "type": "*string",
+                          "description": "",
+                          "is_primitive": true,
+                          "is_pointer": true,
+                          "is_optional": true,
+                          "is_array": false,
+                          "is_positional": false,
+                          "positional_index": 0,
                           "alias_type": ""
                         }
                       },
@@ -2815,10 +2877,10 @@
             }
           ],
           "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
+          "parent_menu_id": "0422f688-fab2-4705-97c7-17f173863565"
         },
         {
-          "id": "b29e65df-0860-45ff-ac2b-e83e85f7ca29",
+          "id": "272240fd-56d7-4f59-b491-19691f4ff95f",
           "sdk_name": "VolumeTypes",
           "cli_name": "volume-types",
           "enabled": true,
@@ -2866,19 +2928,7 @@
                     },
                     "AvailabilityZone": {
                       "name": "AvailabilityZone",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "Limit": {
-                      "name": "Limit",
-                      "type": "*int",
+                      "type": "*string",
                       "description": "",
                       "is_primitive": true,
                       "is_pointer": true,
@@ -2890,30 +2940,6 @@
                     },
                     "Name": {
                       "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "Offset": {
-                      "name": "Offset",
-                      "type": "*int",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "Sort": {
-                      "name": "Sort",
                       "type": "*string",
                       "description": "",
                       "is_primitive": true,
@@ -2940,94 +2966,6 @@
                   "is_positional": false,
                   "positional_index": 0,
                   "struct": {
-                    "meta": {
-                      "name": "Meta",
-                      "type": "blockstorageSdk.Metadata",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "page": {
-                          "name": "Page",
-                          "type": "blockstorageSdk.PageMetadata",
-                          "description": "",
-                          "is_primitive": false,
-                          "is_pointer": false,
-                          "is_optional": true,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "struct": {
-                            "count": {
-                              "name": "Count",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "limit": {
-                              "name": "Limit",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "max_limit": {
-                              "name": "MaxLimit",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "offset": {
-                              "name": "Offset",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            },
-                            "total": {
-                              "name": "Total",
-                              "type": "int",
-                              "description": "",
-                              "is_primitive": true,
-                              "is_pointer": false,
-                              "is_optional": false,
-                              "is_array": false,
-                              "is_positional": false,
-                              "positional_index": 0,
-                              "alias_type": ""
-                            }
-                          },
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    },
                     "types": {
                       "name": "Types",
                       "type": "[]blockstorageSdk.VolumeType",
@@ -3073,7 +3011,7 @@
                           "is_array": false,
                           "is_positional": false,
                           "positional_index": 0,
-                          "alias_type": ""
+                          "alias_type": "blockstorageSdk.DiskType"
                         },
                         "id": {
                           "name": "ID",
@@ -3181,243 +3119,13 @@
                 }
               ],
               "sdk_file": "cligen/tmp-sdk/blockstorage/volume_types.go"
-            },
-            {
-              "name": "ListAll",
-              "parameters": [
-                {
-                  "name": "ctx",
-                  "type": "context.Context",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                },
-                {
-                  "name": "filterOpts",
-                  "type": "blockstorageSdk.VolumeTypeFilterOptions",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "AllowsEncryption": {
-                      "name": "AllowsEncryption",
-                      "type": "*bool",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "AvailabilityZone": {
-                      "name": "AvailabilityZone",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "Name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "Sort": {
-                      "name": "Sort",
-                      "type": "*string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": true,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                }
-              ],
-              "returns": [
-                {
-                  "name": "[]blockstorageSdk.VolumeType",
-                  "type": "[]blockstorageSdk.VolumeType",
-                  "description": "",
-                  "is_primitive": false,
-                  "is_pointer": false,
-                  "is_optional": true,
-                  "is_array": true,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "struct": {
-                    "allows_encryption": {
-                      "name": "AllowsEncryption",
-                      "type": "bool",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "availability_zones": {
-                      "name": "AvailabilityZones",
-                      "type": "[]string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": true,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "disk_type": {
-                      "name": "DiskType",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "id": {
-                      "name": "ID",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "iops": {
-                      "name": "IOPS",
-                      "type": "blockstorageSdk.VolumeTypeIOPS",
-                      "description": "",
-                      "is_primitive": false,
-                      "is_pointer": false,
-                      "is_optional": true,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "struct": {
-                        "read": {
-                          "name": "Read",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "total": {
-                          "name": "Total",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        },
-                        "write": {
-                          "name": "Write",
-                          "type": "int",
-                          "description": "",
-                          "is_primitive": true,
-                          "is_pointer": false,
-                          "is_optional": false,
-                          "is_array": false,
-                          "is_positional": false,
-                          "positional_index": 0,
-                          "alias_type": ""
-                        }
-                      },
-                      "alias_type": ""
-                    },
-                    "name": {
-                      "name": "Name",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    },
-                    "status": {
-                      "name": "Status",
-                      "type": "string",
-                      "description": "",
-                      "is_primitive": true,
-                      "is_pointer": false,
-                      "is_optional": false,
-                      "is_array": false,
-                      "is_positional": false,
-                      "positional_index": 0,
-                      "alias_type": ""
-                    }
-                  },
-                  "alias_type": ""
-                },
-                {
-                  "name": "error",
-                  "type": "error",
-                  "description": "",
-                  "is_primitive": true,
-                  "is_pointer": false,
-                  "is_optional": false,
-                  "is_array": false,
-                  "is_positional": false,
-                  "positional_index": 0,
-                  "alias_type": ""
-                }
-              ],
-              "sdk_file": "cligen/tmp-sdk/blockstorage/volume_types.go"
             }
           ],
           "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
+          "parent_menu_id": "0422f688-fab2-4705-97c7-17f173863565"
         },
         {
-          "id": "73e93315-1171-4f80-a1ab-2952166de4dc",
+          "id": "efe0d8d8-c285-4135-a833-6261e2dd46aa",
           "sdk_name": "Snapshots",
           "cli_name": "snapshots",
           "enabled": true,
@@ -4705,10 +4413,10 @@
             }
           ],
           "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
+          "parent_menu_id": "0422f688-fab2-4705-97c7-17f173863565"
         },
         {
-          "id": "36d19626-de54-41e4-bff2-c60a16918212",
+          "id": "793071e5-3ec1-437e-b32c-41c5fda8c389",
           "sdk_name": "Schedulers",
           "cli_name": "schedulers",
           "enabled": true,
@@ -6020,7 +5728,7 @@
             }
           ],
           "sdk_file": "cligen/tmp-sdk/blockstorage/client.go",
-          "parent_menu_id": "1ff94259-2622-48f5-b20b-acb685d242b7"
+          "parent_menu_id": "0422f688-fab2-4705-97c7-17f173863565"
         }
       ]
     },

@@ -34,7 +34,6 @@ func (j *JSONArrayValue[T]) String() string {
 	if j.Value == nil {
 		return "[]"
 	}
-	j.Value = new([]T)
 	b, err := json.Marshal(*j.Value)
 	if err != nil || len(b) == 0 {
 		return "[]"
@@ -48,13 +47,13 @@ func (j *JSONArrayValue[T]) Type() string {
 }
 
 func NewJSONArrayValue[T any](cmd *cobra.Command, name string, usage string) *JSONArrayValue[T] {
-	var value *JSONArrayValue[T] = new(JSONArrayValue[T])
-	cmd.Flags().Var(value, name, usage)
-	return &JSONArrayValue[T]{baseFlag: baseFlag{cmd, name}, Value: value.Value}
+	f := &JSONArrayValue[T]{baseFlag: baseFlag{cmd, name}, Value: new([]T)}
+	cmd.Flags().Var(f, name, usage)
+	return f
 }
 
 func NewJSONArrayValueP[T any](cmd *cobra.Command, name string, shorthand string, usage string) *JSONArrayValue[T] {
-	var value *JSONArrayValue[T] = new(JSONArrayValue[T])
-	cmd.Flags().VarP(value, name, shorthand, usage)
-	return &JSONArrayValue[T]{baseFlag: baseFlag{cmd, name}, Value: value.Value}
+	f := &JSONArrayValue[T]{baseFlag: baseFlag{cmd, name}, Value: new([]T)}
+	cmd.Flags().VarP(f, name, shorthand, usage)
+	return f
 }

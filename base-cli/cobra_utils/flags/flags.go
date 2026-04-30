@@ -138,7 +138,10 @@ func StrSliceFlagToSlice[T any](flag *StrSliceFlag) []T {
 	var slice []T
 	for _, value := range *flag.Value {
 		var t T
-		json.Unmarshal([]byte(value), &t)
+		err := json.Unmarshal([]byte(value), &t)
+		if err != nil {
+			_ = json.Unmarshal([]byte("\""+value+"\""), &t)
+		}
 		slice = append(slice, t)
 	}
 	return slice
